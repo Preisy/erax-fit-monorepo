@@ -7,13 +7,19 @@
     "eslint:recommended",
     "standard",
     "prettier",
-    "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint"
+    "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "env": {
     "es6": true,
     "node": true
   },
-  "ignorePatterns": ["dist", "node_modules", "examples", "scripts"]
+  "ignorePatterns": [
+    "dist",
+    "node_modules",
+    "examples",
+    "scripts"
+  ]
 }
