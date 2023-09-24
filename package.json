@@ -7,7 +7,8 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "back-erax-fit"
+    "back-erax-fit",
+    "front-erax-fit"
   ],
   "devDependencies": {
     "eslint-config-standard": "^17.1.0",

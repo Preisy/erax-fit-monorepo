@@ -28,7 +28,14 @@
   "references": [
     {
       "path": "back-erax-fit"
+    },
+    {
+      "path": "front-erax-fit"
     }
   ],
-  "exclude": ["node_modules", "dist", "*.d.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.d.ts"
+  ]
 }
