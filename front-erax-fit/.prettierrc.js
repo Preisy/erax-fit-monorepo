@@ -1,3 +1,2 @@
-import prettier from '../prettierrc.json'
-
-export default { ...prettier };
+const prettier = require('../prettierrc.json');
+module.exports = { ...prettier };

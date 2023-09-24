@@ -28,15 +28,14 @@ module.exports = {
 
   // Rules order is important, please avoid shuffling them
   extends: [
-    './.eslintrc-auto-import.json',
     '../.eslintrc.json',
+    './.eslintrc-auto-import.json',
     'plugin:vue/vue3-strongly-recommended',
     '@feature-sliced',
+    'prettier',
   ],
 
-  plugins: [
-    'vue',
-  ],
+  plugins: ['vue'],
 
   globals: {
     ga: 'readonly', // Google Analytics
@@ -69,5 +68,5 @@ module.exports = {
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-  }
-}
+  },
+};
