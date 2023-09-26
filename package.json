@@ -10,16 +10,20 @@
     "back-erax-fit"
   ],
   "devDependencies": {
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-import": "^2.28.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^6.1.1",
+    "@types/node": "^20.6.4",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
     "eslint": "^8.50.0",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^6.1.1",
     "prettier": "^3.0.3",
-    "@types/node": "^20.6.4",
     "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@nestjs/common": "^10.2.6",
+    "@nestjs/config": "^3.1.1"
   }
 }
