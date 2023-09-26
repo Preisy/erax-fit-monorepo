@@ -11,8 +11,8 @@ async function bootstrap() {
   app.useGlobalFilters(new MainExceptionFilter());
 
   const config = new DocumentBuilder()
-    .setTitle('Ilonsi')
-    .setDescription('Ilonsi API')
+    .setTitle('E-RAX fit')
+    .setDescription('E-RAX fit API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
