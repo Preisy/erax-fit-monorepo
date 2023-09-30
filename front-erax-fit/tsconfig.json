@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "outDir": "../dist/app-front-body-blast",
     "baseUrl": ".",
     "paths": {
       "app/*": [
