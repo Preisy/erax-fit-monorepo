@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "./build",
+    "outDir": "./dist/back-bodyblast",
     "baseUrl": ".",
     "moduleResolution": "Node",
     "module": "CommonJS",
@@ -28,8 +28,8 @@
   },
   "references": [
     {
-      "path": "back-erax-fit"
+      "path": "back-bodyblast"
     }
   ],
-  "exclude": ["node_modules", "build", "*.d.ts"]
+  "exclude": ["node_modules", "dist/bodyblast", "*.d.ts"]
 }
