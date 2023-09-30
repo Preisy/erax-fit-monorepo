@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "./dist/back-bodyblast",
+    "outDir": "./dist/back-body-blast",
     "baseUrl": ".",
     "moduleResolution": "Node",
     "module": "CommonJS",
