@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "back-erax-fit"
+    "back-bodyblast"
   ],
   "devDependencies": {
     "@types/node": "^20.6.4",
