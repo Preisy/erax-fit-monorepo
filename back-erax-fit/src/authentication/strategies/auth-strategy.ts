@@ -1,6 +1,7 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { AuthService } from "./auth.service";
-import { AuthRequest } from "./dto/auth.dto";
+import { AuthService } from "../auth.service";
+import { AuthRequest } from "../dto/auth.dto";
+import { Strategy } from "passport-local"
 import { UnauthorizedException } from "@nestjs/common";
 
 export class AuthStrategy extends PassportStrategy(Strategy){
