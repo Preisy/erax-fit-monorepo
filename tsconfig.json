@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "incremental": true,
-    "outDir": "./dist",
+    "outDir": "./dist/back-body-blast",
     "baseUrl": ".",
     "moduleResolution": "Node",
     "module": "CommonJS",
-    "target": "ES2018",
+    "target": "ES2021",
     "sourceMap": true,
     "lib": [
-      "esnext"
+      "es2021"
     ],
     "esModuleInterop": true,
     "alwaysStrict": true,
@@ -17,7 +17,7 @@
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "resolveJsonModule": true,
     "paths": {
       "@monorepo/*": [
@@ -27,7 +27,7 @@
   },
   "references": [
     {
-      "path": "back-erax-fit"
+      "path": "back-body-blast"
     }
   ],
   "exclude": ["node_modules", "dist", "*.d.ts"]
