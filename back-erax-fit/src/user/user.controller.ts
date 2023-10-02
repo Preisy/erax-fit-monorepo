@@ -9,6 +9,7 @@ import {
   Query,
   Req,
   UseFilters,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -30,6 +31,7 @@ import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
 import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
+import { JWTAuthGuard } from 'src/authentication/guards/jwtAuth.guard';
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -37,6 +39,7 @@ import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
 @UsePipes(ValidationPipe)
 export class UserController {
   constructor(private readonly usersService: UserService) {}
+
 
   @Post()
   @ApiResponse({
@@ -79,6 +82,7 @@ export class UserController {
     return await this.usersService.createUser(createUserDto);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Get()
   @ApiResponse({
     status: 200,
