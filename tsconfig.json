@@ -28,7 +28,14 @@
   "references": [
     {
       "path": "back-body-blast"
+    },
+    {
+      "path": "front-body-blast"
     }
   ],
-  "exclude": ["node_modules", "dist", "*.d.ts"]
+  "exclude": [
+    "node_modules",
+    "dist",
+    "*.d.ts"
+  ]
 }
