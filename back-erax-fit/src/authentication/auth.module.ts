@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { AuthStrategy } from './strategies/auth-strategy';
 import { JwtStrategy } from './strategies/jwt-strategy';
+import { RefreshJwtStrategy } from './strategies/refresh-strategy';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { JwtStrategy } from './strategies/jwt-strategy';
       signOptions: { expiresIn: '100d' },
     }),
   ],
-  providers: [AuthService, AuthStrategy, JwtStrategy],
+  providers: [AuthService, AuthStrategy, JwtStrategy, RefreshJwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })
