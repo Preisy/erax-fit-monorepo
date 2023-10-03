@@ -1,0 +1,48 @@
+{
+  "name": "front-body-blast",
+  "version": "0.0.1",
+  "description": "body-blast frontend project",
+  "productName": "front-body-blast",
+  "author": "maksmak200305@gmail.com",
+  "scripts": {
+    "lint": "eslint --ext .js,.ts,.vue ./",
+    "format": "prettier --write \"**/*.{js,ts,vue,scss,html,md,json}\" --ignore-path .gitignore",
+    "test": "echo \"No test specified\" && exit 0",
+    "dev": "quasar dev",
+    "build": "quasar build"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.16.4",
+    "axios": "^1.2.1",
+    "lodash": "^4.17.21",
+    "pinia": "^2.0.11",
+    "quasar": "^2.6.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.0.0"
+  },
+  "devDependencies": {
+    "@feature-sliced/eslint-config": "^0.1.0-beta.6",
+    "@intlify/vite-plugin-vue-i18n": "^3.3.1",
+    "@quasar/app-vite": "^1.3.0",
+    "@types/lodash": "^4.14.197",
+    "@unocss/preset-attributify": "^0.54.2",
+    "@unocss/preset-uno": "^0.54.2",
+    "@unocss/transformer-directives": "^0.54.2",
+    "@unocss/transformer-variant-group": "^0.54.2",
+    "@vue-macros/volar": "^0.13.3",
+    "autoprefixer": "^10.4.2",
+    "eslint-import-resolver-typescript": "^3.6.0",
+    "eslint-plugin-boundaries": "^3.2.0",
+    "eslint-plugin-n": "^16.1.0",
+    "eslint-plugin-vue": "^9.0.0",
+    "unocss": "^0.54.2",
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-macros": "^2.4.4"
+  },
+  "engines": {
+    "node": "^18 || ^16 || ^14.19",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}

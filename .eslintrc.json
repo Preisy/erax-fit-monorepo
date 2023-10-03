@@ -1,7 +1,6 @@
  {
-  "parser": "@typescript-eslint/parser",
-    
-  "parserOptions": {
+   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "project": "./tsconfig.json"
   },
   "extends": [ 
