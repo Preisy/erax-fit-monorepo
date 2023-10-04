@@ -8,7 +8,7 @@ import {
   IsStrongPassword,
 } from 'class-validator';
 import { UserEntity } from '../entities/user.entity';
-import { Constants, UserRole } from '../../constants/constants';
+import { Constants, UserRole } from '../../../constants/constants';
 
 export class CreateUserRequest {
   @IsDefined()

@@ -3,8 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './authentication/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/authentication/auth.module';
 
 
 @Module({

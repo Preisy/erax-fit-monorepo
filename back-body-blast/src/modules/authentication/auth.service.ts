@@ -2,7 +2,7 @@
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ExternalPayloadType } from './types/external-payload.type';
-import { MainException } from '../exceptions/main.exception';
+import { MainException } from '../../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';

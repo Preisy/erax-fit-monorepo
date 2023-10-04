@@ -21,17 +21,18 @@ import {
   CreateUserResponse,
 } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { MainExceptionFilter } from '../exceptions/main-exception.filter';
-import { MainException } from '../exceptions/main.exception';
+import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
+import { MainException } from '../../exceptions/main.exception';
 import { Throttle } from '@nestjs/throttler';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { GetUserResponse } from './dto/get-user.dto';
 import { RoleGuard } from '../authentication/guards/role.guard';
-import { UserRole } from '../constants/constants';
+import { UserRole } from '../../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
-import { JWTAuthGuard } from 'src/authentication/guards/jwtAuth.guard';
+import { BaseAuthGuard } from 'src/modules/authentication/guards/baseAuth.guard';
+import { JWTAuthGuard } from 'src/modules/authentication/guards/jwtAuth.guard';
+
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -57,6 +58,9 @@ export class UserController {
     type: MainException,
   })
 
+  //@Throttle(5, 10)
+  @Throttle({ default: { limit: 5, ttl: 10 } })
+
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
@@ -76,7 +80,10 @@ export class UserController {
     description: 'Validation error (provided data is not valid).',
     type: MainException,
   })
-  
+
+   //@Throttle(5, 10)
+   @Throttle({ default: { limit: 5, ttl: 10 } })
+
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
     return await this.usersService.createUser(createUserDto);
