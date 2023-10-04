@@ -9,10 +9,10 @@ import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
-import { MainException } from '../exceptions/main.exception';
+import { MainException } from '../../exceptions/main.exception';
 import { GetUserResponse } from './dto/get-user.dto';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
-import { UserRole } from '../constants/constants';
+import { UserRole } from '../../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
 
 @Injectable()

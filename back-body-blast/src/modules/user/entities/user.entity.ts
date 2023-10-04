@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
+import { Constants, UserRole } from '../../../constants/constants';
 import { Exclude } from 'class-transformer';
 
 @Entity('users')

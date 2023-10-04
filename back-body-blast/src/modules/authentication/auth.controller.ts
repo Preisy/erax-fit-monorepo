@@ -11,8 +11,8 @@ import { AuthService } from './auth.service';
 import { Throttle } from '@nestjs/throttler';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
-import { MainExceptionFilter } from '../exceptions/main-exception.filter';
-import { ValidationPipe } from '../pipes/validation.pipe';
+import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
+import { ValidationPipe } from '../../pipes/validation.pipe';
 import { GetMeResponse } from './dto/getMe.dto';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
@@ -30,7 +30,8 @@ export class AuthController {
     type: AuthResponse,
     description: 'Аутентификация',
   })
-  @Throttle(5, 300)
+  //@Throttle(5, 300)
+  @Throttle({ default: { limit: 5, ttl: 300 } })
   async auth(@Body() body: AuthRequest) {
     return this.authService.auth(body);
   }

@@ -1,7 +1,7 @@
 ﻿import { CanActivate, ExecutionContext, Inject } from '@nestjs/common';
 import { AuthService } from '../auth.service';
 import { ExtractJwt } from 'passport-jwt';
-import { MainException } from '../../exceptions/main.exception';
+import { MainException } from '../../../exceptions/main.exception';
 
 export class JWTAuthGuard implements CanActivate {
   constructor(
