@@ -32,13 +32,40 @@ export class AuthService {
 
       if (!decodedToken || !decodedToken?.userEmail)
         throw MainException.invalidData('Некорректный токен');
+      
+      const user = await this.userService.getUserByEmail(decodedToken.userEmail);
+      const accessToken = this.jwtService.sign(decodedToken);
+      const refreshToken = this.jwtService.sign(decodedToken, {expiresIn: '7d'});
 
-      return (await this.userService.getUserByEmail(decodedToken.userEmail))
-        .user;
+      return {
+        user,
+        accessToken,
+        refreshToken
+      }
     } catch {
       throw MainException.forbidden('Нет доступа');
     }
   }
+
+  async refresh(refreshToken: string){
+    try {
+      const decodedToken: ExternalPayloadType = <ExternalPayloadType>(
+        this.jwtService.verify(refreshToken)
+      );
+
+      if (!decodedToken || !decodedToken?.userEmail)
+        throw MainException.invalidData('Некорректный токен');
+      
+      const accessToken = this.jwtService.sign(decodedToken);
+
+      return {
+        accessToken
+      }
+    } catch {
+      throw MainException.forbidden('Нет доступа');
+    }
+  }
+
 
   async getMe(userId: number): Promise<UserEntity> {
     return (await this.userService.getUserById(userId)).user;

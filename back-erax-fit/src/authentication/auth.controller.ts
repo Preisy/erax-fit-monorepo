@@ -5,6 +5,7 @@
   Post,
   Req,
   UseFilters,
+  UseGuards,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -16,6 +17,7 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { GetMeResponse } from './dto/getMe.dto';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
+import { RefreshJwtGuard } from './guards/refreshJwt.guard';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -30,9 +32,15 @@ export class AuthController {
     type: AuthResponse,
     description: 'Аутентификация',
   })
-  @Throttle(5, 300)
+  
   async auth(@Body() body: AuthRequest) {
     return this.authService.auth(body);
+  }
+
+  @UseGuards(RefreshJwtGuard)
+  @Post('refresh')
+  async refreshtoken(@Req() request){
+    return this.authService.refresh(request.refreshToken);
   }
 
   @Get('me')

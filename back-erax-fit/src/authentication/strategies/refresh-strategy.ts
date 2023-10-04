@@ -13,8 +13,10 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'jwt'){
 
     async authUser(payload: ExternalPayloadType){
         return {
-            user:
+            userName:
                 payload.firstName,
+            lastName:
+                payload.lastName,
             email:
                 payload.userEmail    
 
