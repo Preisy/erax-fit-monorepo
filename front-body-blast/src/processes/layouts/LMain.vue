@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import PLanding from 'pages/PLanding.vue';
+import PTraining from 'pages/PTraining.vue';
 </script>
 
 <template>
   <q-layout view="hHh lpr fFf">
-    <PLanding />
+    <PTraining />
   </q-layout>
 </template>
