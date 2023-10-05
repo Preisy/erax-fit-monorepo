@@ -5,9 +5,9 @@ import { Request } from "supertest";
 export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt'){
     constructor(){
         super({
-            jwtRequest: ExtractJwt.fromABodyField("refresh"),
+            jwtRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             passReqToCallback: false,
-            secretKey: `$(process.env-template.[JWT-SECRET])`,
+            secretKey: 'refresh-secret',
         })
     }
 

@@ -9,7 +9,7 @@ export class ValidationPipe implements PipeTransform {
     const object = plainToClass(metatype, value);
 
     if (typeof value === 'object') {
-      const errors = await validate(object);
+      const errors = await validate(object, {whiteList: true});
       if (errors.length) throw MainException.invalidData(errors);
     }
 

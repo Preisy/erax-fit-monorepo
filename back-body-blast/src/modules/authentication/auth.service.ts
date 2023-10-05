@@ -15,45 +15,34 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async auth(request: AuthRequest): Promise<AuthResponse> {
+  async auth(request: AuthRequest): Promise<Tokens> {
     const { user } = await this.userService.getUserByEmail(request.email);
 
     if (!(await bcrypt.compare(request.password, user.password))) {
       throw MainException.unauthorized();
     }
-    const payload = { sub: user.id, userEmail: user.email };
-    return new AuthResponse(await this.jwtService.signAsync(payload));
+    const tokens = await this.getTokens(user.id, user.email);
+    return tokens;
   }
 
-  async login(jwt: string) {
+  async login(request: AuthRequest): Promise<Tokens> {
     try {
-      const decodedToken: ExternalPayloadType = <ExternalPayloadType>(
-        this.jwtService.verify(jwt)
-      );
-
-      if (!decodedToken || !decodedToken?.userEmail)
-        throw MainException.invalidData('Некорректный токен');
       
-      const user = await this.userService.getUserByEmail(decodedToken.userEmail);
-      const accessToken = this.jwtService.sign(decodedToken);
-      const refreshToken = this.jwtService.sign(decodedToken, {expiresIn: '7d'});
-
-      return {
-        user,
-        accessToken,
-        refreshToken
-      }
+      const { user } = await this.userService.getUserByEmail(request.email);
+      const tokens = await this.getTokens(user.id, user.email)
+      
+      return tokens;
     } catch {
       throw MainException.forbidden('Нет доступа');
     }
   }
 
-  async getTokens(userName: string, lastName: string, email: string): Promise<Tokens>{
+  async getTokens(userId: number, email: string): Promise<Tokens>{
     const [access, refresh] = await Promise.all([
       this.jwtService.signAsync(
         {
-          sub: userName,
-          lastName, email
+          sub: userId,
+          email
         },
         {
           secret: 'access-secret',
@@ -63,8 +52,8 @@ export class AuthService {
       ),
     this.jwtService.signAsync(
       {
-        sub: userName,
-        lastName, email
+        sub: userId,
+        email
       },
       {
         secret: 'refresh-secret',
@@ -79,6 +68,9 @@ export class AuthService {
     }
   }
 
+  async refreshTokens(){
+
+  }
 
   async getMe(userId: number): Promise<UserEntity> {
     return (await this.userService.getUserById(userId)).user;

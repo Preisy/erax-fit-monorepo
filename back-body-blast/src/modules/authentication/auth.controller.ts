@@ -6,6 +6,8 @@
   Req,
   UseFilters,
   UseGuards,
+  HttpCode,
+  HttpStatus,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -26,29 +28,20 @@ import { RefreshJwtGuard } from './guards/refreshJwt.guard';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post()
-  @ApiResponse({
-    status: 201,
-    type: AuthResponse,
-    description: 'Аутентификация',
-  })
-  
+  @Post('signup')
+  @HttpCode(HttpStatus.CREATED)
   async auth(@Body() body: AuthRequest) {
     return this.authService.auth(body);
   }
 
-  @UseGuards(RefreshJwtGuard)
-  @Post('refresh')
-  async refreshtoken(@Req() request){
-    return this.authService.refresh(request.refreshToken);
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() req: AuthRequest){
+    return this.authService.login(req);
   }
 
   @Get('me')
-  @ApiResponse({
-    status: 200,
-    type: GetMeResponse,
-    description: 'Получить свою сущность пользователя',
-  })
+  @HttpCode(HttpStatus.OK)
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
     return this.authService.getMe(req.user.id);
