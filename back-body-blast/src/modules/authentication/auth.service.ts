@@ -6,6 +6,7 @@ import { MainException } from '../../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';
+import { Tokens } from './types';
 
 @Injectable()
 export class AuthService {
@@ -47,22 +48,34 @@ export class AuthService {
     }
   }
 
-  async refresh(refreshToken: string){
-    try {
-      const decodedToken: ExternalPayloadType = <ExternalPayloadType>(
-        this.jwtService.verify(refreshToken)
-      );
+  async getTokens(userName: string, lastName: string, email: string): Promise<Tokens>{
+    const [access, refresh] = await Promise.all([
+      this.jwtService.signAsync(
+        {
+          sub: userName,
+          lastName, email
+        },
+        {
+          secret: 'access-secret',
+          expiresIn: '15m'
+        },
 
-      if (!decodedToken || !decodedToken?.userEmail)
-        throw MainException.invalidData('Некорректный токен');
+      ),
+    this.jwtService.signAsync(
+      {
+        sub: userName,
+        lastName, email
+      },
+      {
+        secret: 'refresh-secret',
+        expiresIn: '7d'
+      },
+    ),
       
-      const accessToken = this.jwtService.sign(decodedToken);
-
-      return {
-        accessToken
-      }
-    } catch {
-      throw MainException.forbidden('Нет доступа');
+    ]);
+    return{
+      accessToken: access,
+      refrshTpken: refresh
     }
   }
 
