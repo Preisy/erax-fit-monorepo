@@ -21,24 +21,34 @@ export class AuthService {
     if (!(await bcrypt.compare(request.password, user.password))) {
       throw MainException.unauthorized();
     }
-    
-    return (await this.getTokens(user.id, user.email));
+    const tokens = await this.getTokens(user.id, user.getRtHash());
+    await this.updateRefreshHash(user.id, tokens.refreshToken);
+
+    return tokens;
   }
 
   async login(request: AuthRequest): Promise<Tokens> {
     try {
-      
       const { user } = await this.userService.getUserByEmail(request.email);
-      const tokens = await this.getTokens(user.id, user.email)
-
       const passwordMatches = await bcrypt.compare(request.password, user.password);
 
       if(!passwordMatches) throw MainException.forbidden('Access denied: invalid password');
-      
+
+      const tokens = await this.getTokens(user.id, user.getRtHash());
+      await this.updateRefreshHash(user.id, tokens.refreshToken);
+
       return tokens;
     } catch {
       throw MainException.forbidden('Access denied');
     }
+  }
+  
+  async logout(userId: number){
+    const { user } = await this.userService.getUserById(userId);
+
+    if(!user) throw MainException.entityNotFound('Not found');
+
+    user.setRtHash(null);
   }
 
   async getTokens(userId: number, email: string): Promise<Tokens>{
@@ -76,10 +86,26 @@ export class AuthService {
     const { user } = await this.userService.getUserById(userId);
     if(!user) throw MainException.forbidden('Acces denied');
 
-    const refreshMatches = bcrypt.compare(refresh, user.email);
+    const refreshMatches = bcrypt.compare(refresh, user.getRtHash());
     if (!refreshMatches) throw MainException.forbidden('Failed to refresh access due to invalid refresh token');
 
-    return (await this.getTokens(user.id, user.email));
+    const tokens = await this.getTokens(user.id, user.getRtHash());
+    await this.updateRefreshHash(user.id, tokens.refreshToken);
+
+    return tokens;
+  }
+
+  async hashData(data: string){
+    return (bcrypt.hash(data, 10));
+  }
+
+  async updateRefreshHash(userId: number, refresh: string){
+    const { user } = await this.userService.getUserById(userId);
+
+    if(!user) throw MainException.forbidden('Failed to update rt due to invalid user')
+
+    const hash = await this.hashData(refresh);
+    user.setRtHash(hash);
   }
 
   async getMe(userId: number): Promise<UserEntity> {

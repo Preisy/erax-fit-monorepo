@@ -43,6 +43,10 @@ export class UserEntity {
   public password!: string;
 
   @ApiProperty()
+  @Column({ name: 'rt_hash', type: 'varchar', length: 256})
+  private rtHash: string;
+
+  @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   public createdAt!: Date;
 
@@ -52,4 +56,12 @@ export class UserEntity {
   @ApiProperty()
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   public deletedAt!: Date;
+
+  public setRtHash(hash: string){
+    this.rtHash = hash;
+  }
+
+  public getRtHash(): string{
+    return this.rtHash
+  }
 }

@@ -12,7 +12,7 @@
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Throttle } from '@nestjs/throttler';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
 import { ValidationPipe } from '../../pipes/validation.pipe';
@@ -20,6 +20,8 @@ import { GetMeResponse } from './dto/getMe.dto';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { RefreshJwtGuard } from './guards/refreshJwt.guard';
+import { JWTAuthGuard } from './guards/jwtAuth.guard';
+import { Request } from 'express';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -30,14 +32,29 @@ export class AuthController {
 
   @Post('signup')
   @HttpCode(HttpStatus.CREATED)
-  async auth(@Body() body: AuthRequest) {
-    return this.authService.auth(body);
+  async auth(@Body() req: AuthRequest) {
+    return this.authService.auth(req);
   }
 
+  @UseGuards(JWTAuthGuard)
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() req: AuthRequest){
     return this.authService.login(req);
+  }
+
+  @UseGuards(JWTAuthGuard)
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  async logout(@Body() req: Request){
+    return this.authService.logout(req.user['id']);
+  }
+
+  @UseGuards(RefreshJwtGuard)
+  @Get('refresh')
+  @HttpCode(HttpStatus.OK)
+  async refreshTokens(@Req() req: Request){
+    return this.authService.refreshTokens(req.user['id'], req.user['refreshHash']);
   }
 
   @Get('me')
