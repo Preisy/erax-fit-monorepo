@@ -4,10 +4,10 @@ import * as icons from '../assets'
 import FooterNavLink, { FooterNavLinkProps } from './FooterNavLink.vue';
 
 const links: FooterNavLinkProps[] = [
-  { imgSrc: icons.exercise, title: 'Тренировки' },
-  { imgSrc: icons.profile, title: 'Профиль' },
-  { imgSrc: icons.diary, title: 'Дневник' },
-  { imgSrc: icons.diet, title: 'Питание' },
+  { imgSrc: icons.exercise, title: 'Тренировки', href: '#' },
+  { imgSrc: icons.profile, title: 'Профиль', href: '#' },
+  { imgSrc: icons.diary, title: 'Дневник', href: '#' },
+  { imgSrc: icons.diet, title: 'Питание', href: '#' },
 ];
 </script>
 
@@ -22,7 +22,7 @@ const links: FooterNavLinkProps[] = [
     boxshadow-footer  
     class="w-footer"
   >
-    <SNavbar>
+    <SNavbar px-0.5rem>
       <FooterNavLink
         v-for="navlink of links"
         :key="navlink.imgSrc"
