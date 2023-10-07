@@ -4,7 +4,10 @@ import { WFooter } from 'widgets/WFooter';
 </script>
 
 <template>
-  <q-layout view="hHh lpr fFf">
+  <q-layout
+    view="hHh lpr fFf"
+    px-0.5rem
+  >
     <PTraining />
     <WFooter />
   </q-layout>

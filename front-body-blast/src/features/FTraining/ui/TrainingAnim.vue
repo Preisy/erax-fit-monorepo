@@ -16,7 +16,7 @@ const iconName = computed(() => (isPlaying.value ? 'sym_r_pause' : 'sym_r_play_a
       :src="url"
       fit="contain"
     />
-    <SBtn>
+    <SBtn mt--2rem>
       <q-icon
         :name="iconName"
         text="2rem!"
