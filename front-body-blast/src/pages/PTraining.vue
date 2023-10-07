@@ -1,5 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { WTrainings } from 'widgets/WTrainings'
+</script>
 
 <template>
-  <div>PTraining</div>
+  <div>
+    <WTrainings />
+  </div>
 </template>
