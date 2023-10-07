@@ -21,8 +21,8 @@ export class AuthService {
     if (!(await bcrypt.compare(request.password, user.password))) {
       throw MainException.unauthorized();
     }
-    const tokens = await this.getTokens(user.id, user.email);
-    return tokens;
+    
+    return (await this.getTokens(user.id, user.email));
   }
 
   async login(request: AuthRequest): Promise<Tokens> {
@@ -30,10 +30,14 @@ export class AuthService {
       
       const { user } = await this.userService.getUserByEmail(request.email);
       const tokens = await this.getTokens(user.id, user.email)
+
+      const passwordMatches = await bcrypt.compare(request.password, user.password);
+
+      if(!passwordMatches) throw MainException.forbidden('Access denied: invalid password');
       
       return tokens;
     } catch {
-      throw MainException.forbidden('Нет доступа');
+      throw MainException.forbidden('Access denied');
     }
   }
 
@@ -64,12 +68,18 @@ export class AuthService {
     ]);
     return{
       accessToken: access,
-      refrshTpken: refresh
+      refreshToken: refresh,
     }
   }
 
-  async refreshTokens(){
+  async refreshTokens(userId: number, refresh: string){
+    const { user } = await this.userService.getUserById(userId);
+    if(!user) throw MainException.forbidden('Acces denied');
 
+    const refreshMatches = bcrypt.compare(refresh, user.email);
+    if (!refreshMatches) throw MainException.forbidden('Failed to refresh access due to invalid refresh token');
+
+    return (await this.getTokens(user.id, user.email));
   }
 
   async getMe(userId: number): Promise<UserEntity> {
