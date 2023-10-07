@@ -4,20 +4,22 @@
   --font-family: 'Gilroy', sans-serif;
 }
 
-@screen lt-sm {
-  h1 {
-    --uno: text-lg font-600;
-  }
+h1 {
+  --uno: text-lg font-800;
+}
 
-  h2 {
-    --uno: text-md font-600;
-  }
+h2 {
+  --uno: text-md font-800;
+}
 
-  p {
-    --uno: text-base font-400;
-  }
+p {
+  --uno: text-base font-400;
+}
 
-  span {
-    --uno: text-sm font-400;
-  }
+span {
+  --uno: text-sm font-400;
+}
+
+a {
+  --uno: text-primary no-underline;
 }
