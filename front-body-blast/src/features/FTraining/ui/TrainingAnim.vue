@@ -1,11 +1,11 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { SBtn } from 'shared/ui/SBtn';
 defineProps<{
-  url:string
+  url: string;
 }>();
 
 const isPlaying = ref<boolean>(false);
-const iconName = computed(()=>isPlaying.value ? 'sym_r_pause' : 'sym_r_play_arrow');
+const iconName = computed(() => (isPlaying.value ? 'sym_r_pause' : 'sym_r_play_arrow'));
 </script>
 <template>
   <div

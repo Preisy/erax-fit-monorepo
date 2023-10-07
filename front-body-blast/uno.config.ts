@@ -29,7 +29,5 @@ export default defineConfig<Theme>({
     },
   },
   preflights: [],
-  rules: [
-    ['boxshadow-footer', {'box-shadow': '0px 0px 30px 0px rgba(0, 0, 0, 0.10);'}]
-  ],
+  rules: [['boxshadow-footer', { 'box-shadow': '0px 0px 30px 0px rgba(0, 0, 0, 0.10);' }]],
 });

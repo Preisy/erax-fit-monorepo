@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SNavbar } from 'shared/ui/SNavbar';
-import * as icons from '../assets'
+import * as icons from '../assets';
 import FooterNavLink, { FooterNavLinkProps } from './FooterNavLink.vue';
 
 const links: FooterNavLinkProps[] = [
@@ -19,7 +19,7 @@ const links: FooterNavLinkProps[] = [
     right-0
     rounded-t-2rem
     bg-bg
-    boxshadow-footer  
+    boxshadow-footer
     class="w-footer"
   >
     <SNavbar px-0.5rem>

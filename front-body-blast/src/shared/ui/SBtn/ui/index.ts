@@ -1,1 +1,1 @@
-export {default as SBtn} from './SBtn.vue'
+export { default as SBtn } from './SBtn.vue';

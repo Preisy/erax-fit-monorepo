@@ -10,7 +10,6 @@ defineProps<FooterNavLinkProps>();
 <template>
   <a
     :href="href"
-    
     max-w-5rem
     flex
     flex-1
@@ -19,13 +18,13 @@ defineProps<FooterNavLinkProps>();
     justify-center
     gap-0.5rem
     py-1rem
-    text-center 
+    text-center
   >
     <q-img
       :src="imgSrc"
       pointer-events-none
       w-1.5rem
-      select-none 
+      select-none
     />
     <span>{{ title }}</span>
   </a>
