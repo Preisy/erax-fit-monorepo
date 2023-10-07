@@ -1,2 +1,2 @@
-export { default as FTraining } from './FTraining.vue'
-export * from './FTraining.vue'
+export { default as FTraining } from './FTraining.vue';
+export * from './FTraining.vue';

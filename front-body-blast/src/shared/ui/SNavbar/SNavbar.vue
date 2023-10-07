@@ -1,10 +1,9 @@
-<script setup lang='ts'>
-</script>
+<script setup lang="ts"></script>
 <template>
   <div
     flex
     flex-row
-    justify-between 
+    justify-between
   >
     <slot />
   </div>
