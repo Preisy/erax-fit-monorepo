@@ -1,12 +1,13 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { ExtractJwt, Strategy } from "passport-jwt"
+import { Strategy } from "passport-local"
+import { ExtractJwt } from "passport-jwt"
 import { UnauthorizedException } from "@nestjs/common";
 
 export class AccessStrategy extends PassportStrategy(Strategy, 'jwt'){
     constructor(){
         super({
             jwtRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretKey: 'JWT_SECRET',
+            secretOrKey: 'secretAtKey',
         })
     }
 

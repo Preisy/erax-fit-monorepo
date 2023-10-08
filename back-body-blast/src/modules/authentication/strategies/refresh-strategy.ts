@@ -1,13 +1,14 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { ExtractJwt, Strategy } from "passport-jwt"
+import { Strategy } from "passport-local"
+import { ExtractJwt } from "passport-jwt"
 import { Request } from "supertest";
 
-export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt'){
+export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'){
     constructor(){
         super({
             jwtRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-            passReqToCallback: false,
-            secretKey: 'refresh-secret',
+            passReqToCallback: true,
+            secretOrKey: 'secretRtKey',
         })
     }
 
