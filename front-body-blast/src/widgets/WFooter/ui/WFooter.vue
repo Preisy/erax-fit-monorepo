@@ -12,7 +12,8 @@ const links: FooterNavLinkProps[] = [
 </script>
 
 <template>
-  <div
+  <q-footer
+    elevated
     fixed
     bottom-0
     left-0
@@ -29,5 +30,5 @@ const links: FooterNavLinkProps[] = [
         v-bind="navlink"
       />
     </SNavbar>
-  </div>
+  </q-footer>
 </template>
