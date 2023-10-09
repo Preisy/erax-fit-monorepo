@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { WAddition } from 'widgets/trainings/WAddition';
 import { WTraining, WTrainingProps } from 'widgets/trainings/WTraining';
+import { SScroller } from 'shared/ui/SScroller';
 import { SStructure } from 'shared/ui/SStructure'
 
 // const trainings = useTrainingStore().trainings;
@@ -36,13 +37,15 @@ const trainings: WTrainingProps[] = [
 <template>
   <div>
     <SStructure>
-      <WTraining
-        v-for="training in trainings"
-        :key="training.name"
-        v-bind="training"
-        py-1.5rem
-      />
-      <WAddition py-1.5rem />
+      <SScroller>
+        <WTraining
+          v-for="training in trainings"
+          :key="training.name"
+          v-bind="training"
+          py-1.5rem
+        />
+        <WAddition py-1.5rem />
+      </SScroller>
     </SStructure>
   </div>
 </template>
