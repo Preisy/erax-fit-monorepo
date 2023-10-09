@@ -2,6 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local"
 import { ExtractJwt } from "passport-jwt"
 import { UnauthorizedException } from "@nestjs/common";
+import { ExternalPayloadType } from "../types/external-payload.type";
 
 export class AccessStrategy extends PassportStrategy(Strategy, 'jwt'){
     constructor(){
@@ -11,8 +12,8 @@ export class AccessStrategy extends PassportStrategy(Strategy, 'jwt'){
         })
     }
 
-    async authUser(payload: any){
-        if (!payload || !payload.sub()){
+    async authUser(payload: ExternalPayloadType){
+        if (!payload || !payload.userEmail){
             throw new UnauthorizedException('Invalid token');
         }
 

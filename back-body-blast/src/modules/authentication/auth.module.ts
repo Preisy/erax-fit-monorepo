@@ -7,6 +7,7 @@ import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
 import { AccessStrategy } from './strategies/access-strategy';
 import { RefreshStrategy } from './strategies/refresh-strategy';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { RefreshStrategy } from './strategies/refresh-strategy';
       signOptions: { expiresIn: '100d' },
     }),
   ],
-  providers: [AuthService, AccessStrategy, RefreshStrategy],
+  providers: [AuthService, AccessStrategy, RefreshStrategy, Repository],
   controllers: [AuthController],
   exports: [AuthService],
 })

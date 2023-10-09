@@ -2,6 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Strategy } from "passport-local"
 import { ExtractJwt } from "passport-jwt"
 import { Request } from "supertest";
+import { ExternalPayloadType } from "../types/external-payload.type";
 
 export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'){
     constructor(){
@@ -12,7 +13,7 @@ export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'){
         })
     }
 
-    async validation(req: Request, payload: any){
+    async validation(req: Request, payload: ExternalPayloadType){
         const refreshToken = req.get('authorization').replace('bearer', '').trim();
 
         return {

@@ -43,6 +43,10 @@ export class UserEntity {
   public password!: string;
 
   @ApiProperty()
+  @Column({ name: 'hash', type: 'varchar', length: 256})
+  private hash: string;
+
+  @ApiProperty()
   @Column({ name: 'rt_hash', type: 'varchar', length: 256})
   private rtHash: string;
 

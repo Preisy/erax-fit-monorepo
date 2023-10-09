@@ -30,34 +30,33 @@ import { Request } from 'express';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('signup')
+  @Post('/signup')
   @HttpCode(HttpStatus.CREATED)
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
   }
 
-  @UseGuards(JWTAuthGuard)
-  @Post('login')
+  @Post('/login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() req: AuthRequest){
     return this.authService.login(req);
   }
 
   @UseGuards(JWTAuthGuard)
-  @Post('logout')
+  @Post('/logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Body() req: Request){
     return this.authService.logout(req.user['id']);
   }
 
   @UseGuards(RefreshJwtGuard)
-  @Get('refresh')
+  @Get('/refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(@Req() req: Request){
     return this.authService.refreshTokens(req.user['id'], req.user['refreshHash']);
   }
 
-  @Get('me')
+  @Get('/me')
   @HttpCode(HttpStatus.OK)
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
