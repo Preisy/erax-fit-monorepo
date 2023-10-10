@@ -1,17 +1,28 @@
 <script setup lang="ts">
-import { SInput } from 'shared/ui/SInput';
+import { z } from 'zod';
+import { FForm, FieldsSchema } from 'features/FForm';
 import { SSwiperSlide } from 'shared/ui/SSwiperSlide'
 
-const input = ref();
+const action = (values: Record<string, unknown>)=>{
+  console.log(values);
+}
+const fields: FieldsSchema = [
+  {
+    name: 'addition', 
+    rule: z.string(), 
+    title: 'addition', 
+    sInputOptions:{ placeholder:'Введите текст' }
+  }
+]
 </script>
 <template>
   <SSwiperSlide>
     <h1 mb-1rem>
       Хотите что-то добавить?
     </h1>
-    <SInput
-      v-model="input"
-      placeholder="Введите текст"
+    <FForm
+      :fields="fields"
+      :action="action"
     />
   </SSwiperSlide>
 </template>
