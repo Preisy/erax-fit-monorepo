@@ -1,1 +1,1 @@
-export { default as SStructure } from './SStructure.vue'
+export { default as SStructure } from './SStructure.vue';

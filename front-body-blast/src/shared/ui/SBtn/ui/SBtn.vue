@@ -10,7 +10,7 @@ defineProps<SBtnProps>();
     rounded-1rem
     bg-secondary
     p-1rem
-    text-base
+    text-0
     text-primary
   >
     <slot />

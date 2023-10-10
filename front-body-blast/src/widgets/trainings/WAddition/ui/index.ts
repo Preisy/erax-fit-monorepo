@@ -1,1 +1,1 @@
-export { default as WAddition } from './WAddition.vue'
+export { default as WAddition } from './WAddition.vue';
