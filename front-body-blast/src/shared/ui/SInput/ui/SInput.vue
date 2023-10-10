@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { QInputProps } from 'quasar';
+import { useField } from 'vee-validate';
 export interface SInputProps extends QInputProps {
-  placeholder: string;
+  placeholder?: string;
+  name: string;
 }
-defineProps<SInputProps>();
+const props = defineProps<SInputProps>();
+
+const { value } = useField<string | number | undefined>(() => props.name);
 </script>
 <template>
   <div class="s_input" overflow-hidden>
-    <q-input v-bind="{ ...$props }" standout dense :placeholder="placeholder" />
+    <q-input v-bind="{ ...$props }" v-model="value" standout dense :placeholder="placeholder" />
   </div>
 </template>
 
