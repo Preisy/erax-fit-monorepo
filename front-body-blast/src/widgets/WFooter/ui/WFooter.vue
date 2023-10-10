@@ -13,7 +13,6 @@ const links: FooterNavLinkProps[] = [
 
 <template>
   <q-footer
-    elevated
     fixed
     bottom-0
     left-0

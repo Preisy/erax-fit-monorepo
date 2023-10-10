@@ -1,9 +1,9 @@
-<script setup lang='ts'>
-export interface SCardProps{
+<script setup lang="ts">
+export interface SCardProps {
   title: string;
   value: string;
 }
-defineProps<SCardProps>()
+defineProps<SCardProps>();
 </script>
 <template>
   <div
@@ -15,7 +15,7 @@ defineProps<SCardProps>()
     bg-primary
     px-1.25rem
     py-1rem
-    text-bg 
+    text-bg
   >
     <p class="title">
       {{ title }}

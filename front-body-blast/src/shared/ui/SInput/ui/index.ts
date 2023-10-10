@@ -1,1 +1,1 @@
-export { default as SInput } from './SInput.vue'
+export { default as SInput } from './SInput.vue';
