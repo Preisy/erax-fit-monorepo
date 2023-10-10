@@ -8,7 +8,9 @@ import { WFooter } from 'widgets/WFooter';
     view="hHh lpr fFf"
     px-0.5rem
   >
-    <q-page-container>
+    <q-page-container
+      h-screen
+    >
       <PTraining />
     </q-page-container>
     <WFooter />
