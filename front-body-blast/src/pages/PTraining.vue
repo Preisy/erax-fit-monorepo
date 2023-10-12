@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { WAddition } from 'widgets/trainings/WAddition';
 import { WTraining, WTrainingProps } from 'widgets/trainings/WTraining';
+import { SSplide } from 'shared/ui/SSplide';
+import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
-import { SSwiper } from 'shared/ui/SSwiper';
 
 // const trainings = useTrainingStore().trainings;
 const trainings: WTrainingProps[] = [
@@ -35,15 +36,20 @@ const trainings: WTrainingProps[] = [
 ];
 </script>
 <template>
-  <SStructure h-full>
-    <SSwiper h-full>
-      <WTraining
+  <SStructure>
+    <SSplide :options="{ direction:'ttb', height:'35rem' }">
+      <SSplideSlide
         v-for="training in trainings"
         :key="training.name"
-        v-bind="training"
-        py-1.5rem
-      />
-      <WAddition py-1.5rem />
-    </SSwiper>
+      >
+        <WTraining
+          v-bind="training"
+          py-1.5rem
+        />
+      </SSplideSlide>
+      <SSplideSlide>
+        <WAddition py-1.5rem />
+      </SSplideSlide>
+    </SSplide>
   </SStructure>
 </template>
