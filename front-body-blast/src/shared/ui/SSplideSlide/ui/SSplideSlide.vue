@@ -1,19 +1,20 @@
 <script setup lang='ts'>
-import { SwiperSlide } from 'swiper/vue';
+// import { SwiperSlide } from 'swiper/vue';
+import { SplideSlide } from '@splidejs/vue-splide';
 </script>
 <template>
-  <swiper-slide
+  <SplideSlide
     class="slide"
     transition-300
   >
     <slot />
-  </swiper-slide>
+  </SplideSlide>
 </template>
 
 <style scoped lang='scss'>
 .slide{
     opacity: 0.5;
-    &.swiper-slide-active{
+    &.is-active{
         opacity: 1;
     }
 }
