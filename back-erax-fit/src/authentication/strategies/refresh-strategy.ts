@@ -1,23 +1,24 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { ExtractJwt, Strategy } from "passport-jwt"
+import { Strategy } from "passport-local"
+import { ExtractJwt } from "passport-jwt"
+import { Request } from "supertest";
 import { ExternalPayloadType } from "../types/external-payload.type";
 
-export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'jwt'){
+export class RefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'){
     constructor(){
         super({
-            jwtRequest: ExtractJwt.fromABodyField("refresh"),
-            ignoreExpiration: false,
-            secretKey: `$(process.env-template.[JWT-SECRET])`,
+            jwtRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            passReqToCallback: true,
+            secretOrKey: process.env['JWT_REFRESH_SECRET'],
         })
     }
 
-    async authUser(payload: ExternalPayloadType){
-        return {
-            user:
-                payload.firstName,
-            email:
-                payload.userEmail    
+    async validation(req: Request, payload: ExternalPayloadType){
+        const refreshToken = req.get('authorization').replace('bearer', '').trim();
 
+        return {
+            ...payload,
+            refreshToken    
         };
     }
 }

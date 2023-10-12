@@ -1,13 +1,13 @@
-﻿import { forwardRef, Module } from '@nestjs/common';
+﻿﻿import { forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { UserModule } from '../user/user.module';
-import { AuthStrategy } from './strategies/auth-strategy';
-import { JwtStrategy } from './strategies/jwt-strategy';
-import { RefreshJwtStrategy } from './strategies/refresh-strategy';
+import { AccessStrategy } from './strategies/access-strategy';
+import { RefreshStrategy } from './strategies/refresh-strategy';
+import { Repository } from 'typeorm';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { RefreshJwtStrategy } from './strategies/refresh-strategy';
       signOptions: { expiresIn: '100d' },
     }),
   ],
-  providers: [AuthService, AuthStrategy, JwtStrategy, RefreshJwtStrategy],
+  providers: [AuthService, AccessStrategy, RefreshStrategy, Repository],
   controllers: [AuthController],
   exports: [AuthService],
 })

@@ -11,7 +11,7 @@ import {
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 
-@Entity('users')
+@Entity({name: 'users', schema: 'public'})
 export class UserEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
@@ -43,6 +43,14 @@ export class UserEntity {
   public password!: string;
 
   @ApiProperty()
+  @Column({ name: 'hash', type: 'varchar', length: 256, nullable: true})
+  private hash: string;
+
+  @ApiProperty()
+  @Column({ name: 'rt_hash', type: 'varchar', length: 256, nullable: true})
+  private rtHash: string;
+
+  @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
   public createdAt!: Date;
 
@@ -52,4 +60,12 @@ export class UserEntity {
   @ApiProperty()
   @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
   public deletedAt!: Date;
+
+  public setRtHash(hash: string){
+    this.rtHash = hash;
+  }
+
+  public getRtHash(): string{
+    return this.rtHash
+  }
 }

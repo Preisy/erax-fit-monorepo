@@ -1,46 +1,65 @@
-﻿import {
+﻿﻿import {
   Body,
   Controller,
   Get,
   Post,
   Req,
   UseFilters,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Throttle } from '@nestjs/throttler';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { GetMeResponse } from './dto/getMe.dto';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
+import { RefreshJwtGuard } from './guards/refreshJwt.guard';
+import { JWTAuthGuard } from './guards/jwtAuth.guard';
+import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('auth')
+@Controller('api/auth')
 @ApiTags('Аутентификация')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post()
-  @ApiResponse({
-    status: 201,
-    type: AuthResponse,
-    description: 'Аутентификация',
-  })
-  @Throttle(5, 300)
-  async auth(@Body() body: AuthRequest) {
-    return this.authService.auth(body);
+  @Post('/signup')
+  @HttpCode(HttpStatus.CREATED)
+  async auth(@Body() req: AuthRequest) {
+    return this.authService.auth(req);
   }
 
-  @Get('me')
-  @ApiResponse({
-    status: 200,
-    type: GetMeResponse,
-    description: 'Получить свою сущность пользователя',
-  })
+  @Post('/login')
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() req: AuthRequest){
+    return this.authService.login(req);
+  }
+
+  @UseGuards(AuthGuard('jwt'))
+  @Post('/logout')
+  @HttpCode(HttpStatus.OK)
+  async logout(@Req() req: Request){
+    const user = req.user;
+    return this.authService.logout(user['id']);
+  }
+
+  @UseGuards(RefreshJwtGuard)
+  @Post('/refresh')
+  @HttpCode(HttpStatus.OK)
+  async refreshTokens(@Req() req: Request){
+    return this.authService.refreshTokens(req.user['id'], req.user['refreshHash']);
+  }
+
+  @Get('/me')
+  @HttpCode(HttpStatus.OK)
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
     return this.authService.getMe(req.user.id);
