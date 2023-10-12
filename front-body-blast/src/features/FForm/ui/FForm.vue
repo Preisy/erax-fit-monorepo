@@ -5,13 +5,14 @@ import { z } from 'zod';
 import { SInput } from 'shared/ui/SInput';
 import { FieldsSchema } from '../model'
 
+export interface FFormProps {
+  fields: FieldsSchema;
+  inputClasses?: string;
+  action: (values: Record<string, unknown>) => void;
+};
 
 const props = withDefaults(
-  defineProps<{
-    fields: FieldsSchema;
-    inputClasses?: string;
-    action: (values: Record<string, unknown>) => void;
-  }>(),
+  defineProps<FFormProps>(),
   { inputClasses: '' }
 );
 
@@ -44,7 +45,7 @@ const a = ref();
   >
     <div>
       <div
-        v-for="({ name, title, sInputOptions }, index) in fields"
+        v-for="({ name, sInputOptions }, index) in fields"
         :key="name"
         class="f-form_input-wrapper"
         :class="{ 'mb-1.1rem!': index === fields.length - 1 }"
@@ -54,7 +55,6 @@ const a = ref();
           class="f-form_input"
           :class="{name, inputClasses}"
           :name="name"
-          :title="title"
           v-model="a"
           v-bind="sInputOptions"
           resize="none!"
