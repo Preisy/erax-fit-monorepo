@@ -31,7 +31,17 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/',
-    component: () => import('processes/layouts/LMain.vue'),
+    component: () => import('processes/layouts/LUnauth.vue'),
+    children: [
+      {
+        path: '/register',
+        component: () => import('pages/PRegister.vue'),
+      },
+      {
+        path: '/register',
+        component: () => import('pages/PRegister.vue'),
+      },
+    ],
   },
 
   // Always leave this as last one,
