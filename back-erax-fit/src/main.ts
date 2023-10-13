@@ -12,8 +12,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
 
   const config = new DocumentBuilder()
-    .setTitle('Ilonsi')
-    .setDescription('Ilonsi API')
+    .setTitle('Erax')
+    .setDescription('Erax API')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
