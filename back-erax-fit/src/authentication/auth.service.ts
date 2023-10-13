@@ -1,10 +1,8 @@
 ﻿﻿import { Injectable } from '@nestjs/common';
-import { AuthRequest, AuthResponse } from './dto/auth.dto';
+import { AuthRequest } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { ExternalPayloadType } from './types/external-payload.type';
 import { MainException } from '../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
-import { Repository } from 'typeorm';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';
 import { Tokens } from './types';
@@ -14,11 +12,10 @@ export class AuthService {
   constructor(
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
-    private readonly userRepository: Repository<UserEntity>,
   ) {}
 
   async auth(request: AuthRequest): Promise<Tokens> {
-    const newUser = (await this.userService.createUser(request)).user;
+    const { user: newUser } = await this.userService.createUser(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();

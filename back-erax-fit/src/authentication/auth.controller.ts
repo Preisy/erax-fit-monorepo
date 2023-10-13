@@ -11,20 +11,15 @@
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Throttle } from '@nestjs/throttler';
 import { ApiTags } from '@nestjs/swagger';
-import { AuthRequest, AuthResponse } from './dto/auth.dto';
+import { AuthRequest } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
-import { GetMeResponse } from './dto/getMe.dto';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
-import { RefreshJwtGuard } from './guards/refreshJwt.guard';
-import { JWTAuthGuard } from './guards/jwtAuth.guard';
-import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
 
-@Controller('api/auth')
+@Controller('auth')
 @ApiTags('Аутентификация')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
@@ -46,16 +41,15 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   @Post('/logout')
   @HttpCode(HttpStatus.OK)
-  async logout(@Req() req: Request){
-    const user = req.user;
-    return this.authService.logout(user['id']);
+  async logout(@Req() req: RequestWithUser){
+    return this.authService.logout(req.user.id);
   }
 
-  @UseGuards(RefreshJwtGuard)
+  @UseGuards(AuthGuard('jwt-refresh'))
   @Post('/refresh')
   @HttpCode(HttpStatus.OK)
-  async refreshTokens(@Req() req: Request){
-    return this.authService.refreshTokens(req.user['id'], req.user['refreshHash']);
+  async refreshTokens(@Req() req: RequestWithUser){
+    return this.authService.refreshTokens(req.user.id, req.user.getRtHash());
   }
 
   @Get('/me')
