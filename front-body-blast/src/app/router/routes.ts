@@ -14,7 +14,7 @@ const routes: RouteRecordRaw[] = [
         component: ()=>import('pages/PProfile.vue')
       },
       {
-        path:'dairy',
+        path:'diary',
         component: ()=>import('pages/PDiary.vue')
       },
       {

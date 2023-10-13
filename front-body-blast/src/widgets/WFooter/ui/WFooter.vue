@@ -4,10 +4,10 @@ import * as icons from '../assets';
 import FooterNavLink, { FooterNavLinkProps } from './FooterNavLink.vue';
 
 const links: FooterNavLinkProps[] = [
-  { imgSrc: icons.exercise, title: 'Тренировки', href: '#' },
-  { imgSrc: icons.profile, title: 'Профиль', href: '#' },
-  { imgSrc: icons.diary, title: 'Дневник', href: '#' },
-  { imgSrc: icons.diet, title: 'Питание', href: '#' },
+  { imgSrc: icons.exercise, title: 'Тренировки', href: '/home/training' },
+  { imgSrc: icons.profile, title: 'Профиль', href: '/home/profile' },
+  { imgSrc: icons.diary, title: 'Дневник', href: '/home/diary' },
+  { imgSrc: icons.diet, title: 'Питание', href: '/home/diet' },
 ];
 </script>
 
