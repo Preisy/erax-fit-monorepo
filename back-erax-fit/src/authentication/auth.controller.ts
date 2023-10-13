@@ -26,33 +26,33 @@ import { AuthGuard } from '@nestjs/passport';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @Post('/signup')
+  @Post('signup')
   @HttpCode(HttpStatus.CREATED)
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
   }
 
-  @Post('/login')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() req: AuthRequest){
     return this.authService.login(req);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('/logout')
+  @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@Req() req: RequestWithUser){
     return this.authService.logout(req.user.id);
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
-  @Post('/refresh')
+  @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(@Req() req: RequestWithUser){
     return this.authService.refreshTokens(req.user.id, req.user.getRtHash());
   }
 
-  @Get('/me')
+  @Get('me')
   @HttpCode(HttpStatus.OK)
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
