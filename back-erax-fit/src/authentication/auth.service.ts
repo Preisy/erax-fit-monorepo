@@ -48,7 +48,7 @@ export class AuthService {
   async logout(userId: number){
     const { user } = await this.userService.getUserById(userId);
 
-    if(!user) throw MainException.entityNotFound('Not found');
+    if(!user) throw MainException.entityNotFound(`User with such id ${userId} not found`);
 
     if (user.getRtHash !== null) user.setRtHash(null);
   }
