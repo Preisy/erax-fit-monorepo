@@ -34,22 +34,19 @@ const slides: WRegisterSlideProps[] = [
   {
     fields:[
       {
-        name: 'name',
+        name: 'age',
         rule: z.string(),
+        sInputOptions: { label: 'Возраст', mask:'###' }
       },
       {
-        name: 'email',
+        name: 'weight',
         rule: z.string(),
+        sInputOptions: { label: 'Вес и рост', mask:'###/###' }
       },
       {
-        name: 'password',
+        name: 'teenager_weight',
         rule: z.string(),
-        sInputOptions:{ type:'password' }
-      },
-      {
-        name: 'passwordRepeat',
-        rule: z.string(),
-        sInputOptions:{ type:'password' }
+        sInputOptions: { label: 'Вес в подростковом возрасте', mask:'###' }
       },
     ],
     action: (values: Record<string, unknown>)=>console.log(values)
@@ -57,22 +54,19 @@ const slides: WRegisterSlideProps[] = [
   {
     fields:[
       {
-        name: 'name',
+        name: 'nutritions_forbidden',
         rule: z.string(),
+        sInputOptions: { label: 'Запреты в питании' }
       },
       {
-        name: 'email',
+        name: 'alergics',
         rule: z.string(),
+        sInputOptions: { label: 'Алергия' }
       },
       {
-        name: 'password',
+        name: 'intolerances',
         rule: z.string(),
-        sInputOptions:{ type:'password' }
-      },
-      {
-        name: 'passwordRepeat',
-        rule: z.string(),
-        sInputOptions:{ type:'password' }
+        sInputOptions: { label: 'Непереносимость продуктов' }
       },
     ],
     action: (values: Record<string, unknown>)=>console.log(values)
@@ -80,22 +74,29 @@ const slides: WRegisterSlideProps[] = [
   {
     fields:[
       {
-        name: 'name',
+        name: 'gastrointestinal_diseases',
         rule: z.string(),
+        sInputOptions: { label: 'Заболевания ЖКТ' }
       },
       {
-        name: 'email',
+        name: 'insulin_resistance',
         rule: z.string(),
+        sInputOptions: { label: 'Инсулинорезистентность' }
       },
       {
-        name: 'password',
+        name: 'kidney_disease',
         rule: z.string(),
-        sInputOptions:{ type:'password' }
+        sInputOptions: { label: 'Заболевание почек' }
       },
       {
-        name: 'passwordRepeat',
+        name: 'CVD_disease',
         rule: z.string(),
-        sInputOptions:{ type:'password' }
+        sInputOptions: { label: 'Заболевание ССС' }
+      },
+      {
+        name: 'ODA_disease',
+        rule: z.string(),
+        sInputOptions: { label: 'Заболевание ОДП' }
       },
     ],
     action: (values: Record<string, unknown>)=>console.log(values)
@@ -103,22 +104,19 @@ const slides: WRegisterSlideProps[] = [
   {
     fields:[
       {
-        name: 'name',
+        name: 'load_restrictions',
         rule: z.string(),
+        sInputOptions: { label: 'Запреты в нагрузке' }
       },
       {
-        name: 'email',
+        name: 'sports_experience',
         rule: z.string(),
+        sInputOptions: { label: 'Спортивный опыт' }
       },
       {
-        name: 'password',
+        name: 'targets',
         rule: z.string(),
-        sInputOptions:{ type:'password' }
-      },
-      {
-        name: 'passwordRepeat',
-        rule: z.string(),
-        sInputOptions:{ type:'password' }
+        sInputOptions: { label: 'Цели' }
       },
     ],
     action: (values: Record<string, unknown>)=>console.log(values)
@@ -128,7 +126,7 @@ const h = (fields: WRegisterSlideProps['fields'])=>fields.reduce((prev, current)
 </script>
 <template>
   <SStructure>
-    <SSplide :options="{direction:'ttb', height: '20rem', arrows: false}">
+    <SSplide :options="{direction:'ttb', height: '25rem', arrows: false}">
       <SSplideSlide
         v-for="slide in slides"
         :key="h(slide.fields)"
