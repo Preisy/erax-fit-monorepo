@@ -41,7 +41,7 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
 
-  @Post()
+  @Post('create')
   @ApiResponse({
     status: 200,
     type: CreateUserResponse,
@@ -85,7 +85,7 @@ export class UserController {
   }
 
   @UseGuards(JWTAuthGuard)
-  @Get()
+  @Get('get-users')
   @ApiResponse({
     status: 200,
     type: GetUsersResponse,
