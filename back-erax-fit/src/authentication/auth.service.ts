@@ -65,8 +65,8 @@ export class AuthService {
       ),
     this.jwtService.signAsync(
       {
-        sub: userId,
-        email
+ sub: userId,
+ email
       },
       {
         secret: 'refresh-secret',
