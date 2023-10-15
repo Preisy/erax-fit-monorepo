@@ -56,11 +56,12 @@ export class AuthService {
         { secret: process.env['JWT_ACCESS_SECRET'], expiresIn: process.env['JWT_ACCESS_EXPIRATION'] },
 
       ),
+
       this.jwtService.signAsync(
         { sub: userId,email },
         { secret: process.env['JWT_REFRESH_SECRET'], expiresIn: process.env['JWT_REFRESH_EXPIRATION'] },
       ),
-      
+  
     ]);
     return new AuthResponse(accessToken, refreshToken);
   }
