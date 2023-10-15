@@ -30,6 +30,7 @@ module.exports = {
     '../.eslintrc.json',
     './.eslintrc-auto-import.json',
     'plugin:vue/vue3-strongly-recommended',
+    'plugin:prettier-vue/recommended',
     '@feature-sliced',
     '@unocss'
   ],
