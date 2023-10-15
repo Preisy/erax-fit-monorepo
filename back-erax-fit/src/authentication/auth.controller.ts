@@ -30,7 +30,6 @@ export class AuthController {
     type: AuthResponse,
     description: 'Аутентификация',
   })
-  @Throttle(5, 300)
   async auth(@Body() body: AuthRequest) {
     return this.authService.auth(body);
   }
