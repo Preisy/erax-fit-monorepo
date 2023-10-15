@@ -1,11 +1,17 @@
 import { defineStore } from 'pinia';
-import { useListState } from 'shared/api/utils/state';
 import { WTrainingProps } from 'widgets/trainings/WTraining';
+import { TrainingsService } from 'shared/api/services';
+import { useSimpleStoreAction, useSingleState } from 'shared/api/utils';
 
 export const useTrainingStore = defineStore('training', () => {
-  const trainings = useListState<WTrainingProps>();
+  const trainings = ref(useSingleState<Array<WTrainingProps>>());
 
-  const getTrainingsByDate = 
+  const getTrainingsByDate = (date?: Date) => {
+    return useSimpleStoreAction({
+      stateWrapper: trainings.value,
+      serviceAction: TrainingsService.getTrainingsByDate(date ?? new Date()),
+    });
+  };
 
-  return { trainings };
+  return { trainings, getTrainingsByDate };
 });
