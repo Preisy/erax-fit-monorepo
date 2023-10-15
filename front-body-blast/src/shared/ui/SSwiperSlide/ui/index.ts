@@ -1,1 +1,1 @@
-export { default as SSwiperSlide } from './SSwiperSlide.vue'
+export { default as SSwiperSlide } from './SSwiperSlide.vue';

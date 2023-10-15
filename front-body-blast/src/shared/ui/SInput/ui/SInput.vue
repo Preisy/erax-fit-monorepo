@@ -6,16 +6,8 @@ export interface SInputProps extends QInputProps {
 defineProps<SInputProps>();
 </script>
 <template>
-  <div
-    class="s_input"
-    overflow-hidden
-  >
-    <q-input
-      v-bind="{ ...$props }"
-      standout
-      dense
-      :placeholder="placeholder"
-    />
+  <div class="s_input" overflow-hidden>
+    <q-input v-bind="{ ...$props }" standout dense :placeholder="placeholder" />
   </div>
 </template>
 

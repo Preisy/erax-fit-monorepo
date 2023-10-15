@@ -4,9 +4,9 @@ import { Swiper } from 'swiper/vue';
 
 const isEnd = ref(false);
 
-const end = ()=>{
-  nextTick(()=>isEnd.value = true);
-}
+const end = () => {
+  nextTick(() => (isEnd.value = true));
+};
 </script>
 <template>
   <Swiper
@@ -19,30 +19,26 @@ const end = ()=>{
     direction="vertical"
     @active-index-change="isEnd = false"
     @reach-end="end"
-
-    :class="{'reached_end': isEnd}"
+    :class="{ reached_end: isEnd }"
     class="swiper"
-
     relative
   >
-    <template
-      #wrapper-start
-    >
+    <template #wrapper-start>
       <slot />
     </template>
   </Swiper>
 </template>
-<style scoped lang='scss'>
-.swiper{
-  &:deep(.swiper-pagination){
+<style scoped lang="scss">
+.swiper {
+  &:deep(.swiper-pagination) {
     --uno: fixed top-7.5rem right-15px;
   }
-  &:deep(.swiper-pagination-bullet-active){
+  &:deep(.swiper-pagination-bullet-active) {
     --uno: bg-primary;
   }
 }
-.reached_end{
-  &:deep(.swiper-wrapper){
+.reached_end {
+  &:deep(.swiper-wrapper) {
     transform: translate3d(0px, calc(-136vh + 1rem), 0px) !important;
   }
 }

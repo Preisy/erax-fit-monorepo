@@ -37,12 +37,7 @@ const trainings: WTrainingProps[] = [
 <template>
   <SStructure h-full>
     <SSwiper h-full>
-      <WTraining
-        v-for="training in trainings"
-        :key="training.name"
-        v-bind="training"
-        py-1.5rem
-      />
+      <WTraining v-for="training in trainings" :key="training.name" v-bind="training" py-1.5rem />
       <WAddition py-1.5rem />
     </SSwiper>
   </SStructure>
