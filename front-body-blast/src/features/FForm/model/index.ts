@@ -1,1 +1,1 @@
-export * from './FieldSchema'
+export * from './FieldSchema';

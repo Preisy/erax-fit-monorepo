@@ -6,26 +6,26 @@ const routes: RouteRecordRaw[] = [
     component: () => import('processes/layouts/LMain.vue'),
     children: [
       {
-        path:'training',
-        component: ()=>import('pages/PTraining.vue')
+        path: 'training',
+        component: () => import('pages/PTraining.vue'),
       },
       {
-        path:'profile',
-        component: ()=>import('pages/PProfile.vue')
+        path: 'profile',
+        component: () => import('pages/PProfile.vue'),
       },
       {
-        path:'diary',
-        component: ()=>import('pages/PDiary.vue')
+        path: 'diary',
+        component: () => import('pages/PDiary.vue'),
       },
       {
-        path:'diet',
-        component: ()=>import('pages/PDiet.vue')
+        path: 'diet',
+        component: () => import('pages/PDiet.vue'),
       },
       {
-        path:'learning',
-        component: ()=>import('pages/PLearning.vue')
+        path: 'learning',
+        component: () => import('pages/PLearning.vue'),
       },
-    ]
+    ],
   },
 
   {
@@ -33,14 +33,14 @@ const routes: RouteRecordRaw[] = [
     component: () => import('processes/layouts/LUnauth.vue'),
     children: [
       {
-        path:'/register',
-        component: ()=>import('pages/PRegister.vue')
+        path: '/register',
+        component: () => import('pages/PRegister.vue'),
       },
       {
-        path:'/register',
-        component: ()=>import('pages/PRegister.vue')
-      }
-    ]
+        path: '/register',
+        component: () => import('pages/PRegister.vue'),
+      },
+    ],
   },
 
   // Always leave this as last one,

@@ -13,11 +13,7 @@ defineProps<WTrainingProps>();
 </script>
 
 <template>
-  <div
-    flex
-    flex-col
-    gap-1rem
-  >
+  <div flex flex-col gap-1rem>
     <div>
       <h1>{{ name }}</h1>
       <p>{{ commentary }}</p>

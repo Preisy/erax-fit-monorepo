@@ -6,13 +6,11 @@ export interface FooterNavLinkProps {
 }
 const props = defineProps<FooterNavLinkProps>();
 const route = useRoute();
-const isActive = computed(()=>route.path == props.href);
+const isActive = computed(() => route.path == props.href);
 </script>
 
 <template>
-  <div
-    flex-1
-  >
+  <div flex-1>
     <router-link :to="href">
       <div
         :href="href"
@@ -25,14 +23,9 @@ const isActive = computed(()=>route.path == props.href);
         py-1rem
         text-center
         transition-opacity-300
-        :class="{'opacity-50': !isActive}"
+        :class="{ 'opacity-50': !isActive }"
       >
-        <q-img
-          :src="imgSrc"
-          pointer-events-none
-          w-1.5rem
-          select-none
-        />
+        <q-img :src="imgSrc" pointer-events-none w-1.5rem select-none />
         <span>{{ title }}</span>
       </div>
     </router-link>

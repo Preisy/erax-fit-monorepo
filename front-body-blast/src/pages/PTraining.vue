@@ -37,15 +37,9 @@ const trainings: WTrainingProps[] = [
 </script>
 <template>
   <SStructure>
-    <SSplide :options="{ direction:'ttb', height:'35rem' }">
-      <SSplideSlide
-        v-for="training in trainings"
-        :key="training.name"
-      >
-        <WTraining
-          v-bind="training"
-          py-1.5rem
-        />
+    <SSplide :options="{ direction: 'ttb', height: '35rem' }">
+      <SSplideSlide v-for="training in trainings" :key="training.name">
+        <WTraining v-bind="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
         <WAddition py-1.5rem />

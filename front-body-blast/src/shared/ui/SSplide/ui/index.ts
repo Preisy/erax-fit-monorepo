@@ -1,1 +1,1 @@
-export { default as SSplide } from './SSplide.vue'
+export { default as SSplide } from './SSplide.vue';
