@@ -3,33 +3,30 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { z } from 'zod';
 import { SInput } from 'shared/ui/SInput';
-import { FieldsSchema } from '../model'
+import { FieldsSchema } from '../model';
 
 export interface FFormProps {
   fields: FieldsSchema;
   inputClasses?: string;
   action: (values: Record<string, unknown>) => void;
-};
+}
 
-const props = withDefaults(
-  defineProps<FFormProps>(),
-  { inputClasses: '' }
-);
+const props = withDefaults(defineProps<FFormProps>(), { inputClasses: '' });
 
 const validationSchema = toTypedSchema(
   z.object(
     props.fields.reduce(
       (all, currentField) => ({
         ...all,
-        [currentField.name]: currentField.rule
+        [currentField.name]: currentField.rule,
       }),
-      {}
-    )
-  )
+      {},
+    ),
+  ),
 );
 
 const { handleSubmit } = useForm({
-  validationSchema
+  validationSchema,
 });
 
 const onSubmit = handleSubmit((data) => {
@@ -39,10 +36,7 @@ const a = ref();
 </script>
 
 <template>
-  <form
-    class="f-form"
-    @submit="onSubmit"
-  >
+  <form class="f-form" @submit="onSubmit">
     <div>
       <div
         v-for="({ name, sInputOptions }, index) in fields"
@@ -53,7 +47,7 @@ const a = ref();
       >
         <SInput
           class="f-form_input"
-          :class="{name, inputClasses}"
+          :class="{ name, inputClasses }"
           :name="name"
           v-model="a"
           v-bind="sInputOptions"

@@ -7,134 +7,128 @@ import { SStructure } from 'shared/ui/SStructure';
 
 const slides: WRegisterSlideProps[] = [
   {
-    fields:[
+    fields: [
       {
         name: 'name',
         rule: z.string(),
-        sInputOptions: { label: 'Имя и фамилия' }
+        sInputOptions: { label: 'Имя и фамилия' },
       },
       {
         name: 'email',
         rule: z.string(),
-        sInputOptions: { label: 'Почта' }
+        sInputOptions: { label: 'Почта' },
       },
       {
         name: 'password',
         rule: z.string(),
-        sInputOptions:{ label: 'Пароль', type:'password' }
+        sInputOptions: { label: 'Пароль', type: 'password' },
       },
       {
         name: 'passwordRepeat',
         rule: z.string(),
-        sInputOptions:{ label: 'Повторите пароль', type:'password' }
+        sInputOptions: { label: 'Повторите пароль', type: 'password' },
       },
     ],
-    action: (values: Record<string, unknown>)=>console.log(values)
+    action: (values: Record<string, unknown>) => console.log(values),
   },
   {
-    fields:[
+    fields: [
       {
         name: 'age',
         rule: z.string(),
-        sInputOptions: { label: 'Возраст', mask:'###' }
+        sInputOptions: { label: 'Возраст', mask: '###' },
       },
       {
         name: 'weight',
         rule: z.string(),
-        sInputOptions: { label: 'Вес и рост', mask:'###/###' }
+        sInputOptions: { label: 'Вес и рост', mask: '###/###' },
       },
       {
         name: 'teenager_weight',
         rule: z.string(),
-        sInputOptions: { label: 'Вес в подростковом возрасте', mask:'###' }
+        sInputOptions: { label: 'Вес в подростковом возрасте', mask: '###' },
       },
     ],
-    action: (values: Record<string, unknown>)=>console.log(values)
+    action: (values: Record<string, unknown>) => console.log(values),
   },
   {
-    fields:[
+    fields: [
       {
         name: 'nutritions_forbidden',
         rule: z.string(),
-        sInputOptions: { label: 'Запреты в питании' }
+        sInputOptions: { label: 'Запреты в питании' },
       },
       {
         name: 'alergics',
         rule: z.string(),
-        sInputOptions: { label: 'Алергия' }
+        sInputOptions: { label: 'Алергия' },
       },
       {
         name: 'intolerances',
         rule: z.string(),
-        sInputOptions: { label: 'Непереносимость продуктов' }
+        sInputOptions: { label: 'Непереносимость продуктов' },
       },
     ],
-    action: (values: Record<string, unknown>)=>console.log(values)
+    action: (values: Record<string, unknown>) => console.log(values),
   },
   {
-    fields:[
+    fields: [
       {
         name: 'gastrointestinal_diseases',
         rule: z.string(),
-        sInputOptions: { label: 'Заболевания ЖКТ' }
+        sInputOptions: { label: 'Заболевания ЖКТ' },
       },
       {
         name: 'insulin_resistance',
         rule: z.string(),
-        sInputOptions: { label: 'Инсулинорезистентность' }
+        sInputOptions: { label: 'Инсулинорезистентность' },
       },
       {
         name: 'kidney_disease',
         rule: z.string(),
-        sInputOptions: { label: 'Заболевание почек' }
+        sInputOptions: { label: 'Заболевание почек' },
       },
       {
         name: 'CVD_disease',
         rule: z.string(),
-        sInputOptions: { label: 'Заболевание ССС' }
+        sInputOptions: { label: 'Заболевание ССС' },
       },
       {
         name: 'ODA_disease',
         rule: z.string(),
-        sInputOptions: { label: 'Заболевание ОДП' }
+        sInputOptions: { label: 'Заболевание ОДП' },
       },
     ],
-    action: (values: Record<string, unknown>)=>console.log(values)
+    action: (values: Record<string, unknown>) => console.log(values),
   },
   {
-    fields:[
+    fields: [
       {
         name: 'load_restrictions',
         rule: z.string(),
-        sInputOptions: { label: 'Запреты в нагрузке' }
+        sInputOptions: { label: 'Запреты в нагрузке' },
       },
       {
         name: 'sports_experience',
         rule: z.string(),
-        sInputOptions: { label: 'Спортивный опыт' }
+        sInputOptions: { label: 'Спортивный опыт' },
       },
       {
         name: 'targets',
         rule: z.string(),
-        sInputOptions: { label: 'Цели' }
+        sInputOptions: { label: 'Цели' },
       },
     ],
-    action: (values: Record<string, unknown>)=>console.log(values)
+    action: (values: Record<string, unknown>) => console.log(values),
   },
-]
-const h = (fields: WRegisterSlideProps['fields'])=>fields.reduce((prev, current)=>prev+current.name, '');
+];
+const h = (fields: WRegisterSlideProps['fields']) => fields.reduce((prev, current) => prev + current.name, '');
 </script>
 <template>
   <SStructure>
-    <SSplide :options="{direction:'ttb', height: '25rem', arrows: false}">
-      <SSplideSlide
-        v-for="slide in slides"
-        :key="h(slide.fields)"
-      >
-        <WRegisterSlide
-          :fields="slide.fields"
-          :action="slide.action"
-        />
+    <SSplide :options="{ direction: 'ttb', height: '25rem', arrows: false }">
+      <SSplideSlide v-for="slide in slides" :key="h(slide.fields)">
+        <WRegisterSlide :fields="slide.fields" :action="slide.action" />
       </SSplideSlide>
     </SSplide>
   </SStructure>
