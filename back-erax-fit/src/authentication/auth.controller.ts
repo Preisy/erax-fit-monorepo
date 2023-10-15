@@ -11,13 +11,14 @@
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiTags } from '@nestjs/swagger';
-import { AuthRequest } from './dto/auth.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { GetMeResponse } from './dto/getMe.dto';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -27,33 +28,48 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('signup')
-  @HttpCode(HttpStatus.CREATED)
+  @ApiResponse({
+    status: 201,
+    type: AuthResponse
+  })
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
   }
 
   @Post('login')
-  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: 200,
+    type: AuthResponse
+  })
   async login(@Body() req: AuthRequest){
     return this.authService.login(req);
   }
 
   @UseGuards(AuthGuard('jwt'))
   @Post('logout')
-  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: 200,
+    type: AuthResponse 
+  })
   async logout(@Req() req: RequestWithUser){
     return this.authService.logout(req.user.id);
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
   @Post('refresh')
-  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: 200,
+    type: AuthResponse
+  })
   async refreshTokens(@Req() req: RequestWithUser){
-    return this.authService.refreshTokens(req.user.id, req.user.getRtHash());
+    return this.authService.refreshTokens(req.user.id, req.user.rtHash);
   }
 
   @Get('me')
-  @HttpCode(HttpStatus.OK)
+  @ApiResponse({
+    status: 200,
+    type: GetMeResponse
+  })  
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
     return this.authService.getMe(req.user.id);

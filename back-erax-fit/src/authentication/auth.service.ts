@@ -1,11 +1,10 @@
 ﻿﻿import { Injectable } from '@nestjs/common';
-import { AuthRequest } from './dto/auth.dto';
+import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MainException } from '../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';
-import { Tokens } from './types';
 
 @Injectable()
 export class AuthService {
@@ -14,26 +13,26 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async auth(request: AuthRequest): Promise<Tokens> {
+  async auth(request: AuthRequest): Promise<AuthResponse> {
     const { user: newUser } = await this.userService.createUser(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
     }
-    const tokens = await this.getTokens(newUser.id, newUser.getRtHash());
+    const tokens = await this.getTokens(newUser.id, newUser.rtHash);
     await this.updateRefreshHash(newUser.id, tokens.refreshToken);
 
     return tokens;
   }
 
-  async login(request: AuthRequest): Promise<Tokens> {
+  async login(request: AuthRequest): Promise<AuthResponse> {
     try {
       const { user } = await this.userService.getUserByEmail(request.email);
       const passwordMatches = await bcrypt.compare(request.password, user.password);
 
       if(!passwordMatches) throw MainException.forbidden('Access denied: invalid password');
 
-      const tokens = await this.getTokens(user.id, user.getRtHash());
+      const tokens = await this.getTokens(user.id, user.rtHash);
       await this.updateRefreshHash(user.id, tokens.refreshToken);
 
       return tokens;
@@ -46,11 +45,12 @@ export class AuthService {
     const { user } = await this.userService.getUserById(userId);
 
     if(!user) throw MainException.entityNotFound(`User with such id ${userId} not found`);
+    if (user.rtHash !== null) user.rtHash = null;
 
-    if (user.getRtHash !== null) user.setRtHash(null);
+    this.userService.updateUser(user);
   }
 
-  async getTokens(userId: number, email: string): Promise<Tokens>{
+  async getTokens(userId: number, email: string): Promise<AuthResponse>{
     const [access, refresh] = await Promise.all([
       this.jwtService.signAsync(
         {
@@ -85,10 +85,10 @@ export class AuthService {
     const { user } = await this.userService.getUserById(userId);
     if(!user) throw MainException.forbidden('Acces denied');
 
-    const refreshMatches = bcrypt.compare(refresh, user.getRtHash());
+    const refreshMatches = bcrypt.compare(refresh, user.rtHash);
     if (!refreshMatches) throw MainException.forbidden('Failed to refresh access due to invalid refresh token');
 
-    const tokens = await this.getTokens(user.id, user.getRtHash());
+    const tokens = await this.getTokens(user.id, user.rtHash);
     await this.updateRefreshHash(user.id, tokens.refreshToken);
 
     return tokens;
@@ -104,7 +104,7 @@ export class AuthService {
     if(!user) throw MainException.forbidden('Failed to update rt due to invalid user')
 
     const hash = await this.hashData(refresh);
-    user.setRtHash(hash);
+    user.rtHash = hash;
   }
 
   async getMe(userId: number): Promise<UserEntity> {
