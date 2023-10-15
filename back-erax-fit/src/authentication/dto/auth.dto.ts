@@ -30,4 +30,13 @@ export class AuthResponse {
   }
 }
 
+export class LogoutResponse{
+  @ApiProperty()
+  public logOutSuccess: boolean;
+
+  constructor(logOutSuccess: boolean){
+    this.logOutSuccess = logOutSuccess;
+  }
+}
+
 

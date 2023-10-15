@@ -1,4 +1,4 @@
-﻿﻿import {
+﻿import {
   Body,
   Controller,
   Get,
@@ -6,8 +6,6 @@
   Req,
   UseFilters,
   UseGuards,
-  HttpCode,
-  HttpStatus,
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -18,6 +16,7 @@ import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
 
 @Controller('auth')
@@ -65,7 +64,7 @@ export class AuthController {
     type: AuthResponse
   })
   async refreshTokens(@Req() req: RequestWithUser){
-    return this.authService.refreshTokens(req.user.id, req.user.rtHash);
+    return this.authService.refreshTokens(req.user.id, req.user.token.refreshHash);
   }
 
   @Get('me')

@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
+import { TokenEntity } from 'src/authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -43,12 +44,8 @@ export class UserEntity {
   public password!: string;
 
   @ApiProperty()
-  @Column({ name: 'hash', type: 'varchar', length: 256, nullable: true})
-  public hash: string;
-
-  @ApiProperty()
-  @Column({ name: 'rt_hash', type: 'varchar', length: 256, nullable: true})
-  public rtHash: string;
+  @OneToOne(() => TokenEntity, (token) => token.user)
+  token: TokenEntity;
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
