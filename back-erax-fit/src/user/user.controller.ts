@@ -56,7 +56,7 @@ export class UserController {
     description: 'Validation error (provided data is not valid).',
     type: MainException,
   })
-  @Throttle(5, 10)
+  @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
@@ -76,7 +76,7 @@ export class UserController {
     description: 'Validation error (provided data is not valid).',
     type: MainException,
   })
-  @Throttle(5, 10)
+  @Throttle(5, 1)
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
     return await this.usersService.createUser(createUserDto);

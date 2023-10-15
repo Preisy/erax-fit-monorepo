@@ -27,6 +27,7 @@ import { GetMeResponse } from './dto/getMe.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @Throttle(5, 1)
   @Post('signup')
   @ApiResponse({
     status: 201,
@@ -35,7 +36,7 @@ export class AuthController {
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
   }
-
+  @Throttle(5, 1)
   @Post('login')
   @ApiResponse({
     status: 200,
@@ -46,6 +47,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('jwt'))
+  @Throttle(5, 1)
   @Post('logout')
   @ApiResponse({
     status: 200,
@@ -56,6 +58,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
+  @Throttle(5, 1)
   @Post('refresh')
   @ApiResponse({
     status: 200,
