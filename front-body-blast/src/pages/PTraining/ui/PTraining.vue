@@ -2,9 +2,9 @@
 <script setup lang="ts">
 import { WAddition } from 'widgets/trainings/WAddition';
 import { WTraining } from 'widgets/trainings/WTraining';
+import { SSplide } from 'shared/ui/SSplide';
+import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
-import { SSwiper } from 'shared/ui/SSwiper';
-import { SSwiperSlide } from 'shared/ui/SSwiperSlide';
 import { useTrainingStore } from '..';
 
 const trainingStore = useTrainingStore();
@@ -16,13 +16,13 @@ onBeforeMount(async () => {
 </script>
 <template>
   <SStructure>
-    <SSwiper :options="{ direction: 'ttb', height: '35rem' }">
-      <SSwiperSlide v-for="training in trainings.data" :key="training.name">
+    <SSplide :options="{ direction: 'ttb', height: '35rem' }">
+      <SSplideSlide v-for="training in trainings.data" :key="training.name">
         <WTraining v-bind="training" py-1.5rem />
-      </SSwiperSlide>
-      <SSwiperSlide>
+      </SSplideSlide>
+      <SSplideSlide>
         <WAddition py-1.5rem />
-      </SSwiperSlide>
-    </SSwiper>
+      </SSplideSlide>
+    </SSplide>
   </SStructure>
 </template>

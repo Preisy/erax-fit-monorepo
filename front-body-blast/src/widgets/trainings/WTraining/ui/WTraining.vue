@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { SSwiperSlide } from 'shared/ui/SSwiperSlide';
 import { Info } from '../model';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
@@ -14,7 +13,7 @@ defineProps<WTrainingProps>();
 </script>
 
 <template>
-  <SSwiperSlide>
+  <div>
     <div flex flex-col gap-1rem>
       <div>
         <h1>{{ name }}</h1>
@@ -23,5 +22,5 @@ defineProps<WTrainingProps>();
       <TrainingAnim :url="animUrl" />
       <InfoBlock :info="info" />
     </div>
-  </SSwiperSlide>
+  </div>
 </template>
