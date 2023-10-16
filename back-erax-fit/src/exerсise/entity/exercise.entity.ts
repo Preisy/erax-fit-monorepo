@@ -11,7 +11,7 @@ import {
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 
-@Entity('workouts')
+@Entity('exercises')
 export class WorkoutEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn()
@@ -20,7 +20,6 @@ export class WorkoutEntity {
   @ApiProperty()
   @Column({ name: 'name', nullable: false })
   public name!: string;
-
   @ApiProperty()
   @Column({ name: 'coach_comment', nullable: true })
   public coachComment!: string;
