@@ -29,14 +29,14 @@ import { GetWorkoutResponse } from './dto/get-workout.dto';
 import { UpdateWorkoutRequest, UpdateWorkoutResponse } from './dto/update-workout.dto';
 import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
   
-  @Controller('workouts')
+  @Controller()
   @ApiTags('Тренировки')
   @UseFilters(MainExceptionFilter)
   @UsePipes(ValidationPipe)
   export class UserController {
     constructor(private readonly workoutService: WorkoutService) {}
   
-    @Post()
+    @Post('trainer/workouts')
     @AppResponses({status: 200, type: AppSingleResponse.type(CreateWorkoutResponse)})
     @Throttle(5, 1)
     @BaseAuthGuard(RoleGuard(UserRole.Admin))
@@ -44,21 +44,21 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
       return await this.workoutService.createWorkout(request);
     }
   
-    @Get()
+    @Get('trainer/workouts')
     @AppResponses({status: 200, type: AppSingleResponse.type(GetWorkoutsResponse)})
     @BaseAuthGuard(RoleGuard(UserRole.Admin))
     async getWorkouts(@Query() query: GetWorkoutsRequest) {
       return await this.workoutService.getWorkouts(query);
     }
   
-    @Get(':id')
+    @Get('trainer/workouts/:id')
     @AppResponses({status: 200, type: AppSingleResponse.type(GetWorkoutResponse)})
     @BaseAuthGuard(RoleGuard(UserRole.Admin))
     async getWorkoutById(@Param('id') id: number) {
       return await this.workoutService.getWorkoutById(id);
     }
 
-    @Get(':id')
+    @Get('user/workouts/:id')
     @AppResponses({status: 200, type: AppSingleResponse.type(GetWorkoutResponse)})
     @BaseAuthGuard()
     async getWorkoutsByUserId(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: GetWorkoutsRequest) {
@@ -72,7 +72,7 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
       return await this.workoutService.getWorkoutsByUserId(id, request);
     }
   
-    @Patch(':id')
+    @Patch('trainer/workouts/:id')
     @AppResponses({status: 200, type: AppSingleResponse.type(UpdateWorkoutResponse)})
     @BaseAuthGuard(RoleGuard(UserRole.Admin))
     async updateWorkout(
@@ -81,7 +81,7 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
       return await this.workoutService.updateWorkout(query);
     }
   
-    @Delete(':id')
+    @Delete('trainer/workouts/:id')
     @AppResponses({status: 200, type: AppSingleResponse.type(DeleteWorkoutByIdResponse)})
       @BaseAuthGuard()
     async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {

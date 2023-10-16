@@ -38,6 +38,14 @@ export class ExerciseEntity extends AppBaseEntity {
   @Column({ name: 'pace', nullable: false })
   public pace!: string;
 
+  @ApiProperty()
+  @Column({ name: 'photo_link', nullable: false })
+  public photoLink!: string;
+
+  @ApiProperty()
+  @Column({ name: 'video_link', nullable: false })
+  public videoLink!: string;
+
   @ManyToOne(() => WorkoutEntity, (workout) => workout.exercises)
   workout: WorkoutEntity;
   
