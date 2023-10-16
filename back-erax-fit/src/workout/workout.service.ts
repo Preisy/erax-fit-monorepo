@@ -57,7 +57,7 @@ export class WorkoutService {
         return new GetWorkoutsResponse(workouts, count);
       }
 
-      async getWorkoutsById(id: WorkoutEntity['id']): Promise<GetWorkoutResponse> {
+      async getWorkoutById(id: WorkoutEntity['id']): Promise<GetWorkoutResponse> {
         const workout = await this.workoutRepository.findOne({
           where: {
             id: id,
@@ -90,7 +90,7 @@ export class WorkoutService {
   }
 
   async updateWorkout(request: UpdateWorkoutRequest): Promise<UpdateWorkoutResponse> {
-    const { workout } = await this.getWorkoutsById(request.id);
+    const { workout } = await this.getWorkoutById(request.id);
 
     if (request.name) workout.name = request.name;
     if (request.date) workout.date = request.date;

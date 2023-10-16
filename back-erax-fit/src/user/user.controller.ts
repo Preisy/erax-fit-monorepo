@@ -32,7 +32,6 @@ import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
 import { AppResponses } from 'src/decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
-import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -67,7 +66,7 @@ export class UserController {
   @Get(':id')
   @AppResponses({status: 200, type: AppSingleResponse.type(GetUserResponse)})
   @BaseAuthGuard()
-  async getUserById(@Param('id') id: UserEntity['id']) {
+  async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 

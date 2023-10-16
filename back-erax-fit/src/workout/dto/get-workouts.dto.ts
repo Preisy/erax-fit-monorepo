@@ -18,7 +18,7 @@ export class GetWorkoutsRequest {
   @IsBoolean()
   public expanded?: boolean;
 
-  constructor(expanded = false, page?: number, limit?: number) {
+  constructor(page?: number, limit?: number, expanded = false) {
     this.page = page;
     this.limit = limit;
     this.expanded = expanded;
