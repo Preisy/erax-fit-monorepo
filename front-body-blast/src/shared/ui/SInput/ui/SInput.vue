@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { QInput, QInputProps } from 'quasar';
 import { useField } from 'vee-validate';
-export interface SInputProps extends QInputProps {
+export interface SInputProps extends Omit<QInputProps, 'modelValue' | 'name' | 'placeholder'> {
   placeholder?: string;
   name: string;
 }

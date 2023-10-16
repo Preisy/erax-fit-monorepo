@@ -4,9 +4,16 @@ export interface SSwiperProps {
   options: InstanceType<typeof Splide>['$props']['options'];
 }
 defineProps<SSwiperProps>();
+defineEmits(Splide.emits!);
+const splide = ref();
 </script>
 <template>
-  <Splide :options="{ ...options, arrows: false }" class="splide">
+  <Splide
+    ref="splide"
+    @splide:moved="(e, newValue, prevValue, destValue) => $emit('splide:moved', { e, newValue, prevValue, destValue })"
+    :options="{ ...options, arrows: false }"
+    class="splide"
+  >
     <slot />
   </Splide>
 </template>
