@@ -1,58 +1,37 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
-import { Exclude } from 'class-transformer';
+import { AppBaseEntity } from 'src/models/app-base-entity.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
+import { ExerciseEntity } from 'src/exerсise/entity/exercise.entity';
 
 @Entity('workouts')
-export class WorkoutEntity {
-  @ApiProperty()
-  @PrimaryGeneratedColumn()
-  public id!: number;
+export class WorkoutEntity extends AppBaseEntity {
 
   @ApiProperty()
   @Column({ name: 'name', nullable: false })
   public name!: string;
 
   @ApiProperty()
-  @Column({ name: 'coach_comment', nullable: true })
-  public coachComment!: string;
+  @Column({ name: 'comment', nullable: true })
+  public comment!: string;
 
   @ApiProperty()
-  @Column({ name: 'weight', nullable: true })
-  public weight!: number;
+  @Column({ name: 'date', nullable: false })
+  public date!: Date;
 
   @ApiProperty()
-  @Column({ name: 'sets', nullable: false })
-  public sets!: number;
+  @Column({ name: 'loop', nullable: false })
+  public loop!: number;
 
-  @ApiProperty()
-  @Column({ name: 'repetitions', nullable: false })
-  public repetitions!: number;
+  @ManyToOne(() => UserEntity, (user) => user.workouts)
+  user: UserEntity;
 
-  @ApiProperty()
-  @Column({ name: 'rest_time', nullable: false })
-  public restTime!: string;
-
-  @ApiProperty()
-  @Column({ name: 'pace', nullable: false })
-  public pace!: string;
-
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  public updatedAt!: Date;
-
-  @ApiProperty()
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  public deletedAt!: Date;
+  @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
+    exercises: ExerciseEntity[];
+  
 }

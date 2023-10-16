@@ -1,21 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
+import { AppBaseEntity } from 'src/models/app-base-entity.entity';
+import { WorkoutEntity } from 'src/workout/entity/workout.entity';
 
 @Entity('users')
-export class UserEntity {
-  @ApiProperty()
-  @PrimaryGeneratedColumn()
-  public id!: number;
+export class UserEntity extends AppBaseEntity{
 
   @ApiProperty()
   @Column({ name: 'first_name', type: 'varchar', nullable: true })
@@ -42,14 +37,7 @@ export class UserEntity {
   @Column({ name: 'password', type: 'varchar', length: 128 })
   public password!: string;
 
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  public updatedAt!: Date;
-
-  @ApiProperty()
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  public deletedAt!: Date;
+  @OneToMany(() => WorkoutEntity, (workout) => workout.user)
+    workouts: WorkoutEntity[];
+    
 }

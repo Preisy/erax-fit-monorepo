@@ -1,31 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
-import { Exclude } from 'class-transformer';
+import { AppBaseEntity } from 'src/models/app-base-entity.entity';
+import { WorkoutEntity } from 'src/workout/entity/workout.entity';
 
 @Entity('exercises')
-export class WorkoutEntity {
-  @ApiProperty()
-  @PrimaryGeneratedColumn()
-  public id!: number;
+export class ExerciseEntity extends AppBaseEntity {
 
   @ApiProperty()
   @Column({ name: 'name', nullable: false })
   public name!: string;
-  @ApiProperty()
-  @Column({ name: 'coach_comment', nullable: true })
-  public coachComment!: string;
 
   @ApiProperty()
-  @Column({ name: 'weight', nullable: true })
+  @Column({ name: 'trainer_comment', nullable: true })
+  public trainerComment!: string;
+
+  @ApiProperty()
+  @Column({ name: 'weight', nullable: false })
   public weight!: number;
 
   @ApiProperty()
@@ -38,20 +32,13 @@ export class WorkoutEntity {
 
   @ApiProperty()
   @Column({ name: 'rest_time', nullable: false })
-  public restTime!: string;
+  public restTime!: number;
 
   @ApiProperty()
   @Column({ name: 'pace', nullable: false })
   public pace!: string;
 
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  public updatedAt!: Date;
-
-  @ApiProperty()
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  public deletedAt!: Date;
+  @ManyToOne(() => WorkoutEntity, (workout) => workout.exercises)
+  workout: WorkoutEntity;
+  
 }
