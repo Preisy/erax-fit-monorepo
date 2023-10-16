@@ -10,7 +10,7 @@ module.exports = {
   synchronize: false,
   logging: true,
   entities: ['src/**/*.entity.ts'],
-  migrations: ['migrations/**/*.ts'],
+  migrations: ['migrations/*.ts'],
   cli: {
     migrationsDir: path.join(__dirname, 'migrations'),
   },
