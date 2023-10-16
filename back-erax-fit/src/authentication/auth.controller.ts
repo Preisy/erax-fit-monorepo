@@ -30,7 +30,7 @@ export class AuthController {
   @Post('signup')
   @ApiResponse({
     status: 201,
-    type: AuthResponse
+    type: AuthResponse,
   })
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
@@ -39,9 +39,9 @@ export class AuthController {
   @Post('login')
   @ApiResponse({
     status: 200,
-    type: AuthResponse
+    type: AuthResponse,
   })
-  async login(@Body() req: AuthRequest){
+  async login(@Body() req: AuthRequest) {
     return this.authService.login(req);
   }
 
@@ -50,9 +50,9 @@ export class AuthController {
   @Post('logout')
   @ApiResponse({
     status: 200,
-    type: AuthResponse 
+    type: AuthResponse,
   })
-  async logout(@Req() req: RequestWithUser){
+  async logout(@Req() req: RequestWithUser) {
     return this.authService.logout(req.user.id);
   }
 
@@ -61,17 +61,20 @@ export class AuthController {
   @Post('refresh')
   @ApiResponse({
     status: 200,
-    type: AuthResponse
+    type: AuthResponse,
   })
-  async refreshTokens(@Req() req: RequestWithUser){
-    return this.authService.refreshTokens(req.user.id, req.user.token.refreshHash);
+  async refreshTokens(@Req() req: RequestWithUser) {
+    return this.authService.refreshTokens(
+      req.user.id,
+      req.user.token.refreshHash,
+    );
   }
 
   @Get('me')
   @ApiResponse({
     status: 200,
-    type: GetMeResponse
-  })  
+    type: GetMeResponse,
+  })
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
     return this.authService.getMe(req.user.id);

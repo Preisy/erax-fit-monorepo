@@ -40,7 +40,6 @@ import { JWTAuthGuard } from 'src/authentication/guards/jwtAuth.guard';
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
-
   @Post()
   @ApiResponse({
     status: 200,
