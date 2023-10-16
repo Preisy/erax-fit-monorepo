@@ -68,21 +68,20 @@ export class UserService {
     });
 
     if (!user)
-      throw MainException.entityNotFound(`User with email ${email} not found`);
+      throw MainException.entityNotFound(`User with email: ${email} not found`);
 
     return new GetUserResponse(user);
   }
 
-  async getUserById(id: number, role?: UserRole): Promise<GetUserResponse> {
+  async getUserById(id: UserEntity['id']): Promise<GetUserResponse> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
-        role: role,
       },
     });
 
     if (!user)
-      throw MainException.entityNotFound(`User with id ${id} not found`);
+      throw MainException.entityNotFound(`User with id: ${id} not found`);
 
     user.password = undefined;
 
@@ -124,7 +123,7 @@ export class UserService {
     return new UpdateUserResponse(savedUser);
   }
 
-  async deleteUserById(id: number): Promise<DeleteUserByIdResponse> {
+  async deleteUserById(id: UserEntity['id']): Promise<DeleteUserByIdResponse> {
     const result = await this.userRepository.softDelete(id);
     return new DeleteUserByIdResponse(result.affected > 0);
   }

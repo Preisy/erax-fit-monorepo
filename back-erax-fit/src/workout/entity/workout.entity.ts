@@ -25,7 +25,7 @@ export class WorkoutEntity extends AppBaseEntity {
   public date!: Date;
 
   @ApiProperty()
-  @Column({ name: 'loop', nullable: false })
+  @Column({ name: 'loop', nullable: true })
   public loop!: number;
 
   @ManyToOne(() => UserEntity, (user) => user.workouts)

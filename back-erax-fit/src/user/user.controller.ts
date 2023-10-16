@@ -19,7 +19,7 @@ import {
   CreateUserRequest,
   CreateUserResponse,
 } from './dto/create-user.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { MainException } from '../exceptions/main.exception';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
@@ -32,6 +32,7 @@ import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
 import { AppResponses } from 'src/decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { UserEntity } from './entities/user.entity';
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -64,9 +65,9 @@ export class UserController {
   }
 
   @Get(':id')
-  @AppResponses({status: 200, type: AppSingleResponse.type(GetUsersResponse)})
+  @AppResponses({status: 200, type: AppSingleResponse.type(GetUserResponse)})
   @BaseAuthGuard()
-  async getUserById(@Param('id') id: number) {
+  async getUserById(@Param('id') id: UserEntity['id']) {
     return await this.usersService.getUserById(id);
   }
 
