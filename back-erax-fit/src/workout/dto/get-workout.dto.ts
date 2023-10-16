@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { WorkoutEntity } from '../entity/workout.entity';
+import { WorkoutEntity } from '../entities/workout.entity';
 
 export class GetWorkoutResponse {
   @ApiProperty({ type: WorkoutEntity })

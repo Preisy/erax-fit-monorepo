@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNumberString, IsOptional } from 'class-validator';
-import { WorkoutEntity } from '../entity/workout.entity';
+import { WorkoutEntity } from '../entities/workout.entity';
 
 export class GetWorkoutsRequest {
   @ApiPropertyOptional()

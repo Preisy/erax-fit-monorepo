@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { AppBaseEntity } from 'src/models/app-base-entity.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import { ExerciseEntity } from 'src/exerсise/entity/exercise.entity';
+import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 
 @Entity('workouts')
 export class WorkoutEntity extends AppBaseEntity {

@@ -33,7 +33,7 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
   @ApiTags('Тренировки')
   @UseFilters(MainExceptionFilter)
   @UsePipes(ValidationPipe)
-  export class UserController {
+  export class WorkoutController {
     constructor(private readonly workoutService: WorkoutService) {}
   
     @Post('trainer/workouts')

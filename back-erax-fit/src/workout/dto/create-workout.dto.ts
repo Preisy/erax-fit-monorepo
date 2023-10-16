@@ -6,9 +6,9 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { WorkoutEntity } from '../entity/workout.entity';
+import { WorkoutEntity } from '../entities/workout.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
-import { ExerciseEntity } from 'src/exerсise/entity/exercise.entity';
+import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 
 export class CreateWorkoutRequest {
   @IsDefined()

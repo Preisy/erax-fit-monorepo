@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WorkoutEntity } from './entity/workout.entity';
+import { WorkoutEntity } from './entities/workout.entity';
 import { Repository } from 'typeorm';
 import { GetWorkoutsRequest, GetWorkoutsResponse } from './dto/get-workouts.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
@@ -17,7 +17,6 @@ export class WorkoutService {
         private readonly workoutRepository: Repository<WorkoutEntity>,
         @InjectRepository(UserEntity)
         private readonly userRepository: Repository<UserEntity>,
-
     ) {
       console.log();
     }

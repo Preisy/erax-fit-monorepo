@@ -7,7 +7,7 @@ import {
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { AppBaseEntity } from 'src/models/app-base-entity.entity';
-import { WorkoutEntity } from 'src/workout/entity/workout.entity';
+import { WorkoutEntity } from 'src/workout/entities/workout.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity{

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FileEntity } from './entity/file.entity';
+import { FileEntity } from './entities/file.entity';
 import { Repository } from 'typeorm';
 import { CreateFileResponse } from './dto/create-file.dto';
 import { MainException } from 'src/exceptions/main.exception';

@@ -5,8 +5,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-import { ExerciseEntity } from 'src/exerсise/entity/exercise.entity';
-import { WorkoutEntity } from '../entity/workout.entity';
+import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
+import { WorkoutEntity } from '../entities/workout.entity';
 
 export class UpdateWorkoutRequest {
   public id: number;
