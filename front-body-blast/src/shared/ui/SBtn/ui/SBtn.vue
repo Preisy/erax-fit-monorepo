@@ -1,6 +1,6 @@
 <script setup lang="ts">
 export interface SBtnProps {
-  action?(): void;
+  action?(event?: Event): void;
 }
 defineProps<SBtnProps>();
 </script>

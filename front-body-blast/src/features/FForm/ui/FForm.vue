@@ -32,7 +32,10 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit((data) => {
   props.action(data);
 });
-const a = ref();
+
+defineExpose({
+  onSubmit,
+});
 </script>
 
 <template>
@@ -49,7 +52,6 @@ const a = ref();
           class="f-form_input"
           :class="{ name, inputClasses }"
           :name="name"
-          v-model="a"
           v-bind="sInputOptions"
           resize="none!"
         />

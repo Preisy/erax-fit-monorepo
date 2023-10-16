@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import { z } from 'zod';
 import { WRegisterSlide, WRegisterSlideProps } from 'widgets/register/WRegisterSlide';
-import { SSplide } from 'shared/ui/SSplide';
+import { SBtn } from 'shared/ui/SBtn';
+import { SSplide, SSplideMovedEventData } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
+import { useRegisterPageState, register } from '../api';
 
-const slides: WRegisterSlideProps[] = [
+const slides: Omit<WRegisterSlideProps, 'index'>[] = [
   {
     fields: [
       {
@@ -15,7 +17,7 @@ const slides: WRegisterSlideProps[] = [
       },
       {
         name: 'email',
-        rule: z.string(),
+        rule: z.string().email(),
         sInputOptions: { label: 'Почта' },
       },
       {
@@ -29,7 +31,7 @@ const slides: WRegisterSlideProps[] = [
         sInputOptions: { label: 'Повторите пароль', type: 'password' },
       },
     ],
-    action: (values: Record<string, unknown>) => console.log(values),
+    action: register.register,
   },
   {
     fields: [
@@ -49,7 +51,7 @@ const slides: WRegisterSlideProps[] = [
         sInputOptions: { label: 'Вес в подростковом возрасте', mask: '###' },
       },
     ],
-    action: (values: Record<string, unknown>) => console.log(values),
+    action: register.stats,
   },
   {
     fields: [
@@ -69,7 +71,7 @@ const slides: WRegisterSlideProps[] = [
         sInputOptions: { label: 'Непереносимость продуктов' },
       },
     ],
-    action: (values: Record<string, unknown>) => console.log(values),
+    action: register.forbiddens,
   },
   {
     fields: [
@@ -99,7 +101,7 @@ const slides: WRegisterSlideProps[] = [
         sInputOptions: { label: 'Заболевание ОДП' },
       },
     ],
-    action: (values: Record<string, unknown>) => console.log(values),
+    action: register.diseases,
   },
   {
     fields: [
@@ -119,17 +121,29 @@ const slides: WRegisterSlideProps[] = [
         sInputOptions: { label: 'Цели' },
       },
     ],
-    action: (values: Record<string, unknown>) => console.log(values),
+    action: register.trainingForbiddens,
   },
 ];
+
 const h = (fields: WRegisterSlideProps['fields']) => fields.reduce((prev, current) => prev + current.name, '');
+
+const registerState = useRegisterPageState();
+const splideMove = ({ newValue }: SSplideMovedEventData) => {
+  registerState.currentSlide = newValue;
+};
+const onClick = () => {
+  registerState.currentForm?.submit();
+};
 </script>
 <template>
-  <SStructure>
-    <SSplide :options="{ direction: 'ttb', height: '25rem', arrows: false }">
-      <SSplideSlide v-for="slide in slides" :key="h(slide.fields)">
-        <WRegisterSlide :fields="slide.fields" :action="slide.action" />
+  <SStructure relative>
+    <SSplide @splide:moved="splideMove" :options="{ direction: 'ttb', height: '25rem', arrows: false }">
+      <SSplideSlide v-for="(slide, index) in slides" :key="h(slide.fields)">
+        <WRegisterSlide :fields="slide.fields" :action="slide.action" :index="index" />
       </SSplideSlide>
     </SSplide>
+    <SBtn :action="onClick" type="submit" fixed bottom-1rem right-15px>
+      <q-icon name="done" />
+    </SBtn>
   </SStructure>
 </template>
