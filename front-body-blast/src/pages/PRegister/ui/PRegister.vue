@@ -1,3 +1,4 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import { z } from 'zod';
 import { WRegisterSlide, WRegisterSlideProps } from 'widgets/register/WRegisterSlide';
@@ -142,8 +143,8 @@ const onClick = () => {
         <WRegisterSlide :fields="slide.fields" :action="slide.action" :index="index" />
       </SSplideSlide>
     </SSplide>
-    <SBtn :action="onClick" type="submit" fixed bottom-1rem right-15px>
+    <!-- <SBtn :action="onClick" type="submit" fixed bottom-1rem right-15px>
       <q-icon name="done" />
-    </SBtn>
+    </SBtn> -->
   </SStructure>
 </template>

@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
+import { PLogin } from 'pages/PLogin';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
 
@@ -37,10 +38,12 @@ const routes: RouteRecordRaw[] = [
       {
         path: '/register',
         component: PRegister,
+        meta: { transition: 'slide-left' },
       },
       {
         path: '/login',
-        component: PRegister,
+        component: PLogin,
+        meta: { transition: 'slide-right' },
       },
     ],
   },
