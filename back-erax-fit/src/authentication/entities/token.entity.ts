@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { UserEntity } from "src/user/entities/user.entity";
+import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('tokens')
 export class TokenEntity {

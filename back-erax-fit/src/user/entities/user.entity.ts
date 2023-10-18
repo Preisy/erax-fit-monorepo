@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
-import { TokenEntity } from 'src/authentication/entities/token.entity';
+import { TokenEntity } from '../../authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity {
