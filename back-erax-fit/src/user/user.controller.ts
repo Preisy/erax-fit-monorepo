@@ -62,8 +62,7 @@ export class UserController {
     return await this.usersService.createUser(createUserDto);
   }
 
-  @UseGuards(JWTAuthGuard)
-  @Get("get-users")
+  @Get()
   @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async getUsers(@Query() query: GetUsersRequest) {

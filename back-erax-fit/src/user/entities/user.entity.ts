@@ -7,10 +7,10 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from "typeorm";
-import { Constants, UserRole } from "../../constants/constants";
-import { Exclude } from "class-transformer";
-import { TokenEntity } from "src/authentication/entities/token.entity";
+} from 'typeorm';
+import { Constants, UserRole } from '../../constants/constants';
+import { Exclude } from 'class-transformer';
+import { TokenEntity } from '../../authentication/entities/token.entity';
 
 @Entity("users")
 export class UserEntity {
@@ -71,7 +71,7 @@ export class UserEntity {
   public weight: number;
 
   @ApiProperty()
-  @Column({ name: "weight_in_youth", type: "number" })
+  @Column({ name: "weight_in_youth", type: "float" })
   public weightInYouth: number;
 
   @ApiProperty()
