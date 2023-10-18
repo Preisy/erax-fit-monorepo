@@ -15,6 +15,9 @@ const splide = ref();
     class="splide"
   >
     <slot />
+    <template #f>
+      <slot name="pagination" />
+    </template>
   </Splide>
 </template>
 <style scoped lang="scss">
@@ -24,7 +27,7 @@ const splide = ref();
   }
   &:deep(.splide__pagination) {
     all: unset;
-    --uno: fixed top-7.5rem right-15px flex flex-col;
+    --uno: absolute top-7.5rem right--20px flex flex-col;
   }
   &:deep(.splide__pagination__page) {
     opacity: opacity-100;
