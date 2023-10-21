@@ -46,13 +46,14 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-right' },
       },
     ],
+    redirect: '/login',
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('processes/layouts/LOther.vue'),
+    redirect: '/',
   },
 ];
 
