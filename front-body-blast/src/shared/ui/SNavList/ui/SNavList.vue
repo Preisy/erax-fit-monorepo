@@ -1,29 +1,31 @@
 <script setup lang="ts">
-defineProps<{
-  list: string[];
-  index: number;
+export interface RouteRecord {
+  path: string;
+  name: string;
+}
+const props = defineProps<{
+  routes: RouteRecord[];
 }>();
-const emit = defineEmits<{
-  (e: 'update:index', newValue: number): void;
-}>();
+const router = useRouter();
 
 const onclick = (num: number) => {
   console.log(num);
-  emit('update:index', num);
+  router.push(props.routes[num].path);
 };
+const index = computed(() => props.routes.findIndex((route) => route.path === router.currentRoute.value.path));
 </script>
 <template>
   <div flex justify-center gap-8px>
-    <p v-for="(el, i) in list" :key="el" @click="onclick(i)" :class="{ active: index === i }" fw-800>
-      {{ el }}
+    <p
+      v-for="(el, i) in routes"
+      :key="el.path"
+      @click="onclick(i)"
+      :class="{ 'opacity-100': index === i }"
+      fw-800
+      opacity-20
+      transition-opacity-300
+    >
+      {{ el.name }}
     </p>
   </div>
 </template>
-<style scoped lang="scss">
-p {
-  --uno: opacity-20 transition-opacity-300;
-}
-.active {
-  --uno: opacity-100;
-}
-</style>

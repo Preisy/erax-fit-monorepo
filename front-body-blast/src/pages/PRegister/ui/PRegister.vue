@@ -2,7 +2,6 @@
 <script setup lang="ts">
 import { z } from 'zod';
 import { WRegisterSlide, WRegisterSlideProps } from 'widgets/register/WRegisterSlide';
-import { SBtn } from 'shared/ui/SBtn';
 import { SSplide, SSplideMovedEventData } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
@@ -132,9 +131,6 @@ const registerState = useRegisterPageState();
 const splideMove = ({ newValue }: SSplideMovedEventData) => {
   registerState.currentSlide = newValue;
 };
-const onClick = () => {
-  registerState.currentForm?.submit();
-};
 </script>
 <template>
   <SStructure relative>
@@ -143,8 +139,5 @@ const onClick = () => {
         <WRegisterSlide :fields="slide.fields" :action="slide.action" :index="index" />
       </SSplideSlide>
     </SSplide>
-    <!-- <SBtn :action="onClick" type="submit" fixed bottom-1rem right-15px>
-      <q-icon name="done" />
-    </SBtn> -->
   </SStructure>
 </template>

@@ -4,6 +4,7 @@ import { useField } from 'vee-validate';
 export interface SInputProps extends Omit<QInputProps, 'modelValue' | 'name' | 'placeholder'> {
   placeholder?: string;
   name: string;
+  autocomplete?: string;
 }
 const props = defineProps<SInputProps>();
 const wrapper = ref<InstanceType<typeof HTMLElement>>();
@@ -17,6 +18,7 @@ const { value } = useField<string | number | undefined>(() => props.name);
       v-model="value"
       standout
       dense
+      :autocomplete="autocomplete"
       :placeholder="placeholder"
       :class="{ not_empty: !!value }"
     />
