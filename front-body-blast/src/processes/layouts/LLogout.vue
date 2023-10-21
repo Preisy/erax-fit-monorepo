@@ -56,35 +56,3 @@ const click = () => console.log('a');
     </q-page-container>
   </q-layout>
 </template>
-
-<style scoped lang="scss">
-$time: 0.3s;
-$translate: 100%;
-.slide-left-enter-active {
-  transition: all $time ease-out;
-}
-.slide-left-leave-active {
-  transition: all $time ease-in;
-}
-.slide-left-enter-from {
-  transform: translateX($translate);
-}
-.slide-left-leave-to {
-  transform: translateX(-$translate);
-  opacity: 0.5;
-}
-
-.slide-right-enter-active {
-  transition: all $time ease-out;
-}
-.slide-right-leave-active {
-  transition: all $time ease-in;
-}
-.slide-right-enter-from {
-  transform: translateX(-$translate);
-}
-.slide-right-leave-to {
-  transform: translateX($translate);
-  opacity: 0.5;
-}
-</style>
