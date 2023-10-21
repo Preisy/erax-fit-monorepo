@@ -20,7 +20,7 @@ const index = computed(() => props.routes.findIndex((route) => route.path === ro
       v-for="(el, i) in routes"
       :key="el.path"
       @click="onclick(i)"
-      :class="{ 'opacity-100': index === i }"
+      :class="{ 'opacity-100!': index === i }"
       fw-800
       opacity-20
       transition-opacity-300
