@@ -7,10 +7,10 @@ defineProps<{
 </script>
 <template>
   <div flex flex-row flex-wrap gap-0.5rem>
-    <SCard title="Вес" :value="`${info.weight} кг`" />
-    <SCard title="Сеты" :value="info.sets" />
-    <SCard title="Повторения" :value="info.repeats" />
-    <SCard title="Отдых" :value="info.rest" />
-    <SCard title="Темп" :value="info.temp" />
+    <SCard :title="$t('dashboard.trainings.infoBlock.weight')" :value="`${info.weight} кг`" />
+    <SCard :title="$t('dashboard.trainings.infoBlock.sets')" :value="info.sets" />
+    <SCard :title="$t('dashboard.trainings.infoBlock.repeats')" :value="info.repeats" />
+    <SCard :title="$t('dashboard.trainings.infoBlock.rest')" :value="info.rest" />
+    <SCard :title="$t('dashboard.trainings.infoBlock.temp')" :value="info.temp" />
   </div>
 </template>

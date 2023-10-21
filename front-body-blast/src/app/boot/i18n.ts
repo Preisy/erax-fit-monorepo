@@ -1,12 +1,14 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
+import { TTrainingI18n } from 'widgets/trainings/WTraining';
+import { TFooterNavigationBarI18n } from 'widgets/WFooter';
 import { mergeI18n } from 'shared/api/i18utils';
 
 export default boot(({ app }) => {
   const i18n = createI18n({
     locale: 'ru-RU',
     legacy: false,
-    messages: mergeI18n(),
+    messages: mergeI18n(TFooterNavigationBarI18n, TTrainingI18n),
     fallbackLocale: 'ru-RU',
   });
 
