@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios';
-import type { IResource } from 'shared/api/utils';
+import type { IResource } from 'shared/lib/utils';
 import { ErrorHandler, handleAxiosError } from './errorHandler';
 import { Notify } from './notify';
 

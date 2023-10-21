@@ -1,5 +1,5 @@
+import { omit } from 'lodash';
 import { IPagination, IResource } from '../http';
-import { omit } from '../object';
 import { IListState } from '../state';
 import { StoreAction, useStoreAction } from './action';
 
@@ -32,7 +32,7 @@ export function usePaginationStoreAction<D>({
       stateWrapper.data = data.content;
       stateWrapper.pagination = {
         ...updatedPagination,
-        ...omit(data, ['content', 'size'], { deep: false }),
+        ...omit(data, ['content', 'size']),
       };
       await onSuccess?.(data);
     },
