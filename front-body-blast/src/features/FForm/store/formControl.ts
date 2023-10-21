@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { useListState } from 'shared/api/utils';
+import { useListState } from 'shared/lib/utils';
 
 export interface FFormSubmitEvent {
   id: string | number;

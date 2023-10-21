@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useServiceAction } from 'shared/api/utils';
+import { useServiceAction } from 'shared/lib/utils';
 
 const registerApi = axios.create({ baseURL: '/api/register' });
 
