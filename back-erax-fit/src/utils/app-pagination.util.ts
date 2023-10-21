@@ -7,6 +7,7 @@ import {
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNumberString, IsOptional } from 'class-validator';
 import { ToBoolean } from 'src/decorators/to-boolean.decorator';
+import { createDerivedClass } from './create-derived-class.util';
 
 export namespace AppPagination {
   export class Request {
@@ -50,7 +51,7 @@ export namespace AppPagination {
         public data: T[];
       }
 
-      return AppPaginationResponseType;
+      return createDerivedClass(`AppPagination${type.name}ResponseType`, AppPaginationResponseType);
     }
   }
 
