@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WFooter } from 'widgets/WFooter';
+import { WFooterNavBar } from 'widgets/WFooter';
 </script>
 
 <template>
@@ -7,6 +7,6 @@ import { WFooter } from 'widgets/WFooter';
     <q-page-container h-screen>
       <RouterView />
     </q-page-container>
-    <WFooter />
+    <WFooterNavBar />
   </q-layout>
 </template>

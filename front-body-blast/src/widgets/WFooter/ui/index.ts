@@ -1,1 +1,1 @@
-export { default as WFooter } from './WFooter.vue';
+export { default as WFooterNavBar } from './WFooterNavBar.vue';
