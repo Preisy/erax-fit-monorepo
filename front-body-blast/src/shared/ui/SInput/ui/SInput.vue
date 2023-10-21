@@ -12,7 +12,11 @@ const wrapper = ref<InstanceType<typeof HTMLElement>>();
 const { value } = useField<string | number | undefined>(() => props.name);
 </script>
 <template>
-  <div ref="wrapper" class="s_input" overflow-hidden>
+  <div
+    ref="wrapper"
+    class="s_input [&_.q-field\_\_label]:(top-0 text-bg) [&_.q-field\_\_bottom]:display-none [&_.q-field\_\_control]:(h-auto rounded-1rem bg-primary/50 px-1.25rem py-1rem) [&_.not\_empty_.q-field\_\_control]:(bg-primary) [&_.q-field--highlighted_.q-field\_\_control]:(bg-primary) [&_.q-placeholder]:p-0 [&_.q-field]:pb-0 [&_input]:(p-0! text-base! text-bg!) [&_.not\_empty_.q-placeholder]:pt-0.5rem!"
+    overflow-hidden
+  >
     <q-input
       v-bind="{ ...$props }"
       v-model="value"
@@ -24,37 +28,3 @@ const { value } = useField<string | number | undefined>(() => props.name);
     />
   </div>
 </template>
-
-<style scoped lang="scss">
-.s_input {
-  &:deep(.q-field) {
-    --uno: pb-0;
-  }
-  &:deep(.q-field__bottom) {
-    --uno: display-none;
-  }
-
-  &:deep(.q-field__control) {
-    --uno: rounded-1rem bg-primary/50 px-1.25rem py-1rem h-auto;
-  }
-  &:deep(.q-field--highlighted .q-field__control),
-  &:deep(.not_empty .q-field__control) {
-    --uno: bg-primary;
-  }
-
-  &:deep(.q-placeholder) {
-    --uno: p-0;
-  }
-  &:deep(.not_empty .q-placeholder) {
-    --uno: pt-0.5rem;
-  }
-
-  &:deep(.q-field__label) {
-    --uno: top-0 text-bg;
-  }
-
-  &:deep(input) {
-    --uno: text-bg text-base p-0;
-  }
-}
-</style>
