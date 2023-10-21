@@ -27,13 +27,13 @@ const splide = ref();
   }
   &:deep(.splide__pagination) {
     all: unset;
-    --uno: absolute top-7.5rem right--20px flex flex-col;
+    --uno: absolute top-1.5rem right--18px flex flex-col text-0;
   }
   &:deep(.splide__pagination__page) {
-    opacity: opacity-100;
+    --uno: opacity-100 w-6px h-6px m-0 mb-4px;
   }
   &:deep(.splide__pagination__page.is-active) {
-    --uno: bg-primary;
+    --uno: bg-primary scale-100;
   }
 }
 </style>
