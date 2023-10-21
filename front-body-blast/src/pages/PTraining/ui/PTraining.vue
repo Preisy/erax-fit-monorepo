@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
-import { WAddition } from 'widgets/trainings/WAddition';
-import { WTraining } from 'widgets/trainings/WTraining';
+import { EAdditionCard } from 'entities/trainings/EAdditionCard';
+import { ETrainingCard } from 'entities/trainings/ETrainingCard';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
@@ -18,10 +18,10 @@ onBeforeMount(async () => {
   <SStructure>
     <SSplide :options="{ direction: 'ttb', height: '35rem' }">
       <SSplideSlide v-for="training in trainings.data" :key="training.name">
-        <WTraining v-bind="training" py-1.5rem />
+        <ETrainingCard v-bind="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
-        <WAddition py-1.5rem />
+        <EAdditionCard py-1.5rem />
       </SSplideSlide>
     </SSplide>
   </SStructure>

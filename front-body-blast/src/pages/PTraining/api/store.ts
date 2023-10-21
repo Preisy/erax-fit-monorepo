@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { WTrainingProps } from 'widgets/trainings/WTraining';
+import { ETrainingCardProps } from 'entities/trainings/ETrainingCard';
 import { TrainingsService } from 'shared/api/services';
 import { useSimpleStoreAction, useSingleState } from 'shared/api/utils';
 
 export const useTrainingStore = defineStore('training', () => {
-  const trainings = ref(useSingleState<Array<WTrainingProps>>());
+  const trainings = ref(useSingleState<Array<ETrainingCardProps>>());
 
   const getTrainingsByDate = (date?: Date) => {
     return useSimpleStoreAction({

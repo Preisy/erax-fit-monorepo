@@ -3,13 +3,13 @@ import { Info } from '../model';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
-export interface WTrainingProps {
+export interface ETrainingCardProps {
   name: string; //Название тренировки
   commentary: string; //Место для комментария от тренера
   animUrl: string; //Ссылка на ролик с демонстрацией
   info: Info; //Подробности тренировки(вес, подходы)
 }
-defineProps<WTrainingProps>();
+defineProps<ETrainingCardProps>();
 </script>
 
 <template>

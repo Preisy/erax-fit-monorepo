@@ -1,7 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-import { TTrainingI18n } from 'widgets/trainings/WTraining';
 import { TFooterNavigationBarI18n } from 'widgets/WFooter';
+import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { mergeI18n } from 'shared/api/i18utils';
 
 export default boot(({ app }) => {
