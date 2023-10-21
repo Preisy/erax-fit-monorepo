@@ -7,7 +7,7 @@ export interface SInputProps extends Omit<QInputProps, 'modelValue' | 'name' | '
   autocomplete?: string;
 }
 const props = defineProps<SInputProps>();
-const wrapper = ref<InstanceType<typeof HTMLElement>>();
+const wrapper = ref<HTMLElement>();
 
 const { value } = useField<string | number | undefined>(() => props.name);
 </script>

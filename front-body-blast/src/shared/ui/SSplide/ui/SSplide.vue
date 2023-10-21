@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Splide } from '@splidejs/vue-splide';
-export interface SSwiperProps {
+export interface SSplideProps {
   options: InstanceType<typeof Splide>['$props']['options'];
 }
-defineProps<SSwiperProps>();
+defineProps<SSplideProps>();
 defineEmits(Splide.emits!);
 const splide = ref();
 </script>
