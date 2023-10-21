@@ -3,16 +3,7 @@
 import { SplideSlide } from '@splidejs/vue-splide';
 </script>
 <template>
-  <SplideSlide class="slide" transition-300>
+  <SplideSlide class="slide [&.is-active]:opacity-100!" opacity-50 transition-300>
     <slot />
   </SplideSlide>
 </template>
-
-<style scoped lang="scss">
-.slide {
-  opacity: 0.5;
-  &.is-active {
-    opacity: 1;
-  }
-}
-</style>
