@@ -12,28 +12,8 @@ const splide = ref();
     ref="splide"
     @splide:moved="(e, newValue, prevValue, destValue) => $emit('splide:moved', { e, newValue, prevValue, destValue })"
     :options="{ ...options, arrows: false }"
-    class="splide"
+    class="splide [&_.splide\_\_pagination]:(absolute right--18px top-1.5rem flex flex-col justify-start text-0) [&_.splide\_\_pagination\_\_page]:(m-0 mb-4px h-6px w-6px opacity-100) [&_.splide\_\_pagination\_\_page.is-active]:(scale-100 bg-primary) [&_.splide\_\_track]:overflow-visible [&_.splide\_\_track]:overflow-visible"
   >
     <slot />
-    <template #f>
-      <slot name="pagination" />
-    </template>
   </Splide>
 </template>
-<style scoped lang="scss">
-.splide {
-  &:deep(.splide__track) {
-    --uno: overflow-visible;
-  }
-  &:deep(.splide__pagination) {
-    all: unset;
-    --uno: absolute top-1.5rem right--18px flex flex-col text-0;
-  }
-  &:deep(.splide__pagination__page) {
-    --uno: opacity-100 w-6px h-6px m-0 mb-4px;
-  }
-  &:deep(.splide__pagination__page.is-active) {
-    --uno: bg-primary scale-100;
-  }
-}
-</style>
