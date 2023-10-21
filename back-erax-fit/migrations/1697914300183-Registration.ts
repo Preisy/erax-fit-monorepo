@@ -1,13 +1,9 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class Registration1697660066896 implements MigrationInterface {
-    name = 'Registration1697660066896'
+export class Registration1697914300183 implements MigrationInterface {
+    name = 'Registration1697914300183'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "app_base_entity" ("id" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, CONSTRAINT "PK_ac4058ad7b0a39a9ec865d0962e" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "tokens" ("id" SERIAL NOT NULL, "hash" character varying(256), "refresh_hash" character varying(256), CONSTRAINT "PK_3001e89ada36263dabf1fb6210a" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "hash"`);
-        await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "rt_hash"`);
         await queryRunner.query(`ALTER TABLE "users" ADD "age" smallint NOT NULL`);
         await queryRunner.query(`ALTER TABLE "users" ADD "height" double precision NOT NULL`);
         await queryRunner.query(`ALTER TABLE "users" ADD "weight" double precision NOT NULL`);
@@ -41,10 +37,6 @@ export class Registration1697660066896 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "weight"`);
         await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "height"`);
         await queryRunner.query(`ALTER TABLE "users" DROP COLUMN "age"`);
-        await queryRunner.query(`ALTER TABLE "users" ADD "rt_hash" character varying(256)`);
-        await queryRunner.query(`ALTER TABLE "users" ADD "hash" character varying(256)`);
-        await queryRunner.query(`DROP TABLE "tokens"`);
-        await queryRunner.query(`DROP TABLE "app_base_entity"`);
     }
 
 }

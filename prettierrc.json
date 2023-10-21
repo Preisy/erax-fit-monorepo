@@ -1,5 +1,5 @@
 {
-  "trailingComma": "es2021",
+  "trailingComma": "all",
   "printWidth": 120,
   "singleQuote": true,
   "bracketSpacing": true,
