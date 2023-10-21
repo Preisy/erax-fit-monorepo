@@ -1,15 +1,21 @@
 export namespace ENUMS {
-  export namespace ROUTES {
-    export enum DASHBOARD {
-      TRAINING = '/home/training',
-      DIARY = '/home/diary',
-      PROFILE = '/home/profile',
-      DIET = '/home/diet',
-      LEARNING = '/home/learning',
-    }
-    export enum LOGOUT {
-      LOGIN = '/login',
-      REGISTER = '/register',
-    }
-  }
+  export const ROUTES = {
+    HOME: {
+      base: '/home/',
+      children: {
+        TRAINING: 'training',
+        DIARY: 'diary',
+        PROFILE: 'profile',
+        DIET: 'diet',
+        LEARNING: 'learning',
+      },
+    },
+    LOGOUT: {
+      base: '/',
+      children: {
+        LOGIN: 'login',
+        REGISTER: 'register',
+      },
+    },
+  };
 }
