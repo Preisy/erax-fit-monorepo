@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -43,9 +44,14 @@ export class UserEntity {
   @Column({ name: 'password', type: 'varchar', length: 128 })
   public password!: string;
 
+  @ApiProperty({ type: () => TokenEntity })
+  @OneToOne(() => TokenEntity)
+  @JoinColumn({ name: 'tokenId' })
+  public token?: TokenEntity;
+
   @ApiProperty()
-  @OneToOne(() => TokenEntity, (token) => token.user)
-  token: TokenEntity;
+  @Column('integer', { name: 'tokenId', nullable: true })
+  public tokenId?: number;
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })

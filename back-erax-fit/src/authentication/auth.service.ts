@@ -20,24 +20,16 @@ export class AuthService {
       throw MainException.unauthorized();
     }
     const tokens = await this.getTokens(newUser.id, newUser.token.refreshHash);
-    await this.updateRefreshHash(newUser.id, tokens.refreshToken);
+    await this.updateRefreshHash(newUser.id, newUser.token.refreshHash);
 
     return tokens;
   }
 
   async login(request: AuthRequest): Promise<AuthResponse> {
-    const { user } = await this.userService.getUserByEmail(
-      request.email.toLocaleLowerCase(),
-    );
-    const passwordMatches = await bcrypt.compare(
-      request.password,
-      user.password,
-    );
+    const { user } = await this.userService.getUserByEmail(request.email.toLocaleLowerCase());
+    const passwordMatches = await bcrypt.compare(request.password, user.password);
 
-    if (!passwordMatches)
-      throw MainException.forbidden(
-        `Error: no password mathces for user ${user.id}`,
-      );
+    if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user ${user.id}`);
 
     const tokens = await this.getTokens(user.id, user.token.refreshHash);
     await this.updateRefreshHash(user.id, tokens.refreshToken);
@@ -48,12 +40,8 @@ export class AuthService {
   async logout(userId: number): Promise<LogoutResponse> {
     const { user } = await this.userService.getUserById(userId);
 
-    if (!user)
-      throw MainException.entityNotFound(
-        `User with such id ${userId} not found`,
-      );
-    if (user.token.refreshHash !== null) user.token.refreshHash = null;
-
+    if (!user) throw MainException.entityNotFound(`User with such id ${userId} not found`);
+    user.token.refreshHash = null;
     this.userService.updateUser(user);
 
     return new LogoutResponse(true);
@@ -64,16 +52,16 @@ export class AuthService {
       this.jwtService.signAsync(
         { sub: userId, email },
         {
-          secret: process.env['JWT_ACCESS_SECRET'],
-          expiresIn: process.env['JWT_ACCESS_EXPIRATION'],
+          secret: process.env.JWT_ACCESS_SECRET,
+          expiresIn: process.env.JWT_ACCESS_EXPIRATION,
         },
       ),
 
       this.jwtService.signAsync(
         { sub: userId, email },
         {
-          secret: process.env['JWT_REFRESH_SECRET'],
-          expiresIn: process.env['JWT_REFRESH_EXPIRATION'],
+          secret: process.env.JWT_REFRESH_SECRET,
+          expiresIn: process.env.JWT_REFRESH_EXPIRATION,
         },
       ),
     ]);
@@ -85,9 +73,7 @@ export class AuthService {
 
     const refreshMatches = bcrypt.compare(refresh, user.token.refreshHash);
     if (!refreshMatches)
-      throw MainException.forbidden(
-        `Failed to refresh access: current tokens for user ${userId} doesn't match`,
-      );
+      throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
 
     const tokens = await this.getTokens(user.id, user.token.refreshHash);
     await this.updateRefreshHash(user.id, tokens.refreshToken);
@@ -102,10 +88,7 @@ export class AuthService {
   async updateRefreshHash(userId: number, refresh: string) {
     const { user } = await this.userService.getUserById(userId);
 
-    if (!user)
-      throw MainException.forbidden(
-        `Error: cannot update token for user ${userId}`,
-      );
+    if (!user) throw MainException.forbidden(`Error: cannot update token for user ${userId}`);
 
     const hash = await this.hashData(refresh);
     user.token.refreshHash = hash;
