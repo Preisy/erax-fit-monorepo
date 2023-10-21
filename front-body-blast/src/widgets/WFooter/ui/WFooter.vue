@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { ENUMS } from 'shared/lib/enums';
 import { SNavbar } from 'shared/ui/SNavbar';
 import * as icons from '../assets';
 import FooterNavLink, { FooterNavLinkProps } from './FooterNavLink.vue';
 
+const HOME = ENUMS.ROUTES.HOME;
 const links: FooterNavLinkProps[] = [
-  { imgSrc: icons.exercise, title: 'Тренировки', href: '/home/training' },
-  { imgSrc: icons.profile, title: 'Профиль', href: '/home/profile' },
-  { imgSrc: icons.diary, title: 'Дневник', href: '/home/diary' },
-  { imgSrc: icons.diet, title: 'Питание', href: '/home/diet' },
+  { imgSrc: icons.exercise, title: 'Тренировки', href: HOME.base + HOME.children.TRAINING },
+  { imgSrc: icons.profile, title: 'Профиль', href: HOME.base + HOME.children.PROFILE },
+  { imgSrc: icons.diary, title: 'Дневник', href: HOME.base + HOME.children.DIARY },
+  { imgSrc: icons.diet, title: 'Питание', href: HOME.base + HOME.children.DIET },
 ];
 </script>
 
