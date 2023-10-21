@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -11,6 +12,7 @@ import {
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../authentication/entities/token.entity';
+import { FormEntity } from "src/form/entities/form.entity";
 
 @Entity("users")
 export class UserEntity {
@@ -117,4 +119,8 @@ export class UserEntity {
   @ApiProperty()
   @Column({ name: "goals", type: "varchar", length: 256 })
   public goals: string;
+
+  @ApiProperty()
+  @OneToMany(() => FormEntity, (form) => form.user)
+    form: FormEntity
 }
