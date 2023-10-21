@@ -33,7 +33,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/',
-    component: () => import('processes/layouts/LUnauth.vue'),
+    component: () => import('processes/layouts/LLogout.vue'),
     children: [
       {
         path: '/register',
