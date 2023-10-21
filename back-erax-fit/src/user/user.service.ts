@@ -21,7 +21,7 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {
-    console.log();
+          console.log();
   }
 
   async createUser(
