@@ -1,45 +1,29 @@
 <script setup lang="ts">
-import { toTypedSchema } from '@vee-validate/zod';
-import { useForm } from 'vee-validate';
-import { z } from 'zod';
+import { TypedSchema, useForm } from 'vee-validate';
 import { SInput } from 'shared/ui/SInput';
-import { FieldsSchema } from '../model';
 
 export interface FFormProps {
-  fields: FieldsSchema;
-  inputClasses?: string;
+  fieldSchema: TypedSchema;
   action: (values: Record<string, unknown>) => void;
 }
 
-const props = withDefaults(defineProps<FFormProps>(), { inputClasses: '' });
-
-const validationSchema = toTypedSchema(
-  z.object(
-    props.fields.reduce(
-      (all, currentField) => ({
-        ...all,
-        [currentField.name]: currentField.rule,
-      }),
-      {},
-    ),
-  ),
-);
+const props = defineProps<FFormProps>();
 
 const { handleSubmit } = useForm({
-  validationSchema,
+  validationSchema: props.fieldSchema,
 });
 
-const onSubmit = handleSubmit((data) => {
+const submitHandler = handleSubmit((data) => {
   props.action(data);
 });
 
 defineExpose({
-  onSubmit,
+  submitHandler,
 });
 </script>
 
 <template>
-  <form class="f-form" @submit="onSubmit">
+  <form class="f-form" @submit="submitHandler">
     <div>
       <div
         v-for="({ name, sInputOptions }, index) in fields"
