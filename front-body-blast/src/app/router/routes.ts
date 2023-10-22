@@ -7,7 +7,7 @@ import { ENUMS } from 'shared/lib/enums';
 const routes: RouteRecordRaw[] = [
   {
     path: ENUMS.ROUTES.HOME.base,
-    component: () => import('processes/layouts/LMain.vue'),
+    component: () => import('processes/layouts/LDashboard.vue'),
     children: [
       {
         path: ENUMS.ROUTES.HOME.children.TRAINING,
