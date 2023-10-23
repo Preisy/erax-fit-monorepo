@@ -14,11 +14,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import {
-  CreateUserByAdminRequest,
-  CreateUserRequest,
-  CreateUserResponse,
-} from './dto/create-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { MainException } from '../exceptions/main.exception';
@@ -41,15 +37,14 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
-
-  @AppResponses({status: 200, type: AppSingleResponse.type(CreateUserResponse)})
+  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateUserResponse) })
   @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
 
   @Post('by-admin')
-  @AppResponses({status: 200, type: AppSingleResponse.type(CreateUserResponse)})
+  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateUserResponse) })
   @Throttle(5, 1)
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
@@ -57,43 +52,33 @@ export class UserController {
   }
 
   @Get()
-  @AppResponses({status: 200, type: AppSingleResponse.type(GetUsersResponse)})
+  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async getUsers(@Query() query: GetUsersRequest) {
     return await this.usersService.getUsers(query);
   }
 
   @Get(':id')
-  @AppResponses({status: 200, type: AppSingleResponse.type(GetUserResponse)})
+  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUserResponse) })
   @BaseAuthGuard()
   async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 
   @Patch(':id')
-  @AppResponses({status: 200, type: AppSingleResponse.type(UpdateUserResponse)})
+  @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
   @BaseAuthGuard()
-  async updateUser(
-    @Param('id') id: number,
-    @Req() req: RequestWithUser,
-    @Body() body: UpdateUserRequest,
-  ) {
+  async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can edit other user');
 
-    const request = new UpdateUserRequest(
-      id,
-      body.email,
-      body.password,
-      body.firstName,
-      body.lastName,
-    );
+    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
   }
 
   @Delete(':id')
-  @AppResponses({status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse)})
-    @BaseAuthGuard()
+  @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse) })
+  @BaseAuthGuard()
   async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can delete other user');

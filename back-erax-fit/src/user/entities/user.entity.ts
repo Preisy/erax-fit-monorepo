@@ -1,17 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  Entity,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entities/workout.entity';
 
 @Entity('users')
-export class UserEntity extends AppBaseEntity{
-
+export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ name: 'first_name', type: 'varchar', nullable: true })
   public firstName!: string;
@@ -38,6 +33,5 @@ export class UserEntity extends AppBaseEntity{
   public password!: string;
 
   @OneToMany(() => WorkoutEntity, (workout) => workout.user)
-    workouts: WorkoutEntity[];
-    
+  workouts: WorkoutEntity[];
 }

@@ -14,13 +14,9 @@ export class JWTAuthGuard implements CanActivate {
 
     const xAuthTokenJwtParser = ExtractJwt.fromHeader('x-auth-token');
     const authorizationJwtParser = ExtractJwt.fromAuthHeaderAsBearerToken();
-    const token =
-      xAuthTokenJwtParser(request) || authorizationJwtParser(request);
+    const token = xAuthTokenJwtParser(request) || authorizationJwtParser(request);
 
-    if (!token)
-      throw MainException.unauthorized(
-        'x-auth-token/Authorization is not provided',
-      );
+    if (!token) throw MainException.unauthorized('x-auth-token/Authorization is not provided');
 
     request.user = await this.authService.login(token);
 

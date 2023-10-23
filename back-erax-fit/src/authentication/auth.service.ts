@@ -26,15 +26,11 @@ export class AuthService {
 
   async login(jwt: string) {
     try {
-      const decodedToken: ExternalPayloadType = <ExternalPayloadType>(
-        this.jwtService.verify(jwt)
-      );
+      const decodedToken: ExternalPayloadType = <ExternalPayloadType>this.jwtService.verify(jwt);
 
-      if (!decodedToken || !decodedToken?.userEmail)
-        throw MainException.invalidData('Некорректный токен');
+      if (!decodedToken || !decodedToken?.userEmail) throw MainException.invalidData('Некорректный токен');
 
-      return (await this.userService.getUserByEmail(decodedToken.userEmail))
-        .user;
+      return (await this.userService.getUserByEmail(decodedToken.userEmail)).user;
     } catch {
       throw MainException.forbidden('Нет доступа');
     }

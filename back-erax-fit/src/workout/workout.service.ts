@@ -12,66 +12,66 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
 
 @Injectable()
 export class WorkoutService {
-    constructor(
-        @InjectRepository(WorkoutEntity)
-        private readonly workoutRepository: Repository<WorkoutEntity>,
-        @InjectRepository(UserEntity)
-        private readonly userRepository: Repository<UserEntity>,
-    ) {
-      console.log();
+  constructor(
+    @InjectRepository(WorkoutEntity)
+    private readonly workoutRepository: Repository<WorkoutEntity>,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {
+    console.log();
+  }
+
+  async getWorkouts(request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
+    const page = request.page || 1;
+    const limit = request.limit || 10;
+    const skip = (page - 1) * limit;
+
+    const [workouts, count] = await this.workoutRepository.findAndCount({
+      skip: skip,
+      take: limit,
+    });
+
+    return new GetWorkoutsResponse(workouts, count);
+  }
+
+  async getWorkoutsByUserId(id: UserEntity['id'], request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) throw MainException.entityNotFound(`User with id: ${id} not found`);
+
+    const page = request.page || 1;
+    const limit = request.limit || 10;
+    const skip = (page - 1) * limit;
+
+    let workouts = user.workouts;
+    let count = 0;
+    if (workouts != undefined) {
+      count = workouts.length;
+      workouts = workouts.slice(skip, page * limit);
     }
 
-    async getWorkouts(request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
-        const page = request.page || 1;
-        const limit = request.limit || 10;
-        const skip = (page - 1) * limit;
-    
-        const [workouts, count] = await this.workoutRepository.findAndCount({
-          skip: skip,
-          take: limit,
-        });
+    return new GetWorkoutsResponse(workouts, count);
+  }
 
-        return new GetWorkoutsResponse(workouts, count);
-      }
+  async getWorkoutById(id: WorkoutEntity['id']): Promise<GetWorkoutResponse> {
+    const workout = await this.workoutRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
 
-      async getWorkoutsByUserId(id: UserEntity['id'], request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
-        const user = await this.userRepository.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!user)
-      throw MainException.entityNotFound(`User with id: ${id} not found`);
-
-        const page = request.page || 1;
-        const limit = request.limit || 10;
-        const skip = (page - 1) * limit;
-
-        let workouts = user.workouts;
-        const count = workouts.length;
-
-        workouts = workouts.slice(skip, page * limit);
-
-        return new GetWorkoutsResponse(workouts, count);
-      }
-
-      async getWorkoutById(id: WorkoutEntity['id']): Promise<GetWorkoutResponse> {
-        const workout = await this.workoutRepository.findOne({
-          where: {
-            id: id,
-          },
-        });
-
-        if (!workout) {
+    if (!workout) {
       throw MainException.entityNotFound(`Workout with id: ${id} not found`);
-      }
-      
-      return new GetWorkoutResponse(workout);
     }
-   
-  async createWorkout(request: CreateWorkoutRequest): Promise<CreateWorkoutResponse> {
 
+    return new GetWorkoutResponse(workout);
+  }
+
+  async createWorkout(request: CreateWorkoutRequest): Promise<CreateWorkoutResponse> {
     const newWorkout = this.workoutRepository.create({
       name: request.name,
       date: request.date,
@@ -82,8 +82,7 @@ export class WorkoutService {
     });
 
     const savedWorkout = await this.workoutRepository.save(newWorkout);
-    if (!savedWorkout)
-      throw MainException.internalRequestError('Error upon saving workout');
+    if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
 
     return new CreateWorkoutResponse(savedWorkout);
   }
@@ -97,10 +96,8 @@ export class WorkoutService {
     if (request.loop) workout.loop = request.loop;
     if (request.exercises) workout.exercises = request.exercises;
 
-
     const savedWorkout = await this.workoutRepository.save(workout);
-    if (!savedWorkout)
-      throw MainException.internalRequestError('Error upon saving workout');
+    if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
 
     return new UpdateWorkoutResponse(savedWorkout);
   }
@@ -109,5 +106,4 @@ export class WorkoutService {
     const result = await this.workoutRepository.softDelete(id);
     return new DeleteWorkoutByIdResponse(result.affected > 0);
   }
-
- }
+}

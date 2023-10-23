@@ -4,11 +4,11 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('files')
 export class FileController {
-    constructor(private readonly filesService: FileService) {}
+  constructor(private readonly filesService: FileService) {}
 
-    @Post()
-    @UseInterceptors(FileInterceptor('file'))
-    async uploadeFile(@UploadedFile() file: Express.Multer.File) {
-        return this.filesService.createFile(file);
-    }
+  @Post()
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadeFile(@UploadedFile() file: Express.Multer.File) {
+    return this.filesService.createFile(file);
+  }
 }

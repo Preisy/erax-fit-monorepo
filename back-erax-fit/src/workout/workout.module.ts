@@ -8,11 +8,8 @@ import { UserEntity } from 'src/user/entities/user.entity';
 import { AuthModule } from 'src/authentication/auth.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([WorkoutEntity, UserEntity]),
-    forwardRef(() => AuthModule),
-  ],
+  imports: [TypeOrmModule.forFeature([WorkoutEntity, UserEntity]), forwardRef(() => AuthModule)],
   providers: [WorkoutService, Repository],
-  controllers: [WorkoutController]
+  controllers: [WorkoutController],
 })
 export class WorkoutModule {}

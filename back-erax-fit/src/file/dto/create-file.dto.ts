@@ -1,7 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { ApiProperty } from '@nestjs/swagger';
 
-
 export class CreateFileResponse {
   @ApiProperty()
   public link: string;

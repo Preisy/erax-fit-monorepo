@@ -1,14 +1,5 @@
-﻿import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  UseFilters,
-  UsePipes,
-} from '@nestjs/common';
+﻿import { Body, Controller, Get, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Throttle } from '@nestjs/throttler';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';

@@ -10,7 +10,6 @@ import { ExerсiseModule } from './exerсise/exerсise.module';
 import { FileModule } from './file/file.module';
 import { MulterModule } from '@nestjs/platform-express';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),

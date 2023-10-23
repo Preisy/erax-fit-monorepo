@@ -1,17 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  Entity,
-  ManyToOne,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { ExerciseEntity } from '../../exerсise/entities/exercise.entity';
 
 @Entity('workouts')
 export class WorkoutEntity extends AppBaseEntity {
-
   @ApiProperty()
   @Column({ name: 'name', nullable: false })
   public name!: string;
@@ -32,5 +26,5 @@ export class WorkoutEntity extends AppBaseEntity {
   user: UserEntity;
 
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
-    exercises: ExerciseEntity[];
+  exercises: ExerciseEntity[];
 }

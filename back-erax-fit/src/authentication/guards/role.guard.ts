@@ -12,9 +12,7 @@ export const RoleGuard = (roles: UserRole | UserRole[]): Type<CanActivate> => {
       const user = request.user;
       const availableRoles = Array.isArray(roles) ? roles : [roles];
 
-      return user?.role == UserRole.Admin
-        ? true
-        : availableRoles.some((r) => user?.role.includes(r));
+      return user?.role == UserRole.Admin ? true : availableRoles.some((r) => user?.role.includes(r));
     }
   }
 
