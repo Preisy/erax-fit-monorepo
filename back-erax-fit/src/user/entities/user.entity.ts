@@ -6,8 +6,8 @@ import {
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
-import { AppBaseEntity } from 'src/models/app-base-entity.entity';
-import { WorkoutEntity } from 'src/workout/entities/workout.entity';
+import { AppBaseEntity } from '../../models/app-base-entity.entity';
+import { WorkoutEntity } from '../../workout/entities/workout.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity{

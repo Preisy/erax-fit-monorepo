@@ -5,9 +5,9 @@ import {
   ManyToOne,
   OneToMany,
 } from 'typeorm';
-import { AppBaseEntity } from 'src/models/app-base-entity.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
+import { AppBaseEntity } from '../../models/app-base-entity.entity';
+import { UserEntity } from '../../user/entities/user.entity';
+import { ExerciseEntity } from '../../exerсise/entities/exercise.entity';
 
 @Entity('workouts')
 export class WorkoutEntity extends AppBaseEntity {
@@ -33,5 +33,4 @@ export class WorkoutEntity extends AppBaseEntity {
 
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
     exercises: ExerciseEntity[];
-  
 }

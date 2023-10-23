@@ -4,8 +4,8 @@ import {
   Entity,
   ManyToOne,
 } from 'typeorm';
-import { AppBaseEntity } from 'src/models/app-base-entity.entity';
-import { WorkoutEntity } from 'src/workout/entities/workout.entity';
+import { AppBaseEntity } from '../../models/app-base-entity.entity';
+import { WorkoutEntity } from '../../workout/entities/workout.entity';
 
 @Entity('exercises')
 export class ExerciseEntity extends AppBaseEntity {
