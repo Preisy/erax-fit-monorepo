@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { TouchSwipeValue } from 'quasar';
-import { SBtn } from 'shared/ui/SBtn';
 import { SNavList, RouteRecord } from 'shared/ui/SNavList';
 
 type SwipeEventData = Parameters<Exclude<TouchSwipeValue, undefined>>['0'];
@@ -28,8 +27,6 @@ const e = ({ direction }: SwipeEventData) => {
       break;
   }
 };
-
-const click = () => console.log('a');
 </script>
 
 <template>
@@ -44,15 +41,6 @@ const click = () => console.log('a');
           </keep-alive>
         </transition>
       </router-view>
-
-      <div fixed bottom-1rem w-full flex justify-between>
-        <SBtn bg="bg!" boxshadow-btn>
-          <p fw-800 normal-case>Забыли пароль?</p>
-        </SBtn>
-        <SBtn :action="click" type="submit" right-15px boxshadow-btn>
-          <q-icon name="done" />
-        </SBtn>
-      </div>
     </q-page-container>
   </q-layout>
 </template>

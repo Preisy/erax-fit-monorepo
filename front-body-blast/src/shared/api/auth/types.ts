@@ -6,8 +6,8 @@ export interface AuthDto {
   password: string;
 }
 
-namespace AuthDto {
-  export const validationSchema = () =>
+export namespace AuthDto {
+  export const validation = () =>
     z.object({
       email: z.string().min(3).max(50),
       password: z.string().min(6).max(30),
@@ -21,14 +21,14 @@ export interface SignUpDto extends AuthDto {
 }
 
 export namespace SignUpDto {
-  export const validationSchema = () =>
-    AuthDto.validationSchema().extend({
+  export const validation = () =>
+    AuthDto.validation().extend({
       username: z.string().min(3).max(50),
       passwordRepeat: z.string().min(6).max(50),
     });
 
-  export const validationSchemaRefined = (errMsg: string) =>
-    validationSchema().superRefine(({ passwordRepeat, password }, ctx) => {
+  export const validationRefined = (errMsg: string) =>
+    validation().superRefine(({ passwordRepeat, password }, ctx) => {
       if (passwordRepeat !== password) {
         ctx.addIssue({
           code: 'custom',
