@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('workouts')
+@Entity('files')
 export class FileEntity {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')

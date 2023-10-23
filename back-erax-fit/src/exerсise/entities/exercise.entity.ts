@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entities/workout.entity';
 
@@ -41,6 +41,15 @@ export class ExerciseEntity extends AppBaseEntity {
   @Column({ name: 'video_link', nullable: false })
   public videoLink!: string;
 
-  @ManyToOne(() => WorkoutEntity, (workout) => workout.exercises)
-  workout: WorkoutEntity;
+  //@ManyToOne(() => WorkoutEntity, (workout) => workout.exercises)
+  //workout: WorkoutEntity;
+
+  @ApiProperty({ type: () => WorkoutEntity })
+  @ManyToOne(() => WorkoutEntity)
+  @JoinColumn({ name: 'workoutId' })
+  public workout?: WorkoutEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'workoutId', nullable: true })
+  public workoutId?: number;
 }

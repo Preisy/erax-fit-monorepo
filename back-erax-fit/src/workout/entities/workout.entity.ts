@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 import { ExerciseEntity } from '../../exerсise/entities/exercise.entity';
@@ -22,8 +22,17 @@ export class WorkoutEntity extends AppBaseEntity {
   @Column({ name: 'loop', nullable: true })
   public loop!: number;
 
-  @ManyToOne(() => UserEntity, (user) => user.workouts)
-  user: UserEntity;
+  // @ManyToOne(() => UserEntity, (user) => user.workouts)
+  // user: UserEntity;
+
+  @ApiProperty({ type: () => UserEntity })
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'userId' })
+  public user?: UserEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'userId', nullable: true })
+  public userId?: number;
 
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
   exercises: ExerciseEntity[];
