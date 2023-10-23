@@ -8,7 +8,7 @@ import { SInput } from 'shared/ui/SInput';
 const submit = (data: Record<string, unknown>) => console.log(data);
 const { t } = useI18n();
 const passwordsMismatchErrorMessage = t('logout.signUp.credentials.errors.passwordMismatch');
-const validationSchema = toTypedSchema(SignUpDto.validationSchemaRefined(passwordsMismatchErrorMessage));
+const validationSchema = toTypedSchema(SignUpDto.validationRefined(passwordsMismatchErrorMessage));
 </script>
 <template>
   <SForm :action="submit" :field-schema="validationSchema">
