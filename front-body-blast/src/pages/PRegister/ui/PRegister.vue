@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { EBodyParamsRegisterForm } from 'entities/logout/EBodyParamsRegisterForm';
-import { ECredentialsRegisterForm } from 'entities/logout/ECredentialsRegisterForm';
-import { EDiseasesRegisterForm } from 'entities/logout/EDiseasesRegisterForm';
-import { EForbiddensRegisterForm } from 'entities/logout/EForbiddensRegisterForm';
-import { EOtherRegisterForm } from 'entities/logout/EOtherRegisterForm';
+import { EBodyParamsSignUpForm } from 'entities/logout/EBodyParamsSignUpForm';
+import { ECredentialsSignUpForm } from 'entities/logout/ECredentialsSignUpForm';
+import { EDiseasesSignUpForm } from 'entities/logout/EDiseasesSignUpForm';
+import { EForbiddensSignUpForm } from 'entities/logout/EForbiddensSignUpForm';
+import { EMotivationsSignUpForm } from 'entities/logout/EMotivationsSignUpForm';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
@@ -11,21 +11,20 @@ import { SStructure } from 'shared/ui/SStructure';
 <template>
   <SStructure relative>
     <SSplide :options="{ direction: 'ttb', height: '25rem', arrows: false }">
-      <!-- <WRegisterSlide :fields="slide.fields" :action="slide.action" :index="index" /> -->
       <SSplideSlide>
-        <ECredentialsRegisterForm />
+        <ECredentialsSignUpForm />
       </SSplideSlide>
       <SSplideSlide>
-        <EBodyParamsRegisterForm />
+        <EBodyParamsSignUpForm />
       </SSplideSlide>
       <SSplideSlide>
-        <EForbiddensRegisterForm />
+        <EForbiddensSignUpForm />
       </SSplideSlide>
       <SSplideSlide>
-        <EDiseasesRegisterForm />
+        <EDiseasesSignUpForm />
       </SSplideSlide>
       <SSplideSlide>
-        <EOtherRegisterForm />
+        <EMotivationsSignUpForm />
       </SSplideSlide>
     </SSplide>
   </SStructure>

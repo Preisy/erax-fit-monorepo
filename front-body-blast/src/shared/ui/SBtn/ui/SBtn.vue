@@ -1,11 +1,11 @@
 <script setup lang="ts">
-export interface SBtnProps {
-  action?(event?: Event): void;
-}
+import { QBtnProps } from 'quasar';
+
+export interface SBtnProps extends QBtnProps {}
 defineProps<SBtnProps>();
 </script>
 <template>
-  <q-btn @click="action" rounded-1rem bg-secondary p-1rem text-0 text-primary>
+  <q-btn v-bind="$props" rounded-1rem bg-secondary p-1rem text-0 text-primary>
     <slot />
   </q-btn>
 </template>
