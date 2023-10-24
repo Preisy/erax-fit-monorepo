@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
 // Authentication
-export interface AuthDto {
-  email: string;
-  password: string;
-}
-
-export namespace AuthDto {
+export namespace Auth {
+  export interface Dto {
+    email: string;
+    password: string;
+  }
+  export interface Response {
+    message: string;
+  }
   export const validation = () =>
     z.object({
       email: z.string().email(),
@@ -15,14 +17,17 @@ export namespace AuthDto {
 }
 
 // Sign up (credentials)
-export interface SignUpDto extends AuthDto {
-  username: string;
-  passwordRepeat: string;
-}
+export namespace SignUp {
+  export interface Dto extends Auth.Dto {
+    username: string;
+    passwordRepeat: string;
+  }
 
-export namespace SignUpDto {
+  export interface Response {
+    message: string;
+  }
   export const validation = () =>
-    AuthDto.validation().extend({
+    Auth.validation().extend({
       username: z.string().min(3).max(50),
       passwordRepeat: z.string().min(6).max(50),
     });
@@ -40,31 +45,36 @@ export namespace SignUpDto {
 }
 
 // Sign up (body params)
-export interface BodyParamsDto {
-  age: string | number;
-  weight: string | number;
-  teenAgeWeight: string | number;
-}
-
-export namespace BodyParamsDto {
+export namespace BodyParams {
+  export interface Dto {
+    age: string | number;
+    weight: string | number;
+    teenAgeWeight: string | number;
+  }
+  export interface Response {
+    message: string;
+  }
   export const validation = () =>
     z.object({
       age: z.string().max(3),
       weight: z.string().max(3),
-      teen_age_weight: z.string().max(3),
+      teenAgeWeight: z.string().max(3),
     });
 }
 
 // Sign up (Diseases)
-export interface DiseasesDto {
-  gastrointestinalDiseases: string;
-  insulinResistance: string;
-  kidneyDisease: string;
-  diseasesCVD: string;
-  diseasesODA: string;
-}
+export namespace Diseases {
+  export interface Response {
+    message: string;
+  }
+  export interface Dto {
+    gastrointestinalDiseases: string;
+    insulinResistance: string;
+    kidneyDisease: string;
+    diseasesCVD: string;
+    diseasesODA: string;
+  }
 
-export namespace DiseasesDto {
   export const validation = () =>
     z.object({
       gastrointestinalDiseases: z.string().min(3).max(50),
@@ -76,13 +86,15 @@ export namespace DiseasesDto {
 }
 
 // Sign up (Forbiddens)
-export interface ForbiddensDto {
-  diet: string;
-  allergic: string;
-  intolerance: string;
-}
-
-export namespace ForbiddensDto {
+export namespace Forbiddens {
+  export interface Dto {
+    diet: string;
+    allergic: string;
+    intolerance: string;
+  }
+  export interface Response {
+    message: string;
+  }
   export const validation = () =>
     z.object({
       diet: z.string().min(3).max(50),
@@ -92,13 +104,15 @@ export namespace ForbiddensDto {
 }
 
 // Sign up (Motivations)
-export interface MotivationsDto {
-  loadRestrictions: string;
-  sportExperience: string;
-  targets: string;
-}
-
-export namespace MotivationsDto {
+export namespace Motivations {
+  export interface Dto {
+    loadRestrictions: string;
+    sportExperience: string;
+    targets: string;
+  }
+  export interface Response {
+    message: string;
+  }
   export const validation = () =>
     z.object({
       loadRestrictions: z.string().min(3).max(50),

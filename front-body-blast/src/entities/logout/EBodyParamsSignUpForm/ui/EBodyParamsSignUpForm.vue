@@ -1,15 +1,19 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import { BodyParamsDto } from 'shared/api/auth';
+import { BodyParams, useAuthStore } from 'shared/api/auth';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
-const submit = (data: Record<string, unknown>) => console.log(data);
-const schema = toTypedSchema(BodyParamsDto.validation());
+const authStore = useAuthStore();
+const bodyParamsState = ref(authStore.bodyParamsState);
+const sendBodyParams = authStore.sendBodyParams;
+
+const schema = toTypedSchema(BodyParams.validation());
 </script>
 
 <template>
-  <SForm :action="submit" :field-schema="schema">
+  <SForm :loading="bodyParamsState.state.isLoading()" :action="sendBodyParams" :field-schema="schema">
+    {{ bodyParamsState }}
     <SInput name="age" :label="$t('logout.signUp.bodyParams.fields.age')" />
     <SInput name="weight" :label="$t('logout.signUp.bodyParams.fields.weight')" />
     <SInput name="teenAgeWeight" :label="$t('logout.signUp.bodyParams.fields.teenAgeWeight')" />
