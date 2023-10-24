@@ -1,3 +1,6 @@
+<script setup lang="ts">
+import { EProfileHeader } from 'entities/profile/EProfileHeader';
+</script>
 <template>
-  PProfile
+  <EProfileHeader />
 </template>
