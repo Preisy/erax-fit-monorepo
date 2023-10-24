@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import { PLogin } from 'pages/PLogin';
+import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
 import { ENUMS } from 'shared/lib/enums';
@@ -15,7 +16,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: ENUMS.ROUTES.HOME.children.PROFILE,
-        component: () => import('pages/PProfile.vue'),
+        component: () => PProfile,
       },
       {
         path: ENUMS.ROUTES.HOME.children.DIARY,
