@@ -9,7 +9,7 @@ export interface AuthDto {
 export namespace AuthDto {
   export const validation = () =>
     z.object({
-      email: z.string().min(3).max(50),
+      email: z.string().email(),
       password: z.string().min(6).max(30),
     });
 }
@@ -33,6 +33,7 @@ export namespace SignUpDto {
         ctx.addIssue({
           code: 'custom',
           message: errMsg,
+          path: ['passwordRepeat'],
         });
       }
     });
