@@ -15,7 +15,7 @@ const schema = toTypedSchema(AuthDto.validation());
     <SInput name="password" :label="$t('logout.login.fields.password')" />
 
     <template #submit-btn>
-      <div fixed bottom-1rem left-1rem right-1rem flex justify-between>
+      <div absolute bottom-1rem left-0rem right-0rem flex justify-between>
         <SBtn bg="bg!" boxshadow-btn>
           <p fw-800 normal-case>{{ $t('logout.login.controls.forget') }}</p>
         </SBtn>
