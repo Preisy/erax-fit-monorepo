@@ -1,16 +1,19 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import { AuthDto } from 'shared/api/auth';
+import { Auth, useAuthStore } from 'shared/api/auth';
 import { SBtn } from 'shared/ui/SBtn';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
-const submit = (data: Record<string, unknown>) => console.log(data);
-const schema = toTypedSchema(AuthDto.validation());
+const authStore = useAuthStore();
+const loginState = ref(authStore.loginState);
+const login = authStore.login;
+
+const schema = toTypedSchema(Auth.validation());
 </script>
 
 <template>
-  <SForm :action="submit" :field-schema="schema">
+  <SForm :action="login" :field-schema="schema">
     <SInput name="email" :label="$t('logout.login.fields.email')" />
     <SInput name="password" :label="$t('logout.login.fields.password')" />
 
@@ -19,9 +22,7 @@ const schema = toTypedSchema(AuthDto.validation());
         <SBtn bg="bg!" boxshadow-btn>
           <p fw-800 normal-case>{{ $t('logout.login.controls.forget') }}</p>
         </SBtn>
-        <SBtn type="submit" boxshadow-btn>
-          <q-icon name="done" />
-        </SBtn>
+        <SBtn :loading="loginState.state.isLoading()" icon="done" type="submit" boxshadow-btn />
       </div>
     </template>
   </SForm>

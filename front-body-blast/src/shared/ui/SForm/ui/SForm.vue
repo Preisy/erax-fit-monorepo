@@ -4,7 +4,8 @@ import { SBtn } from 'shared/ui/SBtn';
 
 export interface SFormProps {
   fieldSchema: TypedSchema;
-  action: (values: Record<string, unknown>) => void;
+  action: (data: unknown) => unknown | void;
+  loading?: boolean;
 }
 
 const props = defineProps<SFormProps>();
@@ -27,9 +28,7 @@ defineExpose({
       <slot></slot>
     </div>
     <slot name="submit-btn">
-      <SBtn type="submit" float-right mt-0.5rem boxshadow-btn>
-        <q-icon name="done" />
-      </SBtn>
+      <SBtn :loading="loading" icon="done" type="submit" float-right mt-0.5rem boxshadow-btn />
     </slot>
   </form>
 </template>

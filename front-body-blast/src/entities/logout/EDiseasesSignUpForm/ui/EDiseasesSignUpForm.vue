@@ -1,14 +1,18 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import { DiseasesDto } from 'shared/api/auth';
+import { Diseases, useAuthStore } from 'shared/api/auth';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
-const submit = (data: Record<string, unknown>) => console.log(data);
-const schema = toTypedSchema(DiseasesDto.validation());
+const authStore = useAuthStore();
+const diseasesState = ref(authStore.diseasesState);
+const sendDiseases = authStore.sendDiseases;
+
+const schema = toTypedSchema(Diseases.validation());
 </script>
 <template>
-  <SForm :action="submit" :field-schema="schema">
+  <SForm :loading="diseasesState.state.isLoading()" :action="sendDiseases" :field-schema="schema">
+    {{ diseasesState }}
     <SInput name="gastrointestinalDiseases" :label="$t('logout.signUp.diseases.fields.gastrointestinalDiseases')" />
     <SInput name="insulinResistance" :label="$t('logout.signUp.diseases.fields.insulinResistance')" />
     <SInput name="kidneyDisease" :label="$t('logout.signUp.diseases.fields.kidneyDisease')" />
