@@ -1,12 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsDefined,
-  IsEmail,
-  IsIn,
-  IsOptional,
-  IsString,
-  IsStrongPassword,
-} from 'class-validator';
+import { IsDefined, IsEmail, IsIn, IsOptional, IsString, IsStrongPassword } from 'class-validator';
 import { UserEntity } from '../entities/user.entity';
 import { Constants, UserRole } from '../../constants/constants';
 
@@ -22,8 +15,7 @@ export class CreateUserRequest {
   @IsStrongPassword(
     { minLength: 8, minNumbers: 1, minUppercase: 1, minSymbols: 0 },
     {
-      message:
-        'Password must be min 8 symbols, 1 number and 1 uppercase symbol',
+      message: 'Password must be min 8 symbols, 1 number and 1 uppercase symbol',
     },
   )
   @ApiProperty()
@@ -39,12 +31,7 @@ export class CreateUserRequest {
   @ApiPropertyOptional()
   public lastName?: string;
 
-  constructor(
-    email: string,
-    password: string,
-    firstName?: string,
-    lastName?: string,
-  ) {
+  constructor(email: string, password: string, firstName?: string, lastName?: string) {
     this.email = email;
     this.password = password;
     this.firstName = firstName;
@@ -71,8 +58,7 @@ export class CreateUserByAdminRequest {
   @IsStrongPassword(
     { minLength: 8, minNumbers: 1, minUppercase: 1, minSymbols: 0 },
     {
-      message:
-        'Password must be min 8 symbols, 1 number and 1 uppercase symbol',
+      message: 'Password must be min 8 symbols, 1 number and 1 uppercase symbol',
     },
   )
   @ApiProperty()
@@ -88,12 +74,7 @@ export class CreateUserByAdminRequest {
   @ApiPropertyOptional()
   public lastName?: string;
 
-  constructor(
-    email: string,
-    password: string,
-    firstName?: string,
-    lastName?: string,
-  ) {
+  constructor(email: string, password: string, firstName?: string, lastName?: string) {
     this.email = email;
     this.password = password;
     this.firstName = firstName;
