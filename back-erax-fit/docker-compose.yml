@@ -12,7 +12,7 @@ services:
       - ./test:/var/erax/test
     working_dir: /var/erax
     ports:
-      - "${NODEJS_PUBLIC_PORT}:3000"
+      - '${NODEJS_PUBLIC_PORT}:3000'
     depends_on:
       - erax_database
     networks:

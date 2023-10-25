@@ -4,12 +4,14 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
+import { TokenEntity } from '../../authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -41,6 +43,15 @@ export class UserEntity {
   @Exclude()
   @Column({ name: 'password', type: 'varchar', length: 128 })
   public password!: string;
+
+  @ApiProperty({ type: () => TokenEntity })
+  @OneToOne(() => TokenEntity)
+  @JoinColumn({ name: 'tokenId' })
+  public token?: TokenEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'tokenId', nullable: true })
+  public tokenId?: number;
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })

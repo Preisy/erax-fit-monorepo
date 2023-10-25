@@ -1,9 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import {
-  CreateUserByAdminRequest,
-  CreateUserRequest,
-  CreateUserResponse,
-} from './dto/create-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -21,12 +17,10 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {
-          console.log();
+    console.log();
   }
 
-  async createUser(
-    request: CreateUserRequest | CreateUserByAdminRequest,
-  ): Promise<CreateUserResponse> {
+  async createUser(request: CreateUserRequest | CreateUserByAdminRequest): Promise<CreateUserResponse> {
     await this.checkEmailForExistAndThrowErrorIfExist(request.email);
 
     const newUser = this.userRepository.create({
@@ -34,15 +28,11 @@ export class UserService {
       password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
       firstName: request.firstName,
       lastName: request.lastName,
-      role:
-        request instanceof CreateUserByAdminRequest
-          ? request.role
-          : UserRole.Client,
+      role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
     });
 
     const savedUser = await this.userRepository.save(newUser);
-    if (!savedUser)
-      throw MainException.internalRequestError('Error upon saving user');
+    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
     return new CreateUserResponse(savedUser);
   }
@@ -65,10 +55,10 @@ export class UserService {
       where: {
         email: email,
       },
+      relations: ['token'],
     });
 
-    if (!user)
-      throw MainException.entityNotFound(`User with email ${email} not found`);
+    if (!user) throw MainException.entityNotFound(`User with email ${email} not found`);
 
     return new GetUserResponse(user);
   }
@@ -79,12 +69,10 @@ export class UserService {
         id: id,
         role: role,
       },
+      relations: ['token'],
     });
 
-    if (!user)
-      throw MainException.entityNotFound(`User with id ${id} not found`);
-
-    user.password = undefined;
+    if (!user) throw MainException.entityNotFound(`User with id ${id} not found`);
 
     return new GetUserResponse(user);
   }
@@ -95,9 +83,7 @@ export class UserService {
     if (request.email) {
       try {
         await this.getUserByEmail(request.email);
-        throw MainException.invalidData(
-          `User with email ${request.email} already exist`,
-        );
+        throw MainException.invalidData(`User with email ${request.email} already exist`);
       } catch (error: any) {
         if (error instanceof MainException && error.status != 200) {
           throw error;
@@ -107,19 +93,14 @@ export class UserService {
       }
     }
 
-    if (request.password)
-      user.password = await bcrypt.hash(
-        request.password,
-        await bcrypt.genSalt(10),
-      );
+    if (request.password) user.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
 
     if (request.firstName) user.firstName = request.firstName;
 
     if (request.lastName) user.lastName = request.lastName;
 
     const savedUser = await this.userRepository.save(user);
-    if (!savedUser)
-      throw MainException.internalRequestError('Error upon saving user');
+    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
     return new UpdateUserResponse(savedUser);
   }
