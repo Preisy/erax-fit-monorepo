@@ -7,6 +7,7 @@ export default {
         repeats: 'Повторения',
         rest: 'Отдых',
         temp: 'Темп',
+        metrics: 'кг',
       },
     },
   },

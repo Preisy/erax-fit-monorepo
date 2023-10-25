@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { Info } from '../model';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
+interface Info {
+  weight: string;
+  sets: string;
+  repeats: string;
+  rest: string;
+  temp: string;
+}
 export interface ETrainingCardProps {
-  name: string; //Название тренировки
-  commentary: string; //Место для комментария от тренера
-  animUrl: string; //Ссылка на ролик с демонстрацией
-  info: Info; //Подробности тренировки(вес, подходы)
+  name: string;
+  commentary: string;
+  animUrl: string;
+  info: Info;
 }
 defineProps<ETrainingCardProps>();
 </script>

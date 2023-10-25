@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ETrainingCardProps } from 'entities/trainings/ETrainingCard';
-import { TrainingsService } from 'shared/api/services';
+import { TrainingsService } from 'shared/api/training';
 import { useSimpleStoreAction, useSingleState } from 'shared/api/utils';
 
 export const useTrainingStore = defineStore('training', () => {

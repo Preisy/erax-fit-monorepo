@@ -1,7 +1,6 @@
 import { AxiosResponse } from 'axios';
-// eslint-disable-next-line boundaries/element-types
-import { ETrainingCardProps } from 'entities/trainings/ETrainingCard';
 import { useServiceAction } from '../utils';
+import { Training } from './types';
 
 export namespace TrainingsService {
   export const getTrainingsByDate = useServiceAction(
@@ -9,7 +8,7 @@ export namespace TrainingsService {
       new Promise<Pick<AxiosResponse, 'data'>>((resolve) => {
         console.log(date);
         setTimeout(() => {
-          const trainings: ETrainingCardProps[] = [
+          const trainings: Training.Response[] = [
             {
               animUrl: 'https://loremflickr.com/640/360',
               commentary: 'Комментарий от тренера',
@@ -47,7 +46,7 @@ export namespace TrainingsService {
               name: 'Приседания',
             },
           ];
-          const response: Pick<AxiosResponse<ETrainingCardProps[]>, 'data'> = {
+          const response: Pick<AxiosResponse<Training.Response[]>, 'data'> = {
             data: trainings,
           };
           resolve(response);

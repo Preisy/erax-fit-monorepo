@@ -7,6 +7,7 @@ export default {
         repeats: 'Repeats',
         rest: 'Rest',
         temp: 'Temp',
+        metrics: 'kg',
       },
     },
   },

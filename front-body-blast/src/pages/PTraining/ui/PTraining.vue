@@ -1,4 +1,3 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import { EAdditionCard } from 'entities/trainings/EAdditionCard';
 import { ETrainingCard } from 'entities/trainings/ETrainingCard';
@@ -10,9 +9,7 @@ import { useTrainingStore } from '..';
 const trainingStore = useTrainingStore();
 const trainings = computed(() => trainingStore.trainings);
 
-onBeforeMount(async () => {
-  await trainingStore.getTrainingsByDate();
-});
+onBeforeMount(async () => await trainingStore.getTrainingsByDate());
 </script>
 <template>
   <SStructure>

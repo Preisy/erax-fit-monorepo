@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { SCard } from 'shared/ui/SCard';
-import { Info } from '../model';
+import { ETrainingCardProps } from './ETrainingCard.vue';
 defineProps<{
-  info: Info;
+  info: ETrainingCardProps['info'];
 }>();
 </script>
 <template>
   <div flex flex-row flex-wrap gap-0.5rem>
-    <SCard :title="$t('dashboard.trainings.infoBlock.weight')" :value="`${info.weight} кг`" />
+    <SCard
+      :title="$t('dashboard.trainings.infoBlock.weight')"
+      :value="`${info.weight} ${$t('dashboard.trainings.infoBlock.metrics')}`"
+    />
     <SCard :title="$t('dashboard.trainings.infoBlock.sets')" :value="info.sets" />
     <SCard :title="$t('dashboard.trainings.infoBlock.repeats')" :value="info.repeats" />
     <SCard :title="$t('dashboard.trainings.infoBlock.rest')" :value="info.rest" />
