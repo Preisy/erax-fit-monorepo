@@ -15,11 +15,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import {
-  CreateUserByAdminRequest,
-  CreateUserRequest,
-  CreateUserResponse,
-} from './dto/create-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { MainException } from '../exceptions/main.exception';
@@ -29,8 +25,8 @@ import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
-import { AppResponses } from 'src/decorators/app-responses.decorator';
+import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppResponses } from '../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 
@@ -82,21 +78,11 @@ export class UserController {
     type: AppSingleResponse.type(UpdateUserResponse),
   })
   @BaseAuthGuard()
-  async updateUser(
-    @Param('id') id: number,
-    @Req() req: RequestWithUser,
-    @Body() body: UpdateUserRequest,
-  ) {
+  async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can edit other user');
 
-    const request = new UpdateUserRequest(
-      id,
-      body.email,
-      body.password,
-      body.firstName,
-      body.lastName,
-    );
+    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
   }
 

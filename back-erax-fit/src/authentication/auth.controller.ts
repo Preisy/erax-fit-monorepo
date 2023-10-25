@@ -1,8 +1,8 @@
 ﻿import { Body, Controller, Get, Post, Req, UseFilters, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiTags } from '@nestjs/swagger';
-import { AppResponses } from 'src/decorators/app-responses.decorator';
-import { AuthRequest, AuthResponse, LogoutResponse } from './dto/auth.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { AppResponses } from '../decorators/app-responses.decorator';
+import { AuthRequest, AuthResponse, LogoutRequest, LogoutResponse } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
@@ -10,7 +10,7 @@ import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { AuthGuard } from '@nestjs/passport';
 import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
-import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { AppSingleResponse } from '../dto/app-single-response.dto';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -33,19 +33,20 @@ export class AuthController {
     return this.authService.login(req);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @BaseAuthGuard()
   @Throttle(5, 1)
   @Post('logout')
   @AppResponses({ status: 200, type: AppSingleResponse.type(LogoutResponse) })
-  async logout(@Req() req: RequestWithUser) {
-    return this.authService.logout(req.user.id);
+  async logout(@Req() req: LogoutRequest) {
+    return this.authService.logout(req.email);
   }
 
   @UseGuards(AuthGuard('jwt-refresh'))
+  @ApiBearerAuth()
   @Throttle(5, 1)
   @Post('refresh')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
-  async refreshTokens(@Req() req: RequestWithUser) {
+  async refreshTokens(@Body() req: RequestWithUser) {
     return this.authService.refreshTokens(req.user.id, req.user.token.refreshHash);
   }
 
