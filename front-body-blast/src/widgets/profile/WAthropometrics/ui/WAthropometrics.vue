@@ -1,21 +1,24 @@
 <script setup lang="ts">
-import { SBtn } from 'shared/ui/SBtn';
-import { SInput } from 'shared/ui/SInput';
+import { date, QTabPanels, QTabPanel } from 'quasar';
+import { EAthropometricsSlide, IEAthropometricsSlide } from 'entities/profile/EAthropometricsSlide';
+const today = date.formatDate(Date.now(), 'DD.MM');
+const panel = ref(today);
+
+export interface WAthropometrics {
+  slides: Omit<IEAthropometricsSlide, 'panel' | 'dates'>[];
+}
+const props = defineProps<WAthropometrics>();
+const dates = props.slides.map(
+  (it) => new Date().getFullYear() + '/' + it.tdate.slice(3, 5) + '/' + it.tdate.slice(0, 2),
+);
 </script>
 
 <template>
-  <div grid grid-cols-2 mt-8 gap-2>
-    <SInput name="weight" label="Вес" centered />
-    <SInput name="waist" label="Талия" centered />
-    <SInput name="underbelly" label="Низ живота" centered />
-    <SInput name="shoulder" label="Плечо" centered />
-    <SInput name="hip" label="Бедро" centered />
-    <SInput name="hipVolume" label="Обьем бедер" centered />
-  </div>
-  <div mt-2 flex justify-end>
-    <SBtn icon="done" />
+  <div>
+    <q-tab-panels v-model="panel" mx="[-0.5rem]" animated swipeable infinite static class="[&_.q-tab-panel]:(p-2)">
+      <q-tab-panel v-for="slide in slides" :name="slide.tdate" :key="slide.tdate">
+        <EAthropometricsSlide v-bind="slide" v-model:panel="panel" :dates="dates" />
+      </q-tab-panel>
+    </q-tab-panels>
   </div>
 </template>
-
-<!-- .q-field--dense.q-field--float .q-field__label -->
-<!--  -->
