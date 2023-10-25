@@ -33,6 +33,26 @@ const routes: RouteRecordRaw[] = [
   },
 
   {
+    path: ENUMS.ROUTES.ADMIN.base,
+    component: () => import('processes/layouts/LDashboard.vue'),
+    children: [
+      {
+        path: ENUMS.ROUTES.ADMIN.children.PROFILE,
+        component: () => PTraining,
+      },
+      {
+        path: ENUMS.ROUTES.ADMIN.children.PROMPT,
+        component: () => import('pages/PProfile.vue'),
+      },
+      {
+        path: ENUMS.ROUTES.ADMIN.children.LEARNING,
+        component: () => import('pages/PDiary.vue'),
+      },
+    ],
+    redirect: '/admin/profile',
+  },
+
+  {
     path: ENUMS.ROUTES.LOGOUT.base,
     component: () => import('processes/layouts/LLogout.vue'),
     children: [
@@ -47,14 +67,14 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
+    redirect: '/' + ENUMS.ROUTES.LOGOUT.children.LOGIN,
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    redirect: ENUMS.ROUTES.LOGOUT.base,
+    redirect: '/login',
   },
 ];
 

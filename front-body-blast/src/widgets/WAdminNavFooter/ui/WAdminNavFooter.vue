@@ -3,12 +3,11 @@ import { ENUMS } from 'shared/lib/enums';
 import { SFooterNavLink, SFooterNavLinkProps } from 'shared/ui/SFooterNavLink';
 import { SNavbar } from 'shared/ui/SNavbar';
 
-const HOME = ENUMS.ROUTES.HOME;
+const ADMIN = ENUMS.ROUTES.ADMIN;
 const links: SFooterNavLinkProps[] = [
-  { imgSrc: 'sym_r_exercise', title: 'Тренировки', href: HOME.base + HOME.children.TRAINING },
-  { imgSrc: 'sym_r_account_circle', title: 'Профиль', href: HOME.base + HOME.children.PROFILE },
-  { imgSrc: 'sym_r_edit', title: 'Дневник', href: HOME.base + HOME.children.DIARY },
-  { imgSrc: 'sym_r_restaurant', title: 'Питание', href: HOME.base + HOME.children.DIET },
+  { imgSrc: 'sym_r_home', title: 'Профиль', href: ADMIN.base + ADMIN.children.PROFILE },
+  { imgSrc: 'sym_r_settings', title: 'Промты', href: ADMIN.base + ADMIN.children.PROMPT },
+  { imgSrc: 'sym_r_play_arrow', title: 'Обучение', href: ADMIN.base + ADMIN.children.LEARNING },
 ];
 </script>
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-export interface FooterNavLinkProps {
+export interface SFooterNavLinkProps {
   imgSrc: string;
   title: string;
   href: string;
 }
-const props = defineProps<FooterNavLinkProps>();
+const props = defineProps<SFooterNavLinkProps>();
 const route = useRoute();
 const isActive = computed(() => route.path == props.href);
 </script>
@@ -25,7 +25,8 @@ const isActive = computed(() => route.path == props.href);
         transition-opacity-300
         :class="{ 'opacity-50': !isActive }"
       >
-        <q-img :src="imgSrc" pointer-events-none w-1.5rem select-none />
+        <!-- <q-img :src="imgSrc" pointer-events-none w-1.5rem select-none /> -->
+        <q-icon :name="imgSrc" />
         <span>{{ title }}</span>
       </div>
     </router-link>

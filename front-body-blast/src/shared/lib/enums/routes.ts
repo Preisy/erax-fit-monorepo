@@ -17,5 +17,13 @@ export namespace ENUMS {
         REGISTER: 'register',
       },
     },
+    ADMIN: {
+      base: '/admin/',
+      children: {
+        PROMPT: 'prompt',
+        PROFILE: 'profile',
+        LEARNING: 'learning',
+      },
+    },
   };
 }
