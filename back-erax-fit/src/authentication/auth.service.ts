@@ -1,22 +1,26 @@
 ﻿import { Injectable, Inject } from '@nestjs/common';
-import { AuthRequest, AuthResponse, LogoutResponse } from './dto/auth.dto';
+import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MainException } from '../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
 import { UserEntity } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { TokenEntity } from './entities/token.entity';
-import { UpdateUserRequest, UpdateUserResponse } from '../user/dto/update-user.dto';
+import { UpdateUserResponse } from '../user/dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GetUserResponse } from '../user/dto/get-user.dto';
 import { UserRole } from '../constants/constants';
-import { CreateUserResponse, CreateUserRequest, CreateUserByAdminRequest } from '../user/dto/create-user.dto';
+import { AppStatusResponse } from '../dto/app-status-response.dto';
+import { UserService } from '../user/user.service';
+import { UpdateTokenRequest } from './dto/update-token.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(JwtService)
     private readonly jwtService: JwtService,
+    @Inject(UserService)
+    private readonly userService: UserService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(TokenEntity)
@@ -24,11 +28,13 @@ export class AuthService {
   ) {}
 
   async auth(request: AuthRequest): Promise<AuthResponse> {
-    const { user: newUser } = await this.createUserWithToken(request);
+    const { user: newUser } = await this.userService.createUser(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
     }
+
+    await this.createTokenForUser(newUser.email);
 
     const tokens = await this.getTokens(newUser.id, newUser.email);
     await this.updateRefreshHash(newUser.id, tokens.accessToken, tokens.refreshToken);
@@ -58,7 +64,7 @@ export class AuthService {
       };
 
       const decodedToken = await this.jwtService.verifyAsync(jwt, options);
-      if (!decodedToken || !decodedToken?.email) throw MainException.invalidData('Некорректный токен');
+      if (!decodedToken || !decodedToken?.email) throw MainException.invalidData('Invalid token provided');
 
       return (await this.getUserByEmailWithToken(decodedToken.email)).user;
     } catch {
@@ -66,14 +72,14 @@ export class AuthService {
     }
   }
 
-  async logout(email: string): Promise<LogoutResponse> {
+  async logout(email: string): Promise<AppStatusResponse> {
     const { user } = await this.getUserByEmailWithToken(email);
 
     const result = await this.tokenRepository.delete(user.tokenId);
-    return new LogoutResponse(result.affected > 0);
+    return new AppStatusResponse(result.affected > 0);
   }
 
-  async getTokens(userId: number, email: string): Promise<AuthResponse> {
+  async getTokens(userId: UserEntity['id'], email: string): Promise<AuthResponse> {
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(
         { sub: userId, email },
@@ -105,45 +111,13 @@ export class AuthService {
     return bcrypt.hash(data, 10);
   }
 
-  private async updateRefreshHash(userId: number, access: string, refresh: string) {
+  private async updateRefreshHash(userId: UserEntity['id'], access: string, refresh: string) {
     const { user } = await this.getUserByIdWithToken(userId);
 
-    const hash = await this.hashData(access);
-    const refreshHash = await this.hashData(refresh);
-
-    user.token.refreshHash = refreshHash;
-    user.token.hash = hash;
+    user.token.refreshHash = await this.hashData(access);
+    user.token.hash = await this.hashData(refresh);
 
     await this.updateTokenHash(user);
-  }
-
-  private async createUserWithToken(
-    request: CreateUserRequest | CreateUserByAdminRequest,
-  ): Promise<CreateUserResponse> {
-    await this.checkEmailForExistAndThrowErrorIfExist(request.email);
-
-    const newUser = this.userRepository.create({
-      email: request.email,
-      password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
-      firstName: request.firstName,
-      lastName: request.lastName,
-      role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
-    });
-
-    const newToken = this.tokenRepository.create({
-      hash: 'default',
-      refreshHash: 'default',
-    });
-
-    await this.tokenRepository.save(newToken);
-
-    newUser.token = newToken;
-    newUser.tokenId = newToken.id;
-
-    const savedUser = await this.userRepository.save(newUser);
-    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
-
-    return new CreateUserResponse(savedUser);
   }
 
   private async createTokenForUser(email: string) {
@@ -160,18 +134,7 @@ export class AuthService {
     await this.userRepository.save(user);
   }
 
-  private async checkEmailForExistAndThrowErrorIfExist(email: string) {
-    if (
-      await this.userRepository.findOne({
-        where: {
-          email: email,
-        },
-      })
-    )
-      throw MainException.invalidData(`User with email ${email} already exist`);
-  }
-
-  private async getUserByIdWithToken(id: number, role?: UserRole): Promise<GetUserResponse> {
+  private async getUserByIdWithToken(id: UserEntity['id'], role?: UserRole): Promise<GetUserResponse> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
@@ -212,7 +175,7 @@ export class AuthService {
     return new GetUserResponse(user);
   }
 
-  private async updateTokenHash(request: UpdateUserRequest): Promise<UpdateUserResponse> {
+  private async updateTokenHash(request: UpdateTokenRequest): Promise<UpdateUserResponse> {
     const { user } = await this.getUserByIdWithToken(request.id);
 
     if (request.token) {
@@ -226,7 +189,7 @@ export class AuthService {
     return new UpdateUserResponse(savedUser);
   }
 
-  async getMe(userId: number): Promise<UserEntity> {
+  async getMe(userId: UserEntity['id']): Promise<UserEntity> {
     return (await this.getUserByIdWithToken(userId)).user;
   }
 }

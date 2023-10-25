@@ -1,7 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsEmail, IsOptional, IsString, IsStrongPassword } from 'class-validator';
 import { UserEntity } from '../entities/user.entity';
-import { TokenEntity } from '../../authentication/entities/token.entity';
 
 export class UpdateUserRequest {
   public id: number;
@@ -28,16 +27,12 @@ export class UpdateUserRequest {
   @ApiPropertyOptional()
   public lastName?: string;
 
-  @ApiProperty()
-  public token?: TokenEntity;
-
-  constructor(id: number, email: string, password: string, firstName?: string, lastName?: string, token?: TokenEntity) {
+  constructor(id: number, email: string, password: string, firstName?: string, lastName?: string) {
     this.id = id;
     this.email = email;
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.token = token;
   }
 }
 
