@@ -34,7 +34,7 @@ export class MainException {
   static internalRequestError(details?: ErrorDetails): MainException {
     Logger.error(details);
     return new MainException({
-      code: "internal-RequestError",
+      code: 'internal-RequestError',
       message: 'Internal RequestError occurred',
       status: 500,
       details: details,
