@@ -28,11 +28,11 @@ export class WorkoutEntity extends AppBaseEntity {
   @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'userId' })
-  public user?: UserEntity;
+  public user!: UserEntity;
 
   @ApiProperty()
-  @Column('integer', { name: 'userId', nullable: true })
-  public userId?: number;
+  @Column('integer', { name: 'userId' })
+  public userId!: number;
 
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
   exercises: ExerciseEntity[];

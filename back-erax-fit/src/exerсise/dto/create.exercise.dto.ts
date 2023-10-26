@@ -1,10 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDate, IsDateString, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
-import { WorkoutEntity } from '../entities/workout.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 
-export class CreateWorkoutRequest {
+export class CreateExerciseRequest {
   @IsDefined()
   @IsString()
   @ApiProperty()
@@ -51,10 +50,10 @@ export class CreateWorkoutRequest {
 }
 
 export class CreateWorkoutResponse {
-  @ApiProperty({ type: WorkoutEntity })
-  public workout: WorkoutEntity;
+  @ApiProperty({ type: ExerciseEntity })
+  public workout: ExerciseEntity;
 
-  constructor(workout: WorkoutEntity) {
+  constructor(workout: ExerciseEntity) {
     this.workout = workout;
   }
 }

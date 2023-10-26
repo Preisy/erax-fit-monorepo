@@ -80,6 +80,6 @@ export class WorkoutController {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can delete other user');
 
-    return await this.workoutService.deleteWorkoutById(+id);
+    return await this.workoutService.deleteWorkoutById(id);
   }
 }

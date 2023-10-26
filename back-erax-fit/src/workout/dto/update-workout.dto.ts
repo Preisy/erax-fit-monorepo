@@ -1,9 +1,10 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
+import { IsDate, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 import { WorkoutEntity } from '../entities/workout.entity';
 
 export class UpdateWorkoutRequest {
+  @ApiProperty()
   public id: number;
 
   @IsOptional()
@@ -12,9 +13,9 @@ export class UpdateWorkoutRequest {
   public name?: string;
 
   @IsOptional()
-  @IsDate()
+  @IsDateString()
   @ApiPropertyOptional()
-  public date?: Date;
+  public date?: string;
 
   @IsOptional()
   @IsString()
@@ -22,7 +23,6 @@ export class UpdateWorkoutRequest {
   public comment?: string;
 
   @IsOptional()
-  @IsNumber()
   @ApiPropertyOptional()
   public loop?: number;
 
@@ -30,7 +30,7 @@ export class UpdateWorkoutRequest {
   @ApiPropertyOptional()
   public exercises?: ExerciseEntity[];
 
-  constructor(id: number, name: string, date: Date, comment?: string, loop?: number, exercises?: ExerciseEntity[]) {
+  constructor(id: number, name: string, date: string, comment?: string, loop?: number, exercises?: ExerciseEntity[]) {
     this.id = id;
     this.name = name;
     this.date = date;

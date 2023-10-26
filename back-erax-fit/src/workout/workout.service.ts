@@ -9,6 +9,7 @@ import { GetWorkoutResponse } from './dto/get-workout.dto';
 import { CreateWorkoutRequest, CreateWorkoutResponse } from './dto/create-workout.dto';
 import { UpdateWorkoutRequest, UpdateWorkoutResponse } from './dto/update-workout.dto';
 import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
+import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 
 @Injectable()
 export class WorkoutService {
@@ -17,6 +18,8 @@ export class WorkoutService {
     private readonly workoutRepository: Repository<WorkoutEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(ExerciseEntity)
+    private readonly exerciseRepository: Repository<ExerciseEntity>,
   ) {
     console.log();
   }
@@ -52,6 +55,8 @@ export class WorkoutService {
     if (workouts != undefined) {
       count = workouts.length;
       workouts = workouts.slice(skip, page * limit);
+    } else {
+      workouts = [];
     }
 
     return new GetWorkoutsResponse(workouts, count);
@@ -67,20 +72,23 @@ export class WorkoutService {
     if (!workout) {
       throw MainException.entityNotFound(`Workout with id: ${id} not found`);
     }
-
     return new GetWorkoutResponse(workout);
   }
 
   async createWorkout(request: CreateWorkoutRequest): Promise<CreateWorkoutResponse> {
-    const newWorkout = this.workoutRepository.create({
+    let newWorkout = this.workoutRepository.create({
       name: request.name,
-      date: request.date,
+      date: new Date(request.date),
       comment: request.comment,
       loop: request.loop,
-      user: request.user,
+      userId: request.userId,
       exercises: request.exercises,
     });
-
+    newWorkout.user = await this.userRepository.findOne({
+      where: {
+        id: newWorkout.userId,
+      },
+    });
     const savedWorkout = await this.workoutRepository.save(newWorkout);
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
 
@@ -88,10 +96,14 @@ export class WorkoutService {
   }
 
   async updateWorkout(request: UpdateWorkoutRequest): Promise<UpdateWorkoutResponse> {
-    const { workout } = await this.getWorkoutById(request.id);
+    let workout = await this.workoutRepository.findOne({
+      where: {
+        id: request.id,
+      },
+    });
 
     if (request.name) workout.name = request.name;
-    if (request.date) workout.date = request.date;
+    if (request.date) workout.date = new Date(request.date);
     if (request.comment) workout.comment = request.comment;
     if (request.loop) workout.loop = request.loop;
     if (request.exercises) workout.exercises = request.exercises;

@@ -47,9 +47,9 @@ export class ExerciseEntity extends AppBaseEntity {
   @ApiProperty({ type: () => WorkoutEntity })
   @ManyToOne(() => WorkoutEntity)
   @JoinColumn({ name: 'workoutId' })
-  public workout?: WorkoutEntity;
+  public workout!: WorkoutEntity;
 
   @ApiProperty()
-  @Column('integer', { name: 'workoutId', nullable: true })
-  public workoutId?: number;
+  @Column('integer', { name: 'workoutId' })
+  public workoutId!: number;
 }

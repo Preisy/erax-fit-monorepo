@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNumberString, IsOptional } from 'class-validator';
 import { WorkoutEntity } from '../entities/workout.entity';
+import { GetWorkoutResponse } from './get-workout.dto';
 
 export class GetWorkoutsRequest {
   @ApiPropertyOptional()
@@ -27,13 +28,15 @@ export class GetWorkoutsRequest {
 
 export class GetWorkoutsResponse {
   @ApiProperty({ type: [WorkoutEntity] })
-  public workouts: WorkoutEntity[];
+  public workouts: GetWorkoutResponse[];
 
   @ApiProperty()
   public count: number;
 
   constructor(workouts: WorkoutEntity[], count: number) {
-    this.workouts = workouts;
+    this.workouts = new Array(workouts.length);
+    //console.log(this.workouts);
+    for (let i = 0; i < this.workouts.length; i++) this.workouts[i] = new GetWorkoutResponse(workouts[i]);
     this.count = count;
   }
 }
