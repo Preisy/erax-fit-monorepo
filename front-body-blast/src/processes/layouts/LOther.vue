@@ -3,5 +3,5 @@ import POther from 'pages/POther.vue';
 </script>
 
 <template>
-  <POther></POther>
+  <POther />
 </template>

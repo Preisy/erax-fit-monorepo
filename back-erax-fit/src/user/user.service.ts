@@ -25,10 +25,7 @@ export class UserService {
 
     const savedUser = await this.userRepository.save(
       this.userRepository.create({
-        email: request.email,
         password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
-        firstName: request.firstName,
-        lastName: request.lastName,
         role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
         ...request,
       }),
