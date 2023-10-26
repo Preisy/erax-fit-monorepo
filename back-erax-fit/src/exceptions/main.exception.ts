@@ -43,16 +43,16 @@ export class MainException {
 
   static entityNotFound(details?: ErrorDetails): MainException {
     return new MainException({
-      code: 'Ok',
+      code: 'not-found',
       message: 'Entity not found',
-      status: 200,
+      status: 404,
       details: details,
     });
   }
 
   static conflict(details?: ErrorDetails): MainException {
     return new MainException({
-      code: 'confict',
+      code: 'conflict',
       message: 'Conflict occurred',
       status: 409,
       details: details,

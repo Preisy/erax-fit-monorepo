@@ -2,7 +2,7 @@
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { AppResponses } from '../decorators/app-responses.decorator';
-import { AuthRequest, AuthResponse, LogoutRequest, LogoutResponse } from './dto/auth.dto';
+import { AuthRequest, AuthResponse, LogoutRequest } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
@@ -10,6 +10,7 @@ import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
 import { AppSingleResponse } from '../dto/app-single-response.dto';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -35,9 +36,9 @@ export class AuthController {
   @BaseAuthGuard()
   @Throttle(5, 1)
   @Post('logout')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(LogoutResponse) })
-  async logout(@Req() req: LogoutRequest) {
-    return this.authService.logout(req.email);
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
+  async logout(@Req() req: RequestWithUser) {
+    return this.authService.logout(req.user.email);
   }
 
   @BaseAuthGuard()

@@ -43,12 +43,3 @@ export class LogoutRequest {
     this.email = email;
   }
 }
-
-export class LogoutResponse {
-  @ApiProperty()
-  public logOutSuccess: boolean;
-
-  constructor(logOutSuccess: boolean) {
-    this.logOutSuccess = logOutSuccess;
-  }
-}

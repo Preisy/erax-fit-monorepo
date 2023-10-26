@@ -9,12 +9,12 @@ export class TokenEntity {
 
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
-  public hash?: string;
+  public hash: string;
 
   @ApiProperty()
   @Column({
     type: 'varchar',
     length: 256,
   })
-  public refreshHash?: string;
+  public refreshHash: string;
 }
