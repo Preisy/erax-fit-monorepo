@@ -4,10 +4,10 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  JoinColumn,
 } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
@@ -44,10 +44,14 @@ export class UserEntity {
   @Column({ name: 'password', type: 'varchar', length: 128 })
   public password!: string;
 
+  @ApiProperty({ type: () => TokenEntity })
+  @OneToOne(() => TokenEntity)
+  @JoinColumn({ name: 'tokenId' })
+  public token?: TokenEntity;
+
   @ApiProperty()
-  @OneToOne(() => TokenEntity, (token) => token.user)
-  @JoinColumn()
-  token: TokenEntity;
+  @Column('integer', { name: 'tokenId', nullable: true })
+  public tokenId?: number;
 
   @ApiProperty()
   @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
@@ -66,57 +70,57 @@ export class UserEntity {
 
   @ApiProperty()
   @Column({ name: 'height', type: 'float' })
-  public height: number;
+  public height?: number;
 
   @ApiProperty()
   @Column({ name: 'weight', type: 'float' })
-  public weight: number;
+  public weight?: number;
 
   @ApiProperty()
-  @Column({ name: 'weight_in_youth', type: 'float' })
-  public weightInYouth: number;
+  @Column({ name: 'weightInYouth', type: 'float' })
+  public weightInYouth?: number;
 
   @ApiProperty()
-  @Column({ name: 'nutrition_restrictions', type: 'boolean' })
-  public nutritRestrict: boolean;
+  @Column({ name: 'nutritRestrict', type: 'boolean' })
+  public nutritRestrict?: boolean;
 
   @ApiProperty()
   @Column({ name: 'allergy', type: 'boolean' })
-  public allergy: boolean;
+  public allergy?: boolean;
 
   @ApiProperty()
-  @Column({ name: 'gastro_deseases', type: 'varchar', length: 256 })
-  public gastroDeseases: string;
+  @Column({ name: 'gastroDeseases', type: 'varchar', length: 256 })
+  public gastroDeseases?: string;
 
   @ApiProperty()
-  @Column({ name: 'meal_intolerance', type: 'varchar', length: 256 })
-  public mealIntolerance: string;
+  @Column({ name: 'mealIntolerance', type: 'varchar', length: 256 })
+  public mealIntolerance?: string;
 
   @ApiProperty()
-  @Column({ name: 'insulin_resistance', type: 'boolean' })
-  public insulinResistance: boolean;
+  @Column({ name: 'insulinResistance', type: 'boolean' })
+  public insulinResistance?: boolean;
 
   @ApiProperty()
-  @Column({ name: 'kidney_desease', type: 'varchar', length: 128 })
-  public kidneyDesease: string;
+  @Column({ name: 'kidneyDesease', type: 'varchar', length: 128 })
+  public kidneyDesease?: string;
 
   @ApiProperty()
-  @Column({ name: 'heart_desease', type: 'boolean' })
-  public heartDesease: boolean;
+  @Column({ name: 'heartDesease', type: 'boolean' })
+  public heartDesease?: boolean;
 
   @ApiProperty()
-  @Column({ name: 'muscle_desease', type: 'varchar', length: 128 })
-  public muscleDesease: string;
+  @Column({ name: 'muscleDesease', type: 'varchar', length: 128 })
+  public muscleDesease?: string;
 
   @ApiProperty()
-  @Column({ name: 'load_restrictions', type: 'boolean' })
-  public loadRestrictions: boolean;
+  @Column({ name: 'loadRestrictions', type: 'boolean' })
+  public loadRestrictions?: boolean;
 
   @ApiProperty()
-  @Column({ name: 'sports_exp', type: 'varchar', length: 128 })
-  public sportsExp: string;
+  @Column({ name: 'sportsExp', type: 'varchar', length: 128 })
+  public sportsExp?: string;
 
   @ApiProperty()
   @Column({ name: 'goals', type: 'varchar', length: 256 })
-  public goals: string;
+  public goals?: string;
 }

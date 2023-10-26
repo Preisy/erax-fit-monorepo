@@ -9,39 +9,33 @@ import {
   Query,
   Req,
   UseFilters,
-  UseGuards,
   UsePipes,
   ValidationPipe,
-} from "@nestjs/common";
-import { UserService } from "./user.service";
-import { UpdateUserRequest, UpdateUserResponse } from "./dto/update-user.dto";
-import {
-  CreateUserByAdminRequest,
-  CreateUserRequest,
-  CreateUserResponse,
-} from "./dto/create-user.dto";
-import { ApiResponse, ApiTags } from "@nestjs/swagger";
-import { MainExceptionFilter } from "../exceptions/main-exception.filter";
-import { MainException } from "../exceptions/main.exception";
-import { DeleteUserByIdResponse } from "./dto/delete-user-by-id.dto";
-import { GetUserResponse } from "./dto/get-user.dto";
-import { RoleGuard } from "../authentication/guards/role.guard";
-import { UserRole } from "../constants/constants";
-import { RequestWithUser } from "../authentication/types/requestWithUser.type";
-import { GetUsersRequest, GetUsersResponse } from "./dto/get-users.dto";
-import { BaseAuthGuard } from "src/authentication/guards/baseAuth.guard";
-import { AppResponses } from "src/decorators/app-responses.decorator";
-import { Throttle } from "@nestjs/throttler";
-import { AppSingleResponse } from "src/dto/app-single-response.dto";
+} from '@nestjs/common';
+import { UserService } from './user.service';
+import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { MainExceptionFilter } from '../exceptions/main-exception.filter';
+import { MainException } from '../exceptions/main.exception';
+import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
+import { RoleGuard } from '../authentication/guards/role.guard';
+import { UserRole } from '../constants/constants';
+import { RequestWithUser } from '../authentication/types/requestWithUser.type';
+import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
+import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppResponses } from '../decorators/app-responses.decorator';
+import { Throttle } from '@nestjs/throttler';
+import { AppSingleResponse } from '../dto/app-single-response.dto';
 
-@Controller("users")
-@ApiTags("Пользователи")
+@Controller('users')
+@ApiTags('Пользователи')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
-  @Post("create")
+  @Post('create')
   @AppResponses({
     status: 200,
     type: AppSingleResponse.type(CreateUserResponse),
@@ -51,7 +45,7 @@ export class UserController {
     return await this.usersService.createUser(request);
   }
 
-  @Post("by-admin")
+  @Post('by-admin')
   @AppResponses({
     status: 200,
     type: AppSingleResponse.type(CreateUserResponse),
@@ -69,46 +63,36 @@ export class UserController {
     return await this.usersService.getUsers(query);
   }
 
-  @Get(":id")
+  @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
   @BaseAuthGuard()
-  async getUserById(@Param("id") id: number) {
+  async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 
-  @Patch(":id")
+  @Patch(':id')
   @AppResponses({
     status: 200,
     type: AppSingleResponse.type(UpdateUserResponse),
   })
   @BaseAuthGuard()
-  async updateUser(
-    @Param("id") id: number,
-    @Req() req: RequestWithUser,
-    @Body() body: UpdateUserRequest,
-  ) {
+  async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
-      throw MainException.forbidden("Only admin can edit other user");
+      throw MainException.forbidden('Only admin can edit other user');
 
-    const request = new UpdateUserRequest(
-      id,
-      body.email,
-      body.password,
-      body.firstName,
-      body.lastName,
-    );
+    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
   }
 
-  @Delete(":id")
+  @Delete(':id')
   @AppResponses({
     status: 200,
     type: AppSingleResponse.type(DeleteUserByIdResponse),
   })
   @BaseAuthGuard()
-  async deleteUserById(@Param("id") id: number, @Req() req: RequestWithUser) {
+  async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
-      throw MainException.forbidden("Only admin can delete other user");
+      throw MainException.forbidden('Only admin can delete other user');
 
     return await this.usersService.deleteUserById(+id);
   }
