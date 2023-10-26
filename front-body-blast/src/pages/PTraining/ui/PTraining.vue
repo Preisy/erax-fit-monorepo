@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { EAdditionCard } from 'entities/trainings/EAdditionCard';
 import { ETrainingCard } from 'entities/trainings/ETrainingCard';
+import { useTrainingStore } from 'shared/api/training';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
-import { useTrainingStore } from '..';
 
 const trainingStore = useTrainingStore();
 const trainings = computed(() => trainingStore.trainings);

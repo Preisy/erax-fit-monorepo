@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export namespace Training {
   export interface Response {
     name: string;
@@ -11,4 +13,19 @@ export namespace Training {
       temp: string;
     };
   }
+}
+
+export namespace Addition {
+  export interface Dto {
+    message: string;
+  }
+
+  export interface Response {
+    message: string;
+  }
+
+  export const validation = () =>
+    z.object({
+      message: z.string().min(3).max(50),
+    });
 }

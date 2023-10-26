@@ -9,7 +9,7 @@ import { TELoginFormI18n } from 'entities/logout/ELoginForm';
 import { TEMotivationsSignUpFormI18n } from 'entities/logout/EMotivationsSignUpForm';
 import { TTrainingAdditionBlockI18n } from 'entities/trainings/EAdditionCard';
 import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
-import { mergeI18n } from 'shared/api/i18utils';
+import { mergeI18n } from 'shared/lib/i18utils';
 
 export default boot(({ app }) => {
   const i18n = createI18n({
