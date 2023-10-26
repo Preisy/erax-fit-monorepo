@@ -43,9 +43,9 @@ export class AuthService {
   }
 
   async login(request: AuthRequest): Promise<AuthResponse> {
-    const { user } = await this.getUserByEmailWithToken(request.email.toLowerCase());
+    const { user } = await this.userService.getUserByEmail(request.email.toLowerCase());
     const passwordMatches = await bcrypt.compare(request.password, user.password);
-    if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user ${user.id}`);
+    if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user with id ${user.id}`);
 
     if (!user.token || !user.tokenId) await this.createTokenForUser(user.email);
 
@@ -73,9 +73,9 @@ export class AuthService {
   }
 
   async logout(email: string): Promise<AppStatusResponse> {
-    const { user } = await this.getUserByEmailWithToken(email);
-
+    const { user } = await this.getUserByEmailWithToken(email.toLowerCase());
     const result = await this.tokenRepository.delete(user.tokenId);
+
     return new AppStatusResponse(result.affected > 0);
   }
 
@@ -121,7 +121,7 @@ export class AuthService {
   }
 
   private async createTokenForUser(email: string) {
-    const { user } = await this.getUserByEmailWithToken(email);
+    const { user } = await this.userService.getUserByEmail(email);
     const newToken = this.tokenRepository.create({
       hash: 'default',
       refreshHash: 'default',
