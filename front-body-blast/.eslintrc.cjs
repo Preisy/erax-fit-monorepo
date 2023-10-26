@@ -15,7 +15,7 @@ module.exports = {
     'import/resolver': {
       typescript: {
         alwaysTryTypes: true,
-      },
+      }
     },
   },
 
@@ -30,7 +30,9 @@ module.exports = {
     '../.eslintrc.json',
     './.eslintrc-auto-import.json',
     'plugin:vue/vue3-strongly-recommended',
+    'plugin:prettier-vue/recommended',
     '@feature-sliced',
+    '@unocss'
   ],
 
   plugins: ['vue'],
@@ -46,5 +48,10 @@ module.exports = {
     process: 'readonly',
     Capacitor: 'readonly',
     chrome: 'readonly',
+  },
+
+  rules: {
+    'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
+    "@typescript-eslint/no-namespace": 0
   },
 };

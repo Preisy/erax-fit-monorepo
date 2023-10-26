@@ -28,10 +28,10 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios', 'pinia'],
+    boot: ['i18n', 'axios', 'pinia', 'unocss', 'splide'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
-    css: ['../app/styles/app.scss'],
+    css: ['../app/styles/index.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -45,6 +45,7 @@ module.exports = configure(function (/* ctx */) {
 
       'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
+      'material-symbols-rounded'
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build
@@ -87,7 +88,7 @@ module.exports = configure(function (/* ctx */) {
             },
           },
         ],
-        ['unocss/vite', { configFile: 'src/uno.config.ts' }],
+        ['unocss/vite', { configFile: './uno.config.ts' }],
       ],
 
       alias: {
