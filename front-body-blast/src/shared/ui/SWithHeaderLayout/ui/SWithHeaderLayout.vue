@@ -1,11 +1,11 @@
 <script setup lang="ts"></script>
 <template>
-  <q-page-container>
+  <div h-full flex flex-col>
     <div>
       <slot name="header"></slot>
     </div>
-    <div>
+    <div h-full overflow-y-scroll>
       <slot name="body"></slot>
     </div>
-  </q-page-container>
+  </div>
 </template>

@@ -8,6 +8,6 @@ defineProps<EAdminProfileListProps>();
 </script>
 <template>
   <div>
-    <UserProfileCard v-for="user in cards" :key="user.name" :name="user.name" />
+    <UserProfileCard v-for="user in cards" :key="user.name" v-bind="user" />
   </div>
 </template>
