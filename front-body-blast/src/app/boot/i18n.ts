@@ -6,6 +6,8 @@ import { TEDiseasesSignUpFormI18n } from 'entities/logout/EDiseasesSignUpForm';
 import { TEForbiddensSignUpFormI18n } from 'entities/logout/EForbiddensSignUpForm';
 import { TELoginFormI18n } from 'entities/logout/ELoginForm';
 import { TEMotivationsSignUpFormI18n } from 'entities/logout/EMotivationsSignUpForm';
+import { TEAthropometricsSlideI18n } from 'entities/profile/EAthropometricsSlide';
+import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
 import { mergeI18n } from 'shared/lib/i18utils';
 
 export default boot(({ app }) => {
@@ -19,6 +21,8 @@ export default boot(({ app }) => {
       TEForbiddensSignUpFormI18n,
       TEMotivationsSignUpFormI18n,
       TELoginFormI18n,
+      TEProfileHeaderI18n,
+      TEAthropometricsSlideI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

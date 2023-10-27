@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 
+import { useI18n } from 'vue-i18n';
 import { Athropometrics } from 'shared/api/profile';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
@@ -15,14 +16,14 @@ export interface EAthropometricsSlideProps {
   hip?: number;
   hipVolume?: number;
 }
-
+const { t } = useI18n();
 const fields = {
-  weight: 'Вес',
-  waist: 'Талия',
-  underbelly: 'Низ живота',
-  shoulder: 'Плечо',
-  hip: 'Бедро',
-  hipVolume: 'Объем бедер',
+  weight: t('home.profile.athropometrics.weight'),
+  waist: t('home.profile.athropometrics.waist'),
+  underbelly: t('home.profile.athropometrics.underbelly'),
+  shoulder: t('home.profile.athropometrics.shoulder'),
+  hip: t('home.profile.athropometrics.hip'),
+  hipVolume: t('home.profile.athropometrics.hipVolume'),
 };
 
 defineProps<EAthropometricsSlideProps>();
