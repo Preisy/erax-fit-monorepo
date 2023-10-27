@@ -9,4 +9,3 @@ export type I18nMessages = {
     [key: string]: Messages | string | Record<string, unknown>;
   };
 };
-

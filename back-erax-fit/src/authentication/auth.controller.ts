@@ -1,23 +1,16 @@
-﻿import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  UseFilters,
-  UseGuards,
-  UsePipes,
-} from '@nestjs/common';
+﻿import { Body, Controller, Get, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthRequest, AuthResponse } from './dto/auth.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { AppResponses } from '../decorators/app-responses.decorator';
+import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
-import { AuthGuard } from '@nestjs/passport';
 import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
+import { AppSingleResponse } from '../dto/app-single-response.dto';
+import { AppStatusResponse } from '../dto/app-status-response.dto';
 
 @Controller('auth')
 @ApiTags('Аутентификация')
@@ -28,53 +21,36 @@ export class AuthController {
 
   @Throttle(5, 1)
   @Post('signup')
-  @ApiResponse({
-    status: 201,
-    type: AuthResponse,
-  })
+  @AppResponses({ status: 201, type: AppSingleResponse.type(AuthResponse) })
   async auth(@Body() req: AuthRequest) {
     return this.authService.auth(req);
   }
+
   @Throttle(5, 1)
   @Post('login')
-  @ApiResponse({
-    status: 200,
-    type: AuthResponse,
-  })
-  async login(@Body() req: AuthRequest) {
+  @AppResponses({ status: 200, type: AppSingleResponse.type(LoginRequest) })
+  async login(@Body() req: LoginRequest) {
     return this.authService.login(req);
   }
 
-  @UseGuards(AuthGuard('jwt'))
+  @BaseAuthGuard()
   @Throttle(5, 1)
   @Post('logout')
-  @ApiResponse({
-    status: 200,
-    type: AuthResponse,
-  })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
   async logout(@Req() req: RequestWithUser) {
-    return this.authService.logout(req.user.id);
+    return this.authService.logout(req.user.email);
   }
 
-  @UseGuards(AuthGuard('jwt-refresh'))
+  @BaseAuthGuard()
   @Throttle(5, 1)
   @Post('refresh')
-  @ApiResponse({
-    status: 200,
-    type: AuthResponse,
-  })
-  async refreshTokens(@Req() req: RequestWithUser) {
-    return this.authService.refreshTokens(
-      req.user.id,
-      req.user.token.refreshHash,
-    );
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
+  async refreshTokens(@Body() req: RequestWithUser) {
+    return this.authService.refreshTokens(req.user.id, req.user.token.refreshHash);
   }
 
   @Get('me')
-  @ApiResponse({
-    status: 200,
-    type: GetMeResponse,
-  })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(GetMeResponse) })
   @BaseAuthGuard()
   async getMe(@Req() req: RequestWithUser) {
     return this.authService.getMe(req.user.id);

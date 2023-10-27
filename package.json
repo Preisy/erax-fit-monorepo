@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "back-body-blast",
+    "back-erax-fit",
     "front-body-blast"
   ],
   "devDependencies": {

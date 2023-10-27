@@ -8,15 +8,19 @@ import { UserModule } from '../user/user.module';
 import { AccessStrategy } from './strategies/access-strategy';
 import { RefreshStrategy } from './strategies/refresh-strategy';
 import { Repository } from 'typeorm';
+import { TokenEntity } from './entities/token.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([TokenEntity, UserEntity]),
     forwardRef(() => UserModule),
     ConfigModule,
     PassportModule,
     JwtModule.register({
-      secret: process.env['JWT_SECRET'],
-      signOptions: { expiresIn: '100d' },
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: process.env.JWT_EXPIRATION },
     }),
   ],
   providers: [AuthService, AccessStrategy, RefreshStrategy, Repository],
