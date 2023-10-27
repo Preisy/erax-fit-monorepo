@@ -1,3 +1,5 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
+<!-- eslint-disable import/no-unresolved -->
 <script setup lang="ts">
 import { WAddition } from 'widgets/trainings/WAddition';
 import { WTraining, WTrainingProps } from 'widgets/trainings/WTraining';
@@ -37,13 +39,13 @@ const trainings: WTrainingProps[] = [
 </script>
 <template>
   <SStructure>
-    <SSplide :options="{ direction: 'ttb', height: '35rem' }">
+    <!-- <SSplide :options="{ direction: 'ttb', height: '35rem' }">
       <SSplideSlide v-for="training in trainings" :key="training.name">
         <WTraining v-bind="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
         <WAddition py-1.5rem />
       </SSplideSlide>
-    </SSplide>
+    </SSplide> -->
   </SStructure>
 </template>

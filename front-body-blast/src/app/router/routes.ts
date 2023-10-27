@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
+import { PAdminProfile } from 'pages/PAdminProfile';
 import { PLogin } from 'pages/PLogin';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
@@ -38,7 +39,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: ENUMS.ROUTES.ADMIN.children.PROFILE,
-        component: () => PTraining,
+        component: () => PAdminProfile,
       },
       {
         path: ENUMS.ROUTES.ADMIN.children.PROMPT,

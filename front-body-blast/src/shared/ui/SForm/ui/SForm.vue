@@ -24,7 +24,7 @@ defineExpose({
 </script>
 <template>
   <form @submit.prevent="" @submit="submitHandler">
-    <div flex flex-col gap-y-0.5rem>
+    <div flex flex-col gap-y-0.5rem class="s-form-inputs">
       <slot></slot>
     </div>
     <slot name="submit-btn">
