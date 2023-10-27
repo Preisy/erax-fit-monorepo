@@ -8,8 +8,9 @@ const props = [
   { editable: false, weight: 10, tdate: '22.10' },
   { editable: true, weight: 10, tdate: today },
 ];
+const userName = "Имя пользователя"
 </script>
 <template>
-  <EProfileHeader />
+  <EProfileHeader :userName = "userName"/>
   <WAthropometrics :slides="props" />
 </template>
