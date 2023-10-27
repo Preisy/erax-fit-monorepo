@@ -10,6 +10,7 @@ import { GetUserResponse } from './dto/get-user.dto';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { UserRole } from '../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
+import { AppSingleResponse } from '../dto/app-single-response.dto';
 
 @Injectable()
 export class UserService {
@@ -20,7 +21,7 @@ export class UserService {
     console.log();
   }
 
-  async createUser(request: CreateUserRequest | CreateUserByAdminRequest): Promise<CreateUserResponse> {
+  async createUser(request: CreateUserRequest | CreateUserByAdminRequest): Promise<AppSingleResponse<UserEntity>> {
     await this.checkEmailForExistAndThrowErrorIfExist(request.email);
 
     const savedUser = await this.userRepository.save(
@@ -32,7 +33,7 @@ export class UserService {
     );
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
-    return new CreateUserResponse(savedUser);
+    return new AppSingleResponse(savedUser);
   }
 
   async getUsers(request: GetUsersRequest): Promise<GetUsersResponse> {

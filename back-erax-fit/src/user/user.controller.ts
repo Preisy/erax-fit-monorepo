@@ -36,40 +36,26 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post('create-user')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
 
-  @Post('by-admin')
-  @AppResponses({
-    status: 200,
-    type: AppSingleResponse.type(CreateUserResponse),
-  })
-  @Throttle(5, 1)
-  @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
-    return await this.usersService.createUser(createUserDto);
-  }
-
   @Get()
   @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
-  @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async getUsers(@Query() query: GetUsersRequest) {
     return await this.usersService.getUsers(query);
   }
 
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
-  @BaseAuthGuard()
   async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 
   @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
-  @BaseAuthGuard()
   async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
@@ -77,7 +63,6 @@ export class UserController {
 
   @Delete(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse) })
-  @BaseAuthGuard()
   async deleteUserById(@Param('id') id: number) {
     return await this.usersService.deleteUserById(+id);
   }

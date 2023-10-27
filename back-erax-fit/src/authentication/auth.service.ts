@@ -28,7 +28,7 @@ export class AuthService {
   ) {}
 
   async auth(request: AuthRequest): Promise<AuthResponse> {
-    const { user: newUser } = await this.userService.createUser(request);
+    const { data: newUser } = await this.userService.createUser(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
