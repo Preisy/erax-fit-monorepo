@@ -1,7 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDateString, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
+import { IsDefined, IsOptional, IsString } from 'class-validator';
 
 export class CreateExerciseRequest {
   @IsDefined()
@@ -10,50 +8,60 @@ export class CreateExerciseRequest {
   public name: string;
 
   @IsDefined()
-  @IsDateString()
   @ApiProperty()
-  public date: string;
+  public weight: number;
+
+  @IsDefined()
+  @ApiProperty()
+  public sets?: number;
+
+  @IsDefined()
+  @ApiProperty()
+  public repetitions: number;
+
+  @IsDefined()
+  @ApiProperty()
+  public restTime: number;
+
+  @IsDefined()
+  @ApiProperty()
+  @IsString()
+  public pace: string;
+
+  @IsDefined()
+  @ApiProperty()
+  @IsString()
+  public photoLink: string;
+
+  @IsDefined()
+  @ApiProperty()
+  @IsString()
+  public videoLink: string;
 
   @IsOptional()
   @IsString()
   @ApiPropertyOptional()
-  public comment?: string;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public loop?: number;
-
-  @IsDefined()
-  @ApiProperty()
-  public userId: number;
-
-  @IsDefined()
-  @ApiProperty()
-  public exercises: ExerciseEntity[];
+  public trainerComment?: string;
 
   constructor(
     name: string,
-    date: string,
-    userId: number,
-    exercises: ExerciseEntity[],
-    comment?: string,
-    loop?: number,
+    weight: number,
+    sets: number,
+    repetitions: number,
+    restTime: number,
+    pace: string,
+    photoLink: string,
+    videoLink: string,
+    trainerComment?: string,
   ) {
     this.name = name;
-    this.date = date;
-    this.userId = userId;
-    this.exercises = exercises;
-    this.comment = comment;
-    this.loop = loop;
-  }
-}
-
-export class CreateWorkoutResponse {
-  @ApiProperty({ type: ExerciseEntity })
-  public workout: ExerciseEntity;
-
-  constructor(workout: ExerciseEntity) {
-    this.workout = workout;
+    this.weight = weight;
+    this.sets = sets;
+    this.repetitions = repetitions;
+    this.restTime = restTime;
+    this.pace = pace;
+    this.photoLink = photoLink;
+    this.videoLink = videoLink;
+    this.trainerComment = trainerComment;
   }
 }

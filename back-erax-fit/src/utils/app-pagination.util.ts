@@ -60,7 +60,7 @@ export namespace AppPagination {
       ) => {
         const request = new AppPagination.Request(query.expanded, query.page, query.limit);
         const page = request.page || 1;
-        const limit = request.limit || 10;
+        const limit = request.limit;
         const skip = (page - 1) * limit;
 
         const [sellers, count] = await repository.findAndCount({

@@ -1,8 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDateString, IsDefined, IsNumber, IsOptional, IsString } from 'class-validator';
+import {
+  ArrayNotEmpty,
+  IsDateString,
+  IsDefined,
+  IsNumber,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { WorkoutEntity } from '../entities/workout.entity';
-import { UserEntity } from 'src/user/entities/user.entity';
-import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
+import { CreateExerciseRequest } from '../../exerсise/dto/create.exercise.dto';
+import { Type } from 'class-transformer';
 
 export class CreateWorkoutRequest {
   @IsDefined()
@@ -30,14 +38,17 @@ export class CreateWorkoutRequest {
   public userId: number;
 
   @IsDefined()
-  @ApiProperty()
-  public exercises: ExerciseEntity[];
+  @ArrayNotEmpty()
+  @ValidateNested({ each: true })
+  @Type(() => CreateExerciseRequest)
+  @ApiProperty({ type: [CreateExerciseRequest] })
+  public exercises: CreateExerciseRequest[];
 
   constructor(
     name: string,
     date: string,
     userId: number,
-    exercises: ExerciseEntity[],
+    exercises: CreateExerciseRequest[],
     comment?: string,
     loop?: number,
   ) {

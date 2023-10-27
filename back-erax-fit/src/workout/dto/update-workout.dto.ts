@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDate, IsDateString, IsNumber, IsOptional, IsString } from 'class-validator';
-import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
+import { ArrayNotEmpty, IsDateString, IsDefined, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { WorkoutEntity } from '../entities/workout.entity';
+import { CreateExerciseRequest } from 'src/exerсise/dto/create.exercise.dto';
+import { Type } from 'class-transformer';
 
 export class UpdateWorkoutRequest {
   @ApiProperty()
@@ -27,10 +28,19 @@ export class UpdateWorkoutRequest {
   public loop?: number;
 
   @IsOptional()
-  @ApiPropertyOptional()
-  public exercises?: ExerciseEntity[];
+  @ValidateNested({ each: true })
+  @Type(() => CreateExerciseRequest)
+  @ApiProperty({ type: [CreateExerciseRequest] })
+  public exercises: CreateExerciseRequest[];
 
-  constructor(id: number, name: string, date: string, comment?: string, loop?: number, exercises?: ExerciseEntity[]) {
+  constructor(
+    id: number,
+    name: string,
+    date: string,
+    comment?: string,
+    loop?: number,
+    exercises?: CreateExerciseRequest[],
+  ) {
     this.id = id;
     this.name = name;
     this.date = date;

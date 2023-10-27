@@ -41,11 +41,8 @@ export class ExerciseEntity extends AppBaseEntity {
   @Column({ name: 'video_link', nullable: false })
   public videoLink!: string;
 
-  //@ManyToOne(() => WorkoutEntity, (workout) => workout.exercises)
-  //workout: WorkoutEntity;
-
   @ApiProperty({ type: () => WorkoutEntity })
-  @ManyToOne(() => WorkoutEntity)
+  @ManyToOne(() => WorkoutEntity, (workout) => workout.exercises, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'workoutId' })
   public workout!: WorkoutEntity;
 

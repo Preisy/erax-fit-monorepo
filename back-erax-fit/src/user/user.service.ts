@@ -10,6 +10,7 @@ import { GetUserResponse } from './dto/get-user.dto';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { UserRole } from '../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
+import { filterUndefined } from 'src/utils/filter-undefined.util';
 
 @Injectable()
 export class UserService {
@@ -24,10 +25,8 @@ export class UserService {
     await this.checkEmailForExistAndThrowErrorIfExist(request.email);
 
     const newUser = this.userRepository.create({
-      email: request.email,
+      ...request,
       password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
-      firstName: request.firstName,
-      lastName: request.lastName,
       role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
     });
 
@@ -94,18 +93,17 @@ export class UserService {
 
     if (request.password) user.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
 
-    if (request.firstName) user.firstName = request.firstName;
-
-    if (request.lastName) user.lastName = request.lastName;
-
-    const savedUser = await this.userRepository.save(user);
+    const savedUser = await this.userRepository.save({
+      ...user,
+      ...filterUndefined(request),
+    });
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
     return new UpdateUserResponse(savedUser);
   }
 
   async deleteUserById(id: UserEntity['id']): Promise<DeleteUserByIdResponse> {
-    const result = await this.userRepository.softDelete(id);
+    const result = await this.userRepository.delete(id);
     return new DeleteUserByIdResponse(result.affected > 0);
   }
 

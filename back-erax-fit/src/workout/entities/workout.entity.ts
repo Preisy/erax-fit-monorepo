@@ -22,9 +22,6 @@ export class WorkoutEntity extends AppBaseEntity {
   @Column({ name: 'loop', nullable: true })
   public loop!: number;
 
-  // @ManyToOne(() => UserEntity, (user) => user.workouts)
-  // user: UserEntity;
-
   @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'userId' })
@@ -34,6 +31,6 @@ export class WorkoutEntity extends AppBaseEntity {
   @Column('integer', { name: 'userId' })
   public userId!: number;
 
-  @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout)
+  @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout, { cascade: true })
   exercises: ExerciseEntity[];
 }

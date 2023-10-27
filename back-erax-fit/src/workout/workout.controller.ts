@@ -69,8 +69,8 @@ export class WorkoutController {
   @Patch('trainer/workouts/:id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateWorkoutResponse) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async updateWorkout(@Query() query: UpdateWorkoutRequest) {
-    return await this.workoutService.updateWorkout(query);
+  async updateWorkout(@Body() body: UpdateWorkoutRequest) {
+    return await this.workoutService.updateWorkout(body);
   }
 
   @Delete('trainer/workouts/:id')

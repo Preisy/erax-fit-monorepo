@@ -1,9 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsBoolean, IsNumberString, IsOptional } from 'class-validator';
-import { WorkoutEntity } from '../entities/workout.entity';
-import { GetWorkoutResponse } from './get-workout.dto';
+import { FileEntity } from '../entities/file.entity';
 
-export class GetWorkoutsRequest {
+export class GetFilesRequest {
   @ApiPropertyOptional()
   @IsOptional()
   @IsNumberString()
@@ -19,23 +18,22 @@ export class GetWorkoutsRequest {
   @IsBoolean()
   public expanded?: boolean;
 
-  constructor(page?: number, limit?: number, expanded = false) {
+  constructor(expanded = false, page?: number, limit?: number) {
     this.page = page;
     this.limit = limit;
     this.expanded = expanded;
   }
 }
 
-export class GetWorkoutsResponse {
-  @ApiProperty({ type: [WorkoutEntity] })
-  public workouts: GetWorkoutResponse[];
+export class GetFilesResponse {
+  @ApiProperty({ type: [FileEntity] })
+  public files: FileEntity[];
 
   @ApiProperty()
   public count: number;
 
-  constructor(workouts: WorkoutEntity[], count: number) {
-    this.workouts = new Array(workouts.length);
-    for (let i = 0; i < this.workouts.length; i++) this.workouts[i] = new GetWorkoutResponse(workouts[i]);
+  constructor(files: FileEntity[], count: number) {
+    this.files = files;
     this.count = count;
   }
 }
