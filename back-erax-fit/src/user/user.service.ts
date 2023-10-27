@@ -25,9 +25,9 @@ export class UserService {
 
     const savedUser = await this.userRepository.save(
       this.userRepository.create({
+        ...request,
         password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
         role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
-        ...request,
       }),
     );
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');

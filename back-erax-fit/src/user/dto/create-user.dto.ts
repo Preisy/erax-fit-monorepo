@@ -109,13 +109,17 @@ export class CreateUserRequest {
   @ApiProperty()
   @Length(1, 300)
   public goals: string;
+
+  constructor(password: string) {
+    this.password = password;
+  }
 }
 
 export class CreateUserByAdminRequest extends CreateUserRequest {
   @IsDefined()
   @IsIn(Constants.UserRoleList.getList())
   @ApiProperty({
-    example: `One value from [${Constants.UserRoleList.getList()}`,
+    example: `One value from [${Constants.UserRoleList.getList()}]`,
   })
   public role: UserRole;
 }

@@ -1,5 +1,5 @@
 ﻿import { Injectable, Inject } from '@nestjs/common';
-import { AuthRequest, AuthResponse } from './dto/auth.dto';
+import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { MainException } from '../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
@@ -42,7 +42,7 @@ export class AuthService {
     return tokens;
   }
 
-  async login(request: AuthRequest): Promise<AuthResponse> {
+  async login(request: LoginRequest): Promise<AuthResponse> {
     const { user } = await this.userService.getUserByEmail(request.email.toLowerCase());
     const passwordMatches = await bcrypt.compare(request.password, user.password);
     if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user with id ${user.id}`);

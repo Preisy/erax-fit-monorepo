@@ -58,7 +58,7 @@ export class UserEntity extends AppBaseEntity {
   public weightInYouth: number;
 
   @ApiProperty()
-  @Column({ name: 'nutritRestrict', type: 'boolean' })
+  @Column({ type: 'boolean' })
   public nutritRestrict: boolean;
 
   @ApiProperty()
