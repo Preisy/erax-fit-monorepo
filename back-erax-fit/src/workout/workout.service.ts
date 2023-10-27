@@ -11,6 +11,7 @@ import { UpdateWorkoutRequest, UpdateWorkoutResponse } from './dto/update-workou
 import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
+import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 
 @Injectable()
 export class WorkoutService {
@@ -61,7 +62,7 @@ export class WorkoutService {
     return new GetWorkoutsResponse(workouts, count);
   }
 
-  async getWorkoutById(id: WorkoutEntity['id']): Promise<GetWorkoutResponse> {
+  async getWorkoutById(id: WorkoutEntity['id']) {
     const workout = await this.workoutRepository.findOne({
       where: {
         id: id,
@@ -72,7 +73,7 @@ export class WorkoutService {
     if (!workout) {
       throw MainException.entityNotFound(`Workout with id: ${id} not found`);
     }
-    return new GetWorkoutResponse(workout);
+    return new AppSingleResponse(new GetWorkoutResponse(workout));
   }
 
   async createWorkout(request: CreateWorkoutRequest): Promise<CreateWorkoutResponse> {
@@ -96,16 +97,15 @@ export class WorkoutService {
     return new CreateWorkoutResponse(savedWorkout);
   }
 
-  async updateWorkout(request: UpdateWorkoutRequest): Promise<UpdateWorkoutResponse> {
-    let workout = await this.workoutRepository.findOne({
-      where: {
-        id: request.id,
-      },
-      relations: ['exercises'],
-    });
+  async updateWorkout(request: UpdateWorkoutRequest) {
+    let { data: workout } = await this.getWorkoutById(request.id);
+    console.log(workout.exercises);
     if (request.exercises) {
-      let exerciseForDelete = workout.exercises.map((exercise) => this.exerciseRepository.delete(exercise));
-      await Promise.all(exerciseForDelete);
+      // let exerciseForDelete = workout.exercises.map((exercise) => this.exerciseRepository.delete(exercise.id));
+      // await Promise.all(exerciseForDelete);
+      await this.exerciseRepository.delete({
+        workoutId: request.id,
+      });
       workout.exercises = [];
     }
     const savedWorkout = await this.workoutRepository.save({
@@ -114,8 +114,6 @@ export class WorkoutService {
       date: new Date(request.date),
     });
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
-    console.log('----------------------------------------------------');
-    console.log(workout.exercises);
     return new UpdateWorkoutResponse(savedWorkout);
   }
 
