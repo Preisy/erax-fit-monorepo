@@ -6,23 +6,22 @@ import { SNavList, RouteRecord } from 'shared/ui/SNavList';
 type SwipeEventData = Parameters<Exclude<TouchSwipeValue, undefined>>['0'];
 
 const router = useRouter();
-const AUTH = ENUMS.ROUTES.AUTH;
 const routes: Array<RouteRecord> = [
   {
-    path: '/' + AUTH.CHILDREN.LOGIN,
-    name: 'Вход',
+    name: ENUMS.ROUTES_NAMES.LOGIN,
+    label: 'Вход',
   },
   {
-    path: '/' + AUTH.CHILDREN.REGISTER,
-    name: 'Регистрация',
+    name: ENUMS.ROUTES_NAMES.REGISTER,
+    label: 'Регистрация',
   },
 ];
 
 const e = ({ direction }: SwipeEventData) => {
   if (!direction) return;
   const map = {
-    right: () => router.push(routes.at(0)!.path),
-    left: () => router.push(routes.at(1)!.path),
+    right: () => router.push(routes.at(0)!.name),
+    left: () => router.push(routes.at(1)!.name),
   } as const;
   map[direction as keyof typeof map]();
 };

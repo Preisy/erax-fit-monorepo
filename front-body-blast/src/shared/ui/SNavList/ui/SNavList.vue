@@ -1,27 +1,28 @@
 <script setup lang="ts">
 export interface RouteRecord {
-  path: string;
   name: string;
+  label: string;
 }
 const props = defineProps<{
   routes: RouteRecord[];
 }>();
 const router = useRouter();
 
-const index = computed(() => props.routes.findIndex((route) => route.path === router.currentRoute.value.path));
+const index = computed(() => props.routes.findIndex((route) => route.name === router.currentRoute.value.name));
+console.log(props.routes);
 </script>
 <template>
-  <div flex justify-center gap-8px>
+  <div relative z-1 flex justify-center gap-8px>
     <router-link
       v-for="(el, i) in routes"
-      :key="el.path"
-      :to="routes[i].path"
+      :key="el.name"
+      :to="routes[i].name"
       :class="{ 'opacity-100!': index === i }"
       fw-800
       opacity-20
       transition-opacity-300
     >
-      {{ el.name }}
+      {{ el.label }}
     </router-link>
   </div>
 </template>
