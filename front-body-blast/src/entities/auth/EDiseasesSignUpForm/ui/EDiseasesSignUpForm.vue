@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { Diseases, useAuthStore } from 'shared/api/auth';
-import { SForm } from 'shared/ui/SForm';
+import { SForm, useHandlerWrapper } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
 const authStore = useAuthStore();
 const diseasesState = ref(authStore.diseasesState);
-const sendDiseases = authStore.sendDiseases;
+const onsubmit = useHandlerWrapper(authStore.sendDiseases);
 
 const schema = toTypedSchema(Diseases.validation());
 </script>
 <template>
-  <SForm :loading="diseasesState.state.isLoading()" :action="sendDiseases" :field-schema="schema">
+  <SForm :loading="diseasesState.state.isLoading()" @submit="onsubmit" :field-schema="schema">
     <SInput name="gastrointestinalDiseases" :label="$t('auth.signUp.diseases.fields.gastrointestinalDiseases')" />
     <SInput name="insulinResistance" :label="$t('auth.signUp.diseases.fields.insulinResistance')" />
     <SInput name="kidneyDisease" :label="$t('auth.signUp.diseases.fields.kidneyDisease')" />

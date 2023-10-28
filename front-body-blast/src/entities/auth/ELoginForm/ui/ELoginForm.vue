@@ -2,18 +2,18 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { Auth, useAuthStore } from 'shared/api/auth';
 import { SBtn } from 'shared/ui/SBtn';
-import { SForm } from 'shared/ui/SForm';
+import { SForm, useHandlerWrapper } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
 const authStore = useAuthStore();
 const loginState = ref(authStore.loginState);
-const login = authStore.login;
 
+const onsubmit = useHandlerWrapper(authStore.login);
 const schema = toTypedSchema(Auth.validation());
 </script>
 
 <template>
-  <SForm :action="login" :field-schema="schema">
+  <SForm @submit="onsubmit" :field-schema="schema">
     <SInput name="email" :label="$t('auth.login.fields.email')" />
     <SInput name="password" :label="$t('auth.login.fields.password')" />
 
