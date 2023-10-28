@@ -1,49 +1,46 @@
 import { RouteRecordRaw } from 'vue-router';
-import { PLogin } from 'pages/PLogin';
-import { PRegister } from 'pages/PRegister';
-import { PTraining } from 'pages/PTraining';
 import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: ENUMS.ROUTES.HOME.base,
+    path: ENUMS.ROUTES.HOME.BASE,
     component: () => import('processes/layouts/LDashboard.vue'),
     children: [
       {
-        path: ENUMS.ROUTES.HOME.children.TRAINING,
-        component: () => PTraining,
+        path: ENUMS.ROUTES.HOME.CHILDREN.TRAINING,
+        component: () => import('pages/PTraining'),
       },
       {
-        path: ENUMS.ROUTES.HOME.children.PROFILE,
+        path: ENUMS.ROUTES.HOME.CHILDREN.PROFILE,
         component: () => import('pages/PProfile.vue'),
       },
       {
-        path: ENUMS.ROUTES.HOME.children.DIARY,
+        path: ENUMS.ROUTES.HOME.CHILDREN.DIARY,
         component: () => import('pages/PDiary.vue'),
       },
       {
-        path: ENUMS.ROUTES.HOME.children.DIET,
+        path: ENUMS.ROUTES.HOME.CHILDREN.DIET,
         component: () => import('pages/PDiet.vue'),
       },
       {
-        path: ENUMS.ROUTES.HOME.children.LEARNING,
+        path: ENUMS.ROUTES.HOME.CHILDREN.LEARNING,
         component: () => import('pages/PLearning.vue'),
       },
     ],
   },
 
   {
-    path: ENUMS.ROUTES.LOGOUT.base,
-    component: () => import('processes/layouts/LLogout.vue'),
+    path: ENUMS.ROUTES.AUTH.BASE,
+    component: () => import('processes/layouts/LAuth.vue'),
     children: [
       {
-        path: ENUMS.ROUTES.LOGOUT.children.REGISTER,
-        component: PRegister,
+        path: ENUMS.ROUTES.AUTH.CHILDREN.REGISTER,
+        component: () => import('pages/PRegister'),
         meta: { transition: 'slide-left' },
       },
       {
-        path: ENUMS.ROUTES.LOGOUT.children.LOGIN,
-        component: PLogin,
+        path: ENUMS.ROUTES.AUTH.CHILDREN.LOGIN,
+        component: () => import('pages/PLogin'),
         meta: { transition: 'slide-right' },
       },
     ],
@@ -54,7 +51,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    redirect: ENUMS.ROUTES.LOGOUT.base,
+    redirect: ENUMS.ROUTES.AUTH.BASE,
   },
 ];
 
