@@ -11,7 +11,7 @@ const { signUp } = authStore;
 
 const { t } = useI18n();
 const passwordsMismatchErrorMessage = t('auth.signUp.credentials.errors.passwordMismatch');
-const validationSchema = toTypedSchema(SignUp.validationRefined(passwordsMismatchErrorMessage));
+const validationSchema = toTypedSchema(SignUp.validation(passwordsMismatchErrorMessage));
 </script>
 <template>
   <SForm :loading="signUpState.state.isLoading()" @submit="signUp" :field-schema="validationSchema">

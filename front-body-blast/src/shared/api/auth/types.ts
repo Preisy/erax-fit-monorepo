@@ -26,22 +26,21 @@ export namespace SignUp {
   export interface Response {
     message: string;
   }
-  export const validation = () =>
-    Auth.validation().extend({
-      username: z.string().min(3).max(50),
-      passwordRepeat: z.string().min(6).max(50),
-    });
-
-  export const validationRefined = (errMsg: string) =>
-    validation().superRefine(({ passwordRepeat, password }, ctx) => {
-      if (passwordRepeat !== password) {
-        ctx.addIssue({
-          code: 'custom',
-          message: errMsg,
-          path: ['passwordRepeat'],
-        });
-      }
-    });
+  export const validation = (errMsg: string) =>
+    Auth.validation()
+      .extend({
+        username: z.string().min(3).max(50),
+        passwordRepeat: z.string().min(6).max(50),
+      })
+      .superRefine(({ passwordRepeat, password }, ctx) => {
+        if (passwordRepeat !== password) {
+          ctx.addIssue({
+            code: 'custom',
+            message: errMsg,
+            path: ['passwordRepeat'],
+          });
+        }
+      });
 }
 
 // Sign up (body params)
