@@ -35,6 +35,7 @@ export const signUpService = {
   }),
   bodyParams: useServiceAction((data: BodyParams.Dto) => {
     // return signUpApi.post<BodyParams.Response>('/stats', data);
+
     return requestSimulator<BodyParams.Response>('Body params was saved');
   }),
   forbiddens: useServiceAction((data: Forbiddens.Dto) => {
