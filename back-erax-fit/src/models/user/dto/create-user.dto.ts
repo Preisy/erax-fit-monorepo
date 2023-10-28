@@ -9,9 +9,9 @@ import {
   IsNumber,
   IsBoolean,
   Length,
+  ValidateIf,
 } from 'class-validator';
-import { UserEntity } from '../entities/user.entity';
-import { Constants, UserRole } from '../../constants/constants';
+import { Constants, UserRole } from '../../../constants/constants';
 
 export class CreateUserRequest {
   @IsDefined()
@@ -114,6 +114,7 @@ export class CreateUserRequest {
     this.password = password;
   }
 }
+export class CreateClientRequest extends CreateUserRequest {}
 
 export class CreateUserByAdminRequest extends CreateUserRequest {
   @IsDefined()
@@ -122,13 +123,4 @@ export class CreateUserByAdminRequest extends CreateUserRequest {
     example: `One value from [${Constants.UserRoleList.getList()}]`,
   })
   public role: UserRole;
-}
-
-export class CreateUserResponse {
-  @ApiProperty({ type: UserEntity })
-  public user: UserEntity;
-
-  constructor(user: UserEntity) {
-    this.user = user;
-  }
 }

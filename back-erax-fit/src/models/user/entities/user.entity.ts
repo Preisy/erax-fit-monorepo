@@ -1,9 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
+import { Constants, UserRole } from '../../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../authentication/entities/token.entity';
-import { AppBaseEntity } from '../../models/app-base-entity.entity';
+import { AppBaseEntity } from '../../app-base-entity.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {

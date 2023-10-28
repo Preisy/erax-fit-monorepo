@@ -1,16 +1,16 @@
 ﻿import { Body, Controller, Get, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
-import { AppResponses } from '../decorators/app-responses.decorator';
+import { AppResponses } from '../../decorators/app-responses.decorator';
 import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
-import { MainExceptionFilter } from '../exceptions/main-exception.filter';
-import { ValidationPipe } from '../pipes/validation.pipe';
+import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
+import { ValidationPipe } from '../../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
 import { BaseAuthGuard } from './guards/baseAuth.guard';
 import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
-import { AppSingleResponse } from '../dto/app-single-response.dto';
-import { AppStatusResponse } from '../dto/app-status-response.dto';
+import { AppSingleResponse } from '../../dto/app-single-response.dto';
+import { AppStatusResponse } from '../../dto/app-status-response.dto';
 
 @Controller('auth')
 @ApiTags('Аутентификация')

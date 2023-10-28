@@ -1,6 +1,6 @@
 ﻿import { CanActivate, ExecutionContext, mixin, Type } from '@nestjs/common';
 import { JWTAuthGuard } from './jwtAuth.guard';
-import { UserRole } from '../../constants/constants';
+import { UserRole } from '../../../constants/constants';
 import { RequestWithUser } from '../types/requestWithUser.type';
 
 export const RoleGuard = (roles: UserRole | UserRole[]): Type<CanActivate> => {
@@ -12,9 +12,7 @@ export const RoleGuard = (roles: UserRole | UserRole[]): Type<CanActivate> => {
       const user = request.user;
       const availableRoles = Array.isArray(roles) ? roles : [roles];
 
-      return user?.role == UserRole.Admin
-        ? true
-        : availableRoles.some((r) => user?.role.includes(r));
+      return user?.role == UserRole.Admin ? true : availableRoles.some((r) => user?.role.includes(r));
     }
   }
 
