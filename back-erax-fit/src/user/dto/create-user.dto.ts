@@ -109,10 +109,6 @@ export class CreateUserRequest {
   @ApiProperty()
   @Length(1, 300)
   public goals: string;
-
-  constructor(password: string) {
-    this.password = password;
-  }
 }
 
 export class CreateUserByAdminRequest extends CreateUserRequest {
@@ -122,13 +118,4 @@ export class CreateUserByAdminRequest extends CreateUserRequest {
     example: `One value from [${Constants.UserRoleList.getList()}]`,
   })
   public role: UserRole;
-}
-
-export class CreateUserResponse {
-  @ApiProperty({ type: UserEntity })
-  public user: UserEntity;
-
-  constructor(user: UserEntity) {
-    this.user = user;
-  }
 }

@@ -14,7 +14,7 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
+import { CreateUserRequest } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
@@ -22,20 +22,20 @@ import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppAuthGuard } from '../authentication/guards/baseAuth.guard';
 import { AppResponses } from '../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../dto/app-single-response.dto';
 
-@BaseAuthGuard(RoleGuard(UserRole.Admin))
+@AppAuthGuard(RoleGuard(UserRole.Admin))
 @Controller('users')
-@ApiTags('Пользователи')
+@ApiTags('Users')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class UserController {
   constructor(private readonly usersService: UserService) {}
 
-  @Post('create-user')
+  @Post()
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
