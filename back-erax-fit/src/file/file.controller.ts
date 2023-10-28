@@ -65,7 +65,7 @@ export class FileController {
 
   @Get(':filename')
   @AppResponses({ status: 200, type: 'file' })
-  @BaseAuthGuard(RoleGuard(UserRole.Admin))
+  @BaseAuthGuard()
   seeUploadedFile(@Param('filename') image: string, @Res() res: Response) {
     return res.sendFile(image, {
       root: './uploads',

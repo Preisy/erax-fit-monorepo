@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { WorkoutEntity } from '../entities/workout.entity';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
-import { CreateExerciseRequest } from 'src/exerсise/dto/create.exercise.dto';
+import { CreateExerciseRequest } from 'src/exerсise/dto/create-exercise.dto';
 import { ArrayNotEmpty, IsDefined, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { GeExerciseResponse } from 'src/exerсise/dto/get.exercise.dto';
+import { GetExerciseResponse } from 'src/exerсise/dto/get-exercise.dto';
 
 export class GetWorkoutResponse {
   @ApiProperty()
@@ -22,9 +22,9 @@ export class GetWorkoutResponse {
   @IsDefined()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => GeExerciseResponse)
-  @ApiProperty({ type: [GeExerciseResponse] })
-  public exercises: GeExerciseResponse[];
+  @Type(() => GetExerciseResponse)
+  @ApiProperty({ type: [GetExerciseResponse] })
+  public exercises: GetExerciseResponse[];
 
   constructor(workout: WorkoutEntity) {
     this.name = workout.name;

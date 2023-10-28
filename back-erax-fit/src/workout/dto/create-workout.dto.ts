@@ -9,7 +9,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { WorkoutEntity } from '../entities/workout.entity';
-import { CreateExerciseRequest } from '../../exerсise/dto/create.exercise.dto';
+import { CreateExerciseRequest } from '../../exerсise/dto/create-exercise.dto';
 import { Type } from 'class-transformer';
 
 export class CreateWorkoutRequest {
