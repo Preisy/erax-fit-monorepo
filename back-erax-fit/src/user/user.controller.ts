@@ -9,13 +9,14 @@ import {
   Query,
   Req,
   UseFilters,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
 import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { MainException } from '../exceptions/main.exception';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
@@ -24,8 +25,8 @@ import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
-import { AppResponses } from 'src/decorators/app-responses.decorator';
+import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppResponses } from '../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 

@@ -18,7 +18,7 @@ export class JWTAuthGuard implements CanActivate {
 
     if (!token) throw MainException.unauthorized('x-auth-token/Authorization is not provided');
 
-    request.user = await this.authService.login(token);
+    request.user = await this.authService.provideUser(token);
 
     return request;
   }

@@ -4,6 +4,15 @@ import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entities/workout.entity';
+import {
+  CreateDateColumn,
+  DeleteDateColumn,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { TokenEntity } from '../../authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
@@ -34,4 +43,23 @@ export class UserEntity extends AppBaseEntity {
 
   @OneToMany(() => WorkoutEntity, (workout) => workout.user)
   workouts: WorkoutEntity[];
+  @ApiProperty({ type: () => TokenEntity })
+  @OneToOne(() => TokenEntity)
+  @JoinColumn({ name: 'tokenId' })
+  public token?: TokenEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'tokenId', nullable: true })
+  public tokenId?: number;
+
+  @ApiProperty()
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  public createdAt!: Date;
+
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  public updatedAt!: Date;
+
+  @ApiProperty()
+  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
+  public deletedAt!: Date;
 }

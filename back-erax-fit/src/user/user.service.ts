@@ -27,6 +27,8 @@ export class UserService {
     const newUser = this.userRepository.create({
       ...request,
       password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
+      firstName: request.firstName,
+      lastName: request.lastName,
       role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
     });
 
@@ -54,6 +56,7 @@ export class UserService {
       where: {
         email: email,
       },
+      relations: ['token'],
     });
 
     if (!user) throw MainException.entityNotFound(`User with email: ${email} not found`);
@@ -66,11 +69,10 @@ export class UserService {
       where: {
         id: id,
       },
+      relations: ['token'],
     });
 
-    if (!user) throw MainException.entityNotFound(`User with id: ${id} not found`);
-
-    user.password = undefined;
+    if (!user) throw MainException.entityNotFound(`User with id ${id} not found`);
 
     return new GetUserResponse(user);
   }

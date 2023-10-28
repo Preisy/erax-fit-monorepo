@@ -14,5 +14,8 @@ export const checkFieldForExistAndThrowErrorIfExist = async <
       [field]: value,
     } as FindOptionsWhere<TEntity>,
   });
-  if (entity) throw MainException.invalidData(`Entity with ${field.toString()} ${value} already exist`);
+  if (entity)
+    throw MainException.invalidData(
+      `Entity with ${field.toString()} ${value} already exist`,
+    );
 };
