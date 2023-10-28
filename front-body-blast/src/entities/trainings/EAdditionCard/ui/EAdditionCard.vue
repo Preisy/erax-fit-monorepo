@@ -3,7 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { Addition } from 'shared/api/training';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
-import { useLocalAdditionStore } from '../api';
+import { useLocalAdditionStore } from '../store';
 
 const validationSchema = toTypedSchema(Addition.validation());
 const additionStore = useLocalAdditionStore();
