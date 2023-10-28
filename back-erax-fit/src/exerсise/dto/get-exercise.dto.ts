@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ExerciseEntity } from '../entities/exercise.entity';
 
-export class GeExerciseResponse {
+export class GetExerciseResponse {
   @ApiProperty()
   public name: string;
 

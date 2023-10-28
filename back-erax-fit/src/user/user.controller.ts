@@ -73,7 +73,7 @@ export class UserController {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can edit other user');
 
-    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
+    const request = new UpdateUserRequest(id, body.email!, body.password!, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
   }
 

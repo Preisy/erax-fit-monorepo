@@ -12,6 +12,7 @@ import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class WorkoutService {
@@ -87,6 +88,10 @@ export class WorkoutService {
       },
     });
 
+    if (!user) {
+      throw MainException.entityNotFound(`User with id: ${request.userId} not found`);
+    }
+
     if (!user.workouts) user.workouts = [];
     user.workouts.push(newWorkout);
     this.userRepository.save(user);
@@ -99,10 +104,7 @@ export class WorkoutService {
 
   async updateWorkout(request: UpdateWorkoutRequest) {
     let { data: workout } = await this.getWorkoutById(request.id);
-    console.log(workout.exercises);
     if (request.exercises) {
-      // let exerciseForDelete = workout.exercises.map((exercise) => this.exerciseRepository.delete(exercise.id));
-      // await Promise.all(exerciseForDelete);
       await this.exerciseRepository.delete({
         workoutId: request.id,
       });
@@ -111,7 +113,7 @@ export class WorkoutService {
     const savedWorkout = await this.workoutRepository.save({
       ...workout,
       ...filterUndefined(request),
-      date: new Date(request.date),
+      date: new Date(request.date!),
     });
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
     return new UpdateWorkoutResponse(savedWorkout);
@@ -119,6 +121,6 @@ export class WorkoutService {
 
   async deleteWorkoutById(id: WorkoutEntity['id']): Promise<DeleteWorkoutByIdResponse> {
     const result = await this.workoutRepository.delete(id);
-    return new DeleteWorkoutByIdResponse(result.affected > 0);
+    return new DeleteWorkoutByIdResponse(result.affected! > 0);
   }
 }

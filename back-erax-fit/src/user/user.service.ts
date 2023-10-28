@@ -106,7 +106,7 @@ export class UserService {
 
   async deleteUserById(id: UserEntity['id']): Promise<DeleteUserByIdResponse> {
     const result = await this.userRepository.delete(id);
-    return new DeleteUserByIdResponse(result.affected > 0);
+    return new DeleteUserByIdResponse(result.affected! > 0);
   }
 
   async checkEmailForExistAndThrowErrorIfExist(email: string) {

@@ -74,9 +74,9 @@ export class AuthService {
 
   async logout(email: string): Promise<AppStatusResponse> {
     const { user } = await this.getUserByEmailWithToken(email.toLowerCase());
-    const result = await this.tokenRepository.delete(user.tokenId);
+    const result = await this.tokenRepository.delete(user.tokenId!);
 
-    return new AppStatusResponse(result.affected > 0);
+    return new AppStatusResponse(result.affected! > 0);
   }
 
   async getTokens(userId: UserEntity['id'], email: string): Promise<AuthResponse> {
@@ -97,7 +97,7 @@ export class AuthService {
   async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
     const { user } = await this.getUserByIdWithToken(userId);
 
-    const refreshMatches = bcrypt.compare(refresh, user.token.refreshHash);
+    const refreshMatches = bcrypt.compare(refresh, user.token!.refreshHash);
     if (!refreshMatches)
       throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
 
@@ -114,8 +114,8 @@ export class AuthService {
   private async updateRefreshHash(userId: UserEntity['id'], access: string, refresh: string) {
     const { user } = await this.getUserByIdWithToken(userId);
 
-    user.token.refreshHash = await this.hashData(access);
-    user.token.hash = await this.hashData(refresh);
+    user.token!.refreshHash = await this.hashData(access);
+    user.token!.hash = await this.hashData(refresh);
 
     await this.updateTokenHash(user);
   }
@@ -179,10 +179,10 @@ export class AuthService {
     const { user } = await this.getUserByIdWithToken(request.id);
 
     if (request.token) {
-      (user.token.hash = request.token.hash), (user.token.refreshHash = request.token.refreshHash);
+      (user.token!.hash = request.token.hash), (user.token!.refreshHash = request.token.refreshHash);
     }
 
-    await this.tokenRepository.save(request.token);
+    await this.tokenRepository.save(request.token!);
     const savedUser = await this.userRepository.save(user);
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 

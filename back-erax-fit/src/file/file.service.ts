@@ -31,7 +31,7 @@ export class FileService {
   async getFiles(request: GetFilesRequest): Promise<GetFilesResponse> {
     const page = request.page || 1;
     const limit = request.limit;
-    const skip = (page - 1) * limit || 0;
+    const skip = (page - 1) * limit! || 0;
     const [files, count] = await this.fileRepository.findAndCount({
       skip: skip,
       take: limit,
