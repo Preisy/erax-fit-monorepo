@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-import { TFooterNavigationBarI18n } from 'widgets/WFooter';
+import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TEBodyParamsSignUpFormI18n } from 'entities/auth/EBodyParamsSignUpForm';
 import { TECredentialsSignUpFormI18n } from 'entities/auth/ECredentialsSignUpForm';
 import { TEDiseasesSignUpFormI18n } from 'entities/auth/EDiseasesSignUpForm';
