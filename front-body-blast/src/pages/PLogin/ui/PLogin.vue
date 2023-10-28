@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ELoginForm } from 'entities/logout/ELoginForm';
+import { ELoginForm } from 'entities/auth/ELoginForm';
 import { SStructure } from 'shared/ui/SStructure';
 </script>
 

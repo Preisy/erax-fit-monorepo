@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { EBodyParamsSignUpForm } from 'entities/logout/EBodyParamsSignUpForm';
-import { ECredentialsSignUpForm } from 'entities/logout/ECredentialsSignUpForm';
-import { EDiseasesSignUpForm } from 'entities/logout/EDiseasesSignUpForm';
-import { EForbiddensSignUpForm } from 'entities/logout/EForbiddensSignUpForm';
-import { EMotivationsSignUpForm } from 'entities/logout/EMotivationsSignUpForm';
+import { EBodyParamsSignUpForm } from 'entities/auth/EBodyParamsSignUpForm';
+import { ECredentialsSignUpForm } from 'entities/auth/ECredentialsSignUpForm';
+import { EDiseasesSignUpForm } from 'entities/auth/EDiseasesSignUpForm';
+import { EForbiddensSignUpForm } from 'entities/auth/EForbiddensSignUpForm';
+import { EMotivationsSignUpForm } from 'entities/auth/EMotivationsSignUpForm';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';

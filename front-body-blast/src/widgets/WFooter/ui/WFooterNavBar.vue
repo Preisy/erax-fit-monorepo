@@ -16,22 +16,22 @@ const links: FooterNavLinkProps[] = [
   {
     imgSrc: symRoundedExercise,
     title: t('dashboard.footer.links.trainings'),
-    href: HOME.base + HOME.children.TRAINING,
+    href: HOME.BASE + HOME.CHILDREN.TRAINING,
   },
   {
     imgSrc: symRoundedAccountCircle,
     title: t('dashboard.footer.links.profile'),
-    href: HOME.base + HOME.children.PROFILE,
+    href: HOME.BASE + HOME.CHILDREN.PROFILE,
   },
   {
     imgSrc: symRoundedEdit,
     title: t('dashboard.footer.links.diary'),
-    href: HOME.base + HOME.children.DIARY,
+    href: HOME.BASE + HOME.CHILDREN.DIARY,
   },
   {
     imgSrc: symRoundedRestaurant,
     title: t('dashboard.footer.links.diet'),
-    href: HOME.base + HOME.children.DIET,
+    href: HOME.BASE + HOME.CHILDREN.DIET,
   },
 ];
 </script>
