@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, ManyToOne, JoinColumn } from 'typeorm';
-import { AppBaseEntity } from '../../models/app-base-entity.entity';
-import { UserEntity } from '../../user/entities/user.entity';
+import { AppBaseEntity } from '../../../models/app-base-entity.entity';
+import { UserEntity } from '../../../user/entities/user.entity';
 
 @Entity('forms')
 export class AntropometricsEntity extends AppBaseEntity {
