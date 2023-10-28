@@ -1,4 +1,12 @@
 import { RouteRecordRaw } from 'vue-router';
+import LAuthVue from 'processes/layouts/LAuth.vue';
+import PDiaryVue from 'pages/PDiary.vue';
+import PDietVue from 'pages/PDiet.vue';
+import PLearningVue from 'pages/PLearning.vue';
+import { PLogin } from 'pages/PLogin';
+import PProfileVue from 'pages/PProfile.vue';
+import { PRegister } from 'pages/PRegister';
+import { PTraining } from 'pages/PTraining';
 import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
@@ -8,43 +16,43 @@ const routes: RouteRecordRaw[] = [
     children: [
       {
         path: ENUMS.ROUTES.HOME.CHILDREN.TRAINING,
-        component: () => import('pages/PTraining'),
+        component: PTraining,
       },
       {
         path: ENUMS.ROUTES.HOME.CHILDREN.PROFILE,
-        component: () => import('pages/PProfile.vue'),
+        component: PProfileVue,
       },
       {
         path: ENUMS.ROUTES.HOME.CHILDREN.DIARY,
-        component: () => import('pages/PDiary.vue'),
+        component: PDiaryVue,
       },
       {
         path: ENUMS.ROUTES.HOME.CHILDREN.DIET,
-        component: () => import('pages/PDiet.vue'),
+        component: PDietVue,
       },
       {
         path: ENUMS.ROUTES.HOME.CHILDREN.LEARNING,
-        component: () => import('pages/PLearning.vue'),
+        component: PLearningVue,
       },
     ],
   },
 
   {
     path: ENUMS.ROUTES.AUTH.BASE,
-    component: () => import('processes/layouts/LAuth.vue'),
+    component: LAuthVue,
     children: [
       {
         path: ENUMS.ROUTES.AUTH.CHILDREN.REGISTER,
-        component: () => import('pages/PRegister'),
+        component: PRegister,
         meta: { transition: 'slide-left' },
       },
       {
         path: ENUMS.ROUTES.AUTH.CHILDREN.LOGIN,
-        component: () => import('pages/PLogin'),
+        component: PLogin,
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
+    redirect: ENUMS.ROUTES.AUTH.BASE + ENUMS.ROUTES.AUTH.CHILDREN.LOGIN,
   },
 
   // Always leave this as last one,
