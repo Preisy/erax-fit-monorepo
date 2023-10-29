@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SubmissionContext, TypedSchema, useForm } from 'vee-validate';
+import { TypedSchema, useForm } from 'vee-validate';
 import { SBtn } from 'shared/ui/SBtn';
 
 export interface SFormProps {
@@ -12,7 +12,7 @@ const { handleSubmit } = useForm({
   validationSchema: props.fieldSchema,
 });
 const emits = defineEmits<{
-  (e: 'submit', values: unknown, ctx: SubmissionContext): void;
+  submit: Parameters<Parameters<typeof handleSubmit>[0]>;
 }>();
 const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
