@@ -1,5 +1,4 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, IsStrongPassword } from 'class-validator';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { UserEntity } from '../entities/user.entity';
 import { CreateUserRequest } from './create-user.dto';
 

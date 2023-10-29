@@ -89,8 +89,8 @@ export class UserService {
   }
 
   async deleteUserById(id: number): Promise<DeleteUserByIdResponse> {
-    const result = await this.userRepository.softDelete(id);
-    return new DeleteUserByIdResponse(result.affected > 0);
+    const { affected } = await this.userRepository.delete(id);
+    return new DeleteUserByIdResponse(!!affected);
   }
 
   async checkEmailForExistAndThrowErrorIfExist(email: string) {

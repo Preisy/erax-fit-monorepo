@@ -74,9 +74,9 @@ export class AuthService {
 
   async logout(email: string): Promise<AppStatusResponse> {
     const { data: user } = await this.getUserByEmailWithToken(email.toLowerCase());
-    const result = await this.tokenRepository.delete(user.tokenId);
+    const { affected } = await this.tokenRepository.delete(user.tokenId);
 
-    return new AppStatusResponse(result.affected > 0);
+    return new AppStatusResponse(!!affected);
   }
 
   async getTokens(userId: UserEntity['id'], email: string): Promise<AuthResponse> {

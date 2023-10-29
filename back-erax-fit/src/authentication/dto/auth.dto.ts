@@ -36,8 +36,4 @@ export class LogoutRequest {
   @IsEmail()
   @IsString()
   public email: string;
-
-  constructor(email: string) {
-    this.email = email;
-  }
 }
