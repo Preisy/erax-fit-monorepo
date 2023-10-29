@@ -42,18 +42,7 @@ export class BaseAntropometrcisService {
   }
 
   async update(request: UpdateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
-    const { antrp } = await this.getById(request.id);
-    if (request.weight) antrp.weight = request.weight;
-
-    if (request.abdomen) antrp.abdomen = request.abdomen;
-
-    if (request.waist) antrp.waist = request.waist;
-
-    if (request.hip) antrp.hip = request.hip;
-
-    if (request.hipVolume) antrp.hipVolume = request.hipVolume;
-
-    if (request.shoulder) antrp.shoulder = request.shoulder;
+    const { data: antrp } = await this.getById(request.id);
 
     const savedAntrp = await this.antrpRepository.save({
       ...antrp,
