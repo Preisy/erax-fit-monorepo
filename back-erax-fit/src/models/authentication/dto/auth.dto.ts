@@ -5,13 +5,13 @@ import { CreateUserRequest } from '../../user/dto/create-user.dto';
 export class AuthRequest extends CreateUserRequest {}
 
 export class LoginRequest {
-  @IsDefined({ message: 'email is provided' })
+  @IsDefined()
   @IsEmail()
   @IsString()
   @ApiProperty()
   public email: string;
 
-  @IsDefined({ message: 'password is provided' })
+  @IsDefined()
   @IsString()
   @ApiProperty()
   public password: string;
@@ -36,8 +36,4 @@ export class LogoutRequest {
   @IsEmail()
   @IsString()
   public email: string;
-
-  constructor(email: string) {
-    this.email = email;
-  }
 }

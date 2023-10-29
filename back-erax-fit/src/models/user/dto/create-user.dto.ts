@@ -9,7 +9,8 @@ import {
   IsNumber,
   IsBoolean,
   Length,
-  ValidateIf,
+  Min,
+  Max,
 } from 'class-validator';
 import { Constants, UserRole } from '../../../constants/constants';
 
@@ -46,18 +47,26 @@ export class CreateUserRequest {
   @IsDefined()
   @IsNumber()
   @ApiProperty()
+  @Min(1)
+  @Max(100)
   public age: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(100)
+  @Max(250)
   public height: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(20)
+  @Max(600)
   public weight: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(20)
+  @Max(600)
   public weightInYouth: number;
 
   @IsBoolean()
@@ -70,12 +79,12 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public gastroDeseases: string;
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public mealIntolerance: string;
 
   @IsBoolean()
@@ -84,7 +93,7 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public kidneyDesease: string;
 
   @IsBoolean()
@@ -93,7 +102,7 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public muscleDesease: string;
 
   @IsBoolean()
@@ -102,17 +111,13 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public sportsExp: string;
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public goals: string;
-
-  constructor(password: string) {
-    this.password = password;
-  }
 }
 export class CreateClientRequest extends CreateUserRequest {}
 

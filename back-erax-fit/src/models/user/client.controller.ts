@@ -18,14 +18,14 @@ import { CreateClientRequest } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
-import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { UserEntity } from './entities/user.entity';
 
-@BaseAuthGuard()
+@AppAuthGuard()
 @Controller('users')
 @ApiTags('Client')
 @UseFilters(MainExceptionFilter)
@@ -50,7 +50,7 @@ export class ClientController {
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
   async updateUser(@Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     const request = new UpdateUserRequest(req.user.id, body.email, body.password, body.firstName, body.lastName);
-    return await this.clientService.updateUser(request);
+    return await this.clientService.updateUser(req.user.id, request);
   }
 
   @Delete(':id')
