@@ -10,15 +10,15 @@ export class Registr1698417757715 implements MigrationInterface {
     { columnName: 'weightInYouth', type: 'double precision', default: 71 },
     { columnName: 'nutritRestrict', type: 'boolean', default: false },
     { columnName: 'allergy', type: 'boolean', default: false },
-    { columnName: 'gastroDeseases', type: 'character varying(256)', default: "'haha'" },
-    { columnName: 'mealIntolerance', type: 'character varying(256)', default: "'haha'" },
+    { columnName: 'gastroDeseases', type: 'character varying(256)', default: "'default'" },
+    { columnName: 'mealIntolerance', type: 'character varying(256)', default: "'default'" },
     { columnName: 'insulinResistance', type: 'boolean', default: false },
-    { columnName: 'kidneyDesease', type: 'character varying(128)', default: "'haha'" },
+    { columnName: 'kidneyDesease', type: 'character varying(128)', default: "'default'" },
     { columnName: 'heartDesease', type: 'boolean', default: false },
-    { columnName: 'muscleDesease', type: 'character varying(128)', default: "'haha'" },
+    { columnName: 'muscleDesease', type: 'character varying(128)', default: "'default'" },
     { columnName: 'loadRestrictions', type: 'boolean', default: false },
-    { columnName: 'sportsExp', type: 'character varying(128)', default: "'haha'" },
-    { columnName: 'goals', type: 'character varying(256)', default: "'haha'" },
+    { columnName: 'sportsExp', type: 'character varying(128)', default: "'default'" },
+    { columnName: 'goals', type: 'character varying(256)', default: "'default'" },
   ];
 
   public async up(queryRunner: QueryRunner): Promise<void> {

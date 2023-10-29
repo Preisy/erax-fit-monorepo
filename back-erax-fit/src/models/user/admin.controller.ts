@@ -21,12 +21,12 @@ import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 
-@BaseAuthGuard(RoleGuard(UserRole.Admin))
+@AppAuthGuard(RoleGuard(UserRole.Admin))
 @Controller('admin/users')
 @ApiTags('Admin')
 @UseFilters(MainExceptionFilter)
@@ -34,7 +34,7 @@ import { AppSingleResponse } from '../../dto/app-single-response.dto';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  @Post('create-user')
+  @Post()
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Body() request: CreateUserByAdminRequest) {
@@ -56,8 +56,7 @@ export class AdminController {
   @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
   async updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserRequest) {
-    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
-    return await this.adminService.updateUser(request);
+    return await this.adminService.updateUser(id, body);
   }
 
   @Delete(':id')
