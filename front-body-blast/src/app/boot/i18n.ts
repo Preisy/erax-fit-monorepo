@@ -1,5 +1,8 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
+import { TFooterNavigationBarI18n } from 'widgets/WFooter';
+import { TTrainingAdditionBlockI18n } from 'entities/trainings/EAdditionCard';
+import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { TEBodyParamsSignUpFormI18n } from 'entities/logout/EBodyParamsSignUpForm';
 import { TECredentialsSignUpFormI18n } from 'entities/logout/ECredentialsSignUpForm';
 import { TEDiseasesSignUpFormI18n } from 'entities/logout/EDiseasesSignUpForm';
@@ -15,6 +18,9 @@ export default boot(({ app }) => {
     locale: 'ru-RU',
     legacy: false,
     messages: mergeI18n(
+      TFooterNavigationBarI18n,
+      TTrainingI18n,
+      TTrainingAdditionBlockI18n,
       TECredentialsSignUpFormI18n,
       TEBodyParamsSignUpFormI18n,
       TEDiseasesSignUpFormI18n,

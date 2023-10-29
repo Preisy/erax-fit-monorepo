@@ -9,27 +9,26 @@ import {
   Query,
   Req,
   UseFilters,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import {
-  CreateUserByAdminRequest,
-  CreateUserRequest,
-  CreateUserResponse,
-} from './dto/create-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { MainException } from '../exceptions/main.exception';
-import { Throttle } from '@nestjs/throttler';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { GetUserResponse } from './dto/get-user.dto';
 import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
+import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppResponses } from '../decorators/app-responses.decorator';
+import { Throttle } from '@nestjs/throttler';
+import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -39,134 +38,58 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
-  @ApiResponse({
+  @AppResponses({
     status: 200,
-    type: CreateUserResponse,
+    type: AppSingleResponse.type(CreateUserResponse),
   })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
-  })
-  @Throttle(5, 10)
+  @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
 
   @Post('by-admin')
-  @ApiResponse({
+  @AppResponses({
     status: 200,
-    type: CreateUserResponse,
+    type: AppSingleResponse.type(CreateUserResponse),
   })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
-  })
-  @Throttle(5, 10)
+  @Throttle(5, 1)
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
     return await this.usersService.createUser(createUserDto);
   }
 
   @Get()
-  @ApiResponse({
-    status: 200,
-    type: GetUsersResponse,
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
-  })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async getUsers(@Query() query: GetUsersRequest) {
     return await this.usersService.getUsers(query);
   }
 
   @Get(':id')
-  @ApiResponse({
-    status: 200,
-    type: GetUserResponse,
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
-  })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
   @BaseAuthGuard()
   async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 
   @Patch(':id')
-  @ApiResponse({
+  @AppResponses({
     status: 200,
-    type: UpdateUserResponse,
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
+    type: AppSingleResponse.type(UpdateUserResponse),
   })
   @BaseAuthGuard()
-  async updateUser(
-    @Param('id') id: number,
-    @Req() req: RequestWithUser,
-    @Body() body: UpdateUserRequest,
-  ) {
+  async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
       throw MainException.forbidden('Only admin can edit other user');
 
-    const request = new UpdateUserRequest(
-      id,
-      body.email,
-      body.password,
-      body.firstName,
-      body.lastName,
-    );
+    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
     return await this.usersService.updateUser(request);
   }
 
   @Delete(':id')
-  @ApiResponse({
+  @AppResponses({
     status: 200,
-    type: DeleteUserByIdResponse,
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'Internal error occurred (while internal HTTP requests, etc).',
-    type: MainException,
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'Validation error (provided data is not valid).',
-    type: MainException,
+    type: AppSingleResponse.type(DeleteUserByIdResponse),
   })
   @BaseAuthGuard()
   async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {

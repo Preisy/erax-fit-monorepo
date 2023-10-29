@@ -1,46 +1,195 @@
-﻿import { Injectable } from '@nestjs/common';
+﻿import { Injectable, Inject } from '@nestjs/common';
 import { AuthRequest, AuthResponse } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { ExternalPayloadType } from './types/external-payload.type';
 import { MainException } from '../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
-import { UserService } from '../user/user.service';
 import { UserEntity } from '../user/entities/user.entity';
+import { Repository } from 'typeorm';
+import { TokenEntity } from './entities/token.entity';
+import { UpdateUserResponse } from '../user/dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { GetUserResponse } from '../user/dto/get-user.dto';
+import { UserRole } from '../constants/constants';
+import { AppStatusResponse } from '../dto/app-status-response.dto';
+import { UserService } from '../user/user.service';
+import { UpdateTokenRequest } from './dto/update-token.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
+    @Inject(JwtService)
     private readonly jwtService: JwtService,
+    @Inject(UserService)
+    private readonly userService: UserService,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+    @InjectRepository(TokenEntity)
+    private readonly tokenRepository: Repository<TokenEntity>,
   ) {}
 
   async auth(request: AuthRequest): Promise<AuthResponse> {
-    const { user } = await this.userService.getUserByEmail(request.email);
+    const { user: newUser } = await this.userService.createUser(request);
 
-    if (!(await bcrypt.compare(request.password, user.password))) {
+    if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
     }
-    const payload = { sub: user.id, userEmail: user.email };
-    return new AuthResponse(await this.jwtService.signAsync(payload));
+
+    await this.createTokenForUser(newUser.email);
+
+    const tokens = await this.getTokens(newUser.id, newUser.email);
+    await this.updateRefreshHash(newUser.id, tokens.accessToken, tokens.refreshToken);
+
+    return tokens;
   }
 
-  async login(jwt: string) {
+  async login(request: AuthRequest): Promise<AuthResponse> {
+    const { user } = await this.userService.getUserByEmail(request.email.toLowerCase());
+    const passwordMatches = await bcrypt.compare(request.password, user.password);
+    if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user with id ${user.id}`);
+
+    if (!user.token || !user.tokenId) await this.createTokenForUser(user.email);
+
+    const tokens = await this.getTokens(user.id, user.email);
+
+    await this.updateRefreshHash(user.id, tokens.accessToken, tokens.refreshToken);
+
+    return tokens;
+  }
+
+  async provideUser(jwt: string) {
     try {
-      const decodedToken: ExternalPayloadType = <ExternalPayloadType>(
-        this.jwtService.verify(jwt)
-      );
+      const options = {
+        secret: process.env.JWT_SECRET,
+        publicKey: process.env.JWT_PUBLIC_KEY,
+      };
 
-      if (!decodedToken || !decodedToken?.userEmail)
-        throw MainException.invalidData('Некорректный токен');
+      const decodedToken = await this.jwtService.verifyAsync(jwt, options);
+      if (!decodedToken || !decodedToken?.email) throw MainException.invalidData('Invalid token provided');
 
-      return (await this.userService.getUserByEmail(decodedToken.userEmail))
-        .user;
+      return (await this.getUserByEmailWithToken(decodedToken.email)).user;
     } catch {
-      throw MainException.forbidden('Нет доступа');
+      throw MainException.forbidden('Access denied: no jwt found');
     }
   }
 
-  async getMe(userId: number): Promise<UserEntity> {
-    return (await this.userService.getUserById(userId)).user;
+  async logout(email: string): Promise<AppStatusResponse> {
+    const { user } = await this.getUserByEmailWithToken(email.toLowerCase());
+    const result = await this.tokenRepository.delete(user.tokenId);
+
+    return new AppStatusResponse(result.affected > 0);
+  }
+
+  async getTokens(userId: UserEntity['id'], email: string): Promise<AuthResponse> {
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(
+        { sub: userId, email },
+        { secret: process.env.JWT_SECRET, expiresIn: process.env.JWT_EXPIRATION },
+      ),
+
+      this.jwtService.signAsync(
+        { sub: userId, email },
+        { secret: process.env.JWT_REFRESH_SECRET, expiresIn: process.env.JWT_REFRESH_EXPIRATION },
+      ),
+    ]);
+    return new AuthResponse(accessToken, refreshToken);
+  }
+
+  async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
+    const { user } = await this.getUserByIdWithToken(userId);
+
+    const refreshMatches = bcrypt.compare(refresh, user.token.refreshHash);
+    if (!refreshMatches)
+      throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
+
+    const tokens = await this.getTokens(user.id, user.email);
+    await this.updateRefreshHash(user.id, tokens.accessToken, tokens.refreshToken);
+
+    return tokens;
+  }
+
+  private async hashData(data: string) {
+    return bcrypt.hash(data, 10);
+  }
+
+  private async updateRefreshHash(userId: UserEntity['id'], access: string, refresh: string) {
+    const { user } = await this.getUserByIdWithToken(userId);
+
+    user.token.refreshHash = await this.hashData(access);
+    user.token.hash = await this.hashData(refresh);
+
+    await this.updateTokenHash(user);
+  }
+
+  private async createTokenForUser(email: string) {
+    const { user } = await this.userService.getUserByEmail(email);
+    const newToken = this.tokenRepository.create({
+      hash: 'default',
+      refreshHash: 'default',
+    });
+
+    user.token = newToken;
+    user.tokenId = newToken.id;
+    await this.tokenRepository.save(newToken);
+
+    await this.userRepository.save(user);
+  }
+
+  private async getUserByIdWithToken(id: UserEntity['id'], role?: UserRole): Promise<GetUserResponse> {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: id,
+        role: role,
+      },
+      relations: ['token'],
+    });
+
+    if (!user) throw MainException.entityNotFound(`User with id ${id} not found`);
+    const token = await this.tokenRepository.findOne({
+      where: {
+        id: user.tokenId,
+      },
+    });
+
+    if (!token) throw MainException.entityNotFound(`Token for user with id ${id} not found`);
+
+    return new GetUserResponse(user);
+  }
+
+  private async getUserByEmailWithToken(email: string): Promise<GetUserResponse> {
+    const user = await this.userRepository.findOne({
+      where: {
+        email: email,
+      },
+      relations: ['token'],
+    });
+
+    if (!user) throw MainException.entityNotFound(`User with email ${email} not found`);
+    const token = await this.tokenRepository.findOne({
+      where: {
+        id: user.tokenId,
+      },
+    });
+
+    if (!token) throw MainException.entityNotFound(`Token for user with email ${email} not found`);
+
+    return new GetUserResponse(user);
+  }
+
+  private async updateTokenHash(request: UpdateTokenRequest): Promise<UpdateUserResponse> {
+    const { user } = await this.getUserByIdWithToken(request.id);
+
+    if (request.token) {
+      (user.token.hash = request.token.hash), (user.token.refreshHash = request.token.refreshHash);
+    }
+
+    await this.tokenRepository.save(request.token);
+    const savedUser = await this.userRepository.save(user);
+    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
+
+    return new UpdateUserResponse(savedUser);
+  }
+
+  async getMe(userId: UserEntity['id']): Promise<UserEntity> {
+    return (await this.getUserByIdWithToken(userId)).user;
   }
 }

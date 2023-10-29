@@ -1,10 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsOptional,
-  IsString,
-  IsStrongPassword,
-} from 'class-validator';
+import { IsEmail, IsOptional, IsString, IsStrongPassword } from 'class-validator';
 import { UserEntity } from '../entities/user.entity';
 
 export class UpdateUserRequest {
@@ -32,13 +27,7 @@ export class UpdateUserRequest {
   @ApiPropertyOptional()
   public lastName?: string;
 
-  constructor(
-    id: number,
-    email: string,
-    password: string,
-    firstName?: string,
-    lastName?: string,
-  ) {
+  constructor(id: number, email: string, password: string, firstName?: string, lastName?: string) {
     this.id = id;
     this.email = email;
     this.password = password;
