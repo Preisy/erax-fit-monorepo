@@ -20,14 +20,10 @@ export class ClientService {
   }
 
   async getUserById(id: UserEntity['id']) {
-    await this.baseService.getUserById(id);
+    return this.baseService.getUserById(id);
   }
 
   async updateUser(id: UserEntity['id'], request: UpdateUserRequest) {
     return this.baseService.updateUser(id, request);
-  }
-
-  async deleteUserById(id: UserEntity['id']) {
-    return this.baseService.deleteUserById(id);
   }
 }

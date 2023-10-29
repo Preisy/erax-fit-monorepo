@@ -56,8 +56,7 @@ export class AdminController {
   @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
   async updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserRequest) {
-    const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
-    return await this.adminService.updateUser(request);
+    return await this.adminService.updateUser(id, body);
   }
 
   @Delete(':id')

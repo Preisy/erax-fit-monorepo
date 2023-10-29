@@ -1,10 +1,8 @@
 import {
   Body,
   Controller,
-  Delete,
   Get,
   Patch,
-  Post,
   Param,
   Req,
   UseFilters,
@@ -13,14 +11,11 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { ClientService } from './client.service';
-import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import { CreateClientRequest } from './dto/create-user.dto';
+import { UpdateUserRequest } from './dto/update-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
-import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
 import { AppResponses } from '../../decorators/app-responses.decorator';
-import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { UserEntity } from './entities/user.entity';
@@ -33,13 +28,6 @@ import { UserEntity } from './entities/user.entity';
 export class ClientController {
   constructor(private readonly clientService: ClientService) {}
 
-  @Post('create-user')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
-  @Throttle(5, 1)
-  async create(@Body() request: CreateClientRequest) {
-    return await this.clientService.create(request);
-  }
-
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
   async getUserById(@Param('id', ParseIntPipe) id: number) {
@@ -47,15 +35,8 @@ export class ClientController {
   }
 
   @Patch(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
   async updateUser(@Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
-    const request = new UpdateUserRequest(req.user.id, body.email, body.password, body.firstName, body.lastName);
-    return await this.clientService.updateUser(req.user.id, request);
-  }
-
-  @Delete(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse) })
-  async deleteUserById(@Req() req: RequestWithUser) {
-    return await this.clientService.deleteUserById(+req.user.id);
+    return await this.clientService.updateUser(req.user.id, body);
   }
 }

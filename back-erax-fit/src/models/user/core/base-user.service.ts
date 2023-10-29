@@ -61,7 +61,7 @@ export class BaseUserService {
     return new AppSingleResponse(user);
   }
 
-  async updateUser(id: UserEntity['id'], request: UpdateUserRequest): Promise<AppSingleResponse<UserEntity>> {
+  async updateUser(id: UserEntity['id'], request: UpdateUserRequest) {
     const { data: user } = await this.getUserById(id);
 
     if (request.password) request.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
