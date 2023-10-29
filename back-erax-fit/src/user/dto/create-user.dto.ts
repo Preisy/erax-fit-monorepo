@@ -73,20 +73,4 @@ export class CreateUserByAdminRequest {
   @IsString()
   @ApiPropertyOptional()
   public lastName?: string;
-
-  constructor(email: string, password: string, firstName?: string, lastName?: string) {
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
-}
-
-export class CreateUserResponse {
-  @ApiProperty({ type: UserEntity })
-  public user: UserEntity;
-
-  constructor(user: UserEntity) {
-    this.user = user;
-  }
 }

@@ -23,11 +23,12 @@ import { AppResponses } from 'src/decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 import { WorkoutService } from './workout.service';
-import { CreateWorkoutRequest, CreateWorkoutResponse } from './dto/create-workout.dto';
-import { GetWorkoutsRequest, GetWorkoutsResponse } from './dto/get-workouts.dto';
+import { CreateWorkoutRequest } from './dto/create-workout.dto';
+// import { GetWorkoutsResponse } from './dto/get-workouts.dto';
 import { GetWorkoutResponse } from './dto/get-workout.dto';
-import { UpdateWorkoutRequest, UpdateWorkoutResponse } from './dto/update-workout.dto';
-import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
+import { UpdateWorkoutRequest } from './dto/update-workout.dto';
+import { AppPagination } from 'src/utils/app-pagination.util';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 
 @Controller()
 @ApiTags('Тренировки')
@@ -37,7 +38,7 @@ export class WorkoutController {
   constructor(private readonly workoutService: WorkoutService) {}
 
   @Post('trainer/workouts')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateWorkoutResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async create(@Body() request: CreateWorkoutRequest) {
@@ -45,9 +46,9 @@ export class WorkoutController {
   }
 
   @Get('trainer/workouts')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetWorkoutsResponse) })
+  @AppResponses({ status: 200, type: AppPagination.Response })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async getWorkouts(@Query() query: GetWorkoutsRequest) {
+  async getWorkouts(@Query() query: AppPagination.Request) {
     return await this.workoutService.getWorkouts(query);
   }
 
@@ -58,23 +59,22 @@ export class WorkoutController {
     return await this.workoutService.getWorkoutById(id);
   }
 
-  @Get('user/workouts')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetWorkoutResponse) })
+  @Get('workouts')
+  @AppResponses({ status: 200, type: AppPagination.Response })
   @BaseAuthGuard()
-  async getWorkoutsByUserId(@Req() req: RequestWithUser, @Query() query: GetWorkoutsRequest) {
-    const request = new GetWorkoutsRequest(query.page, query.limit, query.expanded);
-    return await this.workoutService.getWorkoutsByUserId(req.user.id, request);
+  async getWorkoutsByUserId(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
+    return await this.workoutService.getWorkoutsByUserId(req.user.id, query);
   }
 
   @Patch('trainer/workouts/:id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateWorkoutResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async updateWorkout(@Body() body: UpdateWorkoutRequest) {
-    return await this.workoutService.updateWorkout(body);
+  async updateWorkout(@Param('id') id: number, @Body() body: UpdateWorkoutRequest) {
+    return await this.workoutService.updateWorkout(id, body);
   }
 
   @Delete('trainer/workouts/:id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteWorkoutByIdResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
   @BaseAuthGuard()
   async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {
     if (req.user.role != UserRole.Admin && id != req.user.id)

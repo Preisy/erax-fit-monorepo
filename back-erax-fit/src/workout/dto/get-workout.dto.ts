@@ -1,41 +1,7 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, OmitType } from '@nestjs/swagger';
 import { WorkoutEntity } from '../entities/workout.entity';
-import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
-import { CreateExerciseRequest } from 'src/exerсise/dto/create-exercise.dto';
-import { ArrayNotEmpty, IsDefined, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-import { GetExerciseResponse } from 'src/exerсise/dto/get-exercise.dto';
 
-export class GetWorkoutResponse {
+export class GetWorkoutResponse extends WorkoutEntity {
   @ApiProperty()
-  public name: string;
-  @ApiProperty()
-  public id: number;
-  @ApiProperty()
-  public date: string;
-  @ApiProperty()
-  public comment: string;
-  @ApiProperty()
-  public loop: number;
-  @ApiProperty()
-  public userId: number;
-  @IsDefined()
-  @ArrayNotEmpty()
-  @ValidateNested({ each: true })
-  @Type(() => GetExerciseResponse)
-  @ApiProperty({ type: [GetExerciseResponse] })
-  public exercises: GetExerciseResponse[];
-
-  constructor(workout: WorkoutEntity) {
-    this.name = workout.name;
-    this.id = workout.id;
-    this.date = workout.date.toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'numeric',
-    });
-    this.comment = workout.comment;
-    this.loop = workout.loop;
-    this.userId = workout.userId;
-    this.exercises = workout.exercises;
-  }
+  public localeDate: string;
 }

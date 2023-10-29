@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WorkoutEntity } from './entities/workout.entity';
 import { Repository } from 'typeorm';
-import { GetWorkoutsRequest, GetWorkoutsResponse } from './dto/get-workouts.dto';
+//import { GetWorkoutsResponse } from './dto/get-workouts.dto';
 import { UserEntity } from 'src/user/entities/user.entity';
 import { MainException } from 'src/exceptions/main.exception';
-import { GetWorkoutResponse } from './dto/get-workout.dto';
-import { CreateWorkoutRequest, CreateWorkoutResponse } from './dto/create-workout.dto';
-import { UpdateWorkoutRequest, UpdateWorkoutResponse } from './dto/update-workout.dto';
-import { DeleteWorkoutByIdResponse } from './dto/delete-workout-by-id.dto';
+import { GetWorkoutResponse as GetWorkoutDTO } from './dto/get-workout.dto';
+import { CreateWorkoutRequest } from './dto/create-workout.dto';
+import { UpdateWorkoutRequest } from './dto/update-workout.dto';
 import { ExerciseEntity } from 'src/exerсise/entities/exercise.entity';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
-import { UserService } from 'src/user/user.service';
+import { AppPagination } from 'src/utils/app-pagination.util';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 
 @Injectable()
 export class WorkoutService {
@@ -26,41 +26,39 @@ export class WorkoutService {
   ) {
     console.log();
   }
+  public readonly relations: (keyof WorkoutEntity)[] = ['exercises', 'user'];
 
-  async getWorkouts(request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
-    const page = request.page || 1;
-    const limit = request.limit || 10;
-    const skip = (page - 1) * limit;
-
-    const [workouts, count] = await this.workoutRepository.findAndCount({
-      skip: skip,
-      take: limit,
-      relations: ['exercises'],
-    });
-
-    return new GetWorkoutsResponse(workouts, count);
+  async getWorkouts(query: AppPagination.Request): Promise<AppPagination.Response<WorkoutEntity>> {
+    const { getPaginatedData } = AppPagination.getExecutor(this.workoutRepository, this.relations);
+    const { data, count } = await getPaginatedData(query);
+    const newData = data.map((it) => ({
+      ...it,
+      localeDate: it.date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'numeric',
+      }),
+    }));
+    return new AppPagination.Response(newData, count);
   }
 
-  async getWorkoutsByUserId(id: UserEntity['id'], request: GetWorkoutsRequest): Promise<GetWorkoutsResponse> {
-    let workouts = await this.workoutRepository.find({
+  async getWorkoutsByUserId(
+    id: WorkoutEntity['userId'],
+    query: AppPagination.Request,
+  ): Promise<AppPagination.Response<WorkoutEntity>> {
+    const { getPaginatedData } = AppPagination.getExecutor(this.workoutRepository, this.relations);
+    const { data, count } = await getPaginatedData(query, {
       where: {
         userId: id,
       },
-      relations: ['exercises'],
     });
-    const page = request.page || 1;
-    const limit = request.limit || 10;
-    const skip = (page - 1) * limit;
-
-    let count = 0;
-    if (workouts != undefined) {
-      count = workouts.length;
-      workouts = workouts.slice(skip, page * limit);
-    } else {
-      workouts = [];
-    }
-
-    return new GetWorkoutsResponse(workouts, count);
+    const newData = data.map((it) => ({
+      ...it,
+      localeDate: it.date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'numeric',
+      }),
+    }));
+    return new AppPagination.Response(newData, count);
   }
 
   async getWorkoutById(id: WorkoutEntity['id']) {
@@ -74,10 +72,16 @@ export class WorkoutService {
     if (!workout) {
       throw MainException.entityNotFound(`Workout with id: ${id} not found`);
     }
-    return new AppSingleResponse(new GetWorkoutResponse(workout));
+    return new AppSingleResponse<GetWorkoutDTO>({
+      ...workout,
+      localeDate: workout.date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'numeric',
+      }),
+    });
   }
 
-  async createWorkout(request: CreateWorkoutRequest): Promise<CreateWorkoutResponse> {
+  async createWorkout(request: CreateWorkoutRequest): Promise<AppSingleResponse<WorkoutEntity>> {
     let newWorkout = this.workoutRepository.create({
       ...request,
       date: new Date(request.date),
@@ -99,14 +103,14 @@ export class WorkoutService {
     const savedWorkout = await this.workoutRepository.save(newWorkout);
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
 
-    return new CreateWorkoutResponse(savedWorkout);
+    return new AppSingleResponse(savedWorkout);
   }
 
-  async updateWorkout(request: UpdateWorkoutRequest) {
-    let { data: workout } = await this.getWorkoutById(request.id);
+  async updateWorkout(id: WorkoutEntity['id'], request: UpdateWorkoutRequest) {
+    let { data: workout } = await this.getWorkoutById(id);
     if (request.exercises) {
       await this.exerciseRepository.delete({
-        workoutId: request.id,
+        workoutId: id,
       });
       workout.exercises = [];
     }
@@ -116,11 +120,17 @@ export class WorkoutService {
       date: new Date(request.date!),
     });
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
-    return new UpdateWorkoutResponse(savedWorkout);
+    return new AppSingleResponse<GetWorkoutDTO>({
+      ...savedWorkout,
+      localeDate: workout.date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'numeric',
+      }),
+    });
   }
 
-  async deleteWorkoutById(id: WorkoutEntity['id']): Promise<DeleteWorkoutByIdResponse> {
-    const result = await this.workoutRepository.delete(id);
-    return new DeleteWorkoutByIdResponse(result.affected! > 0);
+  async deleteWorkoutById(id: WorkoutEntity['id']): Promise<AppStatusResponse> {
+    const { affected } = await this.workoutRepository.delete(id);
+    return new AppStatusResponse(!!affected);
   }
 }

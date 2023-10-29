@@ -35,12 +35,3 @@ export class UpdateUserRequest {
     this.lastName = lastName;
   }
 }
-
-export class UpdateUserResponse {
-  @ApiProperty({ type: UserEntity })
-  public user: UserEntity;
-
-  constructor(user: UserEntity) {
-    this.user = user;
-  }
-}

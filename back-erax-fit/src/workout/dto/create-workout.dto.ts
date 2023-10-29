@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsDateString,
@@ -6,35 +7,41 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  Length,
+  Min,
   ValidateNested,
 } from 'class-validator';
-import { WorkoutEntity } from '../entities/workout.entity';
 import { CreateExerciseRequest } from '../../exerсise/dto/create-exercise.dto';
-import { Type } from 'class-transformer';
 
 export class CreateWorkoutRequest {
   @IsDefined()
   @IsString()
   @ApiProperty()
+  @Length(1, 255)
   public name: string;
 
   @IsDefined()
   @IsDateString()
   @ApiProperty()
+  @Length(1, 255)
   public date: string;
 
   @IsOptional()
   @IsString()
   @ApiPropertyOptional()
+  @Length(1, 512)
   public comment?: string;
 
   @IsOptional()
   @IsNumber()
   @ApiPropertyOptional()
+  @Min(1)
   public loop?: number;
 
   @IsDefined()
   @ApiProperty()
+  @IsNumber()
+  @Min(1)
   public userId: number;
 
   @IsDefined()
@@ -43,29 +50,4 @@ export class CreateWorkoutRequest {
   @Type(() => CreateExerciseRequest)
   @ApiProperty({ type: [CreateExerciseRequest] })
   public exercises: CreateExerciseRequest[];
-
-  constructor(
-    name: string,
-    date: string,
-    userId: number,
-    exercises: CreateExerciseRequest[],
-    comment?: string,
-    loop?: number,
-  ) {
-    this.name = name;
-    this.date = date;
-    this.userId = userId;
-    this.exercises = exercises;
-    this.comment = comment;
-    this.loop = loop;
-  }
-}
-
-export class CreateWorkoutResponse {
-  @ApiProperty({ type: WorkoutEntity })
-  public workout: WorkoutEntity;
-
-  constructor(workout: WorkoutEntity) {
-    this.workout = workout;
-  }
 }

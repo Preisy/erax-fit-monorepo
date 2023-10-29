@@ -9,26 +9,23 @@ import {
   Query,
   Req,
   UseFilters,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { MainExceptionFilter } from '../exceptions/main-exception.filter';
-import { MainException } from '../exceptions/main.exception';
-import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
-import { GetUserResponse } from './dto/get-user.dto';
-import { RoleGuard } from '../authentication/guards/role.guard';
-import { UserRole } from '../constants/constants';
-import { RequestWithUser } from '../authentication/types/requestWithUser.type';
-import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
-import { AppResponses } from '../decorators/app-responses.decorator';
+import { ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { RoleGuard } from '../authentication/guards/role.guard';
+import { RequestWithUser } from '../authentication/types/requestWithUser.type';
+import { UserRole } from '../constants/constants';
+import { AppResponses } from '../decorators/app-responses.decorator';
+import { MainExceptionFilter } from '../exceptions/main-exception.filter';
+import { MainException } from '../exceptions/main.exception';
+import { CreateUserByAdminRequest, CreateUserRequest } from './dto/create-user.dto';
+import { UpdateUserRequest } from './dto/update-user.dto';
+import { UserService } from './user.service';
+import { AppPagination } from 'src/utils/app-pagination.util';
 
 @Controller('users')
 @ApiTags('Пользователи')
@@ -38,14 +35,14 @@ export class UserController {
   constructor(private readonly usersService: UserService) {}
 
   @Post()
-  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Body() request: CreateUserRequest) {
     return await this.usersService.createUser(request);
   }
 
   @Post('by-admin')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(CreateUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async createUserByAdmin(@Body() createUserDto: CreateUserByAdminRequest) {
@@ -53,21 +50,21 @@ export class UserController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
+  @AppResponses({ status: 200, type: AppPagination.Response })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async getUsers(@Query() query: GetUsersRequest) {
-    return await this.usersService.getUsers(query);
+  async getUsers(@Query() query: AppPagination.Request) {
+    return await this.usersService.getAll(query);
   }
 
   @Get(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @BaseAuthGuard()
   async getUserById(@Param('id') id: number) {
     return await this.usersService.getUserById(id);
   }
 
   @Patch(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @BaseAuthGuard()
   async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     if (req.user.role != UserRole.Admin && id != req.user.id)
@@ -78,7 +75,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @BaseAuthGuard()
   async deleteUserById(@Param('id') id: number, @Req() req: RequestWithUser) {
     if (req.user.role != UserRole.Admin && id != req.user.id)

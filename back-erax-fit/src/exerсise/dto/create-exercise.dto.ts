@@ -1,67 +1,58 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsDefined, IsOptional, IsString } from 'class-validator';
+import { IsDefined, IsNumber, IsOptional, IsString, Length, Min } from 'class-validator';
 
 export class CreateExerciseRequest {
   @IsDefined()
   @IsString()
   @ApiProperty()
+  @Length(1, 255)
   public name: string;
 
   @IsDefined()
+  @IsNumber()
   @ApiProperty()
+  @Min(0.125)
   public weight: number;
 
   @IsDefined()
+  @IsNumber()
   @ApiProperty()
-  public sets?: number;
+  @Min(1)
+  public sets: number;
 
   @IsDefined()
+  @IsNumber()
   @ApiProperty()
+  @Min(1)
   public repetitions: number;
 
   @IsDefined()
+  @IsNumber()
   @ApiProperty()
+  @Min(1)
   public restTime: number;
 
   @IsDefined()
   @ApiProperty()
   @IsString()
+  @Length(1, 255)
   public pace: string;
 
   @IsDefined()
   @ApiProperty()
   @IsString()
+  @Length(1, 255)
   public photoLink: string;
 
   @IsDefined()
   @ApiProperty()
   @IsString()
+  @Length(1, 255)
   public videoLink: string;
 
   @IsOptional()
   @IsString()
   @ApiPropertyOptional()
+  @Length(1, 512)
   public trainerComment?: string;
-
-  constructor(
-    name: string,
-    weight: number,
-    sets: number,
-    repetitions: number,
-    restTime: number,
-    pace: string,
-    photoLink: string,
-    videoLink: string,
-    trainerComment?: string,
-  ) {
-    this.name = name;
-    this.weight = weight;
-    this.sets = sets;
-    this.repetitions = repetitions;
-    this.restTime = restTime;
-    this.pace = pace;
-    this.photoLink = photoLink;
-    this.videoLink = videoLink;
-    this.trainerComment = trainerComment;
-  }
 }

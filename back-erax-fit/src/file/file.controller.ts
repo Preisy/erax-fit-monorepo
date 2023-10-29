@@ -19,9 +19,9 @@ import { BaseAuthGuard } from 'src/authentication/guards/baseAuth.guard';
 import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 import type { Response } from 'express';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
-import { GetFilesRequest, GetFilesResponse } from './dto/get-files.dto';
 import { RoleGuard } from 'src/authentication/guards/role.guard';
 import { UserRole } from 'src/constants/constants';
+import { AppPagination } from 'src/utils/app-pagination.util';
 
 @Controller('files')
 export class FileController {
@@ -73,9 +73,9 @@ export class FileController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetFilesResponse) })
+  @AppResponses({ status: 200, type: AppPagination.Response })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
-  async getUsers(@Query() query: GetFilesRequest) {
+  async getUsers(@Query() query: AppPagination.Request) {
     return await this.filesService.getFiles(query);
   }
 }

@@ -1,28 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, OneToMany } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { TokenEntity } from '../../authentication/entities/token.entity';
+import { Constants, UserRole } from '../../constants/constants';
 import { AppBaseEntity } from '../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entities/workout.entity';
-import {
-  CreateDateColumn,
-  DeleteDateColumn,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { TokenEntity } from '../../authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ name: 'first_name', type: 'varchar', nullable: true })
-  public firstName!: string;
+  public firstName?: string;
 
   @ApiProperty()
   @Column({ name: 'last_name', type: 'varchar', nullable: true })
-  public lastName!: string;
+  public lastName?: string;
 
   @Column({
     type: 'varchar',
@@ -42,7 +34,7 @@ export class UserEntity extends AppBaseEntity {
   public password!: string;
 
   @OneToMany(() => WorkoutEntity, (workout) => workout.user)
-  workouts: WorkoutEntity[];
+  public workouts: WorkoutEntity[];
   @ApiProperty({ type: () => TokenEntity })
   @OneToOne(() => TokenEntity)
   @JoinColumn({ name: 'tokenId' })
@@ -51,15 +43,4 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column('integer', { name: 'tokenId', nullable: true })
   public tokenId?: number;
-
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  public updatedAt!: Date;
-
-  @ApiProperty()
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  public deletedAt!: Date;
 }

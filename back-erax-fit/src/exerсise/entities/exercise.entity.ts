@@ -6,40 +6,40 @@ import { WorkoutEntity } from '../../workout/entities/workout.entity';
 @Entity('exercises')
 export class ExerciseEntity extends AppBaseEntity {
   @ApiProperty()
-  @Column({ name: 'name', nullable: false })
-  public name!: string;
+  @Column()
+  public name: string;
 
   @ApiProperty()
-  @Column({ name: 'trainer_comment', nullable: true })
-  public trainerComment!: string;
+  @Column({ nullable: true })
+  public trainerComment?: string;
 
   @ApiProperty()
-  @Column({ name: 'weight', nullable: false })
-  public weight!: number;
+  @Column()
+  public weight: number;
 
   @ApiProperty()
-  @Column({ name: 'sets', nullable: false })
-  public sets!: number;
+  @Column()
+  public sets: number;
 
   @ApiProperty()
-  @Column({ name: 'repetitions', nullable: false })
-  public repetitions!: number;
+  @Column()
+  public repetitions: number;
 
   @ApiProperty()
-  @Column({ name: 'rest_time', nullable: false })
-  public restTime!: number;
+  @Column()
+  public restTime: number;
 
   @ApiProperty()
-  @Column({ name: 'pace', nullable: false })
-  public pace!: string;
+  @Column()
+  public pace: string;
 
   @ApiProperty()
-  @Column({ name: 'photo_link', nullable: false })
-  public photoLink!: string;
+  @Column()
+  public photoLink: string;
 
   @ApiProperty()
-  @Column({ name: 'video_link', nullable: false })
-  public videoLink!: string;
+  @Column()
+  public videoLink: string;
 
   @ApiProperty({ type: () => WorkoutEntity })
   @ManyToOne(() => WorkoutEntity, (workout) => workout.exercises, { onDelete: 'CASCADE' })

@@ -1,17 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity } from 'typeorm';
+import { AppBaseEntity } from '../../models/app-base-entity.entity';
 
 @Entity('files')
-export class FileEntity {
+export class FileEntity extends AppBaseEntity {
   @ApiProperty()
-  @PrimaryGeneratedColumn('uuid')
-  public readonly id: string;
+  @Column()
+  public fileName: string;
 
   @ApiProperty()
-  @Column({ name: 'filename', nullable: false })
-  public fileName!: string;
+  @Column()
+  public path: string;
 
   @ApiProperty()
-  @Column({ name: 'path', nullable: true })
-  public path!: string;
+  @Column()
+  public fileLInk: string;
 }

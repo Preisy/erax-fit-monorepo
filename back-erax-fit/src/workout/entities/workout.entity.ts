@@ -7,20 +7,20 @@ import { ExerciseEntity } from '../../exerсise/entities/exercise.entity';
 @Entity('workouts')
 export class WorkoutEntity extends AppBaseEntity {
   @ApiProperty()
-  @Column({ name: 'name', nullable: false })
-  public name!: string;
+  @Column()
+  public name: string;
 
   @ApiProperty()
-  @Column({ name: 'comment', nullable: true })
-  public comment!: string;
+  @Column({ nullable: true })
+  public comment?: string;
 
   @ApiProperty()
-  @Column({ name: 'date', nullable: false })
-  public date!: Date;
+  @Column()
+  public date: Date;
 
   @ApiProperty()
-  @Column({ name: 'loop', nullable: true })
-  public loop!: number;
+  @Column({ nullable: true })
+  public loop?: number;
 
   @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity)
@@ -32,5 +32,5 @@ export class WorkoutEntity extends AppBaseEntity {
   public userId!: number;
 
   @OneToMany(() => ExerciseEntity, (exercise) => exercise.workout, { cascade: true })
-  exercises: ExerciseEntity[];
+  public exercises: ExerciseEntity[];
 }

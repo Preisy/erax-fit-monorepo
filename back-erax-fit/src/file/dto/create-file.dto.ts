@@ -1,12 +1,11 @@
-import { ConfigService } from '@nestjs/config';
 import { ApiProperty } from '@nestjs/swagger';
+import { FileEntity } from '../entities/file.entity';
 
 export class CreateFileResponse {
   @ApiProperty()
   public link: string;
 
-  constructor(fileName: string) {
-    const configService = new ConfigService();
-    this.link = configService.get('APP_BASE_URL') + '/' + fileName;
+  constructor(file: FileEntity) {
+    this.link = file.fileLInk;
   }
 }

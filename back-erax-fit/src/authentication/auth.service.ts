@@ -6,13 +6,12 @@ import * as bcrypt from 'bcrypt';
 import { UserEntity } from '../user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { TokenEntity } from './entities/token.entity';
-import { UpdateUserResponse } from '../user/dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GetUserResponse } from '../user/dto/get-user.dto';
 import { UserRole } from '../constants/constants';
 import { AppStatusResponse } from '../dto/app-status-response.dto';
 import { UserService } from '../user/user.service';
 import { UpdateTokenRequest } from './dto/update-token.dto';
+import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +27,7 @@ export class AuthService {
   ) {}
 
   async auth(request: AuthRequest): Promise<AuthResponse> {
-    const { user: newUser } = await this.userService.createUser(request);
+    const { data: newUser } = await this.userService.createUser(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
@@ -43,7 +42,7 @@ export class AuthService {
   }
 
   async login(request: AuthRequest): Promise<AuthResponse> {
-    const { user } = await this.userService.getUserByEmail(request.email.toLowerCase());
+    const { data: user } = await this.userService.getUserByEmail(request.email.toLowerCase());
     const passwordMatches = await bcrypt.compare(request.password, user.password);
     if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user with id ${user.id}`);
 
@@ -66,17 +65,16 @@ export class AuthService {
       const decodedToken = await this.jwtService.verifyAsync(jwt, options);
       if (!decodedToken || !decodedToken?.email) throw MainException.invalidData('Invalid token provided');
 
-      return (await this.getUserByEmailWithToken(decodedToken.email)).user;
+      return (await this.getUserByEmailWithToken(decodedToken.email)).data;
     } catch {
       throw MainException.forbidden('Access denied: no jwt found');
     }
   }
 
   async logout(email: string): Promise<AppStatusResponse> {
-    const { user } = await this.getUserByEmailWithToken(email.toLowerCase());
-    const result = await this.tokenRepository.delete(user.tokenId!);
-
-    return new AppStatusResponse(result.affected! > 0);
+    const { data: user } = await this.getUserByEmailWithToken(email.toLowerCase());
+    const { affected } = await this.tokenRepository.delete(user.tokenId!);
+    return new AppStatusResponse(!!affected);
   }
 
   async getTokens(userId: UserEntity['id'], email: string): Promise<AuthResponse> {
@@ -95,7 +93,7 @@ export class AuthService {
   }
 
   async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
-    const { user } = await this.getUserByIdWithToken(userId);
+    const { data: user } = await this.getUserByIdWithToken(userId);
 
     const refreshMatches = bcrypt.compare(refresh, user.token!.refreshHash);
     if (!refreshMatches)
@@ -112,7 +110,7 @@ export class AuthService {
   }
 
   private async updateRefreshHash(userId: UserEntity['id'], access: string, refresh: string) {
-    const { user } = await this.getUserByIdWithToken(userId);
+    const { data: user } = await this.getUserByIdWithToken(userId);
 
     user.token!.refreshHash = await this.hashData(access);
     user.token!.hash = await this.hashData(refresh);
@@ -121,7 +119,7 @@ export class AuthService {
   }
 
   private async createTokenForUser(email: string) {
-    const { user } = await this.userService.getUserByEmail(email);
+    const { data: user } = await this.userService.getUserByEmail(email);
     const newToken = this.tokenRepository.create({
       hash: 'default',
       refreshHash: 'default',
@@ -134,7 +132,7 @@ export class AuthService {
     await this.userRepository.save(user);
   }
 
-  private async getUserByIdWithToken(id: UserEntity['id'], role?: UserRole): Promise<GetUserResponse> {
+  private async getUserByIdWithToken(id: UserEntity['id'], role?: UserRole): Promise<AppSingleResponse<UserEntity>> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
@@ -152,10 +150,10 @@ export class AuthService {
 
     if (!token) throw MainException.entityNotFound(`Token for user with id ${id} not found`);
 
-    return new GetUserResponse(user);
+    return new AppSingleResponse(user);
   }
 
-  private async getUserByEmailWithToken(email: string): Promise<GetUserResponse> {
+  private async getUserByEmailWithToken(email: string): Promise<AppSingleResponse<UserEntity>> {
     const user = await this.userRepository.findOne({
       where: {
         email: email,
@@ -172,11 +170,11 @@ export class AuthService {
 
     if (!token) throw MainException.entityNotFound(`Token for user with email ${email} not found`);
 
-    return new GetUserResponse(user);
+    return new AppSingleResponse(user);
   }
 
-  private async updateTokenHash(request: UpdateTokenRequest): Promise<UpdateUserResponse> {
-    const { user } = await this.getUserByIdWithToken(request.id);
+  private async updateTokenHash(request: UpdateTokenRequest): Promise<AppSingleResponse<UserEntity>> {
+    const { data: user } = await this.getUserByIdWithToken(request.id);
 
     if (request.token) {
       (user.token!.hash = request.token.hash), (user.token!.refreshHash = request.token.refreshHash);
@@ -186,10 +184,10 @@ export class AuthService {
     const savedUser = await this.userRepository.save(user);
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
-    return new UpdateUserResponse(savedUser);
+    return new AppSingleResponse(savedUser);
   }
 
   async getMe(userId: UserEntity['id']): Promise<UserEntity> {
-    return (await this.getUserByIdWithToken(userId)).user;
+    return (await this.getUserByIdWithToken(userId)).data;
   }
 }
