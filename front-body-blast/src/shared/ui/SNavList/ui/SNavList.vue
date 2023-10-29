@@ -6,23 +6,26 @@ export interface RouteRecord {
 const props = defineProps<{
   routes: RouteRecord[];
 }>();
-const router = useRouter();
+// const router = useRouter();
 
-const index = computed(() => props.routes.findIndex((route) => route.name === router.currentRoute.value.name));
+// const index = computed(() => props.routes.findIndex((route) => route.name === router.currentRoute.value.name));
 console.log(props.routes);
 </script>
 <template>
-  <div relative z-1 flex justify-center gap-8px>
-    <router-link
-      v-for="(el, i) in routes"
-      :key="el.name"
-      :to="routes[i].name"
-      :class="{ 'opacity-100!': index === i }"
-      fw-800
+  <q-tabs content-class="gap-x-0.5rem justify-center">
+    <q-route-tab
+      v-for="route in routes"
+      :key="route.name"
+      :to="route.name"
+      :label="route.label"
+      :ripple="false"
+      active-class="opacity-100!"
+      flex="none!"
+      p-0
+      normal-case
       opacity-20
       transition-opacity-300
-    >
-      {{ el.label }}
-    </router-link>
-  </div>
+      class="[&_.q-tab\_\_indicator]:display-none [&_.q-tab\_\_label]:fw-bold!"
+    />
+  </q-tabs>
 </template>

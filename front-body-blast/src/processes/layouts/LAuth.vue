@@ -30,7 +30,7 @@ const e = ({ direction }: SwipeEventData) => {
 <template>
   <q-layout view="hHh lpr fFf" px-0.5rem v-touch-swipe.horizontal.capture="e">
     <q-page-container>
-      <SNavList :routes="routes" pb-40px pt-40px />
+      <SNavList :routes="routes" relative z-1 pb-30px pt-20px />
 
       <router-view v-slot="{ Component, route }">
         <transition :name="route.meta.transition as string" mode="out-in">
