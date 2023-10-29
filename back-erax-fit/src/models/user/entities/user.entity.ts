@@ -1,10 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
-import { Constants, UserRole } from '../../constants/constants';
+import { Column, Entity, JoinColumn, OneToOne, OneToMany } from 'typeorm';
+import { Constants, UserRole } from '../../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../authentication/entities/token.entity';
-import { AppBaseEntity } from '../../models/app-base-entity.entity';
-import { AntropometricsEntity } from 'src/antropometrics/entities/antropometrics.entity';
+import { AppBaseEntity } from '../../../models/app-base-entity.entity';
+import { AntropometricsEntity } from '../../../models/antropometrics/entities/antropometrics.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
@@ -41,14 +41,6 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column('integer', { name: 'tokenId', nullable: true })
   public tokenId?: number;
-
-  @ApiProperty()
-  @OneToMany(() => AntropometricsEntity, (antropometrics) => antropometrics.user)
-  public antropometrcis: AntropometricsEntity[];
-
-  @ApiProperty()
-  @Column('integer', { name: 'antropId', nullable: true })
-  public antropId?: number;
 
   @ApiProperty()
   @Column({ type: 'smallint' })
@@ -111,6 +103,6 @@ export class UserEntity extends AppBaseEntity {
   public goals: string;
 
   @ApiProperty()
-  @OneToMany(() => FormEntity, (form) => form.user)
-  form: FormEntity;
+  @OneToMany(() => AntropometricsEntity, (antropometrics) => antropometrics.user)
+  public antropometrics: AntropometricsEntity;
 }
