@@ -79,12 +79,12 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public gastroDeseases: string;
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public mealIntolerance: string;
 
   @IsBoolean()
@@ -93,7 +93,7 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public kidneyDesease: string;
 
   @IsBoolean()
@@ -102,7 +102,7 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public muscleDesease: string;
 
   @IsBoolean()
@@ -111,12 +111,12 @@ export class CreateUserRequest {
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public sportsExp: string;
 
   @IsString()
   @ApiProperty()
-  @Length(1, 300)
+  @Length(1, 256)
   public goals: string;
 }
 
