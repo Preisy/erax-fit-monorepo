@@ -10,6 +10,7 @@ const { sendForbiddens } = authStore;
 
 const schema = toTypedSchema(Forbiddens.validation());
 </script>
+
 <template>
   <SForm :loading="forbiddensState.state.isLoading()" @submit="sendForbiddens" :field-schema="schema">
     <SInput name="diet" :label="$t('auth.signUp.forbiddens.fields.diet')" />

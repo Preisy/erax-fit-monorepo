@@ -10,6 +10,7 @@ const { sendDiseases } = authStore;
 
 const schema = toTypedSchema(Diseases.validation());
 </script>
+
 <template>
   <SForm :loading="diseasesState.state.isLoading()" @submit="sendDiseases" :field-schema="schema">
     <SInput name="gastrointestinalDiseases" :label="$t('auth.signUp.diseases.fields.gastrointestinalDiseases')" />

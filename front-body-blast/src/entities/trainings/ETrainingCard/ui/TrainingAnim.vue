@@ -7,6 +7,7 @@ defineProps<{
 const isPlaying = ref<boolean>(false);
 const iconName = computed(() => (isPlaying.value ? 'sym_r_pause' : 'sym_r_play_arrow'));
 </script>
+
 <template>
   <div relative w-full>
     <q-img :src="url" fit="contain" />

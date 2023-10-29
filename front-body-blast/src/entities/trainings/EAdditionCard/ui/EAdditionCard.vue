@@ -9,6 +9,7 @@ const validationSchema = toTypedSchema(Addition.validation());
 const additionStore = useLocalAdditionStore();
 const state = additionStore.requestState;
 </script>
+
 <template>
   <div>
     <h1 mb-1rem>{{ $t('dashboard.trainings.addition.title') }}</h1>

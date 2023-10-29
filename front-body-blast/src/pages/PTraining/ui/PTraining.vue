@@ -11,6 +11,7 @@ const trainings = computed(() => trainingStore.trainings);
 
 onBeforeMount(async () => await trainingStore.getTrainingsByDate());
 </script>
+
 <template>
   <SStructure>
     <SSplide :options="{ direction: 'ttb', height: '35rem' }">

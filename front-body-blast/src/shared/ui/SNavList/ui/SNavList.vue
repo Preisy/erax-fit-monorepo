@@ -11,6 +11,7 @@ const props = defineProps<{
 // const index = computed(() => props.routes.findIndex((route) => route.name === router.currentRoute.value.name));
 console.log(props.routes);
 </script>
+
 <template>
   <q-tabs content-class="gap-x-0.5rem justify-center">
     <q-route-tab

@@ -5,6 +5,7 @@ defineProps<{
   info: ETrainingCardProps['info'];
 }>();
 </script>
+
 <template>
   <div flex flex-row flex-wrap gap-0.5rem>
     <SCard
