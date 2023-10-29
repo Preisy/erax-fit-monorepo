@@ -1,15 +1,15 @@
 import { Repository } from 'typeorm';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserRequest } from './dto/create-user.dto';
-import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { AppPagination } from '../../utils/app-pagination.util';
-import { MainException } from '../../exceptions/main.exception';
+import { CreateUserRequest } from '../dto/create-user.dto';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { AppPagination } from '../../../utils/app-pagination.util';
+import { MainException } from '../../../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
-import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import { filterUndefined } from '../../utils/filter-undefined.util';
-import { AppStatusResponse } from '../../dto/app-status-response.dto';
-import { GetUserResponse } from './dto/get-user.dto';
+import { UpdateUserRequest, UpdateUserResponse } from '../dto/update-user.dto';
+import { filterUndefined } from '../../../utils/filter-undefined.util';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
+import { GetUserResponse } from '../dto/get-user.dto';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -38,7 +38,7 @@ export class BaseUserService {
     return getPaginatedData(query);
   }
 
-  async getUserById(id: UserEntity['id']): Promise<GetUserResponse> {
+  async getUserById(id: UserEntity['id']): Promise<AppSingleResponse<UserEntity>> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
@@ -47,7 +47,7 @@ export class BaseUserService {
 
     if (!user) throw MainException.entityNotFound(`User with email ${id} not found`);
 
-    return new GetUserResponse(user);
+    return new AppSingleResponse(user);
   }
 
   async getUserByEmail(email: UserEntity['email']): Promise<GetUserResponse> {
@@ -63,7 +63,7 @@ export class BaseUserService {
   }
 
   async updateUser(request: UpdateUserRequest): Promise<AppSingleResponse<UserEntity>> {
-    const { user } = await this.getUserById(request.id);
+    const { data: user } = await this.getUserById(request.id);
 
     if (request.email) {
       try {

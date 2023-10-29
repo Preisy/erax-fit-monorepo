@@ -1,5 +1,5 @@
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from './base-user.service';
+import { BaseUserService } from './core/base-user.service';
 import { CreateClientRequest } from './dto/create-user.dto';
 import { UpdateUserRequest } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';

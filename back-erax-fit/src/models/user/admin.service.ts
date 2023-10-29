@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserByAdminRequest } from './dto/create-user.dto';
 import { UpdateUserRequest } from './dto/update-user.dto';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from './base-user.service';
+import { BaseUserService } from './core/base-user.service';
 import { AppPagination } from '../../utils/app-pagination.util';
 import { UserEntity } from './entities/user.entity';
 

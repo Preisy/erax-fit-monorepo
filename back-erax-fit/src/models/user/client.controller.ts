@@ -1,16 +1,29 @@
-import { Body, Controller, Delete, Get, Patch, Post, Req, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Patch,
+  Post,
+  Param,
+  Req,
+  UseFilters,
+  UsePipes,
+  ValidationPipe,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { ClientService } from './client.service';
 import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
 import { CreateClientRequest } from './dto/create-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
-import { GetUsersResponse } from './dto/get-users.dto';
 import { BaseAuthGuard } from '../authentication/guards/baseAuth.guard';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
+import { UserEntity } from './entities/user.entity';
 
 @BaseAuthGuard()
 @Controller('users')
@@ -28,9 +41,9 @@ export class ClientController {
   }
 
   @Get(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
-  async getUserById(@Req() req: RequestWithUser) {
-    return await this.clientService.getUserById(req.user.id);
+  @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
+  async getUserById(@Param('id', ParseIntPipe) id: number) {
+    return await this.clientService.getUserById(id);
   }
 
   @Patch(':id')
