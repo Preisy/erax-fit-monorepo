@@ -1,22 +1,20 @@
 ﻿import { ApiProperty } from '@nestjs/swagger';
 import { IsDefined, IsEmail, IsString } from 'class-validator';
+import { CreateUserRequest } from '../../user/dto/create-user.dto';
 
-export class AuthRequest {
-  @ApiProperty()
-  @IsDefined({ message: 'email is required' })
+export class AuthRequest extends CreateUserRequest {}
+
+export class LoginRequest {
+  @IsDefined()
   @IsEmail()
   @IsString()
+  @ApiProperty()
   public email: string;
 
-  @ApiProperty()
-  @IsDefined({ message: 'password is required' })
+  @IsDefined()
   @IsString()
+  @ApiProperty()
   public password: string;
-
-  constructor(email: string, password: string) {
-    this.email = email;
-    this.password = password;
-  }
 }
 
 export class AuthResponse {
@@ -38,8 +36,4 @@ export class LogoutRequest {
   @IsEmail()
   @IsString()
   public email: string;
-
-  constructor(email: string) {
-    this.email = email;
-  }
 }

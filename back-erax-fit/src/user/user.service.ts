@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserByAdminRequest, CreateUserRequest, CreateUserResponse } from './dto/create-user.dto';
-import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
+import { CreateUserByAdminRequest, CreateUserRequest } from './dto/create-user.dto';
+import { UpdateUserRequest } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from './entities/user.entity';
 import { MainException } from '../exceptions/main.exception';
-import { GetUserResponse } from './dto/get-user.dto';
 import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { UserRole } from '../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
+import { AppSingleResponse } from '../dto/app-single-response.dto';
+import { filterUndefined } from '../utils/filter-undefined.util';
 
 @Injectable()
 export class UserService {
@@ -20,21 +21,19 @@ export class UserService {
     console.log();
   }
 
-  async createUser(request: CreateUserRequest | CreateUserByAdminRequest): Promise<CreateUserResponse> {
+  async createUser(request: CreateUserRequest | CreateUserByAdminRequest): Promise<AppSingleResponse<UserEntity>> {
     await this.checkEmailForExistAndThrowErrorIfExist(request.email);
 
-    const newUser = this.userRepository.create({
-      email: request.email,
-      password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
-      firstName: request.firstName,
-      lastName: request.lastName,
-      role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
-    });
-
-    const savedUser = await this.userRepository.save(newUser);
+    const savedUser = await this.userRepository.save(
+      this.userRepository.create({
+        ...request,
+        password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
+        role: request instanceof CreateUserByAdminRequest ? request.role : UserRole.Client,
+      }),
+    );
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
-    return new CreateUserResponse(savedUser);
+    return new AppSingleResponse(savedUser);
   }
 
   async getUsers(request: GetUsersRequest): Promise<GetUsersResponse> {
@@ -50,7 +49,7 @@ export class UserService {
     return new GetUsersResponse(users, count);
   }
 
-  async getUserByEmail(email: string): Promise<GetUserResponse> {
+  async getUserByEmail(email: string): Promise<AppSingleResponse<UserEntity>> {
     const user = await this.userRepository.findOne({
       where: {
         email: email,
@@ -60,10 +59,10 @@ export class UserService {
 
     if (!user) throw MainException.entityNotFound(`User with email ${email} not found`);
 
-    return new GetUserResponse(user);
+    return new AppSingleResponse(user);
   }
 
-  async getUserById(id: number, role?: UserRole): Promise<GetUserResponse> {
+  async getUserById(id: number, role?: UserRole): Promise<AppSingleResponse<UserEntity>> {
     const user = await this.userRepository.findOne({
       where: {
         id: id,
@@ -74,40 +73,24 @@ export class UserService {
 
     if (!user) throw MainException.entityNotFound(`User with id ${id} not found`);
 
-    return new GetUserResponse(user);
+    return new AppSingleResponse(user);
   }
 
-  async updateUser(request: UpdateUserRequest): Promise<UpdateUserResponse> {
-    const { user } = await this.getUserById(request.id);
+  async updateUser(id: UserEntity['id'], request: UpdateUserRequest): Promise<AppSingleResponse<UserEntity>> {
+    const { data: user } = await this.getUserById(id);
 
-    if (request.email) {
-      try {
-        await this.getUserByEmail(request.email);
-        throw MainException.invalidData(`User with email ${request.email} already exist`);
-      } catch (error: any) {
-        if (error instanceof MainException && error.status != 200) {
-          throw error;
-        }
+    if (request.password) request.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
+    const savedUser = await this.userRepository.save({
+      ...user,
+      ...filterUndefined(request),
+    });
 
-        user.email = request.email;
-      }
-    }
-
-    if (request.password) user.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
-
-    if (request.firstName) user.firstName = request.firstName;
-
-    if (request.lastName) user.lastName = request.lastName;
-
-    const savedUser = await this.userRepository.save(user);
-    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
-
-    return new UpdateUserResponse(savedUser);
+    return new AppSingleResponse(savedUser);
   }
 
   async deleteUserById(id: number): Promise<DeleteUserByIdResponse> {
-    const result = await this.userRepository.softDelete(id);
-    return new DeleteUserByIdResponse(result.affected > 0);
+    const { affected } = await this.userRepository.delete(id);
+    return new DeleteUserByIdResponse(!!affected);
   }
 
   async checkEmailForExistAndThrowErrorIfExist(email: string) {

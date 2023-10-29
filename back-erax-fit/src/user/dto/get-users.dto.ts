@@ -17,12 +17,6 @@ export class GetUsersRequest {
   @IsOptional()
   @IsBoolean()
   public expanded?: boolean;
-
-  constructor(expanded = false, page?: number, limit?: number) {
-    this.page = page;
-    this.limit = limit;
-    this.expanded = expanded;
-  }
 }
 
 export class GetUsersResponse {

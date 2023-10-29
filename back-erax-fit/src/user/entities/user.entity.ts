@@ -1,30 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Constants, UserRole } from '../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../authentication/entities/token.entity';
+import { AppBaseEntity } from '../../models/app-base-entity.entity';
 
 @Entity('users')
-export class UserEntity {
+export class UserEntity extends AppBaseEntity {
   @ApiProperty()
-  @PrimaryGeneratedColumn()
-  public id!: number;
-
-  @ApiProperty()
-  @Column({ name: 'first_name', type: 'varchar', nullable: true })
+  @Column({ name: 'first_name', type: 'varchar' })
   public firstName!: string;
 
   @ApiProperty()
-  @Column({ name: 'last_name', type: 'varchar', nullable: true })
+  @Column({ name: 'last_name', type: 'varchar' })
   public lastName!: string;
 
   @Column({
@@ -54,13 +42,62 @@ export class UserEntity {
   public tokenId?: number;
 
   @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  public createdAt!: Date;
-
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  public updatedAt!: Date;
+  @Column({ type: 'smallint' })
+  public age: number;
 
   @ApiProperty()
-  @DeleteDateColumn({ name: 'deleted_at', type: 'timestamp' })
-  public deletedAt!: Date;
+  @Column({ type: 'float' })
+  public height: number;
+
+  @ApiProperty()
+  @Column({ type: 'float' })
+  public weight: number;
+
+  @ApiProperty()
+  @Column({ type: 'float' })
+  public weightInYouth: number;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public nutritRestrict: boolean;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public allergy: boolean;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 256 })
+  public gastroDeseases: string;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 256 })
+  public mealIntolerance: string;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public insulinResistance: boolean;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 128 })
+  public kidneyDesease: string;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public heartDesease: boolean;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 128 })
+  public muscleDesease: string;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public loadRestrictions: boolean;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 128 })
+  public sportsExp: string;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 256 })
+  public goals: string;
 }
