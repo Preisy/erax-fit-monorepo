@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AuthModule } from './authentication/auth.module';
 import { DatabaseModule } from './database/database.module';
-import { FileModule } from './file/file.module';
-import { UserModule } from './user/user.module';
-import { WorkoutModule } from './workout/workout.module';
+import { AdminFileModule } from './modules/admin/file/admin-file.module';
+import { AdminWorkoutModule } from './modules/admin/workout/admin-workout.module';
+import { AuthModule } from './modules/authentication/auth.module';
+import { ClientFileModule } from './modules/client/file/client-file.module';
+import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -14,8 +16,10 @@ import { WorkoutModule } from './workout/workout.module';
     DatabaseModule,
     AuthModule,
     UserModule,
-    WorkoutModule,
-    FileModule,
+    AdminWorkoutModule,
+    ClientWorkoutModule,
+    ClientFileModule,
+    AdminFileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

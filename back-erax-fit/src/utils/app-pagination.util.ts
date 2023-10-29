@@ -49,6 +49,7 @@ export namespace AppPagination {
       return createDerivedClass(`AppPagination${type.name}ResponseType`, AppPaginationResponseType);
     }
   }
+  export type GetExecutorOptions<Entity> = Omit<FindManyOptions<Entity>, 'skip' | 'take'>;
 
   export function getExecutor<Entity extends ObjectLiteral>(
     repository: Repository<Entity>,
