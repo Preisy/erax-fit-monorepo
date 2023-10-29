@@ -1,4 +1,8 @@
 import { RouteRecordRaw } from 'vue-router';
+import LAuthVue from 'processes/layouts/LAuth.vue';
+import PDiaryVue from 'pages/PDiary.vue';
+import PDietVue from 'pages/PDiet.vue';
+import PLearningVue from 'pages/PLearning.vue';
 import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
@@ -7,55 +11,64 @@ import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: ENUMS.ROUTES.HOME.base,
+    path: ENUMS.ROUTES.HOME.BASE,
+    name: ENUMS.ROUTES_NAMES.HOME,
     component: () => import('processes/layouts/LDashboard.vue'),
     children: [
       {
-        path: ENUMS.ROUTES.HOME.children.TRAINING,
-        component: () => PTraining,
+        path: ENUMS.ROUTES.HOME.CHILDREN.TRAINING,
+        component: PTraining,
+        name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {
-        path: ENUMS.ROUTES.HOME.children.PROFILE,
-        component: () => PProfile,
+        path: ENUMS.ROUTES.HOME.CHILDREN.PROFILE,
+        component: PProfile,
+        name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
-        path: ENUMS.ROUTES.HOME.children.DIARY,
-        component: () => import('pages/PDiary.vue'),
+        path: ENUMS.ROUTES.HOME.CHILDREN.DIARY,
+        component: PDiaryVue,
+        name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
-        path: ENUMS.ROUTES.HOME.children.DIET,
-        component: () => import('pages/PDiet.vue'),
+        path: ENUMS.ROUTES.HOME.CHILDREN.DIET,
+        component: PDietVue,
+        name: ENUMS.ROUTES_NAMES.DIET,
       },
       {
-        path: ENUMS.ROUTES.HOME.children.LEARNING,
-        component: () => import('pages/PLearning.vue'),
+        path: ENUMS.ROUTES.HOME.CHILDREN.LEARNING,
+        component: PLearningVue,
+        name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
   },
 
   {
-    path: ENUMS.ROUTES.LOGOUT.base,
-    component: () => import('processes/layouts/LLogout.vue'),
+    path: ENUMS.ROUTES.AUTH.BASE,
+    component: LAuthVue,
+    name: ENUMS.ROUTES_NAMES.AUTH,
     children: [
       {
-        path: ENUMS.ROUTES.LOGOUT.children.REGISTER,
+        path: ENUMS.ROUTES.AUTH.CHILDREN.REGISTER,
         component: PRegister,
+        name: ENUMS.ROUTES_NAMES.REGISTER,
         meta: { transition: 'slide-left' },
       },
       {
-        path: ENUMS.ROUTES.LOGOUT.children.LOGIN,
+        path: ENUMS.ROUTES.AUTH.CHILDREN.LOGIN,
         component: PLogin,
+        name: ENUMS.ROUTES_NAMES.LOGIN,
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
+    redirect: ENUMS.ROUTES.AUTH.BASE + ENUMS.ROUTES.AUTH.CHILDREN.LOGIN,
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    redirect: ENUMS.ROUTES.LOGOUT.base,
+    redirect: ENUMS.ROUTES.AUTH.BASE,
   },
 ];
 

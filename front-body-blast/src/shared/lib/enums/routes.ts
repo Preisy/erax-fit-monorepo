@@ -1,21 +1,31 @@
-export namespace ENUMS {
-  export const ROUTES = {
-    HOME: {
-      base: '/home/',
-      children: {
-        TRAINING: 'training',
-        DIARY: 'diary',
-        PROFILE: 'profile',
-        DIET: 'diet',
-        LEARNING: 'learning',
-      },
+export const ROUTES = {
+  HOME: {
+    BASE: '/home/',
+    CHILDREN: {
+      TRAINING: 'training',
+      DIARY: 'diary',
+      PROFILE: 'profile',
+      DIET: 'diet',
+      LEARNING: 'learning',
     },
-    LOGOUT: {
-      base: '/',
-      children: {
-        LOGIN: 'login',
-        REGISTER: 'register',
-      },
+  },
+  AUTH: {
+    BASE: '/',
+    CHILDREN: {
+      LOGIN: 'login',
+      REGISTER: 'register',
     },
-  };
+  },
+};
+
+export enum ROUTES_NAMES {
+  HOME = 'home',
+  TRAINING = 'training',
+  DIARY = 'diary',
+  PROFILE = 'profile',
+  DIET = 'diet',
+  LEARNING = 'learning',
+  AUTH = 'auth',
+  LOGIN = 'login',
+  REGISTER = 'register',
 }
