@@ -1,39 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDefined, IsDate, IsNumber } from 'class-validator';
+import { AntropometricsEntity } from '../entities/antropometrics.entity';
 
-export class CreateAntropometricsRequest {
-  @IsDefined()
-  @IsDate()
-  @ApiProperty()
-  public date: Date;
+export class CreateAntropometricsRequest extends AntropometricsEntity {}
 
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public weight: number;
-
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public waist: number;
-
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public abdomen: number;
-
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public shoulder: number;
-
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public hip: number;
-
-  @IsDefined()
-  @ApiProperty()
-  @IsNumber()
-  public hipVolume: number;
-}
+export class CreateAntropometricsByAdminRequest extends CreateAntropometricsRequest {}
