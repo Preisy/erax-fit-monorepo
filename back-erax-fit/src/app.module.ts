@@ -3,11 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './models/user/user.module';
-import { AuthModule } from './models/authentication/auth.module';
+import { AdminUserModule } from './modules/admin/admin-user.module';
+import { AuthModule } from './modules/authentication/auth.module';
+import { ClientUserModule } from './modules/client/client-user.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule, AuthModule, UserModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule, AuthModule, AdminUserModule, ClientUserModule],
   controllers: [AppController],
   providers: [AppService],
 })

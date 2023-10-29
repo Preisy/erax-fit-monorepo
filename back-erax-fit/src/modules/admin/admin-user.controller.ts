@@ -12,27 +12,28 @@ import {
   ValidationPipe,
   ParseIntPipe,
 } from '@nestjs/common';
-import { AdminService } from './admin.service';
-import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
-import { CreateUserByAdminRequest } from './dto/create-user.dto';
+import { AdminUserService } from './admin-user.service';
+import { UpdateUserByAdminRequest } from './dto/update-admin-user.dto';
+import { CreateUserByAdminRequest } from './dto/create-admin.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
-import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../../constants/constants';
-import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
 import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
+import { AppStatusResponse } from '../../dto/app-status-response.dto';
+import { UserEntity } from '../core/user/entities/user.entity';
+import { AppPagination } from '../../utils/app-pagination.util';
 
 @AppAuthGuard(RoleGuard(UserRole.Admin))
 @Controller('admin/users')
 @ApiTags('Admin')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
-export class AdminController {
-  constructor(private readonly adminService: AdminService) {}
+export class AdminUserController {
+  constructor(private readonly adminService: AdminUserService) {}
 
   @Post()
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
@@ -42,25 +43,25 @@ export class AdminController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
-  async getUsers(@Query() query: GetUsersRequest) {
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppPagination.Response) })
+  async getUsers(@Query() query: AppPagination.Request) {
     return await this.adminService.getUsers(query);
   }
 
   @Get(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetUsersResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
   async getUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.adminService.getUserById(id);
   }
 
   @Patch(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
-  async updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserRequest) {
+  @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
+  async updateUser(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserByAdminRequest) {
     return await this.adminService.updateUser(id, body);
   }
 
   @Delete(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(DeleteUserByIdResponse) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
   async deleteUserById(@Param('id', ParseIntPipe) id: number) {
     return await this.adminService.deleteUserById(+id);
   }

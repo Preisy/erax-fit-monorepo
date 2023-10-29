@@ -1,15 +1,15 @@
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from './core/base-user.service';
-import { CreateClientRequest } from './dto/create-user.dto';
-import { UpdateUserRequest } from './dto/update-user.dto';
-import { UserEntity } from './entities/user.entity';
+import { BaseUserService } from '../core/user/base-user.service';
+import { CreateUserByClientRequest } from './dto/create-client-user.dto';
+import { UpdateUserByClientRequest } from './dto/update-client-user.dto';
+import { UserEntity } from '../core/user/entities/user.entity';
 import { Injectable } from '@nestjs/common/decorators';
 
 @Injectable()
-export class ClientService {
+export class ClientUserService {
   constructor(private readonly baseService: BaseUserService) {}
 
-  async create(request: CreateClientRequest) {
+  async create(request: CreateUserByClientRequest) {
     const { data: savedUser } = await this.baseService.create(request);
 
     return new AppSingleResponse(savedUser);
@@ -23,7 +23,7 @@ export class ClientService {
     return this.baseService.getUserById(id);
   }
 
-  async updateUser(id: UserEntity['id'], request: UpdateUserRequest) {
+  async updateUser(id: UserEntity['id'], request: UpdateUserByClientRequest) {
     return this.baseService.updateUser(id, request);
   }
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserByAdminRequest } from './dto/create-user.dto';
-import { UpdateUserRequest } from './dto/update-user.dto';
+import { CreateUserByAdminRequest } from './dto/create-admin.dto';
+import { UpdateUserByAdminRequest } from './dto/update-admin-user.dto';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from './core/base-user.service';
+import { BaseUserService } from '../core/user/base-user.service';
 import { AppPagination } from '../../utils/app-pagination.util';
-import { UserEntity } from './entities/user.entity';
+import { UserEntity } from '../core/user/entities/user.entity';
 
 @Injectable()
-export class AdminService {
+export class AdminUserService {
   constructor(private readonly baseService: BaseUserService) {}
 
   async create(request: CreateUserByAdminRequest) {
@@ -28,7 +28,7 @@ export class AdminService {
     return this.baseService.getUserById(id);
   }
 
-  async updateUser(id: UserEntity['id'], request: UpdateUserRequest) {
+  async updateUser(id: UserEntity['id'], request: UpdateUserByAdminRequest) {
     return this.baseService.updateUser(id, request);
   }
 
