@@ -13,7 +13,7 @@ import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 
 @BaseAuthGuard()
-@Controller('client/users')
+@Controller('users')
 @ApiTags('Client')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)

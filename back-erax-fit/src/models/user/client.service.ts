@@ -3,7 +3,9 @@ import { BaseUserService } from './base-user.service';
 import { CreateClientRequest } from './dto/create-user.dto';
 import { UpdateUserRequest } from './dto/update-user.dto';
 import { UserEntity } from './entities/user.entity';
+import { Injectable } from '@nestjs/common/decorators';
 
+@Injectable()
 export class ClientService {
   constructor(private readonly baseService: BaseUserService) {}
 

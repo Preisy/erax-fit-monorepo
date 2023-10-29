@@ -10,14 +10,16 @@ import { UpdateUserRequest, UpdateUserResponse } from './dto/update-user.dto';
 import { filterUndefined } from '../../utils/filter-undefined.util';
 import { AppStatusResponse } from '../../dto/app-status-response.dto';
 import { GetUserResponse } from './dto/get-user.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class BaseUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async create(request: CreateUserRequest) {
+  async create(request: CreateUserRequest): Promise<AppSingleResponse<UserEntity>> {
     await this.checkEmailForExistAndThrowErrorIfExist(request.email);
 
     const savedUser = await this.userRepository.save(
