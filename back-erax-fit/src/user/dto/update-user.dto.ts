@@ -26,21 +26,9 @@ export class UpdateUserRequest {
   @IsString()
   @ApiPropertyOptional()
   public lastName?: string;
-
-  constructor(id: number, email: string, password: string, firstName?: string, lastName?: string) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.firstName = firstName;
-    this.lastName = lastName;
-  }
 }
 
 export class UpdateUserResponse {
   @ApiProperty({ type: UserEntity })
   public user: UserEntity;
-
-  constructor(user: UserEntity) {
-    this.user = user;
-  }
 }
