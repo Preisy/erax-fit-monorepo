@@ -22,7 +22,7 @@ import { RoleGuard } from '../authentication/guards/role.guard';
 import { UserRole } from '../constants/constants';
 import { RequestWithUser } from '../authentication/types/requestWithUser.type';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
-import { AppAuthGuard } from '../authentication/guards/baseAuth.guard';
+import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
 import { AppResponses } from '../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../dto/app-single-response.dto';
@@ -58,7 +58,7 @@ export class UserController {
   @AppResponses({ status: 200, type: AppSingleResponse.type(UpdateUserResponse) })
   async updateUser(@Param('id') id: number, @Req() req: RequestWithUser, @Body() body: UpdateUserRequest) {
     const request = new UpdateUserRequest(id, body.email, body.password, body.firstName, body.lastName);
-    return await this.usersService.updateUser(request);
+    return await this.usersService.updateUser(id, request);
   }
 
   @Delete(':id')

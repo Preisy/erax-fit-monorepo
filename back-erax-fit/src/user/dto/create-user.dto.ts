@@ -9,8 +9,9 @@ import {
   IsNumber,
   IsBoolean,
   Length,
+  Min,
+  Max,
 } from 'class-validator';
-import { UserEntity } from '../entities/user.entity';
 import { Constants, UserRole } from '../../constants/constants';
 
 export class CreateUserRequest {
@@ -46,18 +47,26 @@ export class CreateUserRequest {
   @IsDefined()
   @IsNumber()
   @ApiProperty()
+  @Min(1)
+  @Max(100)
   public age: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(100)
+  @Max(250)
   public height: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(20)
+  @Max(600)
   public weight: number;
 
   @IsNumber()
   @ApiProperty()
+  @Min(20)
+  @Max(600)
   public weightInYouth: number;
 
   @IsBoolean()

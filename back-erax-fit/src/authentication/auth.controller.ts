@@ -6,7 +6,7 @@ import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
 import { MainExceptionFilter } from '../exceptions/main-exception.filter';
 import { ValidationPipe } from '../pipes/validation.pipe';
 import { RequestWithUser } from './types/requestWithUser.type';
-import { AppAuthGuard } from './guards/baseAuth.guard';
+import { AppAuthGuard } from './guards/appAuth.guard';
 import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
 import { AppSingleResponse } from '../dto/app-single-response.dto';

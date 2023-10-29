@@ -10,6 +10,7 @@ import { DeleteUserByIdResponse } from './dto/delete-user-by-id.dto';
 import { UserRole } from '../constants/constants';
 import { GetUsersRequest, GetUsersResponse } from './dto/get-users.dto';
 import { AppSingleResponse } from '../dto/app-single-response.dto';
+import { filterUndefined } from '../utils/filter-undefined.util';
 
 @Injectable()
 export class UserService {
@@ -75,30 +76,14 @@ export class UserService {
     return new AppSingleResponse(user);
   }
 
-  async updateUser(request: UpdateUserRequest): Promise<AppSingleResponse<UserEntity>> {
-    const { user } = await this.getUserById(request.id);
+  async updateUser(id: UserEntity['id'], request: UpdateUserRequest): Promise<AppSingleResponse<UserEntity>> {
+    const { data: user } = await this.getUserById(id);
 
-    if (request.email) {
-      try {
-        await this.getUserByEmail(request.email);
-        throw MainException.invalidData(`User with email ${request.email} already exist`);
-      } catch (error: any) {
-        if (error instanceof MainException && error.status != 200) {
-          throw error;
-        }
-
-        user.email = request.email;
-      }
-    }
-
-    if (request.password) user.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
-
-    if (request.firstName) user.firstName = request.firstName;
-
-    if (request.lastName) user.lastName = request.lastName;
-
-    const savedUser = await this.userRepository.save(user);
-    if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
+    if (request.password) request.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
+    const savedUser = await this.userRepository.save({
+      ...user,
+      ...filterUndefined(request),
+    });
 
     return new AppSingleResponse(savedUser);
   }
