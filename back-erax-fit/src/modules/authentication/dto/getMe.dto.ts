@@ -1,5 +1,5 @@
 ﻿import { ApiProperty } from '@nestjs/swagger';
-import { UserEntity } from '../../user/entities/user.entity';
+import { UserEntity } from '../../core/user/entities/user.entity';
 
 export class GetMeResponse {
   @ApiProperty({ type: UserEntity })

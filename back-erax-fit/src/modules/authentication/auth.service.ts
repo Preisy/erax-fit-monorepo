@@ -1,26 +1,26 @@
 ﻿import { Injectable, Inject } from '@nestjs/common';
 import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
 import { JwtService } from '@nestjs/jwt';
-import { MainException } from '../exceptions/main.exception';
+import { MainException } from '../../exceptions/main.exception';
 import * as bcrypt from 'bcrypt';
-import { UserEntity } from '../user/entities/user.entity';
+import { UserEntity } from '../core/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { TokenEntity } from './entities/token.entity';
-import { UpdateUserResponse } from '../user/dto/update-user.dto';
+import { UpdateUserResponse } from '../core/user/dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRole } from '../constants/constants';
-import { AppStatusResponse } from '../dto/app-status-response.dto';
-import { UserService } from '../user/user.service';
+import { UserRole } from '../../constants/constants';
+import { AppStatusResponse } from '../../dto/app-status-response.dto';
+import { BaseUserService } from '../core/user/base-user.service';
 import { UpdateTokenRequest } from './dto/update-token.dto';
-import { AppSingleResponse } from '../dto/app-single-response.dto';
+import { AppSingleResponse } from '../../dto/app-single-response.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(JwtService)
     private readonly jwtService: JwtService,
-    @Inject(UserService)
-    private readonly userService: UserService,
+    @Inject(BaseUserService)
+    private readonly baseService: BaseUserService,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(TokenEntity)
@@ -28,7 +28,7 @@ export class AuthService {
   ) {}
 
   async auth(request: AuthRequest): Promise<AuthResponse> {
-    const { data: newUser } = await this.userService.createUser(request);
+    const { data: newUser } = await this.baseService.create(request);
 
     if (!(await bcrypt.compare(request.password, newUser.password))) {
       throw MainException.unauthorized();
@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   async login(request: LoginRequest): Promise<AuthResponse> {
-    const { data: user } = await this.userService.getUserByEmail(request.email.toLowerCase());
+    const { data: user } = await this.baseService.getUserByEmail(request.email.toLowerCase());
     const passwordMatches = await bcrypt.compare(request.password, user.password);
     if (!passwordMatches) throw MainException.forbidden(`Error: no password mathces for user with id ${user.id}`);
 
@@ -121,7 +121,7 @@ export class AuthService {
   }
 
   private async createTokenForUser(email: string) {
-    const { data: user } = await this.userService.getUserByEmail(email);
+    const { data: user } = await this.baseService.getUserByEmail(email);
     const newToken = this.tokenRepository.create({
       hash: 'default',
       refreshHash: 'default',

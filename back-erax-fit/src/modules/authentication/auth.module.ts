@@ -4,18 +4,22 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
-import { UserModule } from '../user/user.module';
+import { BaseUserModule } from '../core/user/base-user.module';
+import { AdminUserModule } from '../admin/user/admin-user.module';
+import { ClientUserModule } from '../client/user/client-user.module';
 import { AccessStrategy } from './strategies/access-strategy';
 import { RefreshStrategy } from './strategies/refresh-strategy';
 import { Repository } from 'typeorm';
 import { TokenEntity } from './entities/token.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from '../user/entities/user.entity';
+import { UserEntity } from '../core/user/entities/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([TokenEntity, UserEntity]),
-    forwardRef(() => UserModule),
+    forwardRef(() => BaseUserModule),
+    forwardRef(() => AdminUserModule),
+    forwardRef(() => ClientUserModule),
     ConfigModule,
     PassportModule,
     JwtModule.register({

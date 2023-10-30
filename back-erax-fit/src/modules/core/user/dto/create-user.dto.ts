@@ -2,7 +2,6 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsDefined,
   IsEmail,
-  IsIn,
   IsOptional,
   IsString,
   IsStrongPassword,
@@ -12,7 +11,6 @@ import {
   Min,
   Max,
 } from 'class-validator';
-import { Constants, UserRole } from '../../constants/constants';
 
 export class CreateUserRequest {
   @IsDefined()
@@ -118,13 +116,4 @@ export class CreateUserRequest {
   @ApiProperty()
   @Length(1, 256)
   public goals: string;
-}
-
-export class CreateUserByAdminRequest extends CreateUserRequest {
-  @IsDefined()
-  @IsIn(Constants.UserRoleList.getList())
-  @ApiProperty({
-    example: `One value from [${Constants.UserRoleList.getList()}]`,
-  })
-  public role: UserRole;
 }

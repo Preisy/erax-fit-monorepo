@@ -1,6 +1,6 @@
 ﻿import { ApiProperty } from '@nestjs/swagger';
 import { IsDefined, IsEmail, IsString } from 'class-validator';
-import { CreateUserRequest } from '../../user/dto/create-user.dto';
+import { CreateUserRequest } from '../../core/user/dto/create-user.dto';
 
 export class AuthRequest extends CreateUserRequest {}
 
