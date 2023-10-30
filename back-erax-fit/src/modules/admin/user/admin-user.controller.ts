@@ -29,7 +29,7 @@ import { AppPagination } from '../../../utils/app-pagination.util';
 
 @AppAuthGuard(RoleGuard(UserRole.Admin))
 @Controller('admin/users')
-@ApiTags('Admin')
+@ApiTags('Admin user')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class AdminUserController {

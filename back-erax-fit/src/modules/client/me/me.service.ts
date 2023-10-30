@@ -6,7 +6,7 @@ import { UserEntity } from '../../core/user/entities/user.entity';
 import { Injectable } from '@nestjs/common/decorators';
 
 @Injectable()
-export class ClientUserService {
+export class MeService {
   constructor(private readonly baseService: BaseUserService) {}
 
   async create(request: CreateUserByClientRequest) {

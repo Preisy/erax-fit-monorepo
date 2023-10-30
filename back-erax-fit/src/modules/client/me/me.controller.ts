@@ -10,7 +10,7 @@ import {
   ValidationPipe,
   ParseIntPipe,
 } from '@nestjs/common';
-import { ClientUserService } from './client-user.service';
+import { MeService } from './me.service';
 import { UpdateUserByClientRequest } from './dto/update-client-user.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
@@ -21,22 +21,22 @@ import { RequestWithUser } from '../../authentication/types/requestWithUser.type
 import { UserEntity } from '../../core/user/entities/user.entity';
 
 @AppAuthGuard()
-@Controller('users')
-@ApiTags('Client')
+@Controller('me')
+@ApiTags('Me')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
-export class ClientUserController {
-  constructor(private readonly clientService: ClientUserService) {}
+export class MeController {
+  constructor(private readonly meService: MeService) {}
 
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
   async getUserById(@Param('id', ParseIntPipe) id: number) {
-    return await this.clientService.getUserById(id);
+    return await this.meService.getUserById(id);
   }
 
-  @Patch(':id')
+  @Patch()
   @AppResponses({ status: 200, type: AppSingleResponse.type(UserEntity) })
   async updateUser(@Req() req: RequestWithUser, @Body() body: UpdateUserByClientRequest) {
-    return await this.clientService.updateUser(req.user.id, body);
+    return await this.meService.updateUser(req.user.id, body);
   }
 }
