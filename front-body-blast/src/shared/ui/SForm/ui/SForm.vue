@@ -8,23 +8,27 @@ export interface SFormProps {
 }
 
 const props = defineProps<SFormProps>();
-const { handleSubmit, errors } = useForm({
+const { handleSubmit } = useForm({
   validationSchema: props.fieldSchema,
 });
+
 const emits = defineEmits<{
   submit: Parameters<Parameters<typeof handleSubmit>[0]>;
 }>();
+defineExpose({
+  handleSubmit,
+});
+
 const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
 
 <template>
   <form @submit.prevent="" @submit="onsubmit">
-    {{ errors }}
     <div flex flex-col gap-y-0.5rem>
       <slot />
     </div>
     <slot name="submit-btn">
-      <SBtn :loading="loading" icon="done" type="submit" float-right mt-0.5rem boxshadow-btn />
+      <SBtn :loading="loading" icon="done" type="submit" float-right mt-0.5rem />
     </slot>
   </form>
 </template>

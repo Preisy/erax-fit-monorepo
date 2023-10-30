@@ -1,11 +1,13 @@
+import { assign } from 'lodash';
 import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { TokenService } from '../services';
 import { loginService, signUpService } from './service';
-import { Auth, BodyParams, Diseases, Forbiddens, Motivations, SignUp } from './types';
+import { Auth, BodyParams, Diseases, Forbiddens, Motivations, Credentials, SignUp } from './types';
 
 export const useAuthStore = defineStore('auth-store', () => {
   const isAuth = () => !!TokenService.getAccessToken();
+  const signUpRequest = ref<Partial<SignUp.Dto>>({}); //TODO: remove partial
 
   const loginState = ref(useSingleState<Auth.Response>());
   const login = (data: Auth.Dto) =>
@@ -15,39 +17,17 @@ export const useAuthStore = defineStore('auth-store', () => {
     });
 
   const signUpState = ref(useSingleState<SignUp.Response>());
-  const signUp = (data: SignUp.Dto) =>
+  const signUp = (data?: SignUp.Dto) =>
     useSimpleStoreAction({
       stateWrapper: signUpState.value,
-      serviceAction: signUpService.signUp(data),
+      serviceAction: signUpService.signUp(data ?? signUpRequest.value),
     });
 
-  const bodyParamsState = ref(useSingleState<BodyParams.Response>());
-  const sendBodyParams = (data: BodyParams.Dto) =>
-    useSimpleStoreAction({
-      stateWrapper: bodyParamsState.value,
-      serviceAction: signUpService.bodyParams(data),
-    });
-
-  const forbiddensState = ref(useSingleState<Forbiddens.Response>());
-  const sendForbiddens = (data: Forbiddens.Dto) =>
-    useSimpleStoreAction({
-      stateWrapper: forbiddensState.value,
-      serviceAction: signUpService.forbiddens(data),
-    });
-
-  const motivationsState = ref(useSingleState<Motivations.Response>());
-  const sendMotivations = (data: Motivations.Dto) =>
-    useSimpleStoreAction({
-      stateWrapper: motivationsState.value,
-      serviceAction: signUpService.motivations(data),
-    });
-
-  const diseasesState = ref(useSingleState<Diseases.Response>());
-  const sendDiseases = (data: Diseases.Dto) =>
-    useSimpleStoreAction({
-      stateWrapper: diseasesState.value,
-      serviceAction: signUpService.diseases(data),
-    });
+  const applyCredentials = (data: Credentials.Dto) => assign(signUpRequest.value, data);
+  const applyBodyParams = (data: BodyParams.Dto) => assign(signUpRequest.value, data);
+  const applyForbiddens = (data: Forbiddens.Dto) => assign(signUpRequest.value, data);
+  const applyMotivations = (data: Motivations.Dto) => assign(signUpRequest.value, data);
+  const applyDiseases = (data: Diseases.Dto) => assign(signUpRequest.value, data);
 
   return {
     isAuth,
@@ -55,13 +35,11 @@ export const useAuthStore = defineStore('auth-store', () => {
     loginState,
     signUp,
     signUpState,
-    sendBodyParams,
-    sendDiseases,
-    sendForbiddens,
-    sendMotivations,
-    diseasesState,
-    motivationsState,
-    forbiddensState,
-    bodyParamsState,
+    applyCredentials,
+    applyBodyParams,
+    applyDiseases,
+    applyForbiddens,
+    applyMotivations,
+    signUpRequest,
   };
 });
