@@ -61,7 +61,7 @@ const slides: RegisterSlides = [
       fieldSchema: toTypedSchema(Motivations.validation()),
       onSubmit: (data) => {
         authStore.applyMotivations(data);
-        submitBtns.value.forEach((btn) => btn.click());
+        submitBtnsExceptLast.value.forEach((btn) => btn.click());
         authStore.signUp();
       },
     },
@@ -70,25 +70,18 @@ const slides: RegisterSlides = [
 
 const submitBtns = ref<Array<InstanceType<typeof SBtn>>>([]);
 const submitForms = ref<Array<InstanceType<typeof SForm>>>([]);
+const submitBtnsExceptLast = computed(() => submitBtns.value.slice(0, -1));
 </script>
 
 <template>
   <SStructure relative>
     <SSplide :options="{ direction: 'ttb', height: '28rem', arrows: false }">
       <SSplideSlide v-for="(slide, index) in slides" :key="index">
-        <SForm
-          v-bind="slide.formProps"
-          :loading="false"
-          :ref="
-            (form) => (index + 1 !== slides.length ? submitForms.push(form as InstanceType<typeof SForm>) : undefined)
-          "
-        >
+        <SForm v-bind="slide.formProps" :loading="false" ref="submitForms">
           <component :is="slide.is" />
           <template #submit-btn>
             <SBtn
-              :ref="
-                (btn) => (index + 1 !== slides.length ? submitBtns.push(btn as InstanceType<typeof SBtn>) : undefined)
-              "
+              ref="submitBtns"
               icon="done"
               type="submit"
               @click="(event) => submitForms[index].handleSubmit(slides[index].formProps.onSubmit!)(event)"

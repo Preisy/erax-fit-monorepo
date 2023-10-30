@@ -9,7 +9,7 @@ import { SStructure } from 'shared/ui/SStructure';
 const trainingStore = useTrainingStore();
 const trainings = computed(() => trainingStore.trainings);
 
-onBeforeMount(async () => await trainingStore.getTrainingsByDate());
+trainingStore.getTrainingsByDate();
 </script>
 
 <template>
