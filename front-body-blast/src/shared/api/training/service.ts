@@ -5,12 +5,12 @@ import { Addition, Training } from './types';
 
 const trainingApi = axios.create({ url: '/training' });
 
-function requestSimulator<R>(msg: string) {
+function requestSimulator<R>(msg: R) {
   return new Promise<Pick<AxiosResponse<R>, 'data'>>((resolve) => {
     setTimeout(
       () =>
         resolve({
-          data: { message: msg },
+          data: msg,
         }),
       1000,
     );
@@ -71,6 +71,6 @@ export namespace TrainingsService {
 
   export const postAddition = useServiceAction((data: Addition.Dto) =>
     // trainingApi.post<Addition.Response>('/addition', data),
-    requestSimulator<Addition.Response>(data.message),
+    requestSimulator<Addition.Response>(data),
   );
 }
