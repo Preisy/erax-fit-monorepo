@@ -6,8 +6,9 @@ const today = date.formatDate(Date.now(), 'DD.MM');
 const panel = ref(today);
 
 export interface WAthropometrics {
-  slides: Omit<EAthropometricsSlideProps, 'panel' | 'dates'>[];
+  slides: EAthropometricsSlideProps[];
 }
+
 const props = defineProps<WAthropometrics>();
 const dates = props.slides.map(
   (it) => new Date().getFullYear() + '/' + it.tdate.slice(3, 5) + '/' + it.tdate.slice(0, 2),
@@ -15,10 +16,12 @@ const dates = props.slides.map(
 </script>
 
 <template>
-  <SDatePicker v-model:panel="panel" :dates="dates" />
-  <q-tab-panels v-model="panel" mx="[-0.5rem]" animated swipeable infinite static class="[&_.q-tab-panel]:(p-2)">
-    <q-tab-panel v-for="slide in slides" :name="slide.tdate" :key="slide.tdate">
-      <EAthropometricsSlide v-bind="slide" v-model:panel="panel" :dates="dates" />
-    </q-tab-panel>
-  </q-tab-panels>
+  <div h-full>
+    <SDatePicker v-model:panel="panel" :dates="dates" />
+    <q-tab-panels v-model="panel" animated swipeable infinite static mx--2 class="[&_.q-tab-panel]:(p-2)" h-full>
+      <q-tab-panel v-for="slide in slides" :name="slide.tdate" :key="slide.tdate">
+        <EAthropometricsSlide :profile="slide.profile" :editable="slide.editable" :tdate="slide.tdate" />
+      </q-tab-panel>
+    </q-tab-panels>
+  </div>
 </template>

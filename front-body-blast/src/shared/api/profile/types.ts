@@ -1,6 +1,15 @@
 import { z } from 'zod';
 
-export namespace Athropometrics {
+export namespace Profile {
+  export interface Athropometrics {
+    weight: number;
+    waist: number;
+    underbelly: number;
+    shoulder: number;
+    hip: number;
+    hipVolume: number;
+  }
+
   export const validation = () =>
     z.object({
       weight: z.string().max(5),

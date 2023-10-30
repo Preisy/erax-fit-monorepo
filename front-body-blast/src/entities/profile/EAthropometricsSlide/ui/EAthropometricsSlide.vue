@@ -1,26 +1,20 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 
-import { Athropometrics } from 'shared/api/profile';
+import { Profile } from 'shared/api/profile';
 import { SForm } from 'shared/ui/SForm';
 import { SInput } from 'shared/ui/SInput';
 
 export interface EAthropometricsSlideProps {
   editable: boolean;
   tdate: string;
-  weight?: number;
-  waist?: number;
-  underbelly?: number;
-  shoulder?: number;
-  hip?: number;
-  hipVolume?: number;
+  profile: Profile.Athropometrics;
 }
 
-const fields = ['weight', 'waist', 'underbelly', 'shoulder', 'hip', 'hipVolume'];
+const schema = toTypedSchema(Profile.validation());
+const fields: (keyof Profile.Athropometrics)[] = ['weight', 'waist', 'underbelly', 'shoulder', 'hip', 'hipVolume'];
 
 defineProps<EAthropometricsSlideProps>();
-
-const schema = toTypedSchema(Athropometrics.validation());
 </script>
 
 <template>
@@ -30,7 +24,6 @@ const schema = toTypedSchema(Athropometrics.validation());
       :key="field"
       :name="field"
       :label="$t(`home.profile.athropometrics.${field}`)"
-      :value="weight"
       centered
     />
   </SForm>
@@ -39,7 +32,7 @@ const schema = toTypedSchema(Athropometrics.validation());
       <p class="ellipsis absolute left-1/2 scale-3/4 -translate-x-1/2 -translate-y-1/3">
         {{ $t(`home.profile.athropometrics.${field}`) }}
       </p>
-      <p class="pt-2 font-600">{{ $.props[field] || '-' }}</p>
+      <p class="pt-2 font-600">{{ profile[field] || '-' }}</p>
     </div>
   </div>
 </template>

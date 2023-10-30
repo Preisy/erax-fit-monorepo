@@ -52,6 +52,7 @@ module.exports = {
 
   rules: {
     'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
-    "@typescript-eslint/no-namespace": 0
+    "@typescript-eslint/no-namespace": 0,
+    "arrow-body-style": 2
   },
 };
