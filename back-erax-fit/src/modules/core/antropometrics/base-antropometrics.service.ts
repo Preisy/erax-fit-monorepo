@@ -18,6 +18,8 @@ export class BaseAntropometrcisService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
+  public readonly relation = ['antropometrics'];
+
   async create(request: CreateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
     const savedAntrp = await this.antrpRepository.save(
       await this.antrpRepository.create({
@@ -25,14 +27,7 @@ export class BaseAntropometrcisService {
       }),
     );
 
-    const user = await this.userRepository.findOne({
-      where: {
-        id: savedAntrp.userId,
-      },
-    });
-
-    user.antropometrics.push(savedAntrp);
-    await this.userRepository.save(user);
+    if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
 
     return new AppSingleResponse(savedAntrp);
   }
@@ -63,15 +58,28 @@ export class BaseAntropometrcisService {
       where: {
         id: userId,
       },
-      relations: ['antropometrics'],
+      relations: this.relation,
     });
+
+    if (!user) throw MainException.entityNotFound(`User with id ${userId} not found`);
+
     return user.antropometrics
       .filter((antrp) => antrp.createdAt >= startDate && antrp.createdAt <= endDate)
       .sort((antrpEnd, antrpStart) => antrpEnd.createdAt.getTime() - antrpStart.createdAt.getTime());
   }
 
-  async update(request: UpdateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
-    const { data: antrp } = await this.getById(request.id);
+  async update(
+    id: UserEntity['id'],
+    request: UpdateAntropometricsRequest,
+  ): Promise<AppSingleResponse<AntropometricsEntity>> {
+    const { data: antrp } = await this.getById(request.id || 0);
+
+    const user = await this.userRepository.findOne({
+      where: {
+        id: id,
+      },
+      relations: this.relation,
+    });
 
     const savedAntrp = await this.antrpRepository.save({
       ...antrp,
@@ -79,13 +87,17 @@ export class BaseAntropometrcisService {
     });
 
     if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
+    if (!user) throw MainException.entityNotFound(`User with id ${antrp.userId} not found`);
+
+    user.antropometrics.push(savedAntrp);
+    await this.userRepository.save(user);
 
     return new AppSingleResponse(savedAntrp);
   }
 
   async delete(id: AntropometricsEntity['id']): Promise<AppStatusResponse> {
-    const result = await this.antrpRepository.delete(id);
+    const { affected } = await this.antrpRepository.delete(id);
 
-    return new AppStatusResponse(result.affected > 0);
+    return new AppStatusResponse(!!affected);
   }
 }

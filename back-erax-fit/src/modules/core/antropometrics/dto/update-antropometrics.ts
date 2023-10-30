@@ -1,36 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNumber, IsOptional } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateAntropometricsRequest } from './create-antropometrics.dto';
 
-export class UpdateAntropometricsRequest {
-  public id: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public weight?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public waist?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public abdomen?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public shoulder?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public hip?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @ApiPropertyOptional()
-  public hipVolume?: number;
-}
+export class UpdateAntropometricsRequest extends PartialType(CreateAntropometricsRequest) {}
