@@ -8,7 +8,7 @@ import { RequestWithUser } from '../../authentication/types/requestWithUser.type
 import { ClientWorkoutService } from './client-workout.service';
 
 @Controller()
-@ApiTags('Тренировки')
+@ApiTags('Workouts')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class ClientWorkoutController {
