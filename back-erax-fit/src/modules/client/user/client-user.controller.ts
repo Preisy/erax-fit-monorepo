@@ -13,12 +13,12 @@ import {
 import { ClientUserService } from './client-user.service';
 import { UpdateUserByClientRequest } from './dto/update-client-user.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
-import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
-import { AppResponses } from '../../decorators/app-responses.decorator';
-import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { RequestWithUser } from '../authentication/types/requestWithUser.type';
-import { UserEntity } from '../core/user/entities/user.entity';
+import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
+import { AppAuthGuard } from '../../authentication/guards/appAuth.guard';
+import { AppResponses } from '../../../decorators/app-responses.decorator';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
+import { UserEntity } from '../../core/user/entities/user.entity';
 
 @AppAuthGuard()
 @Controller('users')

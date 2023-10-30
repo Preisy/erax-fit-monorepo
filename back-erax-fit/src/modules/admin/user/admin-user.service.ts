@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserByAdminRequest } from './dto/create-admin.dto';
 import { UpdateUserByAdminRequest } from './dto/update-admin-user.dto';
-import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from '../core/user/base-user.service';
-import { AppPagination } from '../../utils/app-pagination.util';
-import { UserEntity } from '../core/user/entities/user.entity';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { BaseUserService } from '../../core/user/base-user.service';
+import { AppPagination } from '../../../utils/app-pagination.util';
+import { UserEntity } from '../../core/user/entities/user.entity';
 
 @Injectable()
 export class AdminUserService {

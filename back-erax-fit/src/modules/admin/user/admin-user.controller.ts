@@ -16,16 +16,16 @@ import { AdminUserService } from './admin-user.service';
 import { UpdateUserByAdminRequest } from './dto/update-admin-user.dto';
 import { CreateUserByAdminRequest } from './dto/create-admin.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { MainExceptionFilter } from '../../exceptions/main-exception.filter';
-import { RoleGuard } from '../authentication/guards/role.guard';
-import { UserRole } from '../../constants/constants';
-import { AppAuthGuard } from '../authentication/guards/appAuth.guard';
-import { AppResponses } from '../../decorators/app-responses.decorator';
+import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
+import { RoleGuard } from '../../authentication/guards/role.guard';
+import { UserRole } from '../../../constants/constants';
+import { AppAuthGuard } from '../../authentication/guards/appAuth.guard';
+import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
-import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { AppStatusResponse } from '../../dto/app-status-response.dto';
-import { UserEntity } from '../core/user/entities/user.entity';
-import { AppPagination } from '../../utils/app-pagination.util';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
+import { UserEntity } from '../../core/user/entities/user.entity';
+import { AppPagination } from '../../../utils/app-pagination.util';
 
 @AppAuthGuard(RoleGuard(UserRole.Admin))
 @Controller('admin/users')

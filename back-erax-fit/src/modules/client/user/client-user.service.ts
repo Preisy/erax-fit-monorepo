@@ -1,8 +1,8 @@
-import { AppSingleResponse } from '../../dto/app-single-response.dto';
-import { BaseUserService } from '../core/user/base-user.service';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { BaseUserService } from '../../core/user/base-user.service';
 import { CreateUserByClientRequest } from './dto/create-client-user.dto';
 import { UpdateUserByClientRequest } from './dto/update-client-user.dto';
-import { UserEntity } from '../core/user/entities/user.entity';
+import { UserEntity } from '../../core/user/entities/user.entity';
 import { Injectable } from '@nestjs/common/decorators';
 
 @Injectable()

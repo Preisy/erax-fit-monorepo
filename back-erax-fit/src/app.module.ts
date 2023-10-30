@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { ConfigModule } from '@nestjs/config';
-import { AdminUserModule } from './modules/admin/admin-user.module';
+import { AdminUserModule } from './modules/admin/user/admin-user.module';
 import { AuthModule } from './modules/authentication/auth.module';
-import { ClientUserModule } from './modules/client/client-user.module';
+import { ClientUserModule } from './modules/client/user/client-user.module';
 
 @Module({
   imports: [ConfigModule.forRoot({ isGlobal: true }), DatabaseModule, AuthModule, AdminUserModule, ClientUserModule],

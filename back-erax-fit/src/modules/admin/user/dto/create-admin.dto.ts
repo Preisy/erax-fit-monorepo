@@ -1,6 +1,6 @@
-import { CreateUserRequest } from '../../../modules/core/user/dto/create-user.dto';
+import { CreateUserRequest } from '../../../core/user/dto/create-user.dto';
 import { IsDefined, IsIn } from 'class-validator';
-import { Constants, UserRole } from '../../../constants/constants';
+import { Constants, UserRole } from '../../../../constants/constants';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserByAdminRequest extends CreateUserRequest {
