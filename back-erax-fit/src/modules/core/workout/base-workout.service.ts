@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WorkoutEntity } from './entity/workout.entity';
 import { Repository } from 'typeorm';
-import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { MainException } from 'src/exceptions/main.exception';
 import { GetWorkoutResponse as GetWorkoutDTO } from './dto/get-workout.dto';
 import { CreateWorkoutRequest } from './dto/create-workout.dto';
@@ -12,6 +11,7 @@ import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 import { AppPagination } from 'src/utils/app-pagination.util';
 import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { ExerciseEntity } from '../exerсise/entities/exercise.entity';
+import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class BaseWorkoutService {

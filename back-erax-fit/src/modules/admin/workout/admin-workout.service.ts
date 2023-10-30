@@ -4,7 +4,7 @@ import { AppPagination } from 'src/utils/app-pagination.util';
 import { WorkoutEntity } from '../../core/workout/entity/workout.entity';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 import { AppStatusResponse } from 'src/dto/app-status-response.dto';
-import { CreateWorkoutByAdminRequest } from './dto/admin-create-workout.dto';
+import { CreateWorkoutByAdminRequest } from './dto/admin-create-wrokout.dto';
 import { UpdateWorkoutByAdminRequest } from './dto/admin-update-workout.dto';
 
 @Injectable()
