@@ -3,13 +3,9 @@ export interface RouteRecord {
   name: string;
   label: string;
 }
-const props = defineProps<{
+defineProps<{
   routes: RouteRecord[];
 }>();
-// const router = useRouter();
-
-// const index = computed(() => props.routes.findIndex((route) => route.name === router.currentRoute.value.name));
-console.log(props.routes);
 </script>
 
 <template>
