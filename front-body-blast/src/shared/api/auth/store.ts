@@ -1,8 +1,8 @@
 import { assign } from 'lodash';
 import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
-import { TokenService } from '../services';
 import { loginService, signUpService } from './service';
+import { TokenService } from './token';
 import { Auth, BodyParams, Diseases, Forbiddens, Motivations, Credentials, SignUp } from './types';
 
 export const useAuthStore = defineStore('auth-store', () => {

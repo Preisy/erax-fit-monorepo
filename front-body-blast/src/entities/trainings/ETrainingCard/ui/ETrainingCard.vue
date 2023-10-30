@@ -1,20 +1,9 @@
 <script setup lang="ts">
+import { Training } from 'shared/api/training';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
-interface Info {
-  weight: string;
-  sets: string;
-  repeats: string;
-  rest: string;
-  temp: string;
-}
-export interface ETrainingCardProps {
-  name: string;
-  commentary: string;
-  animUrl: string;
-  info: Info;
-}
+export interface ETrainingCardProps extends Training.Response {}
 defineProps<ETrainingCardProps>();
 </script>
 
