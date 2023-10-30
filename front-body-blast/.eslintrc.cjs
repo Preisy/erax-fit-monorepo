@@ -62,6 +62,7 @@ module.exports = {
       "svg": "always",
       "math": "always"
     }],
-    "vue/padding-line-between-blocks": ["error"]
+    "vue/padding-line-between-blocks": ["error"],
+    "arrow-body-style": 2
   },
 };
