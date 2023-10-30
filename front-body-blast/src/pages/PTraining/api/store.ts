@@ -6,12 +6,11 @@ import { useSimpleStoreAction, useSingleState } from 'shared/api/utils';
 export const useTrainingStore = defineStore('training', () => {
   const trainings = ref(useSingleState<Array<ETrainingCardProps>>());
 
-  const getTrainingsByDate = (date?: Date) => {
-    return useSimpleStoreAction({
+  const getTrainingsByDate = (date?: Date) =>
+    useSimpleStoreAction({
       stateWrapper: trainings.value,
       serviceAction: TrainingsService.getTrainingsByDate(date ?? new Date()),
     });
-  };
 
   return { trainings, getTrainingsByDate };
 });

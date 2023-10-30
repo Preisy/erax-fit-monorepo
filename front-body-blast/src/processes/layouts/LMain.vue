@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { WFooterNavBar } from 'widgets/WFooter';
+import { WFooterNavBar } from 'widgets/WFooterNavBar';
 </script>
 
 <template>

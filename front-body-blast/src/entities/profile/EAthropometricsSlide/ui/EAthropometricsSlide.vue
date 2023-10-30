@@ -7,7 +7,7 @@ import { SInput } from 'shared/ui/SInput';
 
 export interface EAthropometricsSlideProps {
   editable: boolean;
-  tdate: string;
+  dateValue: string;
   profile: Profile.Athropometrics;
 }
 
@@ -32,7 +32,7 @@ defineProps<EAthropometricsSlideProps>();
       <p class="ellipsis absolute left-1/2 scale-3/4 -translate-x-1/2 -translate-y-1/3">
         {{ $t(`home.profile.athropometrics.${field}`) }}
       </p>
-      <p class="pt-2 font-600">{{ profile[field] || '-' }}</p>
+      <p class="pt-2 font-600">{{ profile[field] }}</p>
     </div>
   </div>
 </template>
