@@ -7,7 +7,7 @@ import {
   EDiseasesSignUpForm,
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
-} from 'entities/client';
+} from 'entities/profile';
 import { BodyParams, Diseases, Forbiddens, Motivations, Credentials, useAuthStore } from 'shared/api/auth';
 import { SBtn } from 'shared/ui/SBtn';
 import { SForm, SFormProps } from 'shared/ui/SForm';

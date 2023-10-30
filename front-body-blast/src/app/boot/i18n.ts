@@ -1,8 +1,8 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
-import { TClientFormsI18n } from 'entities/client/form';
-import { TTrainingAdditionBlockI18n } from 'entities/trainings/EAdditionCard';
+import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
+import { TClientFormsI18n } from 'entities/profile/form';
 import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { mergeI18n } from 'shared/lib/i18utils';
 

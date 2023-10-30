@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { EAdditionCard } from 'entities/trainings/EAdditionCard';
+import { FAdditionCard } from 'features/trainings/FAdditionCard';
 import { ETrainingCard } from 'entities/trainings/ETrainingCard';
 import { useTrainingStore } from 'shared/api/training';
 import { SSplide } from 'shared/ui/SSplide';
@@ -19,7 +19,7 @@ onBeforeMount(async () => await trainingStore.getTrainingsByDate());
         <ETrainingCard v-bind="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
-        <EAdditionCard py-1.5rem />
+        <FAdditionCard py-1.5rem />
       </SSplideSlide>
     </SSplide>
   </SStructure>

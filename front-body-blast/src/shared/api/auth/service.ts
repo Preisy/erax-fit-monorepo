@@ -19,18 +19,16 @@ function requestSimulator<T>(msg: string) {
 }
 
 export const loginService = {
-  login: useServiceAction((data: Auth.Dto) => {
+  login: useServiceAction((data: Auth.Dto) =>
     // return loginApi.post<Auth.Response>('/', data);
-    return requestSimulator<Auth.Response>('Successfully logged in');
-  }),
-  forgot: useServiceAction((data) => {
-    return loginApi.post('/forgot', data);
-  }),
+    requestSimulator<Auth.Response>('Successfully logged in'),
+  ),
+  forgot: useServiceAction((data) => loginApi.post('/forgot', data)),
 };
 
 export const signUpService = {
-  signUp: useServiceAction((data: Partial<SignUp.Dto>) => {
+  signUp: useServiceAction((data: Partial<SignUp.Dto>) =>
     // return signUpApi.post<SignUp.Response>('/', data);
-    return requestSimulator<SignUp.Response>('Successfully registered');
-  }),
+    requestSimulator<SignUp.Response>('Successfully registered'),
+  ),
 };
