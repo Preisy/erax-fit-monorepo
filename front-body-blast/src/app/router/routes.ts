@@ -1,44 +1,74 @@
 import { RouteRecordRaw } from 'vue-router';
+import LAuthVue from 'processes/layouts/LAuth.vue';
+import PDiaryVue from 'pages/PDiary.vue';
+import PDietVue from 'pages/PDiet.vue';
+import PLearningVue from 'pages/PLearning.vue';
+import { PLogin } from 'pages/PLogin';
+import PProfileVue from 'pages/PProfile.vue';
+import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
+import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/home/',
-    component: () => import('processes/layouts/LMain.vue'),
+    name: ENUMS.ROUTES_NAMES.HOME,
+    component: () => import('processes/layouts/LDashboard.vue'),
     children: [
       {
         path: 'training',
         component: PTraining,
+        name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {
         path: 'profile',
-        component: () => import('pages/PProfile.vue'),
+        component: PProfileVue,
+        name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
         path: 'diary',
-        component: () => import('pages/PDiary.vue'),
+        component: PDiaryVue,
+        name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
         path: 'diet',
-        component: () => import('pages/PDiet.vue'),
+        component: PDietVue,
+        name: ENUMS.ROUTES_NAMES.DIET,
       },
       {
         path: 'learning',
-        component: () => import('pages/PLearning.vue'),
+        component: PLearningVue,
+        name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
   },
 
   {
     path: '/',
-    component: () => import('processes/layouts/LMain.vue'),
+    component: LAuthVue,
+    name: ENUMS.ROUTES_NAMES.AUTH,
+    children: [
+      {
+        path: 'register',
+        component: PRegister,
+        name: ENUMS.ROUTES_NAMES.REGISTER,
+        meta: { transition: 'slide-left' },
+      },
+      {
+        path: 'login',
+        component: PLogin,
+        name: ENUMS.ROUTES_NAMES.LOGIN,
+        meta: { transition: 'slide-right' },
+      },
+    ],
+    redirect: '/login',
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('processes/layouts/LOther.vue'),
+    redirect: '/',
   },
 ];
 

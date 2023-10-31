@@ -10,4 +10,5 @@ body {
   font-family: var(--font-family);
   font-size: var(--font-size);
   color: theme('colors.primary');
+  overflow: hidden;
 }
