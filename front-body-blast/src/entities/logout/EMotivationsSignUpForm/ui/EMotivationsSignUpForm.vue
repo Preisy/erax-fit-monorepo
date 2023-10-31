@@ -10,6 +10,7 @@ const sendMotivations = authStore.sendMotivations;
 
 const schema = toTypedSchema(Motivations.validation());
 </script>
+
 <template>
   <SForm :loading="motivationsState.state.isLoading()" :action="sendMotivations" :field-schema="schema">
     {{ motivationsState }}

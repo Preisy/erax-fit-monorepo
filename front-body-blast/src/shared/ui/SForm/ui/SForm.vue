@@ -22,10 +22,11 @@ defineExpose({
   submitHandler,
 });
 </script>
+
 <template>
   <form @submit.prevent="" @submit="submitHandler">
     <div flex flex-col gap-y-0.5rem class="s-form-inputs">
-      <slot></slot>
+      <slot />
     </div>
     <slot name="submit-btn">
       <SBtn :loading="loading" icon="done" type="submit" float-right mt-0.5rem boxshadow-btn />

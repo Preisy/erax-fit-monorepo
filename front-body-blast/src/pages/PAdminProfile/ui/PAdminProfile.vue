@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { FSearchPanel } from 'features/FSearchPanel';
-import { EAdminProfileList } from 'entities/admin/profile';
-import { ESelfProfileCard } from 'entities/profile/ESelfProfileCard';
+import { EClientProfileCard } from 'entities/admin/profile';
 import { useAdminProfileStore } from 'shared/api/admin';
+import { SUnitedProfileCard } from 'shared/ui/SUnitedProfileCard';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 export interface PAdminProfileProps {}
@@ -10,39 +10,41 @@ defineProps<PAdminProfileProps>();
 
 const profileStore = useAdminProfileStore();
 profileStore.getUserProfiles();
-const state = profileStore.userProfilesFetchState;
+const { clientProfiles } = profileStore;
 
 const nameFilter = ref<string>('');
 const cards = computed(() => {
-  let _cards = state.data?.data;
+  let _cards = clientProfiles.data?.data;
   if (nameFilter.value && _cards)
     _cards = _cards.filter((card) => card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()));
   return _cards;
 });
 watch(nameFilter, console.log);
 </script>
+
 <template>
   <SWithHeaderLayout>
     <template #header>
-      <ESelfProfileCard pt-4rem />
+      <SUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
     </template>
     <template #body>
       <FSearchPanel my-1.5rem p-1.5rem v-model:query="nameFilter" />
-      <EAdminProfileList :cards="cards!" v-if="state.state.isSuccess()" />
+
+      <div v-if="clientProfiles.state.isSuccess() || cards?.length">
+        <EClientProfileCard v-for="user in cards" :key="user.name" v-bind="user" />
+      </div>
 
       <!-- TODO: remove this progres, create some from design -->
-      <q-circular-progress
-        size="50px"
-        color="lime"
-        class="q-ma-md"
-        indeterminate
-        absolute
-        left="50%"
-        translate-x="-50%"
-        top="50%"
-        rounded
-        v-if="state.state.isLoading()"
-      />
+      <div flex justify-center>
+        <q-circular-progress
+          size="50px"
+          color="lime"
+          class="q-ma-md"
+          indeterminate
+          rounded
+          v-if="clientProfiles.state.isLoading()"
+        />
+      </div>
     </template>
   </SWithHeaderLayout>
 </template>

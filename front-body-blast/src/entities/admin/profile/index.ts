@@ -1,1 +1,1 @@
-export * from './EAdminProfileList';
+export * from './EClientProfileCard';

@@ -10,6 +10,7 @@ const sendForbiddens = authStore.sendForbiddens;
 
 const schema = toTypedSchema(Forbiddens.validation());
 </script>
+
 <template>
   <SForm :loading="forbiddensState.state.isLoading()" :action="sendForbiddens" :field-schema="schema">
     {{ forbiddensState }}

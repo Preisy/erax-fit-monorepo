@@ -19,34 +19,32 @@ function requestSimulator<T>(msg: string) {
 }
 
 export const loginService = {
-  login: useServiceAction((data: Auth.Dto) => {
+  login: useServiceAction((data: Auth.Dto) =>
     // return loginApi.post<Auth.Response>('/', data);
-    return requestSimulator<Auth.Response>('Successfully logged in');
-  }),
-  forgot: useServiceAction((data) => {
-    return loginApi.post('/forgot', data);
-  }),
+    requestSimulator<Auth.Response>('Successfully logged in'),
+  ),
+  forgot: useServiceAction((data) => loginApi.post('/forgot', data)),
 };
 
 export const signUpService = {
-  signUp: useServiceAction((data: SignUp.Dto) => {
+  signUp: useServiceAction((data: SignUp.Dto) =>
     // return signUpApi.post<SignUp.Response>('/', data);
-    return requestSimulator<SignUp.Response>('Successfully registered');
-  }),
-  bodyParams: useServiceAction((data: BodyParams.Dto) => {
+    requestSimulator<SignUp.Response>('Successfully registered'),
+  ),
+  bodyParams: useServiceAction((data: BodyParams.Dto) =>
     // return signUpApi.post<BodyParams.Response>('/stats', data);
-    return requestSimulator<BodyParams.Response>('Body params was saved');
-  }),
-  forbiddens: useServiceAction((data: Forbiddens.Dto) => {
+    requestSimulator<BodyParams.Response>('Body params was saved'),
+  ),
+  forbiddens: useServiceAction((data: Forbiddens.Dto) =>
     // return signUpApi.post<Forbiddens.Response>('/forbiddens', data);
-    return requestSimulator<Forbiddens.Response>('Forbiddens was saved');
-  }),
-  diseases: useServiceAction((data: Diseases.Dto) => {
+    requestSimulator<Forbiddens.Response>('Forbiddens was saved'),
+  ),
+  diseases: useServiceAction((data: Diseases.Dto) =>
     // return signUpApi.post<Diseases.Response>('/diseases', data);
-    return requestSimulator<Diseases.Response>('Diseases was saved');
-  }),
-  motivations: useServiceAction((data: Motivations.Dto) => {
+    requestSimulator<Diseases.Response>('Diseases was saved'),
+  ),
+  motivations: useServiceAction((data: Motivations.Dto) =>
     // return signUpApi.post<Motivations.Response>('/training-forbiddens', data);
-    return requestSimulator<Motivations.Response>('Motivations was saved');
-  }),
+    requestSimulator<Motivations.Response>('Motivations was saved'),
+  ),
 };

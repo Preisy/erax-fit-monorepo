@@ -7,6 +7,7 @@ defineProps<SSplideProps>();
 defineEmits(Splide.emits!);
 const splide = ref();
 </script>
+
 <template>
   <Splide
     ref="splide"

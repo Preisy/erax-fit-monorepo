@@ -6,23 +6,22 @@ import { SNavList, RouteRecord } from 'shared/ui/SNavList';
 type SwipeEventData = Parameters<Exclude<TouchSwipeValue, undefined>>['0'];
 
 const router = useRouter();
-const LOGOUT = ENUMS.ROUTES.LOGOUT;
 const routes: Array<RouteRecord> = [
   {
-    path: '/' + LOGOUT.children.LOGIN,
-    name: 'Вход',
+    name: ENUMS.ROUTES_NAMES.LOGIN,
+    label: 'Вход',
   },
   {
-    path: '/' + LOGOUT.children.REGISTER,
-    name: 'Регистрация',
+    name: ENUMS.ROUTES_NAMES.REGISTER,
+    label: 'Регистрация',
   },
 ];
 
 const e = ({ direction }: SwipeEventData) => {
   if (!direction) return;
   const map = {
-    right: () => router.push(routes.at(0)!.path),
-    left: () => router.push(routes.at(1)!.path),
+    right: () => router.push(routes.at(0)!.name),
+    left: () => router.push(routes.at(1)!.name),
   } as const;
   map[direction as keyof typeof map]();
 };
@@ -31,7 +30,7 @@ const e = ({ direction }: SwipeEventData) => {
 <template>
   <q-layout view="hHh lpr fFf" px-0.5rem v-touch-swipe.horizontal.capture="e">
     <q-page-container>
-      <SNavList :routes="routes" pb-40px pt-40px />
+      <SNavList :routes="routes" relative z-1 pb-30px pt-20px />
 
       <router-view v-slot="{ Component, route }">
         <transition :name="route.meta.transition as string" mode="out-in">

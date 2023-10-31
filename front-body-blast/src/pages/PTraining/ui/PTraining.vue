@@ -37,6 +37,7 @@ const trainings: WTrainingProps[] = [
   },
 ];
 </script>
+
 <template>
   <SStructure>
     <!-- <SSplide :options="{ direction: 'ttb', height: '35rem' }">

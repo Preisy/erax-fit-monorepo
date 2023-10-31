@@ -11,9 +11,8 @@ const isActive = computed(() => route.path == props.href);
 
 <template>
   <div flex-1>
-    <router-link :to="href">
+    <router-link :to="{ name: href }">
       <div
-        :href="href"
         max-w-5rem
         flex
         flex-col
@@ -25,8 +24,7 @@ const isActive = computed(() => route.path == props.href);
         transition-opacity-300
         :class="{ 'opacity-50': !isActive }"
       >
-        <!-- <q-img :src="imgSrc" pointer-events-none w-1.5rem select-none /> -->
-        <q-icon :name="imgSrc" />
+        <q-icon :name="imgSrc" size="1.5rem" />
         <span>{{ title }}</span>
       </div>
     </router-link>

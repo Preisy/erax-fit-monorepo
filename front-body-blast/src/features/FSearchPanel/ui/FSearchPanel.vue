@@ -19,6 +19,7 @@ const validation = z.object({
 const schema = toTypedSchema(validation);
 const action = (data: (typeof validation)['_type']) => emit('update:query', data.query);
 </script>
+
 <template>
   <SForm :action="action" :field-schema="schema" flex flex-row gap-x-0.5rem class="[&_.s-form-inputs]:w-full">
     <SInput name="query" w-full :label="$t('admin.profile.search.label')" />

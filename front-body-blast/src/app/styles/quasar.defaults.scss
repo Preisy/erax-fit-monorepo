@@ -1,4 +1,12 @@
 :root {
   --q-primary: theme('colors.primary');
+  --q-primary50: theme('colors.primary50');
   --q-secondary: theme('colors.secondary');
+}
+
+.text-primary50 {
+  color: var(--q-primary50) !important;
+}
+.bg-primary50 {
+  background-color: var(--q-primary50) !important;
 }

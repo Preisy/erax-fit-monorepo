@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TPAdminProfileI18n } from 'pages/PAdminProfile';
+import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TEAdminProfileListI18n } from 'entities/admin/profile/';
 import { TEBodyParamsSignUpFormI18n } from 'entities/logout/EBodyParamsSignUpForm';
 import { TECredentialsSignUpFormI18n } from 'entities/logout/ECredentialsSignUpForm';
@@ -23,6 +24,7 @@ export default boot(({ app }) => {
       TELoginFormI18n,
       TPAdminProfileI18n,
       TEAdminProfileListI18n,
+      TFooterNavigationBarI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

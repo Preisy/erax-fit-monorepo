@@ -1,4 +1,5 @@
 <script setup lang="ts"></script>
+
 <template>
-  <div py-1.5rem></div>
+  <div py-1.5rem />
 </template>

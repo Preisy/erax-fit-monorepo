@@ -24,9 +24,9 @@ function requestSimulatorObj<R>(response: R) {
 }
 
 export const adminProfileService = {
-  getUsers: useServiceAction(() => {
+  getUsers: useServiceAction(() =>
     // return loginApi.post<Auth.Response>('/', data);
-    return requestSimulatorObj<UserProfiles.Response>({
+    requestSimulatorObj<UserProfiles.Response>({
       data: [
         {
           id: 0,
@@ -53,6 +53,6 @@ export const adminProfileService = {
           name: 'Алексей Лихачев4',
         },
       ],
-    });
-  }),
+    }),
+  ),
 };

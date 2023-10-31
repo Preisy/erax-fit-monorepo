@@ -12,6 +12,7 @@ const wrapper = ref<HTMLElement>();
 
 const { value, errorMessage } = useField<string | number | undefined>(() => props.name);
 </script>
+
 <template>
   <div
     ref="wrapper"

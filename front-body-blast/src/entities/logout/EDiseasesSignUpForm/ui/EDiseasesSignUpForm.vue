@@ -10,6 +10,7 @@ const sendDiseases = authStore.sendDiseases;
 
 const schema = toTypedSchema(Diseases.validation());
 </script>
+
 <template>
   <SForm :loading="diseasesState.state.isLoading()" :action="sendDiseases" :field-schema="schema">
     {{ diseasesState }}

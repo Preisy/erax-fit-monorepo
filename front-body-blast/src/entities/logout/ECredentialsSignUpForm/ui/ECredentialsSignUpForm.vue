@@ -13,6 +13,7 @@ const { t } = useI18n();
 const passwordsMismatchErrorMessage = t('logout.signUp.credentials.errors.passwordMismatch');
 const validationSchema = toTypedSchema(SignUp.validationRefined(passwordsMismatchErrorMessage));
 </script>
+
 <template>
   <SForm :loading="signUpState.state.isLoading()" :action="signUp" :field-schema="validationSchema">
     {{ signUpState }}

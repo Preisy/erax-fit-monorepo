@@ -8,6 +8,7 @@ import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 </script>
+
 <template>
   <SStructure relative>
     <SSplide :options="{ direction: 'ttb', height: '25rem', arrows: false }">
