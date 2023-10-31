@@ -16,7 +16,7 @@ trainingStore.getTrainingsByDate();
   <SStructure>
     <SSplide :options="{ direction: 'ttb', height: '35rem' }">
       <SSplideSlide v-for="training in trainings.data" :key="training.name">
-        <ETrainingCard v-bind="training" py-1.5rem />
+        <ETrainingCard :training="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
         <FAdditionCard py-1.5rem />

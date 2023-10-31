@@ -10,27 +10,26 @@ import { ENUMS } from 'shared/lib/enums';
 import FooterNavLink, { FooterNavLinkProps } from './FooterNavLink.vue';
 
 const { t } = useI18n();
-const HOME = ENUMS.ROUTES.HOME;
 const links: FooterNavLinkProps[] = [
   {
     imgSrc: symRoundedExercise,
     title: t('dashboard.footer.links.trainings'),
-    href: HOME.BASE + HOME.CHILDREN.TRAINING,
+    href: ENUMS.ROUTES_NAMES.TRAINING,
   },
   {
     imgSrc: symRoundedAccountCircle,
     title: t('dashboard.footer.links.profile'),
-    href: HOME.BASE + HOME.CHILDREN.PROFILE,
+    href: ENUMS.ROUTES_NAMES.PROFILE,
   },
   {
     imgSrc: symRoundedEdit,
     title: t('dashboard.footer.links.diary'),
-    href: HOME.BASE + HOME.CHILDREN.DIARY,
+    href: ENUMS.ROUTES_NAMES.DIARY,
   },
   {
     imgSrc: symRoundedRestaurant,
     title: t('dashboard.footer.links.diet'),
-    href: HOME.BASE + HOME.CHILDREN.DIET,
+    href: ENUMS.ROUTES_NAMES.DIET,
   },
 ];
 </script>

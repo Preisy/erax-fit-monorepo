@@ -3,7 +3,9 @@ import { Training } from 'shared/api/training';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
-export interface ETrainingCardProps extends Training.Response {}
+export interface ETrainingCardProps {
+  training: Training.Response;
+}
 defineProps<ETrainingCardProps>();
 </script>
 
@@ -11,11 +13,11 @@ defineProps<ETrainingCardProps>();
   <div>
     <div flex flex-col gap-1rem>
       <div>
-        <h1>{{ name }}</h1>
-        <p>{{ commentary }}</p>
+        <h1>{{ training.name }}</h1>
+        <p>{{ training.commentary }}</p>
       </div>
-      <TrainingAnim :url="animUrl" />
-      <InfoBlock :info="info" />
+      <TrainingAnim :url="training.animUrl" />
+      <InfoBlock :info="training.info" />
     </div>
   </div>
 </template>
