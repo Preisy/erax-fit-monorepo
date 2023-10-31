@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
-import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
+import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBarNavBar';
 import { TEBodyParamsSignUpFormI18n } from 'entities/logout/EBodyParamsSignUpForm';
 import { TECredentialsSignUpFormI18n } from 'entities/logout/ECredentialsSignUpForm';
 import { TEDiseasesSignUpFormI18n } from 'entities/logout/EDiseasesSignUpForm';
@@ -9,7 +9,8 @@ import { TELoginFormI18n } from 'entities/logout/ELoginForm';
 import { TEMotivationsSignUpFormI18n } from 'entities/logout/EMotivationsSignUpForm';
 import { TEAthropometricsSlideI18n } from 'entities/profile/EAthropometricsSlide';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
-import { TTrainingAdditionBlockI18n } from 'entities/trainings/EAdditionCard';
+import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
+import { TClientFormsI18n } from 'entities/profile/form';
 import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { mergeI18n } from 'shared/lib/i18utils';
 
@@ -21,6 +22,7 @@ export default boot(({ app }) => {
       TFooterNavigationBarI18n,
       TTrainingI18n,
       TTrainingAdditionBlockI18n,
+      TClientFormsI18n,
       TECredentialsSignUpFormI18n,
       TEBodyParamsSignUpFormI18n,
       TEDiseasesSignUpFormI18n,

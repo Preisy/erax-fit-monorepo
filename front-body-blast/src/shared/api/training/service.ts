@@ -1,21 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosResponse } from 'axios';
-import { useServiceAction } from 'shared/lib/utils';
+import { requestSimulator, useServiceAction } from 'shared/lib/utils';
 import { Addition, Training } from './types';
 
 const trainingApi = axios.create({ url: '/training' });
-
-function requestSimulator<R>(msg: string) {
-  return new Promise<Pick<AxiosResponse<R>, 'data'>>((resolve) => {
-    setTimeout(
-      () =>
-        resolve({
-          data: { message: msg },
-        }),
-      1000,
-    );
-  });
-}
 
 export namespace TrainingsService {
   export const getTrainingsByDate = useServiceAction(
@@ -71,6 +59,6 @@ export namespace TrainingsService {
 
   export const postAddition = useServiceAction((data: Addition.Dto) =>
     // trainingApi.post<Addition.Response>('/addition', data),
-    requestSimulator<Addition.Response>(data.message),
+    requestSimulator<Addition.Response>(data),
   );
 }

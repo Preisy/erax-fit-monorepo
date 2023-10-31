@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { TrainingsService } from './service';
-import { Training } from './types';
+import { Addition, Training } from './types';
 
 export const useTrainingStore = defineStore('training-store', () => {
   const trainings = ref(useSingleState<Array<Training.Response>>());
@@ -11,5 +11,12 @@ export const useTrainingStore = defineStore('training-store', () => {
       serviceAction: TrainingsService.getTrainingsByDate(date ?? new Date()),
     });
 
-  return { trainings, getTrainingsByDate };
+  const additionRequestState = ref(useSingleState<Addition.Response>());
+  const sendAddition = (data: Addition.Dto) =>
+    useSimpleStoreAction({
+      stateWrapper: additionRequestState.value,
+      serviceAction: TrainingsService.postAddition(data),
+    });
+
+  return { trainings, getTrainingsByDate, additionRequestState, sendAddition };
 });

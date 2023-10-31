@@ -4,31 +4,31 @@ import { SBtn } from 'shared/ui/SBtn';
 
 export interface SFormProps {
   fieldSchema: TypedSchema;
-  action: (data: unknown) => unknown | void;
   loading?: boolean;
 }
 
 const props = defineProps<SFormProps>();
-
 const { handleSubmit } = useForm({
   validationSchema: props.fieldSchema,
 });
 
-const submitHandler = handleSubmit((data) => {
-  props.action(data);
+const emits = defineEmits<{
+  submit: Parameters<Parameters<typeof handleSubmit>[0]>;
+}>();
+defineExpose({
+  handleSubmit,
 });
 
-defineExpose({
-  submitHandler,
-});
+const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
+
 <template>
-  <form @submit.prevent="" @submit="submitHandler" flex flex-col>
+  <form @submit.prevent="" @submit="onsubmit">
     <div flex flex-col gap-y-0.5rem>
-      <slot></slot>
+      <slot />
     </div>
     <slot name="submit-btn">
-      <SBtn :loading="loading" icon="done" type="submit" mt-0.5rem self-end boxshadow-btn />
+      <SBtn :loading="loading" icon="done" type="submit" mt-0.5rem self-end/>
     </slot>
   </form>
 </template>

@@ -1,11 +1,20 @@
 <script setup lang="ts">
-import { QBtnProps } from 'quasar';
+import { QBtn, QBtnProps } from 'quasar';
 
 export interface SBtnProps extends QBtnProps {}
 defineProps<SBtnProps>();
+
+const btn = ref<InstanceType<typeof QBtn>>();
+defineExpose({
+  click: () => {
+    btn.value?.click();
+    console.log(btn.value?.click);
+  },
+});
 </script>
+
 <template>
-  <q-btn v-bind="$props" rounded-1rem bg-secondary p-1rem text-0 text-primary>
+  <q-btn ref="btn" v-bind="$props" ripple rounded-1rem bg-secondary p-1rem text-0 text-primary boxshadow-btn>
     <slot />
   </q-btn>
 </template>

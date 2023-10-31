@@ -31,8 +31,8 @@ module.exports = {
     './.eslintrc-auto-import.json',
     'plugin:vue/vue3-strongly-recommended',
     'plugin:prettier-vue/recommended',
+    '@unocss',
     '@feature-sliced',
-    '@unocss'
   ],
 
   plugins: ['vue'],
@@ -53,6 +53,16 @@ module.exports = {
   rules: {
     'import/no-unresolved': ['error', { ignore: ['^virtual:'] }],
     "@typescript-eslint/no-namespace": 0,
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "never",
+        "normal": "always",
+        "component": "always"
+      },
+      "svg": "always",
+      "math": "always"
+    }],
+    "vue/padding-line-between-blocks": ["error"],
     "arrow-body-style": 2
   },
 };

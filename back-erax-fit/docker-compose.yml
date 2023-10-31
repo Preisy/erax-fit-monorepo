@@ -1,5 +1,4 @@
 ﻿version: '3.7'
-
 services:
   erax_backend:
     container_name: erax_backend

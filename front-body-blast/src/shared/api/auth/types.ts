@@ -16,32 +16,36 @@ export namespace Auth {
     });
 }
 
-// Sign up (credentials)
 export namespace SignUp {
+  export interface Dto extends Credentials.Dto, BodyParams.Dto, Forbiddens.Dto, Diseases.Dto, Motivations.Dto {}
+
+  export interface Response {
+    message: string;
+  }
+}
+
+// Sign up (credentials)
+export namespace Credentials {
   export interface Dto extends Auth.Dto {
     username: string;
     passwordRepeat: string;
   }
 
-  export interface Response {
-    message: string;
-  }
-  export const validation = () =>
-    Auth.validation().extend({
-      username: z.string().min(3).max(50),
-      passwordRepeat: z.string().min(6).max(50),
-    });
-
-  export const validationRefined = (errMsg: string) =>
-    validation().superRefine(({ passwordRepeat, password }, ctx) => {
-      if (passwordRepeat !== password) {
-        ctx.addIssue({
-          code: 'custom',
-          message: errMsg,
-          path: ['passwordRepeat'],
-        });
-      }
-    });
+  export const validation = (errMsg: string) =>
+    Auth.validation()
+      .extend({
+        username: z.string().min(3).max(50),
+        passwordRepeat: z.string().min(6).max(50),
+      })
+      .superRefine(({ passwordRepeat, password }, ctx) => {
+        if (passwordRepeat !== password) {
+          ctx.addIssue({
+            code: 'custom',
+            message: errMsg,
+            path: ['passwordRepeat'],
+          });
+        }
+      });
 }
 
 // Sign up (body params)
@@ -50,9 +54,6 @@ export namespace BodyParams {
     age: string | number;
     weight: string | number;
     teenAgeWeight: string | number;
-  }
-  export interface Response {
-    message: string;
   }
   export const validation = () =>
     z.object({
@@ -64,9 +65,6 @@ export namespace BodyParams {
 
 // Sign up (Diseases)
 export namespace Diseases {
-  export interface Response {
-    message: string;
-  }
   export interface Dto {
     gastrointestinalDiseases: string;
     insulinResistance: string;
@@ -92,9 +90,6 @@ export namespace Forbiddens {
     allergic: string;
     intolerance: string;
   }
-  export interface Response {
-    message: string;
-  }
   export const validation = () =>
     z.object({
       diet: z.string().min(3).max(50),
@@ -110,9 +105,7 @@ export namespace Motivations {
     sportExperience: string;
     targets: string;
   }
-  export interface Response {
-    message: string;
-  }
+
   export const validation = () =>
     z.object({
       loadRestrictions: z.string().min(3).max(50),

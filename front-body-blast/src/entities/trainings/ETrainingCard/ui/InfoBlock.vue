@@ -1,19 +1,20 @@
 <script setup lang="ts">
-import { SCard } from 'shared/ui/SCard';
+import { SReadonlyField } from 'shared/ui/SReadonlyField';
 import { ETrainingCardProps } from './ETrainingCard.vue';
-defineProps<{
+const props = defineProps<{
   info: ETrainingCardProps['info'];
 }>();
+
+const keys: Array<keyof typeof props.info> = ['weight', 'sets', 'repeats', 'rest', 'temp'];
 </script>
+
 <template>
   <div flex flex-row flex-wrap gap-0.5rem>
-    <SCard
-      :title="$t('dashboard.trainings.infoBlock.weight')"
-      :value="`${info.weight} ${$t('dashboard.trainings.infoBlock.metrics')}`"
+    <SReadonlyField
+      v-for="prop in keys"
+      :key="prop"
+      :title="$t(`dashboard.trainings.infoBlock.${prop}`)"
+      :value="`${info[prop]}`"
     />
-    <SCard :title="$t('dashboard.trainings.infoBlock.sets')" :value="info.sets" />
-    <SCard :title="$t('dashboard.trainings.infoBlock.repeats')" :value="info.repeats" />
-    <SCard :title="$t('dashboard.trainings.infoBlock.rest')" :value="info.rest" />
-    <SCard :title="$t('dashboard.trainings.infoBlock.temp')" :value="info.temp" />
   </div>
 </template>
