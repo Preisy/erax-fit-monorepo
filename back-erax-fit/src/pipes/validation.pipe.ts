@@ -6,7 +6,7 @@ import { MainException } from '../exceptions/main.exception';
 export class ValidationPipe implements PipeTransform {
   public async transform(value: any, metaData: ArgumentMetadata) {
     const { metatype } = metaData;
-    const object = plainToClass(metatype, value);
+    const object = plainToClass(metatype!, value);
 
     if (typeof value === 'object') {
       const errors = await validate(object);

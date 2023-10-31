@@ -1,5 +1,4 @@
 ﻿import { Body, Controller, Get, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
-import { AuthService } from './auth.service';
 import { ApiTags } from '@nestjs/swagger';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
@@ -11,6 +10,7 @@ import { Throttle } from '@nestjs/throttler';
 import { GetMeResponse } from './dto/getMe.dto';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { AppStatusResponse } from '../../dto/app-status-response.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -18,7 +18,6 @@ import { AppStatusResponse } from '../../dto/app-status-response.dto';
 @UsePipes(ValidationPipe)
 export class AuthController {
   constructor(private authService: AuthService) {}
-
   @Throttle(5, 1)
   @Post('signup')
   @AppResponses({ status: 201, type: AppSingleResponse.type(AuthResponse) })
@@ -46,7 +45,7 @@ export class AuthController {
   @Post('refresh')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
   async refreshTokens(@Body() req: RequestWithUser) {
-    return this.authService.refreshTokens(req.user.id, req.user.token.refreshHash);
+    return this.authService.refreshTokens(req.user.id, req.user.token!.refreshHash);
   }
 
   @Get('me')

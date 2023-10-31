@@ -10,7 +10,6 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new MainExceptionFilter());
   app.setGlobalPrefix('api');
-
   const config = new DocumentBuilder()
     .setTitle('Erax')
     .setDescription('Erax API')

@@ -6,13 +6,13 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { BaseUserModule } from '../core/user/base-user.module';
 import { AdminUserModule } from '../admin/user/admin-user.module';
-import { ClientUserModule } from '../client/user/client-user.module';
 import { AccessStrategy } from './strategies/access-strategy';
 import { RefreshStrategy } from './strategies/refresh-strategy';
 import { Repository } from 'typeorm';
 import { TokenEntity } from './entities/token.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from '../core/user/entities/user.entity';
+import { ClientUserModule } from '../client/me/me.module';
 
 @Module({
   imports: [

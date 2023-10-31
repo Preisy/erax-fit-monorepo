@@ -74,8 +74,7 @@ export class AuthService {
 
   async logout(email: string): Promise<AppStatusResponse> {
     const { data: user } = await this.getUserByEmailWithToken(email.toLowerCase());
-    const { affected } = await this.tokenRepository.delete(user.tokenId);
-
+    const { affected } = await this.tokenRepository.delete(user.tokenId!);
     return new AppStatusResponse(!!affected);
   }
 
@@ -97,7 +96,7 @@ export class AuthService {
   async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
     const { data: user } = await this.getUserByIdWithToken(userId);
 
-    const refreshMatches = bcrypt.compare(refresh, user.token.refreshHash);
+    const refreshMatches = bcrypt.compare(refresh, user.token!.refreshHash);
     if (!refreshMatches)
       throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
 
@@ -114,8 +113,8 @@ export class AuthService {
   private async updateRefreshHash(userId: UserEntity['id'], access: string, refresh: string) {
     const { data: user } = await this.getUserByIdWithToken(userId);
 
-    user.token.refreshHash = await this.hashData(access);
-    user.token.hash = await this.hashData(refresh);
+    user.token!.refreshHash = await this.hashData(access);
+    user.token!.hash = await this.hashData(refresh);
 
     await this.updateTokenHash(user);
   }
@@ -183,7 +182,7 @@ export class AuthService {
       user.token!.refreshHash = request.token.refreshHash;
     }
 
-    await this.tokenRepository.save(request.token);
+    await this.tokenRepository.save(request.token!);
     const savedUser = await this.userRepository.save(user);
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 
