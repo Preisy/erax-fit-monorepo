@@ -20,7 +20,7 @@ import { BaseAuthGuard } from 'src/modules/authentication/guards/baseAuth.guard'
 import { RoleGuard } from 'src/modules/authentication/guards/role.guard';
 import { AppPagination } from 'src/utils/app-pagination.util';
 import { AdminFileService } from './admin-file.service';
-import { CreateFileByAdminResponse } from './dto/admin-create-user.dto';
+import { CreateFileByAdminResponse } from './dto/admin-create-file.dto';
 
 @Controller('admin/files')
 export class AdminFileController {

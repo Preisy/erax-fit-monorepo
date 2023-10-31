@@ -8,12 +8,12 @@ export class ClientWorkoutService {
   constructor(private readonly baseService: BaseWorkoutService) {}
 
   async findAll(
-    id: WorkoutEntity['userId'],
+    userId: WorkoutEntity['userId'],
     query: AppPagination.Request,
   ): Promise<AppPagination.Response<WorkoutEntity>> {
     return this.baseService.findAll(query, {
       where: {
-        userId: id,
+        userId,
       },
     });
   }

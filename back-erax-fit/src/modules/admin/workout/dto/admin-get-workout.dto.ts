@@ -1,3 +1,3 @@
-import { GetWorkoutResponse } from 'src/modules/core/workout/dto/get-workout.dto';
+import { GetWorkoutDTO } from 'src/modules/core/workout/dto/get-workout.dto';
 
-export class GetWorkoutByAdminResponse extends GetWorkoutResponse {}
+export class GetWorkoutByAdminDTO extends GetWorkoutDTO {}

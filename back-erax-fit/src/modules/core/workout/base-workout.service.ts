@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WorkoutEntity } from './entity/workout.entity';
 import { Repository } from 'typeorm';
 import { MainException } from 'src/exceptions/main.exception';
-import { GetWorkoutResponse as GetWorkoutDTO } from './dto/get-workout.dto';
+import { GetWorkoutDTO } from './dto/get-workout.dto';
 import { CreateWorkoutRequest } from './dto/create-workout.dto';
 import { UpdateWorkoutRequest } from './dto/update-workout.dto';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
@@ -22,13 +22,11 @@ export class BaseWorkoutService {
     private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(ExerciseEntity)
     private readonly exerciseRepository: Repository<ExerciseEntity>,
-  ) {
-    console.log();
-  }
+  ) {}
   public readonly relations: (keyof WorkoutEntity)[] = ['exercises', 'user'];
 
   async create(request: CreateWorkoutRequest): Promise<AppSingleResponse<WorkoutEntity>> {
-    let newWorkout = this.workoutRepository.create({
+    const newWorkout = this.workoutRepository.create({
       ...request,
       date: new Date(request.date),
     });
@@ -38,32 +36,24 @@ export class BaseWorkoutService {
       },
     });
 
-    if (!user) {
-      throw MainException.entityNotFound(`User with id: ${request.userId} not found`);
-    }
+    if (!user) throw MainException.entityNotFound(`User with id: ${request.userId} not found`);
 
     if (!user.workouts) user.workouts = [];
     user.workouts.push(newWorkout);
     this.userRepository.save(user);
 
     const savedWorkout = await this.workoutRepository.save(newWorkout);
-    if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
 
     return new AppSingleResponse(savedWorkout);
   }
+
   async findAll(
     query: AppPagination.Request,
     options?: AppPagination.GetExecutorOptions<WorkoutEntity>,
   ): Promise<AppPagination.Response<WorkoutEntity>> {
     const { getPaginatedData } = AppPagination.getExecutor(this.workoutRepository, this.relations);
-    const { data, count } = await getPaginatedData(query);
-    const newData = data.map((it) => ({
-      ...it,
-      localeDate: it.date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'numeric',
-      }),
-    }));
+    const { data, count } = await getPaginatedData(query, options);
+    const newData = data.map((it) => this.getWorkoutDTO(it));
     return new AppPagination.Response(newData, count);
   }
 
@@ -72,23 +62,17 @@ export class BaseWorkoutService {
       where: {
         id: id,
       },
-      relations: ['exercises'],
+      relations: this.relations,
     });
 
     if (!workout) {
       throw MainException.entityNotFound(`Workout with id: ${id} not found`);
     }
-    return new AppSingleResponse<GetWorkoutDTO>({
-      ...workout,
-      localeDate: workout.date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'numeric',
-      }),
-    });
+    return new AppSingleResponse<GetWorkoutDTO>(this.getWorkoutDTO(workout));
   }
 
   async update(id: WorkoutEntity['id'], request: UpdateWorkoutRequest) {
-    let { data: workout } = await this.findOne(id);
+    const { data: workout } = await this.findOne(id);
     if (request.exercises) {
       await this.exerciseRepository.delete({
         workoutId: id,
@@ -101,17 +85,21 @@ export class BaseWorkoutService {
       date: new Date(request.date!),
     });
     if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
-    return new AppSingleResponse<GetWorkoutDTO>({
-      ...savedWorkout,
-      localeDate: workout.date.toLocaleDateString('ru-RU', {
-        day: 'numeric',
-        month: 'numeric',
-      }),
-    });
+    return new AppSingleResponse<GetWorkoutDTO>(this.getWorkoutDTO(savedWorkout));
   }
 
   async deleteOne(id: WorkoutEntity['id']): Promise<AppStatusResponse> {
     const { affected } = await this.workoutRepository.delete(id);
     return new AppStatusResponse(!!affected);
+  }
+
+  private getWorkoutDTO(workout: WorkoutEntity) {
+    return {
+      ...workout,
+      localeDate: workout.date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'numeric',
+      }),
+    };
   }
 }

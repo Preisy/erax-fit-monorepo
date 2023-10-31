@@ -1,7 +1,7 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 import { WorkoutEntity } from '../entity/workout.entity';
 
-export class GetWorkoutResponse extends WorkoutEntity {
+export class GetWorkoutDTO extends WorkoutEntity {
   @ApiProperty()
   public localeDate: string;
 }
