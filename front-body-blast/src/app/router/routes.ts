@@ -16,7 +16,7 @@ const routes: RouteRecordRaw[] = [
     component: () => import('processes/layouts/LDashboard.vue'),
     children: [
       {
-        path: ENUMS.ROUTES.HOME.CHILDREN.TRAINING,
+        path: 'training',
         component: PTraining,
         name: ENUMS.ROUTES_NAMES.TRAINING,
       },

@@ -23,12 +23,12 @@ const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
 
 <template>
-  <form @submit.prevent="" @submit="onsubmit">
+  <form @submit.prevent="" @submit="onsubmit" flex flex-col>
     <div flex flex-col gap-y-0.5rem>
       <slot />
     </div>
     <slot name="submit-btn">
-      <SBtn :loading="loading" icon="done" type="submit" mt-0.5rem self-end/>
+      <SBtn :loading="loading" icon="done" type="submit" mt-0.5rem self-end />
     </slot>
   </form>
 </template>

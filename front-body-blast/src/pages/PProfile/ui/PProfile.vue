@@ -22,6 +22,7 @@ const props = [
 ];
 const userName = 'Имя пользователя';
 </script>
+
 <template>
   <EProfileHeader :user-name="userName" />
   <WAthropometrics :slides="props" />
