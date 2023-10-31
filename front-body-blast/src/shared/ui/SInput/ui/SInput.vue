@@ -2,11 +2,12 @@
 import { QInput, QInputProps } from 'quasar';
 import { useField } from 'vee-validate';
 import ErrorMsg from './ErrorMsg.vue';
-export interface SInputProps extends Omit<QInputProps, 'name' | 'placeholder'> {
+export interface SInputProps extends Omit<QInputProps, 'modelValue' | 'name' | 'placeholder'> {
   placeholder?: string;
   name: string;
   autocomplete?: string;
   centered?: boolean;
+  modelValue?: QInputProps['modelValue'];
 }
 const props = defineProps<SInputProps>();
 const wrapper = ref<HTMLElement>();
