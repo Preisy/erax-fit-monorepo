@@ -55,7 +55,6 @@ const links = computed<SFooterNavLinkProps[]>(() => {
 
   return result;
 });
-watch(route, console.debug);
 </script>
 
 <template>

@@ -1,6 +1,5 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
-import { QBtn, QBtnToggle, QBtnToggleProps } from 'quasar';
+import { QBtnToggle, QBtnToggleProps, Screen } from 'quasar';
 import { HTMLAttributes } from 'vue';
 
 export interface SBtnToggleProps extends QBtnToggleProps {}
@@ -20,24 +19,28 @@ const value = computed({
 });
 
 const toggle = ref<InstanceType<typeof QBtnToggle>>();
+const elemsAsArray = computed(() => {
+  if (!toggle.value) return;
+  const html: HTMLElement = toggle.value.$el;
+  const elements = html.querySelectorAll('button');
+
+  return Array.from(elements);
+}); //styles for moving black elemnt
+
 const styles = computed(() => {
-  const html: HTMLElement | undefined = toggle.value?.$el;
-  const elements = html?.querySelectorAll('button');
+  if (!toggle.value || !elemsAsArray.value) return;
+  Screen.width;
+  const parentBox = toggle.value.$el.getBoundingClientRect();
+  const boundingRects = elemsAsArray.value.map((elem) => elem.getBoundingClientRect());
 
-  if (!elements) return undefined;
-
-  const elemsAsArray = Array.from(elements);
-  const widths = elemsAsArray.map((elem) => elem.getBoundingClientRect().width);
-
-  return widths?.map(
-    (width, i, a) =>
+  return boundingRects?.map(
+    (rect) =>
       ({
-        width: `${width}px`,
-        marginLeft: `${(i / (a.length - 1)) * 100}%`,
-        transform: `translateX(${(-i / (a.length - 1)) * 100}%)`,
+        width: `${rect.width}px`,
+        marginLeft: `${rect.left - parentBox.left}px`,
       }) as HTMLAttributes['style'],
   );
-}); //sryles for moving black elemnt
+});
 
 const currentIndex = computed(() => props.options.findIndex((option) => option.value === value.value));
 const currentStyle = computed(() => styles.value?.at(currentIndex.value));
@@ -50,6 +53,7 @@ const currentStyle = computed(() => styles.value?.at(currentIndex.value));
       class="toggle [&_.q-btn]:(relative z-1 rounded-1rem!) [&_span]:(text-base capitalize)"
       v-bind="$props"
       flat
+      relative
       w-full
       flex
       justify-between

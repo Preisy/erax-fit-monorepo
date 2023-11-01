@@ -19,7 +19,6 @@ const cards = computed(() => {
     _cards = _cards.filter((card) => card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()));
   return _cards;
 });
-watch(nameFilter, console.log);
 </script>
 
 <template>
