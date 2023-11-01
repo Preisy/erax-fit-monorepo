@@ -27,7 +27,7 @@ import { RequestWithUser } from '../../authentication/types/requestWithUser.type
 import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminPromptService } from './admin-prompt.service';
 import { UpdatePromptRequest } from 'src/modules/core/prompt/dto/update-prompt.dto';
-import { GetPromptsRequest } from './dto/admin-get-prompts.dto';
+import { GetPromptsByAdminRequest } from './dto/admin-get-prompts.dto';
 
 @Controller('admin/prompts')
 @ApiTags('Prompts')
@@ -46,8 +46,8 @@ export class AdminPromptController {
 
   @Get()
   @AppResponses({ status: 200, type: AppPagination.Response })
-  async getAll(@Query() req: GetPromptsRequest, @Query() query: AppPagination.Request) {
-    return await this.adminService.findAll(query, req);
+  async getAll(@Query() body: GetPromptsByAdminRequest, @Query() query: AppPagination.Request) {
+    return await this.adminService.findAll(query, body);
   }
 
   @Patch(':id')
@@ -58,7 +58,7 @@ export class AdminPromptController {
 
   @Delete(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
-  async deleteOne(@Param('id') id: number, @Req() req: RequestWithUser) {
+  async deleteOne(@Param('id') id: number) {
     return await this.adminService.deleteOne(id);
   }
 }

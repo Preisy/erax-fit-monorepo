@@ -6,7 +6,7 @@ import { PromptEntity } from 'src/modules/core/prompt/entity/prompt.entity';
 import { AppPagination } from 'src/utils/app-pagination.util';
 import { CreatePromptByAdminRequest } from './dto/admin-create-prompt.dto';
 import { UpdatePromptByAdminRequest } from './dto/admin-update-prompt.dto';
-import { GetPromptsRequest } from './dto/admin-get-prompts.dto';
+import { GetPromptsByAdminRequest } from './dto/admin-get-prompts.dto';
 
 @Injectable()
 export class AdminPromptService {
@@ -16,8 +16,11 @@ export class AdminPromptService {
     return this.baseService.create(request);
   }
 
-  async findAll(query: AppPagination.Request, req: GetPromptsRequest): Promise<AppPagination.Response<PromptEntity>> {
-    return this.baseService.findAll(query, req);
+  async findAll(
+    query: AppPagination.Request,
+    body: GetPromptsByAdminRequest,
+  ): Promise<AppPagination.Response<PromptEntity>> {
+    return this.baseService.findAll(query, body);
   }
 
   async update(id: PromptEntity['id'], request: UpdatePromptByAdminRequest) {

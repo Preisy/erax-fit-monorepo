@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class GetPromptsRequest {
+export class GetPromptsByAdminRequest {
   @ApiProperty()
   public type: string;
 }

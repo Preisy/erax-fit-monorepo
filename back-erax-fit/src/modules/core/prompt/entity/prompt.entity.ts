@@ -5,14 +5,14 @@ import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 @Entity('prompts')
 export class PromptEntity extends AppBaseEntity {
   @ApiProperty()
-  @Column()
+  @Column('varchar')
   public type: string;
 
   @ApiProperty()
-  @Column()
+  @Column('varchar')
   public photoLink: string;
 
   @ApiProperty()
-  @Column()
+  @Column('varchar')
   public videoLink: string;
 }
