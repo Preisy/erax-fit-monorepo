@@ -23,7 +23,8 @@ const links = computed<SFooterNavLinkProps[]>(() => {
     { imgSrc: symRoundedPlayArrow, title: 'Обучение', href: ENUMS.ROUTES_NAMES.ADMIN_LEARNING },
   ];
 
-  if (route.matched.find((route) => route.path.includes(ENUMS.ROUTES.ADMIN.CHILDREN.DETAILED)))
+  //TODO: better
+  if (route.matched.find((route) => route.path.includes('detailed')))
     result = [
       {
         imgSrc: symRoundedHome,

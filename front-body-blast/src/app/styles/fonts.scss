@@ -4,19 +4,23 @@
   --font-family: 'Gilroy', sans-serif;
 }
 
-h1 {
+h1,
+.text-lg {
   --uno: text-lg font-800 tracking-normal;
 }
 
-h2 {
+h2,
+.text-md {
   --uno: text-md font-800 tracking-normal;
 }
 
-p {
+p,
+.text-base {
   --uno: text-base font-400 tracking-normal;
 }
 
-span {
+span,
+.text-sm {
   --uno: text-sm font-400 tracking-normal;
 }
 
