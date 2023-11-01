@@ -85,8 +85,8 @@ const submitBtnsExceptLast = computed(() => submitBtns.value.slice(0, -1));
               icon="done"
               type="submit"
               @click="(event) => submitForms[index].handleSubmit(slides[index].formProps.onSubmit!)(event)"
-              float-right
               mt-0.5rem
+              self-end
             />
           </template>
         </SForm>
