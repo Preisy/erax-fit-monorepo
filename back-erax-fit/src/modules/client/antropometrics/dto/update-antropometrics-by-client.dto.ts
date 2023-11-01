@@ -1,3 +1,3 @@
 import { UpdateAntropometricsRequest } from 'src/modules/core/antropometrics/dto/update-antropometrics';
 
-export class UpdateAntropometricsByMeRequest extends UpdateAntropometricsRequest {}
+export class UpdateAntropometricsByClientRequest extends UpdateAntropometricsRequest {}

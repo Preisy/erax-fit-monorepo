@@ -4,6 +4,7 @@ import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
+import { GetAntropometricsRequest } from 'src/modules/core/antropometrics/dto/get-antropometrics';
 
 @Injectable()
 export class AdminAntropometricsService {
@@ -12,15 +13,15 @@ export class AdminAntropometricsService {
     private readonly baseService: BaseAntropometrcisService,
   ) {}
 
-  async getAll(query: AppPagination.Request) {
-    return this.baseService.getAll(query);
+  async findAll(query: AppPagination.Request) {
+    return this.baseService.findAll(query);
   }
 
-  async getById(id: AntropometricsEntity['id']) {
-    return this.baseService.getById(id);
+  async findById(id: AntropometricsEntity['id']) {
+    return this.baseService.findOne(id);
   }
 
-  async getAntropometricsByDateRange(userId: UserEntity['id'], startDate: Date, endDate: Date) {
-    return this.baseService.getAntropometricsByDateRange(userId, startDate, endDate);
+  async findAntropometricsByDateRange(userId: UserEntity['id'], request: GetAntropometricsRequest) {
+    return this.baseService.findAntropometricsByDateRange(userId, request);
   }
 }

@@ -9,77 +9,79 @@ import { UpdateAntropometricsRequest } from './dto/update-antropometrics';
 import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { UserEntity } from '../user/entities/user.entity';
+import { GetAntropometricsRequest } from './dto/get-antropometrics';
+import { Injectable } from '@nestjs/common';
+import { BaseUserService } from '../user/base-user.service';
 
+@Injectable()
 export class BaseAntropometrcisService {
   constructor(
     @InjectRepository(AntropometricsEntity)
     private readonly antrpRepository: Repository<AntropometricsEntity>,
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly userService: BaseUserService,
   ) {}
 
-  public readonly relation = ['antropometrics'];
+  public readonly relations = ['user'];
 
-  async create(request: CreateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
-    const savedAntrp = await this.antrpRepository.save(
-      await this.antrpRepository.create({
-        ...request,
-      }),
-    );
+  async create(
+    userId: UserEntity['id'],
+    request: CreateAntropometricsRequest,
+  ): Promise<AppSingleResponse<AntropometricsEntity>> {
+    const newAntrp = await this.antrpRepository.create({
+      ...request,
+      userId: userId,
+    });
+    const { data: user } = await this.userService.getUserById(userId);
 
-    if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
+    if (!user.antropometrics) user.antropometrics = [];
+    user.antropometrics.push(newAntrp);
+    await this.userRepository.save(user);
 
+    const savedAntrp = await this.antrpRepository.save(newAntrp);
+    console.log(savedAntrp.id);
     return new AppSingleResponse(savedAntrp);
   }
 
-  async getAll(query: AppPagination.Request): Promise<AppPagination.Response<AntropometricsEntity>> {
-    const { getPaginatedData } = AppPagination.getExecutor(this.antrpRepository);
-    return getPaginatedData(query);
+  async findAll(
+    query: AppPagination.Request,
+    options?: AppPagination.GetExecutorOptions<AntropometricsEntity>,
+  ): Promise<AppPagination.Response<AntropometricsEntity>> {
+    const { getPaginatedData } = AppPagination.getExecutor(this.antrpRepository, this.relations);
+    return getPaginatedData(query, options);
   }
 
-  async getById(id: AntropometricsEntity['id']): Promise<AppSingleResponse<AntropometricsEntity>> {
+  async findOne(id: AntropometricsEntity['id']) {
+    console.log(id);
     const antrp = await this.antrpRepository.findOne({
       where: {
         id: id,
       },
+      relations: this.relations,
     });
-
+    //console.log(antrp);
     if (!antrp) throw MainException.entityNotFound(`Antropometrcis with id ${id} not found`);
 
     return new AppSingleResponse(antrp);
   }
 
-  async getAntropometricsByDateRange(
+  async findAntropometricsByDateRange(
     userId: UserEntity['id'],
-    startDate: Date,
-    endDate: Date,
+    request: GetAntropometricsRequest,
   ): Promise<AntropometricsEntity[]> {
-    const user = await this.userRepository.findOne({
-      where: {
-        id: userId,
-      },
-      relations: this.relation,
-    });
-
-    if (!user) throw MainException.entityNotFound(`User with id ${userId} not found`);
+    const { data: user } = await this.userService.getUserById(userId);
 
     return user.antropometrics
-      .filter((antrp) => antrp.createdAt >= startDate && antrp.createdAt <= endDate)
+      .filter((antrp) => antrp.createdAt >= request.startDate && antrp.createdAt <= request.endDate)
       .sort((antrpEnd, antrpStart) => antrpEnd.createdAt.getTime() - antrpStart.createdAt.getTime());
   }
 
   async update(
-    id: UserEntity['id'],
+    userId: UserEntity['id'],
     request: UpdateAntropometricsRequest,
   ): Promise<AppSingleResponse<AntropometricsEntity>> {
-    const { data: antrp } = await this.getById(request.id || 0);
-
-    const user = await this.userRepository.findOne({
-      where: {
-        id: id,
-      },
-      relations: this.relation,
-    });
+    const { data: antrp } = await this.findOne(request.id!);
 
     const savedAntrp = await this.antrpRepository.save({
       ...antrp,
@@ -87,10 +89,6 @@ export class BaseAntropometrcisService {
     });
 
     if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
-    if (!user) throw MainException.entityNotFound(`User with id ${antrp.userId} not found`);
-
-    user.antropometrics.push(savedAntrp);
-    await this.userRepository.save(user);
 
     return new AppSingleResponse(savedAntrp);
   }

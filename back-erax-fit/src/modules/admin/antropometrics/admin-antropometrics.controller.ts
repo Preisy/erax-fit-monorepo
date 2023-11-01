@@ -10,6 +10,7 @@ import { Get, Query, Param } from '@nestjs/common/decorators';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
+import { GetAntropometricsRequest } from 'src/modules/core/antropometrics/dto/get-antropometrics';
 
 @Controller('admin/antropometrics')
 @ApiTags('Antropometrcis')
@@ -21,19 +22,19 @@ export class AdminAntropometricsController {
 
   @Get()
   @AppResponses({ status: 201, type: AppSingleResponse.type(AppPagination.Response) })
-  getAll(@Query() req: AppPagination.Request) {
-    return this.adminService.getAll(req);
+  async findAll(@Query() req: AppPagination.Request) {
+    return this.adminService.findAll(req);
   }
 
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  getById(@Param('id', ParseIntPipe) id: number) {
-    return this.adminService.getById(id);
+  async findById(@Param('id', ParseIntPipe) id: number) {
+    return this.adminService.findById(id);
   }
 
   @Get(':date')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  async getAntropometricsByDateRange(@Param('id', ParseIntPipe) id: number, startDate: Date, endDate: Date) {
-    return this.adminService.getAntropometricsByDateRange(id, startDate, endDate);
+  async findAntropometricsByDateRange(@Param('id', ParseIntPipe) id: number, request: GetAntropometricsRequest) {
+    return this.adminService.findAntropometricsByDateRange(id, request);
   }
 }
