@@ -9,6 +9,7 @@ import { AuthModule } from './modules/authentication/auth.module';
 import { ClientFileModule } from './modules/client/file/client-file.module';
 import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
 import { AdminUserModule } from './modules/admin/user/admin-user.module';
+import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AdminUserModule } from './modules/admin/user/admin-user.module';
     ClientWorkoutModule,
     ClientFileModule,
     AdminFileModule,
+    AdminPromptModule,
   ],
   controllers: [AppController],
   providers: [AppService],

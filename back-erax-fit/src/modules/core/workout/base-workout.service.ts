@@ -84,7 +84,6 @@ export class BaseWorkoutService {
       ...filterUndefined(request),
       date: new Date(request.date!),
     });
-    if (!savedWorkout) throw MainException.internalRequestError('Error upon saving workout');
     return new AppSingleResponse<GetWorkoutDTO>(this.getWorkoutDTO(savedWorkout));
   }
 
