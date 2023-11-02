@@ -8,7 +8,6 @@ import {
 import { useI18n } from 'vue-i18n';
 import { ENUMS } from 'shared/lib/enums';
 import { SFooterNavLink, SFooterNavLinkProps } from 'shared/ui/SFooterNavLink';
-import { SNavbar } from 'shared/ui/SNavbar';
 
 const { t } = useI18n();
 const links: SFooterNavLinkProps[] = [
@@ -37,8 +36,8 @@ const links: SFooterNavLinkProps[] = [
 
 <template>
   <q-footer fixed bottom-0 left-0 right-0 rounded-t-2rem bg-bg boxshadow-footer class="w-footer">
-    <SNavbar px-0.5rem>
+    <q-tabs flex flex-row justify-between px-0.5rem>
       <SFooterNavLink v-for="navlink of links" :key="navlink.imgSrc" v-bind="navlink" />
-    </SNavbar>
+    </q-tabs>
   </q-footer>
 </template>

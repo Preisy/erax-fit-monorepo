@@ -6,9 +6,5 @@ export enum UserRole {
 }
 
 export class Constants {
-  public static UserRoleList = new Static(
-    UserRole.Client,
-    UserRole.Influencer,
-    UserRole.Admin,
-  );
+  public static UserRoleList = new Static(UserRole.Client, UserRole.Influencer, UserRole.Admin);
 }

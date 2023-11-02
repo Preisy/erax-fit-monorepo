@@ -4,13 +4,12 @@ import { TPAdminDetailsI18n } from 'pages/PAdminDetailed';
 import { TPAdminProfileI18n } from 'pages/PAdminProfile';
 import { TWAdminFooterNavBarI18n } from 'widgets/WAdminFooterNavBar';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
+import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
 import { TEAdminProfileListI18n } from 'entities/admin/profile/';
-import { TEBodyParamsSignUpFormI18n } from 'entities/logout/EBodyParamsSignUpForm';
-import { TECredentialsSignUpFormI18n } from 'entities/logout/ECredentialsSignUpForm';
-import { TEDiseasesSignUpFormI18n } from 'entities/logout/EDiseasesSignUpForm';
-import { TEForbiddensSignUpFormI18n } from 'entities/logout/EForbiddensSignUpForm';
-import { TELoginFormI18n } from 'entities/logout/ELoginForm';
-import { TEMotivationsSignUpFormI18n } from 'entities/logout/EMotivationsSignUpForm';
+import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
+import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
+import { TClientFormsI18n } from 'entities/profile/form';
+import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { mergeI18n } from 'shared/lib/i18utils';
 
 export default boot(({ app }) => {
@@ -18,17 +17,17 @@ export default boot(({ app }) => {
     locale: 'ru-RU',
     legacy: false,
     messages: mergeI18n(
-      TECredentialsSignUpFormI18n,
-      TEBodyParamsSignUpFormI18n,
-      TEDiseasesSignUpFormI18n,
-      TEForbiddensSignUpFormI18n,
-      TEMotivationsSignUpFormI18n,
-      TELoginFormI18n,
       TPAdminProfileI18n,
       TEAdminProfileListI18n,
       TFooterNavigationBarI18n,
       TPAdminDetailsI18n,
       TWAdminFooterNavBarI18n,
+      TFooterNavigationBarI18n,
+      TTrainingI18n,
+      TTrainingAdditionBlockI18n,
+      TClientFormsI18n,
+      TEProfileHeaderI18n,
+      TEAthropometricsItemI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

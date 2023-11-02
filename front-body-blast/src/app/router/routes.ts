@@ -7,7 +7,7 @@ import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
 import PLearningVue from 'pages/PLearning.vue';
 import { PLogin } from 'pages/PLogin';
-import PProfileVue from 'pages/PProfile.vue';
+import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
 import { ENUMS } from 'shared/lib/enums';
@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'profile',
-        component: PProfileVue,
+        component: PProfile,
         name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
@@ -59,12 +59,12 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'prompt',
         name: ENUMS.ROUTES_NAMES.ADMIN_PROMPT,
-        component: () => import('pages/PProfile.vue'),
+        component: PProfile,
       },
       {
         path: 'learning',
         name: ENUMS.ROUTES_NAMES.ADMIN_LEARNING,
-        component: () => import('pages/PDiary.vue'),
+        component: PDiaryVue,
       },
       {
         path: 'detailed/:id',

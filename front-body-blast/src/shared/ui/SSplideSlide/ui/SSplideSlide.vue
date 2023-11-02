@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { SwiperSlide } from 'swiper/vue';
 import { SplideSlide } from '@splidejs/vue-splide';
 </script>
 
