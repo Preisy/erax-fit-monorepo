@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div flex flex-row justify-between>
+  <q-tabs flex flex-row justify-between>
     <slot />
-  </div>
+  </q-tabs>
 </template>

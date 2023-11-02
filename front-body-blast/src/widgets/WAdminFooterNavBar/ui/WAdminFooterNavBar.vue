@@ -17,10 +17,10 @@ const route = useRoute();
 const { t } = useI18n();
 
 const links = computed<SFooterNavLinkProps[]>(() => {
-  let result = [
-    { imgSrc: symRoundedHome, title: 'Главная', href: ENUMS.ROUTES_NAMES.ADMIN_PROFILE },
-    { imgSrc: symRoundedSettings, title: 'Промты', href: ENUMS.ROUTES_NAMES.ADMIN_PROMPT },
-    { imgSrc: symRoundedPlayArrow, title: 'Обучение', href: ENUMS.ROUTES_NAMES.ADMIN_LEARNING },
+  let result: SFooterNavLinkProps[] = [
+    { imgSrc: symRoundedHome, title: t('admin.footer.links.home'), name: ENUMS.ROUTES_NAMES.ADMIN_PROFILE },
+    { imgSrc: symRoundedSettings, title: t('admin.footer.links.prompt'), name: ENUMS.ROUTES_NAMES.ADMIN_PROMPT },
+    { imgSrc: symRoundedPlayArrow, title: t('admin.footer.links.learning'), name: ENUMS.ROUTES_NAMES.ADMIN_LEARNING },
   ];
 
   //TODO: better
@@ -28,28 +28,28 @@ const links = computed<SFooterNavLinkProps[]>(() => {
     result = [
       {
         imgSrc: symRoundedHome,
-        title: 'Главная',
-        href: ENUMS.ROUTES_NAMES.ADMIN_PROFILE,
+        title: t('admin.footer.links.home'),
+        name: ENUMS.ROUTES_NAMES.ADMIN_PROFILE,
       },
       {
         imgSrc: symRoundedExercise,
         title: t('dashboard.footer.links.trainings'),
-        href: ENUMS.ROUTES_NAMES.TRAINING,
+        name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {
         imgSrc: symRoundedAccountCircle,
         title: t('dashboard.footer.links.profile'),
-        href: ENUMS.ROUTES_NAMES.PROFILE,
+        name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
         imgSrc: symRoundedEdit,
         title: t('dashboard.footer.links.diary'),
-        href: ENUMS.ROUTES_NAMES.DIARY,
+        name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
         imgSrc: symRoundedRestaurant,
         title: t('dashboard.footer.links.diet'),
-        href: ENUMS.ROUTES_NAMES.DIET,
+        name: ENUMS.ROUTES_NAMES.DIET,
       },
     ];
 

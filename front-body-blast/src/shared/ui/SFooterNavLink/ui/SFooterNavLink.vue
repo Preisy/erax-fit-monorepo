@@ -2,31 +2,25 @@
 export interface SFooterNavLinkProps {
   imgSrc: string;
   title: string;
-  href: string;
+  name: string;
 }
-const props = defineProps<SFooterNavLinkProps>();
-const route = useRoute();
-const isActive = computed(() => route.path == props.href);
+defineProps<SFooterNavLinkProps>();
 </script>
 
 <template>
-  <div flex-1>
-    <router-link :to="{ name: href }">
-      <div
-        max-w-5rem
-        flex
-        flex-col
-        items-center
-        justify-center
-        gap-0.5rem
-        py-1rem
-        text-center
-        transition-opacity-300
-        :class="{ 'opacity-50': !isActive }"
-      >
-        <q-icon :name="imgSrc" size="1.5rem" />
-        <span>{{ title }}</span>
-      </div>
-    </router-link>
-  </div>
+  <q-route-tab
+    :ripple="false"
+    :to="{ name: name }"
+    exact-active-class="opacity-100! [&_span]:fw-800!"
+    exact
+    w-full
+    px-0
+    opacity-20
+    transition-opacity-300
+  >
+    <div max-w-5rem flex flex-1 flex-col items-center justify-center gap-0.5rem py-1rem text-center>
+      <q-icon :name="imgSrc" text-md text-primary size="1.5rem" />
+      <span normal-case text-primary>{{ title }}</span>
+    </div>
+  </q-route-tab>
 </template>
