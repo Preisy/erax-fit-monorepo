@@ -2,6 +2,7 @@ import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
+import { TEDietHeaderI18n } from 'entities/diet/EDietHeader';
 import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
 import { TClientFormsI18n } from 'entities/profile/form';
@@ -19,6 +20,7 @@ export default boot(({ app }) => {
       TClientFormsI18n,
       TEProfileHeaderI18n,
       TEAthropometricsItemI18n,
+      TEDietHeaderI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import LAuthVue from 'processes/layouts/LAuth.vue';
 import PDiaryVue from 'pages/PDiary.vue';
-import PDietVue from 'pages/PDiet.vue';
+import { PDiet } from 'pages/PDiet';
 import PLearningVue from 'pages/PLearning.vue';
 import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
@@ -32,7 +32,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'diet',
-        component: PDietVue,
+        component: PDiet,
         name: ENUMS.ROUTES_NAMES.DIET,
       },
       {
