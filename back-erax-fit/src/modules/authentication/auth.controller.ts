@@ -47,11 +47,4 @@ export class AuthController {
   async refreshTokens(@Body() req: RequestWithUser) {
     return this.authService.refreshTokens(req.user.id, req!.user!.token!.refreshHash);
   }
-
-  @Get('me')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(GetMeResponse) })
-  @AppAuthGuard()
-  async getMe(@Req() req: RequestWithUser) {
-    return this.authService.getMe(req.user.id);
-  }
 }

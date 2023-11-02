@@ -191,8 +191,4 @@ export class AuthService {
 
     return new UpdateUserResponse(savedUser);
   }
-
-  async getMe(userId: UserEntity['id']): Promise<UserEntity> {
-    return (await this.getUserByIdWithToken(userId)).data;
-  }
 }
