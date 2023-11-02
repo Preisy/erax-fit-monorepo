@@ -1,0 +1,22 @@
+import { Module, forwardRef } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
+import { AdminAntropometricsService } from './admin-antropometrics.service';
+import { Repository } from 'typeorm';
+import { AdminAntropometricsController } from './admin-antropometrics.controller';
+import { BaseAntropometricsModule } from '../../../modules/core/antropometrics/base-antropometrics.module';
+import { UserEntity } from '../../../modules/core/user/entities/user.entity';
+import { AdminUserService } from '../user/admin-user.service';
+import { AuthModule } from '../../../modules/authentication/auth.module';
+
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([UserEntity, AntropometricsEntity]),
+    forwardRef(() => AuthModule),
+    forwardRef(() => BaseAntropometricsModule),
+  ],
+  controllers: [AdminAntropometricsController],
+  providers: [AdminAntropometricsService, Repository],
+  exports: [AdminAntropometricsService],
+})
+export class AdminAntropometricsModule {}

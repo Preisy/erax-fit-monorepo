@@ -5,9 +5,23 @@ import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../../authentication/entities/token.entity';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entity/workout.entity';
+import { AntropometricsEntity } from '../../antropometrics/entities/antropometrics.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
+  @ApiProperty()
+  @OneToMany(() => AntropometricsEntity, (antropometrics) => antropometrics.user)
+  public antropometrics: AntropometricsEntity[];
+
+  @ApiProperty({ type: () => TokenEntity })
+  @OneToOne(() => TokenEntity)
+  @JoinColumn({ name: 'tokenId' })
+  public token?: TokenEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'tokenId', nullable: true })
+  public tokenId?: number;
+
   @ApiProperty()
   @Column({ name: 'first_name', type: 'varchar' })
   public firstName!: string;
@@ -32,15 +46,6 @@ export class UserEntity extends AppBaseEntity {
   @Exclude()
   @Column({ name: 'password', type: 'varchar', length: 128 })
   public password!: string;
-
-  @ApiProperty({ type: () => TokenEntity })
-  @OneToOne(() => TokenEntity)
-  @JoinColumn({ name: 'tokenId' })
-  public token?: TokenEntity;
-
-  @ApiProperty()
-  @Column('integer', { name: 'tokenId', nullable: true })
-  public tokenId?: number;
 
   @ApiProperty()
   @Column({ type: 'smallint' })

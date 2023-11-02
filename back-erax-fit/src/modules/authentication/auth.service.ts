@@ -96,7 +96,8 @@ export class AuthService {
   async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
     const { data: user } = await this.getUserByIdWithToken(userId);
 
-    const refreshMatches = bcrypt.compare(refresh, user.token!.refreshHash);
+    if (!user.token) throw MainException.entityNotFound(`Token for user with id ${userId} not found`);
+    const refreshMatches = bcrypt.compare(refresh, user.token.refreshHash);
     if (!refreshMatches)
       throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
 
@@ -182,7 +183,9 @@ export class AuthService {
       user.token!.refreshHash = request.token.refreshHash;
     }
 
-    await this.tokenRepository.save(request.token!);
+    if (!request.token) throw MainException.entityNotFound(`Token for user with id ${request.id} not found`);
+
+    await this.tokenRepository.save(request.token);
     const savedUser = await this.userRepository.save(user);
     if (!savedUser) throw MainException.internalRequestError('Error upon saving user');
 

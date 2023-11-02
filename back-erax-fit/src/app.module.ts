@@ -9,6 +9,9 @@ import { AuthModule } from './modules/authentication/auth.module';
 import { ClientFileModule } from './modules/client/file/client-file.module';
 import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
 import { AdminUserModule } from './modules/admin/user/admin-user.module';
+import { ClientUserModule } from './modules/client/me/me.module';
+import { ClientAntropometricsModule } from './modules/client/antropometrics/client-antropometrics.module';
+import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
 
 @Module({
   imports: [
@@ -21,6 +24,9 @@ import { AdminUserModule } from './modules/admin/user/admin-user.module';
     ClientWorkoutModule,
     ClientFileModule,
     AdminFileModule,
+    ClientUserModule,
+    ClientAntropometricsModule,
+    AdminAntropometricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
