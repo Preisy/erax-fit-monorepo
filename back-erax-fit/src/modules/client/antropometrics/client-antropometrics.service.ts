@@ -52,7 +52,7 @@ export class ClientAntropometricsService {
     return await this.baseService.findOne(id);
   }
 
-  async update(id: UserEntity['id'], request: UpdateAntropometricsByClientRequest) {
+  async update(id: AntropometricsEntity['id'], request: UpdateAntropometricsByClientRequest) {
     return this.baseService.update(id, request);
   }
 

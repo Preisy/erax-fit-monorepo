@@ -55,10 +55,10 @@ export class ClientAntropometricsController {
     return this.clientService.findOne(req.user.id, id);
   }
 
-  @Patch()
+  @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  async update(@Req() req: RequestWithUser, @Body() body: UpdateAntropometricsByClientRequest) {
-    return this.clientService.update(req.user.id, body);
+  async update(@Param('id') id: number, @Body() body: UpdateAntropometricsByClientRequest) {
+    return this.clientService.update(id, body);
   }
 
   @Delete(':id')

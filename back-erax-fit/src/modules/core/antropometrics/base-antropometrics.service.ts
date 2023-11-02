@@ -78,10 +78,10 @@ export class BaseAntropometrcisService {
   }
 
   async update(
-    userId: UserEntity['id'],
+    id: AntropometricsEntity['id'],
     request: UpdateAntropometricsRequest,
   ): Promise<AppSingleResponse<AntropometricsEntity>> {
-    const { data: antrp } = await this.findOne(request.id!);
+    const { data: antrp } = await this.findOne(id);
 
     const savedAntrp = await this.antrpRepository.save({
       ...antrp,

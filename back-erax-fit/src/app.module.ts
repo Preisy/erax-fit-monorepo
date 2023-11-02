@@ -12,6 +12,7 @@ import { AdminUserModule } from './modules/admin/user/admin-user.module';
 import { ClientUserModule } from './modules/client/me/me.module';
 import { ClientAntropometricsModule } from './modules/client/antropometrics/client-antropometrics.module';
 import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
+import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-
     ClientUserModule,
     ClientAntropometricsModule,
     AdminAntropometricsModule,
+    AdminPromptModule,
   ],
   controllers: [AppController],
   providers: [AppService],
