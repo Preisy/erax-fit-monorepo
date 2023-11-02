@@ -9,7 +9,7 @@ import { UpdateAntropometricsRequest } from './dto/update-antropometrics';
 import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { UserEntity } from '../user/entities/user.entity';
-import { GetAntropometricsRequest } from './dto/get-antropometrics';
+import { GetAntropometricsRequest } from './dto/get-antropometrics.dto';
 import { Injectable } from '@nestjs/common';
 import { BaseUserService } from '../user/base-user.service';
 
@@ -40,7 +40,7 @@ export class BaseAntropometrcisService {
     await this.userRepository.save(user);
 
     const savedAntrp = await this.antrpRepository.save(newAntrp);
-    console.log(savedAntrp.id);
+
     return new AppSingleResponse(savedAntrp);
   }
 
@@ -53,14 +53,11 @@ export class BaseAntropometrcisService {
   }
 
   async findOne(id: AntropometricsEntity['id']) {
-    console.log(id);
     const antrp = await this.antrpRepository.findOne({
-      where: {
-        id: id,
-      },
+      where: { id },
       relations: this.relations,
     });
-    //console.log(antrp);
+
     if (!antrp) throw MainException.entityNotFound(`Antropometrcis with id ${id} not found`);
 
     return new AppSingleResponse(antrp);
@@ -70,11 +67,14 @@ export class BaseAntropometrcisService {
     userId: UserEntity['id'],
     request: GetAntropometricsRequest,
   ): Promise<AntropometricsEntity[]> {
-    const { data: user } = await this.userService.getUserById(userId);
-
-    return user.antropometrics
-      .filter((antrp) => antrp.createdAt >= request.startDate && antrp.createdAt <= request.endDate)
-      .sort((antrpEnd, antrpStart) => antrpEnd.createdAt.getTime() - antrpStart.createdAt.getTime());
+    const antrps = await this.antrpRepository
+      .createQueryBuilder('antropometrics')
+      .where('antropometrics.userId = :userId', { userId: userId })
+      .andWhere('antropometrics.createdAt >= :startDate', { startDate: request.startDate })
+      .andWhere('antropometrics.createdAt <= :endDate', { endDate: request.endDate })
+      .orderBy('antropometrics.createdAt', 'ASC')
+      .getMany();
+    return antrps;
   }
 
   async update(

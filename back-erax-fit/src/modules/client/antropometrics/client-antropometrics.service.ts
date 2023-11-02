@@ -6,11 +6,9 @@ import { Repository } from 'typeorm';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { CreateAntropometricsByClientRequest } from './dto/create-antropometrics-by-client.dto';
 import { UpdateAntropometricsByClientRequest } from './dto/update-antropometrics-by-client.dto';
-import { BaseAntropometrcisService } from 'src/modules/core/antropometrics/base-antropometrics.service';
+import { BaseAntropometrcisService } from '../../../modules/core/antropometrics/base-antropometrics.service';
 import { UserEntity } from '../../core/user/entities/user.entity';
-import { AppPagination } from 'src/utils/app-pagination.util';
-import { MeService } from '../me/me.service';
-import { MainException } from 'src/exceptions/main.exception';
+import { AppPagination } from '../../../utils/app-pagination.util';
 
 @Injectable()
 export class ClientAntropometricsService {
@@ -18,7 +16,6 @@ export class ClientAntropometricsService {
     @InjectRepository(AntropometricsEntity)
     private readonly antrpRepository: Repository<AntropometricsEntity>,
     private readonly baseService: BaseAntropometrcisService,
-    private readonly meService: MeService,
   ) {}
 
   async create(userId: UserEntity['id'], request: CreateAntropometricsByClientRequest) {
@@ -46,9 +43,7 @@ export class ClientAntropometricsService {
     });
   }
 
-  async findOne(userId: UserEntity['id'], id: AntropometricsEntity['id']) {
-    await this.canManageAntropometrics(userId, id);
-
+  async findOne(id: AntropometricsEntity['id']) {
     return await this.baseService.findOne(id);
   }
 
@@ -58,13 +53,5 @@ export class ClientAntropometricsService {
 
   async delete(id: AntropometricsEntity['id']) {
     return this.baseService.delete(id);
-  }
-
-  async canManageAntropometrics(userId: UserEntity['id'], antrpId: AntropometricsEntity['id']) {
-    const { data: dbUser } = await this.meService.getUserById(userId);
-    const antrpIds = dbUser.antropometrics.map((it) => it.id);
-    if (!antrpIds.some((it) => it == antrpId)) {
-      throw MainException.entityNotFound(`Antropometrics with id ${antrpId} not found`);
-    }
   }
 }

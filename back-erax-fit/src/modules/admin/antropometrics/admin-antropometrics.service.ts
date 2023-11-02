@@ -2,26 +2,29 @@ import { Injectable } from '@nestjs/common/decorators';
 import { BaseAntropometrcisService } from '../../core/antropometrics/base-antropometrics.service';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
-import { GetAntropometricsRequest } from 'src/modules/core/antropometrics/dto/get-antropometrics';
+import { GetAntropometricsByAdminRequest } from './dto/get-antropometrics-by-admin.dto';
 
 @Injectable()
 export class AdminAntropometricsService {
-  constructor(
-    @InjectRepository(AntropometricsEntity)
-    private readonly baseService: BaseAntropometrcisService,
-  ) {}
+  constructor(private readonly baseService: BaseAntropometrcisService) {}
 
-  async findAll(query: AppPagination.Request) {
-    return this.baseService.findAll(query);
+  async findAll(
+    userId: AntropometricsEntity['userId'],
+    query: AppPagination.Request,
+  ): Promise<AppPagination.Response<AntropometricsEntity>> {
+    return this.baseService.findAll(query, {
+      where: {
+        userId,
+      },
+    });
   }
 
-  async findById(id: AntropometricsEntity['id']) {
-    return this.baseService.findOne(id);
+  async findOne(id: AntropometricsEntity['id']) {
+    return await this.baseService.findOne(id);
   }
 
-  async findAntropometricsByDateRange(userId: UserEntity['id'], request: GetAntropometricsRequest) {
+  async findAntropometricsByDateRange(userId: UserEntity['id'], request: GetAntropometricsByAdminRequest) {
     return this.baseService.findAntropometricsByDateRange(userId, request);
   }
 }

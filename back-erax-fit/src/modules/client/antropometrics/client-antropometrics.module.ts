@@ -2,11 +2,10 @@ import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { ClientAntropometricsService } from './client-antropometrics.service';
-import { Repository } from 'typeorm';
 import { ClientAntropometricsController } from './client-antropometrics.controller';
-import { BaseAntropometricsModule } from 'src/modules/core/antropometrics/base-antropometrics.module';
-import { UserEntity } from 'src/modules/core/user/entities/user.entity';
-import { AuthModule } from 'src/modules/authentication/auth.module';
+import { BaseAntropometricsModule } from '../../../modules/core/antropometrics/base-antropometrics.module';
+import { UserEntity } from '../../../modules/core/user/entities/user.entity';
+import { AuthModule } from '../../../modules/authentication/auth.module';
 import { ClientUserModule } from '../me/me.module';
 
 @Module({
@@ -17,7 +16,7 @@ import { ClientUserModule } from '../me/me.module';
     ClientUserModule,
   ],
   controllers: [ClientAntropometricsController],
-  providers: [ClientAntropometricsService, Repository],
+  providers: [ClientAntropometricsService],
   exports: [ClientAntropometricsService],
 })
 export class ClientAntropometricsModule {}

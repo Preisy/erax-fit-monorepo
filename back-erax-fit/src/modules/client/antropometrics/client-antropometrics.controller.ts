@@ -16,16 +16,16 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { AppAuthGuard } from '../../authentication/guards/appAuth.guard';
 import { ClientAntropometricsService } from './client-antropometrics.service';
-import { AppResponses } from 'src/decorators/app-responses.decorator';
-import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { AppResponses } from '../../../decorators/app-responses.decorator';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { Throttle } from '@nestjs/throttler';
-import { RequestWithUser } from 'src/modules/authentication/types/requestWithUser.type';
+import { RequestWithUser } from '../../../modules/authentication/types/requestWithUser.type';
 import { CreateAntropometricsByClientRequest } from './dto/create-antropometrics-by-client.dto';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAntropometricsByClientRequest } from './dto/update-antropometrics-by-client.dto';
 import { AntropometricsEntity } from '../../../modules/core/antropometrics/entities/antropometrics.entity';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
-import { AppPagination } from 'src/utils/app-pagination.util';
+import { AppPagination } from '../../../utils/app-pagination.util';
 
 @Controller('antropometrics')
 @ApiTags('Client antropometrics')
@@ -51,13 +51,13 @@ export class ClientAntropometricsController {
 
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  async getOne(@Param('id') id: number, @Req() req: RequestWithUser) {
-    return this.clientService.findOne(req.user.id, id);
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return this.clientService.findOne(id);
   }
 
   @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  async update(@Param('id') id: number, @Body() body: UpdateAntropometricsByClientRequest) {
+  async update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateAntropometricsByClientRequest) {
     return this.clientService.update(id, body);
   }
 

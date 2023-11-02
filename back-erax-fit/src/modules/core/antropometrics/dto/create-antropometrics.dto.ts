@@ -1,14 +1,7 @@
 import { IsDefined, IsNumber, Min, Max, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { AppBaseEntity } from 'src/models/app-base-entity.entity';
 
 export class CreateAntropometricsRequest {
-  //   @IsDefined()
-  //   @IsNumber()
-  //   @ApiProperty()
-  //   @Min(1)
-  //   public userId!: number;
-
   @IsDefined()
   @IsNumber()
   @ApiProperty()
@@ -26,7 +19,8 @@ export class CreateAntropometricsRequest {
   @IsDefined()
   @IsNumber()
   @ApiProperty()
-  @Min(500)
+  @Min(1)
+  @Max(500)
   public abdomen: number;
 
   @IsDefined()
