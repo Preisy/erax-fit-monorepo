@@ -26,6 +26,6 @@ const userName = 'Имя пользователя';
 <template>
   <div h-full>
     <EProfileHeader :user-name="userName" />
-    <WAthropometrics :slides="props" />
+    <WAthropometrics mt-1.75rem :slides="props" />
   </div>
 </template>

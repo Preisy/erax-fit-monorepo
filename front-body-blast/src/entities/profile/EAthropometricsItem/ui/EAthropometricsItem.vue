@@ -27,5 +27,8 @@ defineProps<EAthropometricsItemProps>();
       :readonly="readonly"
       :model-value="String(profile[field])"
     />
+    <template #submit-btn>
+      <div />
+    </template>
   </SForm>
 </template>
