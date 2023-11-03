@@ -1,9 +1,16 @@
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
+import { endianness } from 'os';
+import moment from 'moment';
 import { date } from 'quasar';
+import { Component } from 'vue';
+import { number } from 'zod';
 import { WAthropometrics, WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
+import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { SBtnToggle } from 'shared/ui/Btns';
+import { SPaginationSlider, SPaginationSliderProps } from 'shared/ui/SPaginationSlider';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 const id = parseInt(useRoute().params.id as string);
@@ -14,23 +21,79 @@ const me = computed(() => profileStore.clientProfiles.data?.data.at(id) ?? { nam
 const accessToLearning = ref<boolean>(false);
 const diaryInterval = ref<number>(3);
 
-const antSlides = [
-  {
-    dateValue: '2023/10/12',
-    profile: { weight: 10, waist: 10, underbelly: 10, shoulder: 10, hip: 10, hipVolume: 10 },
-  },
-  {
-    dateValue: '2023/10/22',
-    profile: { weight: 12, waist: 12, underbelly: 12, shoulder: 12, hip: 12, hipVolume: 12 },
-  },
-  {
-    dateValue: date.formatDate(Date.now(), 'YYYY/MM/DD'),
-    profile: { weight: 15, waist: 15, underbelly: 15, shoulder: 15, hip: 15, hipVolume: 15 },
-  },
-].map((slide: WAthropometricsSlide) => {
-  slide.readonly = true;
-  return slide;
+interface Slide {
+  dateValue: string;
+  profile: {
+    weight: string | number;
+    waist: string | number;
+    underbelly: string | number;
+    shoulder: string | number;
+    hip: string | number;
+    hipVolume: string | number;
+  };
+}
+class slideGenerator {
+  genered = ref<Array<Slide>>([]);
+
+  next = (): Slide => {
+    const len = this.genered.value.length;
+    return {
+      dateValue: moment(this.genered.value.at(-1)?.dateValue)
+        .add(-1, 'day')
+        .toISOString(),
+      profile: {
+        weight: len,
+        hip: len,
+        hipVolume: len,
+        shoulder: len,
+        underbelly: len,
+        waist: len,
+      },
+    };
+  };
+  nextN = (count: number = 3) => {
+    for (let i = 0; i < count; i++) {
+      const n = this.next();
+      this.genered.value.push(n);
+    }
+  };
+
+  constructor() {
+    this.nextN();
+  }
+}
+
+const generator = ref(new slideGenerator());
+const indexes = ref<{
+  start: number;
+  end: number;
+}>({
+  start: 0,
+  end: 3,
 });
+
+const antSlides = computed<Array<{ is: Component; props: WAthropometricsSlide; key: string }>>(() =>
+  generator.value.genered
+    .slice(Math.max(0, indexes.value.start - 1), indexes.value.end)
+    .map((slide: WAthropometricsSlide) => {
+      slide.readonly = true;
+      return slide;
+    })
+    .map((slide) => ({ is: EAthropometricsItem, props: slide, key: slide.dateValue })),
+);
+watch(antSlides, (n) => console.log(n));
+watch(generator, (n) => console.log(n));
+
+const onLast = () => {
+  indexes.value.start += 3;
+  indexes.value.end += 3;
+  if (indexes.value.end >= generator.value.genered.length) generator.value.nextN();
+  console.log(generator.value.genered);
+};
+const onFirst = () => {
+  indexes.value.start = Math.max(0, indexes.value.start - 3);
+  indexes.value.end = Math.max(3, indexes.value.end - 3);
+};
 </script>
 
 <template>
@@ -63,7 +126,14 @@ const antSlides = [
           />
         </div>
 
-        <WAthropometrics :slides="antSlides" />
+        <!-- <WAthropometrics :slides="antSlides" /> -->
+        <SPaginationSlider
+          :len="antSlides.length"
+          :slides="antSlides"
+          :user-select-none="true"
+          @first-element="onFirst"
+          @last-element="onLast"
+        />
       </div>
     </template>
   </SWithHeaderLayout>
