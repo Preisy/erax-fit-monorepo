@@ -2,7 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { ELoginForm } from 'entities/profile/form';
 import { Auth, useAuthStore } from 'shared/api/auth';
-import { SBtn } from 'shared/ui/SBtn';
+import { SBtn } from 'shared/ui/Btns';
 import { SForm } from 'shared/ui/SForm';
 import { SStructure } from 'shared/ui/SStructure';
 

@@ -87,5 +87,8 @@ const currentStyle = computed(() => styles.value?.at(currentIndex.value));
       font-weight: bold !important;
     }
   }
+  &:deep(span) {
+    transition: 300ms all ease-in-out;
+  }
 }
 </style>

@@ -3,7 +3,7 @@ import { date } from 'quasar';
 import { WAthropometrics, WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { useAdminProfileStore } from 'shared/api/admin';
-import { SBtnToggle } from 'shared/ui/SBtnToggle';
+import { SBtnToggle } from 'shared/ui/Btns';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 const id = parseInt(useRoute().params.id as string);

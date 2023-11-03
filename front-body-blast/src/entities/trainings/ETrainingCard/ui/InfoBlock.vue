@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { SReadonlyField } from 'shared/ui/SReadonlyField';
+import { SReadonlyField } from 'shared/ui/Inputs';
 import { ETrainingCardProps } from './ETrainingCard.vue';
 const props = defineProps<{
-  info: ETrainingCardProps['info'];
+  info: ETrainingCardProps['training']['info'];
 }>();
 
 const keys: Array<keyof typeof props.info> = ['weight', 'sets', 'repeats', 'rest', 'temp'];

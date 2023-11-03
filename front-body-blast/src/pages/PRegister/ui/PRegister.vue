@@ -9,7 +9,7 @@ import {
   EMotivationsSignUpForm,
 } from 'entities/profile';
 import { BodyParams, Diseases, Forbiddens, Motivations, Credentials, useAuthStore } from 'shared/api/auth';
-import { SBtn } from 'shared/ui/SBtn';
+import { SBtn } from 'shared/ui/Btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';

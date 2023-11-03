@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SBtn } from 'shared/ui/SBtn';
+import { SBtn } from 'shared/ui/Btns';
 defineProps<{
   url: string;
 }>();

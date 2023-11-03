@@ -2,8 +2,8 @@
 import { toTypedSchema } from '@vee-validate/zod';
 
 import { Profile } from 'shared/api/profile';
+import { SInput } from 'shared/ui/Inputs';
 import { SForm } from 'shared/ui/SForm';
-import { SInput } from 'shared/ui/SInput';
 
 export interface EAthropometricsItemProps {
   readonly: boolean;
