@@ -4,7 +4,7 @@ import LDashboard from './LDashboard.vue';
 </script>
 
 <template>
-  <LDashboard>
+  <LDashboard overflow-y-scroll>
     <template #footer>
       <WAdminFooterNavBar />
     </template>

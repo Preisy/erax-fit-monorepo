@@ -2,6 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import LAdminDashboardVue from 'processes/layouts/LAdminDashboard.vue';
 import LAuthVue from 'processes/layouts/LAuth.vue';
 import { PAdminDetailed } from 'pages/PAdminDetailed';
+import { PAdminDetailedBio } from 'pages/PAdminDetailedBio';
 import { PAdminProfile } from 'pages/PAdminProfile';
 import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
@@ -67,12 +68,17 @@ const routes: RouteRecordRaw[] = [
         component: PDiaryVue,
       },
       {
-        path: 'detailed/:id',
+        path: 'detailed/:id/',
         children: [
           {
             path: '',
             name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED,
             component: PAdminDetailed,
+          },
+          {
+            path: 'bio',
+            name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO,
+            component: PAdminDetailedBio,
           },
         ],
       },

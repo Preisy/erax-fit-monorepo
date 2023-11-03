@@ -8,6 +8,7 @@ export interface SInputProps extends Omit<QInputProps, 'modelValue' | 'name' | '
   autocomplete?: string;
   centered?: boolean;
   modelValue?: QInputProps['modelValue'];
+  readonly?: boolean;
 }
 const props = defineProps<SInputProps>();
 const wrapper = ref<HTMLElement>();

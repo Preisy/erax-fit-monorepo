@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { date } from 'quasar';
-import { WAthropometrics } from 'widgets/profile/WAthropometrics';
+import { WAthropometrics, WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { SBtnToggle } from 'shared/ui/SBtnToggle';
@@ -16,27 +16,27 @@ const diaryInterval = ref<number>(3);
 
 const antSlides = [
   {
-    readonly: true,
     dateValue: '2023/10/12',
     profile: { weight: 10, waist: 10, underbelly: 10, shoulder: 10, hip: 10, hipVolume: 10 },
   },
   {
-    readonly: true,
     dateValue: '2023/10/22',
     profile: { weight: 12, waist: 12, underbelly: 12, shoulder: 12, hip: 12, hipVolume: 12 },
   },
   {
-    readonly: false,
     dateValue: date.formatDate(Date.now(), 'YYYY/MM/DD'),
     profile: { weight: 15, waist: 15, underbelly: 15, shoulder: 15, hip: 15, hipVolume: 15 },
   },
-];
+].map((slide: WAthropometricsSlide) => {
+  slide.readonly = true;
+  return slide;
+});
 </script>
 
 <template>
   <SWithHeaderLayout>
     <template #header>
-      <EClientProfileCard :name="me?.name" dark mx--0.5rem px-2rem pt-4rem />
+      <EClientProfileCard :name="me?.name" :is-open="true" dark mx--0.5rem px-2rem pt-4rem />
     </template>
     <template #body>
       <div px-1.5rem>

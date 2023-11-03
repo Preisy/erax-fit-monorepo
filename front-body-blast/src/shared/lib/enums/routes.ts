@@ -13,4 +13,5 @@ export enum ROUTES_NAMES {
   ADMIN_PROMPT = 'adminPrompt',
   ADMIN_LEARNING = 'adminLearning',
   ADMIN_DETAILED = 'adminDetailed',
+  ADMIN_DETAILED_BIO = 'adminDetailedBio',
 }

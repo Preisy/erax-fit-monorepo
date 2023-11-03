@@ -17,7 +17,7 @@ defineProps<EAthropometricsItemProps>();
 </script>
 
 <template>
-  <SForm :action="() => {}" :field-schema="schema" class="[&>div]:(grid grid-cols-2 mt-8 gap-2)">
+  <SForm :readonly="readonly" :action="() => {}" :field-schema="schema" class="[&>div]:(grid grid-cols-2 mt-8 gap-2)">
     <SInput
       v-for="field of fields"
       :key="field"
@@ -27,8 +27,5 @@ defineProps<EAthropometricsItemProps>();
       :readonly="readonly"
       :model-value="String(profile[field])"
     />
-    <template #submit-btn>
-      <div />
-    </template>
   </SForm>
 </template>

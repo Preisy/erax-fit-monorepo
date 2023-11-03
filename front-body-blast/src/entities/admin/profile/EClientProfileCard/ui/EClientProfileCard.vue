@@ -11,7 +11,7 @@ export interface UserProfileCardProps extends Omit<SUnitedProfileCardProps, 'hea
 }
 const props = defineProps<UserProfileCardProps>();
 const link: RouterLinkProps = { to: { name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED, params: { id: props.id } } };
-// if(props.isOpen) link.to = { name: ENUMS.ROUTES_NAMES.  };
+if (props.isOpen) link.to = { name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO };
 </script>
 
 <template>

@@ -3,14 +3,19 @@ import { TypedSchema, useForm } from 'vee-validate';
 import { SBtn } from 'shared/ui/SBtn';
 
 export interface SFormProps {
-  fieldSchema: TypedSchema;
-  loading?: boolean;
+  fieldSchema: TypedSchema; //Vee-validate/Zod value validation schema
+  loading?: boolean; //SBtn state props. Displays request status
+  readonly?: boolean; //disables submit btn
+  initValues?: Record<string, unknown>;
 }
 
 const props = defineProps<SFormProps>();
-const { handleSubmit } = useForm({
+
+//Vee-validate controls
+const { handleSubmit, setValues } = useForm({
   validationSchema: props.fieldSchema,
 });
+if (props.readonly && props.initValues) setValues(props.initValues);
 
 const emits = defineEmits<{
   submit: Parameters<Parameters<typeof handleSubmit>[0]>;
@@ -19,6 +24,7 @@ defineExpose({
   handleSubmit,
 });
 
+//On form submit - emits @submit event with values provided to form
 const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
 
@@ -28,7 +34,7 @@ const onsubmit = handleSubmit((...data) => emits('submit', ...data));
       <slot />
     </div>
     <slot name="submit-btn">
-      <SBtn :loading="loading" icon="done" type="submit" mt-0.5rem self-end />
+      <SBtn v-if="!$slots['submit-btn'] && !readonly" :loading="loading" icon="done" type="submit" mt-0.5rem self-end />
     </slot>
   </form>
 </template>
