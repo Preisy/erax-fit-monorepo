@@ -109,4 +109,8 @@ export class UserEntity extends AppBaseEntity {
 
   @OneToMany(() => WorkoutEntity, (workout) => workout.user)
   public workouts: WorkoutEntity[];
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public canWatchVideo: boolean;
 }
