@@ -20,17 +20,17 @@ const setPage = (p: string) => (currentPageValue.value = p);
   <div grid gap-2 grid-cols="[minmax(40%,_1fr)_min-content_minmax(40%,_1fr)]">
     <div nowrap flex justify-end gap-2 opacity-50>
       <p v-for="page in pages.slice(0, currentPageIndex)" :key="page" @click="setPage(page)" text-right font-semibold>
-        {{ $t(`home.diet.header.${page}`) }}
+        {{ $t(`home.diet.${page}`) }}
       </p>
     </div>
     <div>
       <p nowrap font-semibold>
-        {{ $t(`home.diet.header.${pages[currentPageIndex]}`) }}
+        {{ $t(`home.diet.${pages[currentPageIndex]}`) }}
       </p>
     </div>
     <div flex gap-2 opacity-50>
       <p nowrap font-semibold v-for="page in pages.slice(currentPageIndex + 1)" :key="page" @click="setPage(page)">
-        {{ $t(`home.diet.header.${page}`) }}
+        {{ $t(`home.diet.${page}`) }}
       </p>
     </div>
   </div>
