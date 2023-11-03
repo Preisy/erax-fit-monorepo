@@ -13,8 +13,18 @@ export interface FDietNutriotionProps {
     dinner: ProductsByCategories;
   };
 }
-defineProps<FDietNutriotionProps>();
-const panels: (keyof FDietNutriotionProps['slides'])[] = ['breakfast', 'firstBreak', 'lunch', 'secondBreak', 'dinner'];
+type propsKeys = keyof FDietNutriotionProps['slides'];
+const props = defineProps<FDietNutriotionProps>();
+const panels = computed(
+  (): propsKeys[] =>
+    ['breakfast', 'firstBreak', 'lunch', 'secondBreak', 'dinner'].filter((slide: propsKeys) =>
+      ['firstCategory', 'secondCategory', 'thirdCategory'].some(
+        (cat: keyof ProductsByCategories) => props.slides[slide][cat].length,
+      ),
+    ) as unknown as propsKeys[],
+);
+// const show = (panel: keyof FDietNutriotionProps['slides']): boolean =>
+//   Object.keys(props.slides[panel]).some((it) => Boolean(props.slides[panel][it].lenght));
 </script>
 
 <template>
