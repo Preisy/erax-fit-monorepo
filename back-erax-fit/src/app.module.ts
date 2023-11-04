@@ -10,6 +10,8 @@ import { ClientFileModule } from './modules/client/file/client-file.module';
 import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
 import { AdminUserModule } from './modules/admin/user/admin-user.module';
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
+import { AdminFoodModule } from './modules/admin/food/admin-food.module';
+import { ClientFoodModule } from './modules/client/food/client-food.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
     ClientFileModule,
     AdminFileModule,
     AdminPromptModule,
+    AdminFoodModule,
+    ClientFoodModule,
   ],
   controllers: [AppController],
   providers: [AppService],
