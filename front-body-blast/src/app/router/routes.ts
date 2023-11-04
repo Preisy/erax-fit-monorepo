@@ -7,6 +7,7 @@ import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
+import { TokenService } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
@@ -41,6 +42,11 @@ const routes: RouteRecordRaw[] = [
         name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
+    redirect: () => {
+      const token = TokenService.getAccessToken();
+      console.log(token);
+      return TokenService.getAccessToken() ? { name: ENUMS.ROUTES_NAMES.TRAINING } : { name: ENUMS.ROUTES_NAMES.LOGIN };
+    },
   },
 
   {
@@ -61,7 +67,7 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
+    redirect: () => (TokenService.getAccessToken() ? '/home/training' : '/login'),
   },
 
   // Always leave this as last one,

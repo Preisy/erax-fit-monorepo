@@ -110,10 +110,10 @@ module.exports = configure(function (/* ctx */) {
       open: false, // opens browser window automatically
       proxy: {
         '/api': {
-          target: 'http://localhost:4000',
+          target: 'http://localhost:3000',
           changeOrigin: true,
           // secure: false,
-          rewrite: (path) => path.replace(/^\/api/, ''),
+          // rewrite: (path) => path.replace(/^\/api/, ''),
         },
         // cors: false,
       },

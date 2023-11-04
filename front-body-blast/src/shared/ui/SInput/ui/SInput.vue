@@ -36,9 +36,10 @@ if (props.readonly && props.modelValue) setValue(props.modelValue);
       label-color="bg"
       :input-class="`text-base p-0! ${$props.inputClass}`"
       :bottom-slots="false"
-      :autocomplete="autocomplete"
+      :autocomplete="autocomplete ?? name"
       :placeholder="placeholder"
       transition-all-300
+      aria-autocomplete="both"
     />
     <ErrorMsg absolute bottom-1rem left-1.25rem z-1 v-if="!!errorMessage" :msg="errorMessage" />
   </div>

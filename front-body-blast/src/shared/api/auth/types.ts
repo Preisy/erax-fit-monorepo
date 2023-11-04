@@ -7,7 +7,8 @@ export namespace Auth {
     password: string;
   }
   export interface Response {
-    message: string;
+    accessToken: string;
+    refreshToken: string;
   }
   export const validation = () =>
     z.object({
