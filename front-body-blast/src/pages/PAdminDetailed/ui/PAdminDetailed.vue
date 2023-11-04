@@ -1,16 +1,12 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
-import { endianness } from 'os';
 import moment from 'moment';
-import { date } from 'quasar';
 import { Component } from 'vue';
-import { number } from 'zod';
-import { WAthropometrics, WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
+import { WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { SBtnToggle } from 'shared/ui/Btns';
-import { SPaginationSlider, SPaginationSliderProps } from 'shared/ui/SPaginationSlider';
+import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 const id = parseInt(useRoute().params.id as string);
@@ -21,6 +17,7 @@ const me = computed(() => profileStore.clientProfiles.data?.data.at(id) ?? { nam
 const accessToLearning = ref<boolean>(false);
 const diaryInterval = ref<number>(3);
 
+//TODO: fixme↓
 interface Slide {
   dateValue: string;
   profile: {
@@ -32,6 +29,7 @@ interface Slide {
     hipVolume: string | number;
   };
 }
+//Simulates infinite collection of slides(api)
 class slideGenerator {
   genered = ref<Array<Slide>>([]);
 
@@ -64,6 +62,7 @@ class slideGenerator {
 }
 
 const generator = ref(new slideGenerator());
+//current start/end to pick
 const indexes = ref<{
   start: number;
   end: number;
@@ -72,6 +71,7 @@ const indexes = ref<{
   end: 3,
 });
 
+//anthropometry slides -> pick N from generator
 const antSlides = computed<Array<{ is: Component; props: WAthropometricsSlide; key: string }>>(() =>
   generator.value.genered
     .slice(Math.max(0, indexes.value.start - 1), indexes.value.end)
@@ -81,9 +81,8 @@ const antSlides = computed<Array<{ is: Component; props: WAthropometricsSlide; k
     })
     .map((slide) => ({ is: EAthropometricsItem, props: slide, key: slide.dateValue })),
 );
-watch(antSlides, (n) => console.log(n));
-watch(generator, (n) => console.log(n));
 
+//event listeners
 const onLast = () => {
   indexes.value.start += 3;
   indexes.value.end += 3;
