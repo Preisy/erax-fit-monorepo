@@ -9,21 +9,21 @@ import { Get, Query, Param } from '@nestjs/common/decorators';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
-import { GetAntropometricsByAdminRequest } from './dto/get-antropometrics-by-admin.dto';
+import { GetAntropometricsByAdminRequest } from './dto/admin-get-antropometrics.dto';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
 
 @Controller('admin/antropometrics')
-@ApiTags('Admin antropometrcis')
+@ApiTags('Admin antropometrics')
 @AppAuthGuard(RoleGuard(UserRole.Admin))
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 export class AdminAntropometricsController {
   constructor(private readonly adminService: AdminAntropometricsService) {}
 
-  @Get(':id/all')
-  @AppResponses({ status: 201, type: AppSingleResponse.type(AppPagination.Response) })
-  async getAll(@Param('id', ParseIntPipe) id: number, @Query() query: AppPagination.Request) {
-    return await this.adminService.findAll(id, query);
+  @Get()
+  @AppResponses({ status: 200, type: AppPagination.Response<AntropometricsEntity> })
+  async getAll(@Query() query: AppPagination.Request) {
+    return await this.adminService.findAll(query);
   }
 
   @Get(':id')
@@ -32,7 +32,7 @@ export class AdminAntropometricsController {
     return await this.adminService.findOne(id);
   }
 
-  @Get(':id/date')
+  @Get(':id/date-range')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
   async findAntropometricsByDateRange(
     @Param('id', ParseIntPipe) id: number,

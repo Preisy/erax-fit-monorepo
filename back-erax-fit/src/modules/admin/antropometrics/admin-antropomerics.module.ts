@@ -11,7 +11,7 @@ import { AuthModule } from '../../../modules/authentication/auth.module';
   imports: [
     TypeOrmModule.forFeature([UserEntity, AntropometricsEntity]),
     forwardRef(() => AuthModule),
-    forwardRef(() => BaseAntropometricsModule),
+    BaseAntropometricsModule,
   ],
   controllers: [AdminAntropometricsController],
   providers: [AdminAntropometricsService],

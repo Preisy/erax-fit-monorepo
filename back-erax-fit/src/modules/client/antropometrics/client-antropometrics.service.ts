@@ -4,8 +4,8 @@ import { AntropometricsEntity } from '../../core/antropometrics/entities/antropo
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
-import { CreateAntropometricsByClientRequest } from './dto/create-antropometrics-by-client.dto';
-import { UpdateAntropometricsByClientRequest } from './dto/update-antropometrics-by-client.dto';
+import { CreateAntropometricsByClientRequest } from './dto/client-create-antropometrics.dto';
+import { UpdateAntropometricsByClientRequest } from './dto/client-update-antropometrics.dto';
 import { BaseAntropometrcisService } from '../../../modules/core/antropometrics/base-antropometrics.service';
 import { UserEntity } from '../../core/user/entities/user.entity';
 import { AppPagination } from '../../../utils/app-pagination.util';
@@ -36,11 +36,7 @@ export class ClientAntropometricsService {
     userId: AntropometricsEntity['userId'],
     query: AppPagination.Request,
   ): Promise<AppPagination.Response<AntropometricsEntity>> {
-    return this.baseService.findAll(query, {
-      where: {
-        userId,
-      },
-    });
+    return this.baseService.findAll(query, { where: { userId } });
   }
 
   async findOne(id: AntropometricsEntity['id']) {

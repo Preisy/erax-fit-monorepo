@@ -58,7 +58,7 @@ export class BaseAntropometrcisService {
       relations: this.relations,
     });
 
-    if (!antrp) throw MainException.entityNotFound(`Antropometrcis with id ${id} not found`);
+    if (!antrp) throw MainException.entityNotFound(`Antropometrics with id ${id} not found`);
 
     return new AppSingleResponse(antrp);
   }
@@ -87,8 +87,6 @@ export class BaseAntropometrcisService {
       ...antrp,
       ...filterUndefined(request),
     });
-
-    if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
 
     return new AppSingleResponse(savedAntrp);
   }
