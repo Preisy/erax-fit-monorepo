@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { QTabPanels, QTabPanel } from 'quasar';
-import { WDietNutrition } from 'widget/diet/WDietNutrition';
-import { WDietHeader } from 'widget/diet/WietHeader';
+import { QTabPanel } from 'quasar';
+import { WDietHeader } from 'widgets/diet/WDietHeader';
+import { WDietNutrition } from 'widgets/diet/WDietNutrition';
 import { EDietItem } from 'entities/diet/EDietItem';
+import { STabPanels } from 'shared/ui/STabPanels';
 
 const panel = ref('nutrition');
 const props = {
@@ -88,23 +89,13 @@ const pages: (keyof typeof props)[] = ['cereals', 'vegetables', 'fruitsAndBerrie
 <template>
   <div class="h-full">
     <WDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-2 />
-    <q-tab-panels
-      v-model="panel"
-      animated
-      swipeable
-      infinite
-      static
-      mx--2
-      class="[&_.q-tab-panel]:(p-2)"
-      h-full
-      :class="{ '[&_.scroll]:overflow-visible': panel === 'nutrition' }"
-    >
+    <STabPanels v-model="panel" :class="{ '[&_.scroll]:overflow-visible': panel === 'nutrition' }">
       <q-tab-panel name="nutrition">
         <WDietNutrition :slides="nutrition" />
       </q-tab-panel>
       <q-tab-panel v-for="page in pages" :name="page" :key="page">
         <EDietItem :title="page" v-bind="props[page]" />
       </q-tab-panel>
-    </q-tab-panels>
+    </STabPanels>
   </div>
 </template>
