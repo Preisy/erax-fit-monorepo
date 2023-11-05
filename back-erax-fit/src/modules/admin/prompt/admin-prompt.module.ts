@@ -1,5 +1,4 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/modules/authentication/auth.module';
 import { BasePromptModule } from 'src/modules/core/prompt/base-prompt.module';

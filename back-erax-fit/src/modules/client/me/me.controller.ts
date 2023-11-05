@@ -1,15 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Patch,
-  Param,
-  Req,
-  UseFilters,
-  UsePipes,
-  ValidationPipe,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Req, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
 import { MeService } from './me.service';
 import { UpdateUserByClientRequest } from './dto/update-client-user.dto';
 import { ApiTags } from '@nestjs/swagger';

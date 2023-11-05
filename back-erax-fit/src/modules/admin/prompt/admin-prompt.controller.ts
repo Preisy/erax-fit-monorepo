@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UseFilters,
   UsePipes,
   ValidationPipe,
@@ -23,8 +22,6 @@ import { AppPagination } from 'src/utils/app-pagination.util';
 import { UserRole } from '../../../constants/constants';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RoleGuard } from '../../authentication/guards/role.guard';
-import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
-import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminPromptService } from './admin-prompt.service';
 import { UpdatePromptRequest } from 'src/modules/core/prompt/dto/update-prompt.dto';
 import { GetPromptsByAdminRequest } from './dto/admin-get-prompts.dto';
