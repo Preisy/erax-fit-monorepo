@@ -1,19 +1,14 @@
 <script lang="ts" setup>
-import { computed } from 'vue';
-
-export interface EDietHeaderProps {
+export interface WDietHeaderProps {
   pages: string[];
   modelValue: string;
 }
-const props = defineProps<EDietHeaderProps>();
+const props = defineProps<WDietHeaderProps>();
 const emit = defineEmits<{
   (e: 'update:modelValue', newValue: string): void;
 }>();
-
-const currentPageValue = ref(props.modelValue);
-watch(currentPageValue, (value: string) => emit('update:modelValue', value));
 const currentPageIndex = computed(() => props.pages.indexOf(props.modelValue));
-const setPage = (p: string) => (currentPageValue.value = p);
+const setPage = (p: string) => emit('update:modelValue', p);
 </script>
 
 <template>

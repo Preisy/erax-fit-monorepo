@@ -4,7 +4,7 @@ import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 
-export interface FDietNutriotionProps {
+export interface WDietNutriotionProps {
   slides: {
     breakfast: ProductsByCategories;
     firstBreak: ProductsByCategories;
@@ -13,8 +13,8 @@ export interface FDietNutriotionProps {
     dinner: ProductsByCategories;
   };
 }
-type propsKeys = keyof FDietNutriotionProps['slides'];
-const props = defineProps<FDietNutriotionProps>();
+type propsKeys = keyof WDietNutriotionProps['slides'];
+const props = defineProps<WDietNutriotionProps>();
 const panels = computed(
   (): propsKeys[] =>
     ['breakfast', 'firstBreak', 'lunch', 'secondBreak', 'dinner'].filter((slide: propsKeys) =>
@@ -23,8 +23,6 @@ const panels = computed(
       ),
     ) as unknown as propsKeys[],
 );
-// const show = (panel: keyof FDietNutriotionProps['slides']): boolean =>
-//   Object.keys(props.slides[panel]).some((it) => Boolean(props.slides[panel][it].lenght));
 </script>
 
 <template>

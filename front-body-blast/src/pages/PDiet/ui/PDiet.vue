@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { QTabPanels, QTabPanel } from 'quasar';
-import { FDietNutrition } from 'features/diet/FDietNutrition';
-import { EDietHeader } from 'entities/diet/EDietHeader';
+import { WDietNutrition } from 'widget/diet/WDietNutrition';
+import { WDietHeader } from 'widget/diet/WietHeader';
 import { EDietItem } from 'entities/diet/EDietItem';
 
 const panel = ref('nutrition');
@@ -87,7 +87,7 @@ const pages: (keyof typeof props)[] = ['cereals', 'vegetables', 'fruitsAndBerrie
 
 <template>
   <div class="h-full">
-    <EDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-2 />
+    <WDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-2 />
     <q-tab-panels
       v-model="panel"
       animated
@@ -100,7 +100,7 @@ const pages: (keyof typeof props)[] = ['cereals', 'vegetables', 'fruitsAndBerrie
       :class="{ '[&_.scroll]:overflow-visible': panel === 'nutrition' }"
     >
       <q-tab-panel name="nutrition">
-        <FDietNutrition :slides="nutrition" />
+        <WDietNutrition :slides="nutrition" />
       </q-tab-panel>
       <q-tab-panel v-for="page in pages" :name="page" :key="page">
         <EDietItem :title="page" v-bind="props[page]" />
