@@ -19,6 +19,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 2,
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/no-namespace': 0,
+    '@typescript-eslint/no-unused-vars': 1,
   },
   settings: {
     'import/parsers': {
