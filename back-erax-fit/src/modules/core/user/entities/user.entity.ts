@@ -5,13 +5,11 @@ import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../../authentication/entities/token.entity';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entity/workout.entity';
-import { AntropometricsEntity } from '../../antropometrics/entities/antropometrics.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
-  @ApiProperty()
-  @OneToMany(() => AntropometricsEntity, (antropometrics) => antropometrics.user)
-  public antropometrics: AntropometricsEntity[];
+  @OneToMany(() => WorkoutEntity, (workout) => workout.user)
+  public workouts: WorkoutEntity[];
 
   @ApiProperty({ type: () => TokenEntity })
   @OneToOne(() => TokenEntity)
@@ -106,7 +104,4 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
   public goals: string;
-
-  @OneToMany(() => WorkoutEntity, (workout) => workout.user)
-  public workouts: WorkoutEntity[];
 }

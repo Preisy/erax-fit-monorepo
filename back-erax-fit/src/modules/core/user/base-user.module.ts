@@ -6,7 +6,7 @@ import { AuthModule } from '../../authentication/auth.module';
 import { Repository } from 'typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity]), forwardRef(() => AuthModule), BaseUserModule],
+  imports: [TypeOrmModule.forFeature([UserEntity]), forwardRef(() => AuthModule)],
   providers: [BaseUserService, Repository],
   exports: [BaseUserService],
 })

@@ -12,6 +12,7 @@ import { UserEntity } from '../user/entities/user.entity';
 import { GetAntropometricsRequest } from './dto/get-antropometrics.dto';
 import { Injectable } from '@nestjs/common';
 import { BaseUserService } from '../user/base-user.service';
+import { UserRole } from 'src/constants/constants';
 
 @Injectable()
 export class BaseAntropometrcisService {
@@ -26,18 +27,15 @@ export class BaseAntropometrcisService {
   public readonly relations = ['user'];
 
   async create(
-    userId: UserEntity['id'],
+    user: UserEntity,
     request: CreateAntropometricsRequest,
   ): Promise<AppSingleResponse<AntropometricsEntity>> {
+    if (user.role != UserRole.Client) throw MainException.forbidden('Forbidden');
+
     const newAntrp = await this.antrpRepository.create({
       ...request,
-      userId: userId,
+      userId: user.id,
     });
-    const { data: user } = await this.userService.getUserById(userId);
-
-    if (!user.antropometrics) user.antropometrics = [];
-    user.antropometrics.push(newAntrp);
-    await this.userRepository.save(user);
 
     const savedAntrp = await this.antrpRepository.save(newAntrp);
 

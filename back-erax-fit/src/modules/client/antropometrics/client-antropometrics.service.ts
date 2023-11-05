@@ -18,25 +18,22 @@ export class ClientAntropometricsService {
     private readonly baseService: BaseAntropometrcisService,
   ) {}
 
-  async create(userId: UserEntity['id'], request: CreateAntropometricsByClientRequest) {
-    if (!request.status) return this.sendDataToDb(request);
+  async create(user: UserEntity, request: CreateAntropometricsByClientRequest) {
+    if (!request.status) return this.saveAntropometricsToDb(request);
 
-    return this.baseService.create(userId, request);
+    return this.baseService.create(user, request);
   }
 
-  @Cron('30 1 * * * *')
-  async sendDataToDb(data: CreateAntropometricsByClientRequest) {
-    const savedData = await this.antrpRepository.save({
+  @Cron('* * * * * *')
+  async saveAntropometricsToDb(data: CreateAntropometricsByClientRequest) {
+    const savedAntrp = await this.antrpRepository.save({
       ...data,
     });
-    return new AppSingleResponse(savedData);
+    return new AppSingleResponse(savedAntrp);
   }
 
-  async findAll(
-    userId: AntropometricsEntity['userId'],
-    query: AppPagination.Request,
-  ): Promise<AppPagination.Response<AntropometricsEntity>> {
-    return this.baseService.findAll(query, { where: { userId } });
+  async findAll(user: UserEntity, query: AppPagination.Request): Promise<AppPagination.Response<AntropometricsEntity>> {
+    return this.baseService.findAll(query, { where: { userId: user.id } });
   }
 
   async findOne(id: AntropometricsEntity['id']) {

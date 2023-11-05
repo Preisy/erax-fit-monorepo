@@ -39,13 +39,13 @@ export class ClientAntropometricsController {
   @AppResponses({ status: 201, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Req() req: RequestWithUser, @Body() body: CreateAntropometricsByClientRequest) {
-    return this.clientService.create(req.user.id, body);
+    return this.clientService.create(req.user, body);
   }
 
   @Get()
   @AppResponses({ status: 200, type: AppPagination.Response<AntropometricsEntity> })
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
-    return await this.clientService.findAll(req.user.id, query);
+    return await this.clientService.findAll(req.user, query);
   }
 
   @Get(':id')

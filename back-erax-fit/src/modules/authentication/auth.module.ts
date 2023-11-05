@@ -5,8 +5,6 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { BaseUserModule } from '../core/user/base-user.module';
-import { AdminUserModule } from '../admin/user/admin-user.module';
-import { MeModule } from '../client/me/me.module';
 import { AccessStrategy } from './strategies/access-strategy';
 import { RefreshStrategy } from './strategies/refresh-strategy';
 import { Repository } from 'typeorm';
@@ -17,9 +15,7 @@ import { UserEntity } from '../core/user/entities/user.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([TokenEntity, UserEntity]),
-    forwardRef(() => BaseUserModule),
-    forwardRef(() => AdminUserModule),
-    forwardRef(() => MeModule),
+    BaseUserModule,
     ConfigModule,
     PassportModule,
     JwtModule.register({
