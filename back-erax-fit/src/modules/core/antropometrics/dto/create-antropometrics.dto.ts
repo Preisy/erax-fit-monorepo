@@ -1,4 +1,4 @@
-import { IsDefined, IsNumber, Min, Max, IsBoolean, IsIn } from 'class-validator';
+import { IsDefined, IsNumber, Min, Max } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAntropometricsRequest {
@@ -43,8 +43,4 @@ export class CreateAntropometricsRequest {
   @Min(30)
   @Max(150)
   public hipVolume: number;
-
-  @IsBoolean()
-  @ApiProperty()
-  public status: boolean;
 }

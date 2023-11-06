@@ -9,8 +9,8 @@ import { Get, Query, Param } from '@nestjs/common/decorators';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
-import { AppDatePagination } from 'src/utils/app-pagination-date.util';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { AppDatePagination } from '../../../utils/app-pagination-date.util';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 
 @Controller('admin/antropometrics')
 @ApiTags('Admin antropometrics')

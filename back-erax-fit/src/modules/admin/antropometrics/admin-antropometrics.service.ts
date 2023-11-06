@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common/decorators';
 import { BaseAntropometrcisService } from '../../core/antropometrics/base-antropometrics.service';
-import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
-import { GetAntropometricsByAdminRequest } from './dto/get-antropometrics-by-admin.dto';
-import { AppDatePagination } from 'src/utils/app-pagination-date.util';
+import { AppDatePagination } from '../../../utils/app-pagination-date.util';
 
 @Injectable()
 export class AdminAntropometricsService {
