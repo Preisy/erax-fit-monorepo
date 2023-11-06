@@ -10,9 +10,8 @@ import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { UserEntity } from '../user/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { UserRole } from 'src/constants/constants';
-import { Timeout } from '@nestjs/schedule';
+import { Timeout, SchedulerRegistry } from '@nestjs/schedule';
 import { AppDatePagination } from '../../../utils/app-pagination-date.util';
-import { SchedulerRegistry } from '@nestjs/schedule';
 
 @Injectable()
 export class BaseAntropometrcisService {
