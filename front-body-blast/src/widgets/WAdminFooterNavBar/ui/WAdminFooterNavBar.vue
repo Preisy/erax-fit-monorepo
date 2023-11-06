@@ -54,23 +54,10 @@ const links = computed<SFooterNavLinkProps[]>(() => {
 
   return result;
 });
-
-//TODO: bad decision. FIX
-const isHidden = computed(() => useRoute().path.includes('bio'));
 </script>
 
 <template>
-  <q-footer
-    fixed
-    bottom-0
-    left-0
-    right-0
-    rounded-t-2rem
-    bg-bg
-    boxshadow-footer
-    class="w-footer w-admin-footer"
-    v-if="!isHidden"
-  >
+  <q-footer fixed bottom-0 left-0 right-0 rounded-t-2rem bg-bg boxshadow-footer class="w-footer w-admin-footer">
     <q-tabs flex flex-row justify-between px-0.5rem>
       <SFooterNavLink v-for="navlink of links" :key="navlink.imgSrc" v-bind="navlink" />
     </q-tabs>
