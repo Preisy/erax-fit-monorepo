@@ -8,6 +8,7 @@ import { MainException } from '../../../exceptions/main.exception';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { UserEntity } from '../user/entities/user.entity';
 import { BaseUserService } from '../user/base-user.service';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 
 @Injectable()
 export class BaseBonusVideoService {
@@ -56,5 +57,15 @@ export class BaseBonusVideoService {
 
     const video = await this.findOne(link);
     return video;
+  }
+
+  async updateAccessToVideoForUser(userId: UserEntity['id'], canWatch: boolean): Promise<AppStatusResponse> {
+    const { data: foundUser } = await this.userService.getUserById(userId);
+
+    foundUser.canWatchVideo = canWatch;
+
+    await this.userService.updateUser(userId, foundUser);
+
+    return new AppStatusResponse(true);
   }
 }

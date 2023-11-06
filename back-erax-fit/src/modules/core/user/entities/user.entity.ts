@@ -112,5 +112,5 @@ export class UserEntity extends AppBaseEntity {
 
   @ApiProperty()
   @Column({ type: 'boolean' })
-  public canWatchVideo: boolean;
+  public canWatchVideo?: boolean;
 }
