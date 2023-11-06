@@ -13,10 +13,12 @@ import { MeModule } from './modules/client/me/me.module';
 import { ClientAntropometricsModule } from './modules/client/antropometrics/client-antropometrics.module';
 import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ScheduleModule.forRoot(),
     DatabaseModule,
     AuthModule,
     AdminUserModule,

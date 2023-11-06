@@ -25,7 +25,7 @@ import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAntropometricsByClientRequest } from './dto/client-update-antropometrics.dto';
 import { AntropometricsEntity } from '../../../modules/core/antropometrics/entities/antropometrics.entity';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
-import { AppPagination } from '../../../utils/app-pagination.util';
+import { AppDatePagination } from 'src/utils/app-pagination-date.util';
 
 @Controller('antropometrics')
 @ApiTags('Client antropometrics')
@@ -43,8 +43,8 @@ export class ClientAntropometricsController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<AntropometricsEntity> })
-  async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
+  @AppResponses({ status: 200, type: AppDatePagination.Response<AntropometricsEntity> })
+  async getAll(@Req() req: RequestWithUser, @Query() query: AppDatePagination.Request) {
     return await this.clientService.findAll(req.user, query);
   }
 

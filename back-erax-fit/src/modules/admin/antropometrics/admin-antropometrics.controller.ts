@@ -1,4 +1,4 @@
-import { Controller, UseFilters, UsePipes, ValidationPipe, ParseIntPipe, Req } from '@nestjs/common';
+import { Controller, UseFilters, UsePipes, ValidationPipe, ParseIntPipe, Patch } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserRole } from '../../../constants/constants';
 import { RoleGuard } from '../../authentication/guards/role.guard';
@@ -6,11 +6,11 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { Get, Query, Param } from '@nestjs/common/decorators';
-import { AppPagination } from '../../../utils/app-pagination.util';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
-import { GetAntropometricsByAdminRequest } from './dto/admin-get-antropometrics.dto';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
+import { AppDatePagination } from 'src/utils/app-pagination-date.util';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 
 @Controller('admin/antropometrics')
 @ApiTags('Admin antropometrics')
@@ -21,8 +21,8 @@ export class AdminAntropometricsController {
   constructor(private readonly adminService: AdminAntropometricsService) {}
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<AntropometricsEntity> })
-  async getAll(@Query() query: AppPagination.Request) {
+  @AppResponses({ status: 200, type: AppDatePagination.Response<AntropometricsEntity> })
+  async getAll(@Query() query: AppDatePagination.Request) {
     return await this.adminService.findAll(query);
   }
 
@@ -32,12 +32,14 @@ export class AdminAntropometricsController {
     return await this.adminService.findOne(id);
   }
 
-  @Get(':id/date-range')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
-  async findAntropometricsByDateRange(
+  @Patch(':id')
+  @AppResponses({ status: 200, type: AppStatusResponse })
+  async updateCron(
+    @Param('previousTask') previousTask: string,
+    @Param('nextTask') nextTask: string,
     @Param('id', ParseIntPipe) id: number,
-    @Req() request: GetAntropometricsByAdminRequest,
+    @Param('timeout') timeout: number,
   ) {
-    return this.adminService.findAntropometricsByDateRange(id, request);
+    return await this.adminService.updateCron(previousTask, nextTask, id, timeout);
   }
 }
