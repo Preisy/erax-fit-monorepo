@@ -2,6 +2,7 @@
 import { FSearchPanel } from 'features/FSearchPanel';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { useAdminProfileStore } from 'shared/api/admin';
+import { ENUMS } from 'shared/lib/enums';
 import { SStructure } from 'shared/ui/SStructure';
 import { SUnitedProfileCard } from 'shared/ui/SUnitedProfileCard';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
@@ -32,7 +33,12 @@ const cards = computed(() => {
         <FSearchPanel my-1.5rem v-model:query="nameFilter" />
 
         <div v-if="clientProfiles.state.isSuccess() || cards?.length">
-          <EClientProfileCard v-for="user in cards" :key="user.name" v-bind="user" />
+          <EClientProfileCard
+            v-for="user in cards"
+            :key="user.name"
+            :name="user.name"
+            :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED, params: { id: user.id } }"
+          />
         </div>
 
         <!-- TODO: remove this progres, create some from design -->

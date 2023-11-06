@@ -5,6 +5,7 @@ import { WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
+import { ENUMS } from 'shared/lib/enums';
 import { SBtnToggle } from 'shared/ui/btns';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
@@ -101,7 +102,15 @@ const onFirst = () => {
   <SStructure>
     <SWithHeaderLayout>
       <template #header>
-        <EClientProfileCard :name="me?.name" :is-open="true" dark mx--0.5rem px-2rem pt-4rem />
+        <EClientProfileCard
+          :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO }"
+          :name="me?.name"
+          :is-open="true"
+          dark
+          mx--0.5rem
+          px-2rem
+          pt-4rem
+        />
       </template>
       <template #body>
         <SComponentWrapper py-1.5rem>
