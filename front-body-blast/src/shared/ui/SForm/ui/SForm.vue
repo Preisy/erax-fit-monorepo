@@ -6,7 +6,7 @@ export interface SFormProps {
   fieldSchema: TypedSchema; //Vee-validate/Zod value validation schema
   loading?: boolean; //SBtn state props. Displays request status
   readonly?: boolean; //disables submit btn
-  initValues?: Record<string, unknown>;
+  initValues?: Record<string, unknown>; //init form with some values
 }
 
 const props = defineProps<SFormProps>();
