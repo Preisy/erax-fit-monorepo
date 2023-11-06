@@ -24,7 +24,7 @@ const cards = computed(() => {
 </script>
 
 <template>
-  <SStructure>
+  <SStructure h-full>
     <SWithHeaderLayout>
       <template #header>
         <EUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
