@@ -1,3 +1,4 @@
+import LClientDashboardVue from 'processes/layouts/LClientDashboard.vue';
 import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
 import PLearningVue from 'pages/PLearning.vue';
@@ -8,7 +9,7 @@ import { ENUMS } from 'shared/lib/enums';
 export const dashboardRoutes = {
   path: '/home/',
   name: ENUMS.ROUTES_NAMES.HOME,
-  component: () => import('processes/layouts/LDashboard.vue'),
+  component: LClientDashboardVue,
   children: [
     {
       path: 'training',
