@@ -2,12 +2,12 @@
 import { SBtn } from 'shared/ui/btns';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 
-export interface SUnitedProfileCardProps {
+export interface EUnitedProfileCardProps {
   header: string;
   describe: string;
   dark?: boolean;
 }
-defineProps<SUnitedProfileCardProps>();
+defineProps<EUnitedProfileCardProps>();
 </script>
 
 <template>

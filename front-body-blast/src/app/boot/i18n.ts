@@ -2,10 +2,10 @@ import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TPAdminDetailsI18n } from 'pages/PAdminDetailed';
 import { TPAdminProfileI18n } from 'pages/PAdminProfile';
+import { TWAdminClientCardI18n } from 'widgets/profile/WAdminClientCard';
 import { TWAdminFooterNavBarI18n } from 'widgets/WAdminFooterNavBar';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
-import { TEAdminProfileListI18n } from 'entities/admin/profile/';
 import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
 import { TClientFormsI18n } from 'entities/profile/form';
@@ -18,7 +18,7 @@ export default boot(({ app }) => {
     legacy: false,
     messages: mergeI18n(
       TPAdminProfileI18n,
-      TEAdminProfileListI18n,
+      TWAdminClientCardI18n,
       TFooterNavigationBarI18n,
       TPAdminDetailsI18n,
       TWAdminFooterNavBarI18n,

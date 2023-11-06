@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { WAdminClientCard } from 'widgets/profile/WAdminClientCard';
 import { FSearchPanel } from 'features/FSearchPanel';
-import { EClientProfileCard } from 'entities/admin/profile';
+import { EUnitedProfileCard } from 'entities/profile/EUnitedProfileCard';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
 import { SStructure } from 'shared/ui/SStructure';
-import { SUnitedProfileCard } from 'shared/ui/SUnitedProfileCard';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 export interface PAdminProfileProps {}
@@ -27,13 +27,13 @@ const cards = computed(() => {
   <SStructure>
     <SWithHeaderLayout>
       <template #header>
-        <SUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
+        <EUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
       </template>
       <template #body>
         <FSearchPanel my-1.5rem v-model:query="nameFilter" />
 
         <div v-if="clientProfiles.state.isSuccess() || cards?.length">
-          <EClientProfileCard
+          <WAdminClientCard
             v-for="user in cards"
             :key="user.name"
             :name="user.name"

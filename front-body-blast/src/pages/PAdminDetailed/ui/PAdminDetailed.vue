@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { Component } from 'vue';
+import { WAdminClientCard } from 'widgets/profile/WAdminClientCard';
 import { WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
-import { EClientProfileCard } from 'entities/admin/profile';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
@@ -102,7 +102,7 @@ const onFirst = () => {
   <SStructure>
     <SWithHeaderLayout>
       <template #header>
-        <EClientProfileCard
+        <WAdminClientCard
           :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO }"
           :name="me?.name"
           :is-open="true"
