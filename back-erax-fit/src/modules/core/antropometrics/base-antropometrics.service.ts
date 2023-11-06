@@ -90,7 +90,7 @@ export class BaseAntropometrcisService {
     userId: UserEntity['id'],
     day: number,
   ): Promise<AppStatusResponse> {
-    const timeout = this.schedulerRegistry.getTimeout('newAntropometricsTask');
+    const timeout = this.schedulerRegistry.getTimeout(previousTask);
     clearTimeout(timeout);
 
     const callback = () => {
