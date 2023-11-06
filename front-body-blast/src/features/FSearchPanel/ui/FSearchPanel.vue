@@ -3,6 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
 import { SBtn } from 'shared/ui/btns';
 import { SInput } from 'shared/ui/inputs';
+import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SForm } from 'shared/ui/SForm';
 
 export interface FSearchPanelProps {
@@ -21,10 +22,12 @@ const action = (data: (typeof validation)['_type']) => emit('update:query', data
 </script>
 
 <template>
-  <SForm :action="action" :field-schema="schema" flex="~ row!" gap-x-0.5rem class="[&_.s-form-inputs]:w-full">
-    <SInput name="query" w-full :label="$t('admin.profile.search.label')" />
-    <template #submit-btn>
-      <SBtn icon="sym_r_search" type="submit" />
-    </template>
-  </SForm>
+  <SComponentWrapper>
+    <SForm :action="action" :field-schema="schema" flex="~ row!" gap-x-0.5rem class="[&_.s-form-inputs]:w-full">
+      <SInput name="query" w-full :label="$t('admin.profile.search.label')" />
+      <template #submit-btn>
+        <SBtn icon="sym_r_search" type="submit" />
+      </template>
+    </SForm>
+  </SComponentWrapper>
 </template>

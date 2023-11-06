@@ -6,7 +6,9 @@ import { EClientProfileCard } from 'entities/admin/profile';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { SBtnToggle } from 'shared/ui/btns';
+import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
+import { SStructure } from 'shared/ui/SStructure';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 const id = parseInt(useRoute().params.id as string);
@@ -96,13 +98,13 @@ const onFirst = () => {
 </script>
 
 <template>
-  <SWithHeaderLayout>
-    <template #header>
-      <EClientProfileCard :name="me?.name" :is-open="true" dark mx--0.5rem px-2rem pt-4rem />
-    </template>
-    <template #body>
-      <div px-1.5rem>
-        <div py-1.5rem>
+  <SStructure>
+    <SWithHeaderLayout>
+      <template #header>
+        <EClientProfileCard :name="me?.name" :is-open="true" dark mx--0.5rem px-2rem pt-4rem />
+      </template>
+      <template #body>
+        <SComponentWrapper py-1.5rem>
           <!-- Access to learning section -->
           <p mb-0.5rem>{{ $t('admin.detailed.accessTitle') }}</p>
           <SBtnToggle
@@ -123,9 +125,8 @@ const onFirst = () => {
               { value: 20, label: '20' },
             ]"
           />
-        </div>
+        </SComponentWrapper>
 
-        <!-- <WAthropometrics :slides="antSlides" /> -->
         <SPaginationSlider
           :len="antSlides.length"
           :slides="antSlides"
@@ -133,7 +134,7 @@ const onFirst = () => {
           @first-element="onFirst"
           @last-element="onLast"
         />
-      </div>
-    </template>
-  </SWithHeaderLayout>
+      </template>
+    </SWithHeaderLayout>
+  </SStructure>
 </template>

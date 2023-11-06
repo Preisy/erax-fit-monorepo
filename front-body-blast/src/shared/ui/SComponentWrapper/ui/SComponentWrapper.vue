@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div mx-0.5rem class="s-structure">
+  <div p-1.5rem>
     <slot />
   </div>
 </template>

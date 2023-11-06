@@ -15,7 +15,7 @@ const authStore = useAuthStore();
     <SForm :field-schema="schema" @submit="authStore.login" :loading="authStore.loginState.state.isLoading()" w-full>
       <ELoginForm />
       <template #submit-btn>
-        <div absolute bottom-1rem left-0rem right-0rem flex justify-between>
+        <div absolute bottom-1rem left-1.5rem right-1.5rem flex justify-between>
           <SBtn bg="bg!" boxshadow-btn>
             <p fw-800 normal-case>{{ $t('auth.login.controls.forget') }}</p>
           </SBtn>

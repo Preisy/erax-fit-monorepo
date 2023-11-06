@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Training } from 'shared/api/training';
+import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
@@ -10,7 +11,7 @@ defineProps<ETrainingCardProps>();
 </script>
 
 <template>
-  <div>
+  <SComponentWrapper>
     <div flex flex-col gap-1rem>
       <div>
         <h1>{{ training.name }}</h1>
@@ -19,5 +20,5 @@ defineProps<ETrainingCardProps>();
       <TrainingAnim :url="training.animUrl" />
       <InfoBlock :info="training.info" />
     </div>
-  </div>
+  </SComponentWrapper>
 </template>

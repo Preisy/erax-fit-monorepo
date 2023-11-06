@@ -2,6 +2,7 @@
 import { date } from 'quasar';
 import { WAthropometrics } from 'widgets/profile/WAthropometrics';
 import { EProfileHeader } from 'entities/profile/EProfileHeader';
+import { SStructure } from 'shared/ui/SStructure';
 const today = date.formatDate(Date.now(), 'YYYY/MM/DD');
 const props = [
   {
@@ -24,8 +25,8 @@ const userName = 'Имя пользователя';
 </script>
 
 <template>
-  <div h-full>
+  <SStructure h-full>
     <EProfileHeader :user-name="userName" />
     <WAthropometrics mt-1.75rem :slides="props" />
-  </div>
+  </SStructure>
 </template>

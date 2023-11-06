@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { TypedSchema, useForm } from 'vee-validate';
 import { SBtn } from 'shared/ui/btns';
+import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 
 export interface SFormProps {
   fieldSchema: TypedSchema; //Vee-validate/Zod value validation schema
@@ -29,12 +30,21 @@ const onsubmit = handleSubmit((...data) => emits('submit', ...data));
 </script>
 
 <template>
-  <form @submit.prevent="" @submit="onsubmit" flex flex-col>
-    <div flex flex-col gap-y-0.5rem class="s-form-inputs">
-      <slot />
-    </div>
-    <slot name="submit-btn">
-      <SBtn v-if="!$slots['submit-btn'] && !readonly" :loading="loading" icon="done" type="submit" mt-0.5rem self-end />
-    </slot>
-  </form>
+  <SComponentWrapper>
+    <form @submit.prevent="" @submit="onsubmit" flex flex-col>
+      <div flex flex-col gap-y-0.5rem class="s-form-inputs">
+        <slot />
+      </div>
+      <slot name="submit-btn">
+        <SBtn
+          v-if="!$slots['submit-btn'] && !readonly"
+          :loading="loading"
+          icon="done"
+          type="submit"
+          mt-0.5rem
+          self-end
+        />
+      </slot>
+    </form>
+  </SComponentWrapper>
 </template>

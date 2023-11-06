@@ -2,6 +2,7 @@
 import { FSearchPanel } from 'features/FSearchPanel';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { useAdminProfileStore } from 'shared/api/admin';
+import { SStructure } from 'shared/ui/SStructure';
 import { SUnitedProfileCard } from 'shared/ui/SUnitedProfileCard';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
@@ -22,28 +23,30 @@ const cards = computed(() => {
 </script>
 
 <template>
-  <SWithHeaderLayout>
-    <template #header>
-      <SUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
-    </template>
-    <template #body>
-      <FSearchPanel my-1.5rem p-1.5rem v-model:query="nameFilter" />
+  <SStructure>
+    <SWithHeaderLayout>
+      <template #header>
+        <SUnitedProfileCard header="Андрей Ерхатин" describe="Администратор" dark mx--0.5rem px-2rem pt-4rem />
+      </template>
+      <template #body>
+        <FSearchPanel my-1.5rem v-model:query="nameFilter" />
 
-      <div v-if="clientProfiles.state.isSuccess() || cards?.length">
-        <EClientProfileCard v-for="user in cards" :key="user.name" v-bind="user" />
-      </div>
+        <div v-if="clientProfiles.state.isSuccess() || cards?.length">
+          <EClientProfileCard v-for="user in cards" :key="user.name" v-bind="user" />
+        </div>
 
-      <!-- TODO: remove this progres, create some from design -->
-      <div flex justify-center>
-        <q-circular-progress
-          size="50px"
-          color="lime"
-          class="q-ma-md"
-          indeterminate
-          rounded
-          v-if="clientProfiles.state.isLoading()"
-        />
-      </div>
-    </template>
-  </SWithHeaderLayout>
+        <!-- TODO: remove this progres, create some from design -->
+        <div flex justify-center>
+          <q-circular-progress
+            size="50px"
+            color="lime"
+            class="q-ma-md"
+            indeterminate
+            rounded
+            v-if="clientProfiles.state.isLoading()"
+          />
+        </div>
+      </template>
+    </SWithHeaderLayout>
+  </SStructure>
 </template>

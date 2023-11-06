@@ -1,5 +1,6 @@
 <script setup lang="ts" generic="T extends { is: Component; props: object; key: string }">
 import { QTabPanel, QTabPanels } from 'quasar';
+import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 
 export interface SPaginationSliderProps<SlideType> {
   slides: Array<SlideType>;
@@ -25,9 +26,11 @@ const onUpdate = () => {
 </script>
 
 <template>
-  <QTabPanels swipeable animated class="s-pagination-slider" v-model="value" @update:model-value="onUpdate">
-    <QTabPanel v-for="slide in slides" :key="slide.key" :name="slide.key" class="s-pagination-slide">
-      <component :is="slide.is" v-bind="slide.props" :class="{ 'select-none pointer-events-none': userSelectNone }" />
-    </QTabPanel>
-  </QTabPanels>
+  <SComponentWrapper>
+    <QTabPanels swipeable animated class="s-pagination-slider" v-model="value" @update:model-value="onUpdate">
+      <QTabPanel v-for="slide in slides" :key="slide.key" :name="slide.key" class="s-pagination-slide" p-0>
+        <component :is="slide.is" v-bind="slide.props" :class="{ 'select-none pointer-events-none': userSelectNone }" />
+      </QTabPanel>
+    </QTabPanels>
+  </SComponentWrapper>
 </template>
