@@ -11,22 +11,27 @@ export interface FSearchPanelProps {
 }
 defineProps<FSearchPanelProps>();
 const emit = defineEmits<{
-  (e: 'update:query', newValue: string | null | undefined): void;
+  'update:query': [newValue: string | null | undefined];
 }>();
-//TODO: вынести схему наружу
-const validation = z.object({
-  query: z.string().default('').nullable().optional(),
-});
-const schema = toTypedSchema(validation);
-const action = (data: (typeof validation)['_type']) => emit('update:query', data.query);
+
+// bad desicion, but SForm REQUIRES field-schema
+const schema = toTypedSchema(z.object({ query: z.string() }));
+const onsubmit = (data: { query: string }) => emit('update:query', data.query);
 </script>
 
 <template>
   <SComponentWrapper>
-    <SForm :action="action" :field-schema="schema" flex="~ row!" gap-x-0.5rem p="0!" class="[&_.s-form-inputs]:w-full">
+    <SForm
+      @submit="onsubmit"
+      :field-schema="schema"
+      flex="~ row!"
+      gap-x-0.5rem
+      p="0!"
+      class="[&_.s-form-inputs]:w-full"
+    >
       <SInput name="query" w-full :label="$t('admin.profile.search.label')" />
       <template #submit-btn>
-        <SBtn icon="sym_r_search" type="submit" />
+        <SBtn h-min icon="sym_r_search" type="submit" />
       </template>
     </SForm>
   </SComponentWrapper>
