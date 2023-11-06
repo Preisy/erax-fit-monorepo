@@ -37,28 +37,6 @@ export class BaseBonusVideoService {
     return getPaginatedData(query);
   }
 
-  async findOne(fileLInk: BonusVideoEntity['fileLInk']) {
-    const video = await this.videoRepository.findOne({
-      where: { fileLInk },
-    });
-
-    if (!video) throw MainException.entityNotFound(`Video with link ${fileLInk} not found`);
-
-    return new AppSingleResponse(video);
-  }
-
-  async findOneForUser(
-    id: UserEntity['id'],
-    link: BonusVideoEntity['fileLInk'],
-  ): Promise<AppSingleResponse<BonusVideoEntity>> {
-    const { data: user } = await this.userService.getUserById(id);
-
-    if (!user.canWatchVideo) throw MainException.forbidden(`Acces denied for user with id ${user.id}`);
-
-    const video = await this.findOne(link);
-    return video;
-  }
-
   async updateAccessToVideoForUser(userId: UserEntity['id'], canWatch: boolean): Promise<AppStatusResponse> {
     const { data: foundUser } = await this.userService.getUserById(userId);
 

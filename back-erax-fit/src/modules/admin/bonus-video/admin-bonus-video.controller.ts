@@ -3,6 +3,7 @@ import {
   Post,
   Patch,
   Get,
+  Res,
   UseFilters,
   UsePipes,
   ValidationPipe,
@@ -16,16 +17,19 @@ import {
 import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
-import { UserRole } from 'src/constants/constants';
+import { UserRole } from '../../../constants/constants';
 import { RoleGuard } from '../../../modules/authentication/guards/role.guard';
 import { AdminBonusVideoService } from './admin-bonus-video.service';
-import { AppResponses } from 'src/decorators/app-responses.decorator';
+import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express } from 'express';
 import { CreateVideoByAdminResponse } from './dto/admin-create-video.dto';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
+import { Response } from 'express';
+import { AppPagination } from 'src/utils/app-pagination.util';
+import { BonusVideoEntity } from 'src/modules/core/bonus-video/entities/bonus-video.entity';
 
 @Controller('admin/bonus-video')
 @ApiTags('Admin bonus video')
@@ -71,9 +75,23 @@ export class AdminBonusVideoController {
     return await this.adminService.create(file);
   }
 
+  @Get()
+  @AppResponses({ status: 200, type: AppPagination.Response<BonusVideoEntity> })
+  async getAll(query: AppPagination.Request) {
+    return await this.adminService.findAll(query);
+  }
+
+  @Get(':filename')
+  @AppResponses({ status: 200, type: 'file' })
+  async getUploadedFile(@Param('filename') image: string, @Res() res: Response) {
+    return res.sendFile(image, {
+      root: './uploads',
+    });
+  }
+
   @Patch('id')
   @AppResponses({ status: 200, type: AppStatusResponse })
-  async updateAccesstoVideoForUser(@Param('id', ParseIntPipe) id: number, @Param('canWatchVideo') canWatch: boolean) {
+  async updateAccesstoVideoForUser(@Param('id', ParseIntPipe) id: number, @Param('can watch video') canWatch: boolean) {
     return await this.adminService.updateAccessToVideoForUser(id, canWatch);
   }
 }
