@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SReadonlyField } from 'shared/ui/Inputs';
+import { SReadonlyField } from 'shared/ui/inputs';
 import { ETrainingCardProps } from './ETrainingCard.vue';
 const props = defineProps<{
   info: ETrainingCardProps['training']['info'];

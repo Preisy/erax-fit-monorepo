@@ -5,7 +5,7 @@ import { WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EClientProfileCard } from 'entities/admin/profile';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { useAdminProfileStore } from 'shared/api/admin';
-import { SBtnToggle } from 'shared/ui/Btns';
+import { SBtnToggle } from 'shared/ui/btns';
 import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 

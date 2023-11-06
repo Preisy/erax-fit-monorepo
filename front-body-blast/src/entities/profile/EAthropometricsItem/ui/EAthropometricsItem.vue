@@ -2,7 +2,7 @@
 import { toTypedSchema } from '@vee-validate/zod';
 
 import { Profile } from 'shared/api/profile';
-import { SInput } from 'shared/ui/Inputs';
+import { SInput } from 'shared/ui/inputs';
 import { SForm } from 'shared/ui/SForm';
 
 export interface EAthropometricsItemProps {

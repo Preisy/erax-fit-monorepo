@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { z } from 'zod';
-import { SBtn } from 'shared/ui/Btns';
-import { SInput } from 'shared/ui/Inputs';
+import { SBtn } from 'shared/ui/btns';
+import { SInput } from 'shared/ui/inputs';
 import { SForm } from 'shared/ui/SForm';
 
 export interface FSearchPanelProps {

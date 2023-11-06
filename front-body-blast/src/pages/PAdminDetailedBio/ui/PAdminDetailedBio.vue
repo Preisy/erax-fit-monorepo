@@ -9,7 +9,7 @@ import {
 } from 'entities/profile/form';
 import { BodyParams, Diseases, Forbiddens, Motivations } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
-import { SBtn } from 'shared/ui/Btns';
+import { SBtn } from 'shared/ui/btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 
 const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; values: Record<string, unknown> }> = [

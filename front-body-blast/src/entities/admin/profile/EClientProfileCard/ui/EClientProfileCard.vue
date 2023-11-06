@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLinkProps } from 'vue-router';
 import { ENUMS } from 'shared/lib/enums';
-import { SBtn } from 'shared/ui/Btns';
+import { SBtn } from 'shared/ui/btns';
 import { SUnitedProfileCard, SUnitedProfileCardProps } from 'shared/ui/SUnitedProfileCard';
 
 export interface UserProfileCardProps extends Omit<SUnitedProfileCardProps, 'header' | 'describe'> {

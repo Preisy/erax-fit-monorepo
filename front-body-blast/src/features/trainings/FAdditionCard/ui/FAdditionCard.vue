@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
 import { Addition, useTrainingStore } from 'shared/api/training';
-import { SInput } from 'shared/ui/Inputs';
+import { SInput } from 'shared/ui/inputs';
 import { SForm } from 'shared/ui/SForm';
 
 const validationSchema = toTypedSchema(Addition.validation());
