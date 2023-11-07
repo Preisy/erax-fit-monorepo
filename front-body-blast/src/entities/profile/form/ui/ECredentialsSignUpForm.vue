@@ -4,7 +4,17 @@ import { SInput } from 'shared/ui/SInput';
 
 <template>
   <SInput name="username" :label="$t('auth.signUp.credentials.fields.username')" />
-  <SInput name="email" :label="$t('auth.signUp.credentials.fields.email')" />
-  <SInput name="password" :label="$t('auth.signUp.credentials.fields.password')" />
-  <SInput name="passwordRepeat" :label="$t('auth.signUp.credentials.fields.passwordRepeat')" />
+  <SInput name="email" autocomplete="email" :label="$t('auth.signUp.credentials.fields.email')" />
+  <SInput
+    name="password"
+    type="password"
+    autocomplete="password"
+    :label="$t('auth.signUp.credentials.fields.password')"
+  />
+  <SInput
+    name="passwordRepeat"
+    type="password"
+    autocomplete="password-repeat"
+    :label="$t('auth.signUp.credentials.fields.passwordRepeat')"
+  />
 </template>
