@@ -59,12 +59,12 @@ export class UserEntity extends AppBaseEntity {
   public weightInYouth: number;
 
   @ApiProperty()
-  @Column({ type: 'boolean' })
-  public nutritRestrict: boolean;
+  @Column({ type: 'varchar', length: 256 })
+  public nutritRestrict: string;
 
   @ApiProperty()
-  @Column({ type: 'boolean' })
-  public allergy: boolean;
+  @Column({ type: 'varchar', length: 256 })
+  public allergy: string;
 
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
@@ -83,16 +83,16 @@ export class UserEntity extends AppBaseEntity {
   public kidneyDesease: string;
 
   @ApiProperty()
-  @Column({ type: 'boolean' })
-  public heartDesease: boolean;
+  @Column({ type: 'varchar', length: 256 })
+  public heartDesease: string;
 
   @ApiProperty()
   @Column({ type: 'varchar', length: 128 })
   public muscleDesease: string;
 
   @ApiProperty()
-  @Column({ type: 'boolean' })
-  public loadRestrictions: boolean;
+  @Column({ type: 'varchar', length: 256 })
+  public loadRestrictions: string;
 
   @ApiProperty()
   @Column({ type: 'varchar', length: 128 })
