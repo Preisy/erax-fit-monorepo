@@ -116,4 +116,8 @@ export class CreateUserRequest {
   @ApiProperty()
   @Length(1, 256)
   public goals: string;
+
+  @IsBoolean()
+  @ApiProperty()
+  public canWatchVideo: boolean;
 }

@@ -13,6 +13,7 @@ import {
   UploadedFile,
   Param,
   ParseIntPipe,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
@@ -88,9 +89,12 @@ export class AdminBonusVideoController {
     });
   }
 
-  @Patch(':id')
+  @Patch(':userId/:canWatch')
   @AppResponses({ status: 200, type: AppStatusResponse })
-  async updateAccesstoVideoForUser(@Param('id', ParseIntPipe) id: number, @Param('can watch video') canWatch: boolean) {
+  async updateAccesstoVideoForUser(
+    @Param('userId', ParseIntPipe) id: number,
+    @Param('canWatch', ParseBoolPipe) canWatch: boolean,
+  ) {
     return await this.adminService.updateAccessToVideoForUser(id, canWatch);
   }
 }
