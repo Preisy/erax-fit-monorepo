@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import LAuthVue from 'processes/layouts/LAuth.vue';
+import LDashboardVue from 'processes/layouts/LDashboard.vue';
 import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
 import PLearningVue from 'pages/PLearning.vue';
@@ -7,14 +8,14 @@ import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
-import { TokenService } from 'shared/api/auth';
+import { useAuthStore } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/home/',
     name: ENUMS.ROUTES_NAMES.HOME,
-    component: () => import('processes/layouts/LDashboard.vue'),
+    component: LDashboardVue,
     children: [
       {
         path: 'training',
@@ -42,10 +43,13 @@ const routes: RouteRecordRaw[] = [
         name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
-    redirect: () => {
-      const token = TokenService.getAccessToken();
-      console.log(token);
-      return TokenService.getAccessToken() ? { name: ENUMS.ROUTES_NAMES.TRAINING } : { name: ENUMS.ROUTES_NAMES.LOGIN };
+    redirect: {
+      name: ENUMS.ROUTES_NAMES.TRAINING,
+    },
+    beforeEnter: () => {
+      const { isAuth } = useAuthStore();
+      if (!isAuth()) return { name: ENUMS.ROUTES_NAMES.AUTH, replace: true };
+      return;
     },
   },
 
@@ -67,15 +71,20 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: () => (TokenService.getAccessToken() ? '/home/training' : '/login'),
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
+    beforeEnter: () => {
+      const { isAuth } = useAuthStore();
+      if (isAuth()) return { name: ENUMS.ROUTES_NAMES.HOME, replace: true };
+      return;
+    },
   },
 
   // Always leave this as last one,
   // but you can also remove it
-  {
-    path: '/:catchAll(.*)*',
-    redirect: '/',
-  },
+  // {
+  //   path: '/:catchAll(.*)*',
+  //   redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
+  // },
 ];
 
 export default routes;
