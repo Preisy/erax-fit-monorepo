@@ -4,6 +4,6 @@ import { SInput } from 'shared/ui/SInput';
 
 <template>
   <SInput name="loadRestrictions" :label="$t('auth.signUp.motivations.fields.loadRestrictions')" />
-  <SInput name="sportExperience" :label="$t('auth.signUp.motivations.fields.sportExperience')" />
-  <SInput name="targets" :label="$t('auth.signUp.motivations.fields.targets')" />
+  <SInput name="sportsExp" :label="$t('auth.signUp.motivations.fields.sportExperience')" />
+  <SInput name="goals" :label="$t('auth.signUp.motivations.fields.targets')" />
 </template>

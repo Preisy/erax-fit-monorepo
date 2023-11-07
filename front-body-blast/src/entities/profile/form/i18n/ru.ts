@@ -2,15 +2,21 @@ export default {
   auth: {
     signUp: {
       bodyParams: {
+        errors: {
+          weight: 'Вес должен быть между 20 и 600',
+          height: 'Высота должна быть между 100 и 250',
+        },
         fields: {
           age: 'Возраст',
-          weight: 'Вес',
+          weightAndHeight: 'Вес и рост',
           teenAgeWeight: 'Вес в подростковом возрасте',
         },
       },
       credentials: {
         errors: {
           passwordMismatch: 'Пароли не совпадают',
+          strongPassword: 'Нужна 1 большая буква и 1 цифра',
+          secondName: 'Введите фамилию',
         },
         fields: {
           username: 'Имя и фамилия',

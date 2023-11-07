@@ -3,7 +3,12 @@ import { SInput } from 'shared/ui/SInput';
 </script>
 
 <template>
-  <SInput name="age" :label="$t('auth.signUp.bodyParams.fields.age')" />
-  <SInput name="weight" :label="$t('auth.signUp.bodyParams.fields.weight')" />
-  <SInput name="teenAgeWeight" :label="$t('auth.signUp.bodyParams.fields.teenAgeWeight')" />
+  <SInput :ref="`${123}`" name="age" :label="$t('auth.signUp.bodyParams.fields.age')" />
+  <SInput
+    name="weightAndHeight"
+    mask="###/###"
+    fill-mask="_"
+    :label="$t('auth.signUp.bodyParams.fields.weightAndHeight')"
+  />
+  <SInput name="weightInYouth" :label="$t('auth.signUp.bodyParams.fields.teenAgeWeight')" />
 </template>

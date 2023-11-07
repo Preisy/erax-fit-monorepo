@@ -9,6 +9,7 @@ import {
   EMotivationsSignUpForm,
 } from 'entities/profile';
 import { BodyParams, Diseases, Forbiddens, Motivations, Credentials, useAuthStore } from 'shared/api/auth';
+import { GetZodInnerType } from 'shared/lib/utils';
 import { SBtn } from 'shared/ui/SBtn';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 import { SSplide } from 'shared/ui/SSplide';
@@ -30,15 +31,32 @@ const slides: RegisterSlides = [
   {
     is: ECredentialsSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(Credentials.validation(t('auth.signUp.credentials.errors.passwordMismatch'))),
-      onSubmit: authStore.applyCredentials,
+      fieldSchema: toTypedSchema(Credentials.validation(t)),
+      onSubmit: (values: GetZodInnerType<typeof Credentials.validation>) => {
+        const [firstName, lastName] = values.username.split(' ');
+        authStore.applyCredentials({
+          email: values.email,
+          firstName,
+          lastName,
+          password: values.password,
+          passwordRepeat: values.passwordRepeat,
+        });
+      },
     },
   },
   {
     is: EBodyParamsSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(BodyParams.validation()),
-      onSubmit: authStore.applyBodyParams,
+      fieldSchema: toTypedSchema(BodyParams.validation(t)),
+      onSubmit: (values: GetZodInnerType<typeof BodyParams.validation>) => {
+        const [weight, height] = values.weightAndHeight.split('/');
+        authStore.applyBodyParams({
+          age: values.age,
+          weightInYouth: values.weightInYouth,
+          height: parseFloat(height),
+          weight: parseFloat(weight),
+        });
+      },
     },
   },
   {
