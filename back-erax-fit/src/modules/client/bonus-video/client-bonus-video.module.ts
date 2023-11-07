@@ -1,6 +1,6 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ClientUserModule } from '../me/me.module';
+import { MeModule } from '../me/me.module';
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
 import { AuthModule } from '../../../modules/authentication/auth.module';
 import { ClientBonusVideoController } from './client-bonus-video.controller';
@@ -11,7 +11,7 @@ import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bon
   imports: [
     TypeOrmModule.forFeature([UserEntity, BonusVideoEntity]),
     forwardRef(() => AuthModule),
-    ClientUserModule,
+    MeModule,
     BaseBonusVideoModule,
   ],
   controllers: [ClientBonusVideoController],

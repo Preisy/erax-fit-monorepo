@@ -14,6 +14,8 @@ import { ClientAntropometricsModule } from './modules/client/antropometrics/clie
 import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdminBonusVideoModule } from './modules/admin/bonus-video/admin-bonus-video.module';
+import { ClientBonusVideoModule } from './modules/client/bonus-video/client-bonus-video.module';
 
 @Module({
   imports: [
@@ -26,11 +28,13 @@ import { ScheduleModule } from '@nestjs/schedule';
     ClientFileModule,
     ClientWorkoutModule,
     ClientFileModule,
+    ClientBonusVideoModule,
     AdminFileModule,
     MeModule,
     ClientAntropometricsModule,
     AdminAntropometricsModule,
     AdminPromptModule,
+    AdminBonusVideoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

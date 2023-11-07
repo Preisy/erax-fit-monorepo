@@ -27,9 +27,8 @@ import { diskStorage } from 'multer';
 import { Express, Response } from 'express';
 import { CreateVideoByAdminResponse } from './dto/admin-create-video.dto';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
-
-import { AppPagination } from 'src/utils/app-pagination.util';
-import { BonusVideoEntity } from 'src/modules/core/bonus-video/entities/bonus-video.entity';
+import { AppPagination } from '../../../utils/app-pagination.util';
+import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
 
 @Controller('admin/bonus-video')
 @ApiTags('Admin bonus video')
@@ -89,7 +88,7 @@ export class AdminBonusVideoController {
     });
   }
 
-  @Patch('id')
+  @Patch(':id')
   @AppResponses({ status: 200, type: AppStatusResponse })
   async updateAccesstoVideoForUser(@Param('id', ParseIntPipe) id: number, @Param('can watch video') canWatch: boolean) {
     return await this.adminService.updateAccessToVideoForUser(id, canWatch);
