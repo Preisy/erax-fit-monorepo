@@ -3,7 +3,7 @@ import { SInput } from 'shared/ui/SInput';
 </script>
 
 <template>
-  <SInput name="diet" :label="$t('auth.signUp.forbiddens.fields.diet')" />
-  <SInput name="allergic" :label="$t('auth.signUp.forbiddens.fields.allergic')" />
-  <SInput name="intolerance" :label="$t('auth.signUp.forbiddens.fields.intolerance')" />
+  <SInput name="nutritRestrict" :label="$t('auth.signUp.forbiddens.fields.diet')" />
+  <SInput name="allergy" :label="$t('auth.signUp.forbiddens.fields.allergic')" />
+  <SInput name="mealIntolerance" :label="$t('auth.signUp.forbiddens.fields.intolerance')" />
 </template>
