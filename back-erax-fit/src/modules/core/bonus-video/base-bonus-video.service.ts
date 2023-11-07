@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BonusVideoEntity } from './entities/bonus-video.entity';
 import { Repository } from 'typeorm';
-import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { ConfigService } from '@nestjs/config';
 import { MainException } from '../../../exceptions/main.exception';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { UserEntity } from '../user/entities/user.entity';
 import { BaseUserService } from '../user/base-user.service';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 
 @Injectable()
 export class BaseBonusVideoService {
