@@ -36,7 +36,7 @@ if (props.readonly && props.modelValue) setValue(props.modelValue);
       label-color="bg"
       :input-class="`text-base p-0! ${$props.inputClass}`"
       :bottom-slots="false"
-      :autocomplete="autocomplete ?? name"
+      :autocomplete="autocomplete"
       :placeholder="placeholder"
       transition-all-300
       aria-autocomplete="both"
