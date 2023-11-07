@@ -16,7 +16,7 @@ export class AdminAntropometricsService {
     return await this.baseService.findOne(id);
   }
 
-  async updateCron(previousTask: string, nextTask: string, userId: UserEntity['id'], newTimeout: number) {
-    return await this.baseService.updateCron(previousTask, nextTask, userId, newTimeout);
+  async updateCron(previousTask: string, nextTask: string, userId: UserEntity['id'], day: number) {
+    return await this.baseService.updateCron(previousTask, nextTask, userId, day);
   }
 }

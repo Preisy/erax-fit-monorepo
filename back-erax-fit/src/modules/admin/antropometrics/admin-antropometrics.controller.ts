@@ -32,14 +32,14 @@ export class AdminAntropometricsController {
     return await this.adminService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch(':user-id')
   @AppResponses({ status: 200, type: AppStatusResponse })
   async updateCron(
     @Param('previousTask') previousTask: string,
     @Param('nextTask') nextTask: string,
-    @Param('id', ParseIntPipe) id: number,
-    @Param('timeout') timeout: number,
+    @Param('user-id', ParseIntPipe) userId: number,
+    @Param('timeout') day: number,
   ) {
-    return await this.adminService.updateCron(previousTask, nextTask, id, timeout);
+    return await this.adminService.updateCron(previousTask, nextTask, userId, day);
   }
 }
