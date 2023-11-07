@@ -3,52 +3,58 @@ import { AntropometricsEntity } from './entities/antropometrics.entity';
 import { Repository } from 'typeorm';
 import { CreateAntropometricsRequest } from './dto/create-antropometrics.dto';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
-import { AppPagination } from '../../../utils/app-pagination.util';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAntropometricsRequest } from './dto/update-antropometrics';
 import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { UserEntity } from '../user/entities/user.entity';
-import { GetAntropometricsRequest } from './dto/get-antropometrics.dto';
 import { Injectable } from '@nestjs/common';
-import { BaseUserService } from '../user/base-user.service';
+import { UserRole } from 'src/constants/constants';
+import { Timeout, SchedulerRegistry } from '@nestjs/schedule';
+import { AppDatePagination } from '../../../utils/app-pagination-date.util';
 
 @Injectable()
 export class BaseAntropometrcisService {
   constructor(
     @InjectRepository(AntropometricsEntity)
     private readonly antrpRepository: Repository<AntropometricsEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
-    private readonly userService: BaseUserService,
+    private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
   public readonly relations = ['user'];
 
   async create(
-    userId: UserEntity['id'],
+    user: UserEntity,
     request: CreateAntropometricsRequest,
   ): Promise<AppSingleResponse<AntropometricsEntity>> {
+    if (user.role != UserRole.Client) throw MainException.forbidden('Forbidden');
+
     const newAntrp = await this.antrpRepository.create({
       ...request,
-      userId: userId,
+      userId: user.id,
     });
-    const { data: user } = await this.userService.getUserById(userId);
-
-    if (!user.antropometrics) user.antropometrics = [];
-    user.antropometrics.push(newAntrp);
-    await this.userRepository.save(user);
 
     const savedAntrp = await this.antrpRepository.save(newAntrp);
 
     return new AppSingleResponse(savedAntrp);
   }
 
+  @Timeout('antropometricsTask', 86_400_000)
+  async saveAntropometricsToDb(userId: UserEntity['id']) {
+    const antrp = this.antrpRepository.findOne({
+      where: {
+        createdAt: new Date(),
+      },
+      relations: this.relations,
+    });
+    if (!antrp) await this.antrpRepository.save(new AntropometricsEntity());
+  }
+
   async findAll(
-    query: AppPagination.Request,
-    options?: AppPagination.GetExecutorOptions<AntropometricsEntity>,
-  ): Promise<AppPagination.Response<AntropometricsEntity>> {
-    const { getPaginatedData } = AppPagination.getExecutor(this.antrpRepository, this.relations);
+    query: AppDatePagination.Request,
+    options?: AppDatePagination.GetExecutorOptions<AntropometricsEntity>,
+  ): Promise<AppDatePagination.Response<AntropometricsEntity>> {
+    const { getPaginatedData } = AppDatePagination.getExecutor(this.antrpRepository, this.relations);
     return getPaginatedData(query, options);
   }
 
@@ -58,23 +64,9 @@ export class BaseAntropometrcisService {
       relations: this.relations,
     });
 
-    if (!antrp) throw MainException.entityNotFound(`Antropometrcis with id ${id} not found`);
+    if (!antrp) throw MainException.entityNotFound(`Antropometrics with id ${id} not found`);
 
     return new AppSingleResponse(antrp);
-  }
-
-  async findAntropometricsByDateRange(
-    userId: UserEntity['id'],
-    request: GetAntropometricsRequest,
-  ): Promise<AntropometricsEntity[]> {
-    const antrps = await this.antrpRepository
-      .createQueryBuilder('antropometrics')
-      .where('antropometrics.userId = :userId', { userId: userId })
-      .andWhere('antropometrics.createdAt >= :startDate', { startDate: request.startDate })
-      .andWhere('antropometrics.createdAt <= :endDate', { endDate: request.endDate })
-      .orderBy('antropometrics.createdAt', 'ASC')
-      .getMany();
-    return antrps;
   }
 
   async update(
@@ -88,9 +80,28 @@ export class BaseAntropometrcisService {
       ...filterUndefined(request),
     });
 
-    if (!savedAntrp) throw MainException.internalRequestError('Error upon saving antropometrics');
-
     return new AppSingleResponse(savedAntrp);
+  }
+
+  async updateCron(
+    previousTask: string,
+    nextTask: string,
+    userId: UserEntity['id'],
+    day: number,
+  ): Promise<AppStatusResponse> {
+    const timeout = this.schedulerRegistry.getTimeout(previousTask);
+    clearTimeout(timeout);
+
+    const callback = () => {
+      this.saveAntropometricsToDb(userId);
+    };
+
+    const schedule = day * 24 * 60 * 60 * 1000;
+
+    const newTimeout = setTimeout(callback, schedule);
+    this.schedulerRegistry.addTimeout(nextTask, newTimeout);
+
+    return new AppStatusResponse(true);
   }
 
   async delete(id: AntropometricsEntity['id']): Promise<AppStatusResponse> {

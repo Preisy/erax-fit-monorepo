@@ -15,26 +15,26 @@ export class AntropometricsEntity extends AppBaseEntity {
   public userId!: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public weight: number;
+  @Column({ type: 'float', nullable: true })
+  public weight?: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public waist: number;
+  @Column({ type: 'float', nullable: true })
+  public waist?: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public abdomen: number;
+  @Column({ type: 'float', nullable: true })
+  public abdomen?: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public shoulder: number;
+  @Column({ type: 'float', nullable: true })
+  public shoulder?: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public hip: number;
+  @Column({ type: 'float', nullable: true })
+  public hip?: number;
 
   @ApiProperty()
-  @Column({ type: 'float' })
-  public hipVolume: number;
+  @Column({ type: 'float', nullable: true })
+  public hipVolume?: number;
 }

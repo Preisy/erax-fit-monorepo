@@ -20,12 +20,12 @@ import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { Throttle } from '@nestjs/throttler';
 import { RequestWithUser } from '../../../modules/authentication/types/requestWithUser.type';
-import { CreateAntropometricsByClientRequest } from './dto/create-antropometrics-by-client.dto';
+import { CreateAntropometricsByClientRequest } from './dto/client-create-antropometrics.dto';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
-import { UpdateAntropometricsByClientRequest } from './dto/update-antropometrics-by-client.dto';
+import { UpdateAntropometricsByClientRequest } from './dto/client-update-antropometrics.dto';
 import { AntropometricsEntity } from '../../../modules/core/antropometrics/entities/antropometrics.entity';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
-import { AppPagination } from '../../../utils/app-pagination.util';
+import { AppDatePagination } from 'src/utils/app-pagination-date.util';
 
 @Controller('antropometrics')
 @ApiTags('Client antropometrics')
@@ -39,14 +39,13 @@ export class ClientAntropometricsController {
   @AppResponses({ status: 201, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
   async create(@Req() req: RequestWithUser, @Body() body: CreateAntropometricsByClientRequest) {
-    console.log(req.user.id);
-    return this.clientService.create(req.user.id, body);
+    return this.clientService.create(req.user, body);
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response })
-  async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
-    return await this.clientService.findAll(req.user.id, query);
+  @AppResponses({ status: 200, type: AppDatePagination.Response<AntropometricsEntity> })
+  async getAll(@Req() req: RequestWithUser, @Query() query: AppDatePagination.Request) {
+    return await this.clientService.findAll(req.user, query);
   }
 
   @Get(':id')

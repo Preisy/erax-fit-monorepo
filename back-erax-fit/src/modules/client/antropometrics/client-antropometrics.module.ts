@@ -6,14 +6,14 @@ import { ClientAntropometricsController } from './client-antropometrics.controll
 import { BaseAntropometricsModule } from '../../../modules/core/antropometrics/base-antropometrics.module';
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
 import { AuthModule } from '../../../modules/authentication/auth.module';
-import { ClientUserModule } from '../me/me.module';
+import { MeModule } from '../me/me.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserEntity, AntropometricsEntity]),
     forwardRef(() => AuthModule),
-    forwardRef(() => BaseAntropometricsModule),
-    ClientUserModule,
+    BaseAntropometricsModule,
+    MeModule,
   ],
   controllers: [ClientAntropometricsController],
   providers: [ClientAntropometricsService],

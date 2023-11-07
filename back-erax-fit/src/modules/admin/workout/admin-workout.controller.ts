@@ -7,7 +7,6 @@ import {
   Patch,
   Post,
   Query,
-  Req,
   UseFilters,
   UsePipes,
   ValidationPipe,
@@ -22,7 +21,6 @@ import { AppPagination } from 'src/utils/app-pagination.util';
 import { UserRole } from '../../../constants/constants';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RoleGuard } from '../../authentication/guards/role.guard';
-import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
 import { CreateWorkoutRequest } from '../../core/workout/dto/create-workout.dto';
 import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminWorkoutService } from './admin-workout.service';
@@ -63,7 +61,7 @@ export class AdminWorkoutController {
 
   @Delete(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppStatusResponse) })
-  async deleteOne(@Param('id') id: number, @Req() req: RequestWithUser) {
+  async deleteOne(@Param('id') id: number) {
     return await this.adminService.deleteOne(id);
   }
 }
