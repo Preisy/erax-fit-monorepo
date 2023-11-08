@@ -14,6 +14,8 @@ export default defineConfig<Theme>({
       bg: '#FFFFFF',
       primary: '#000000',
       secondary: '#FCD844',
+      accent: '#4844FC',
+      positive: '#FFFFFF',
     },
     fontSize: {
       sm: ['0.7rem', 'normal'],

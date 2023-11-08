@@ -1,32 +1,30 @@
 <script lang="ts" setup>
+import { SCenteredByChild } from 'shared/ui/SCenteredByChild';
+
 export interface WDietHeaderProps {
   pages: string[];
   modelValue: string;
 }
-const props = defineProps<WDietHeaderProps>();
+defineProps<WDietHeaderProps>();
 const emit = defineEmits<{
   (e: 'update:modelValue', newValue: string): void;
 }>();
-const currentPageIndex = computed(() => props.pages.indexOf(props.modelValue));
 const setPage = (p: string) => emit('update:modelValue', p);
 </script>
 
 <template>
-  <div grid gap-2 grid-cols="[minmax(40%,_1fr)_min-content_minmax(40%,_1fr)]">
-    <div nowrap flex justify-end gap-2 opacity-50>
-      <p v-for="page in pages.slice(0, currentPageIndex)" :key="page" @click="setPage(page)" text-right font-semibold>
-        {{ $t(`home.diet.${page}`) }}
-      </p>
-    </div>
-    <div>
-      <p nowrap font-semibold>
-        {{ $t(`home.diet.${pages[currentPageIndex]}`) }}
-      </p>
-    </div>
-    <div flex gap-2 opacity-50>
-      <p nowrap font-semibold v-for="page in pages.slice(currentPageIndex + 1)" :key="page" @click="setPage(page)">
-        {{ $t(`home.diet.${page}`) }}
-      </p>
-    </div>
-  </div>
+  <SCenteredByChild :gap="2" :model-value="modelValue">
+    <p
+      v-for="page in pages"
+      nowrap
+      font-semibold
+      :key="page"
+      :data-key="page"
+      ref="listElements"
+      @click="setPage(page)"
+      :class="{ 'opacity-50': modelValue !== page }"
+    >
+      {{ $t(`home.diet.${page}`) }}
+    </p>
+  </SCenteredByChild>
 </template>

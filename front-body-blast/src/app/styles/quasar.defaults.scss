@@ -1,5 +1,7 @@
 :root {
-  --q-bg: theme('colors.bg');
-  --q-primary: theme('colors.primary');
-  --q-secondary: theme('colors.secondary');
+  --q-bg: theme("colors.bg");
+  --q-primary: theme("colors.primary");
+  --q-secondary: theme("colors.secondary");
+  --q-accent: theme("colors.accent");
+  --q-positive: theme("colors.positive");
 }

@@ -10,6 +10,7 @@ export default {
       secondBreak: 'Перекус',
       dinner: 'Ужин',
       lunch: 'Обед',
+      category: 'Категория',
     },
   },
 };

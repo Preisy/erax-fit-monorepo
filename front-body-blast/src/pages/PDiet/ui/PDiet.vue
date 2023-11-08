@@ -88,9 +88,9 @@ const pages: (keyof typeof props)[] = ['cereals', 'vegetables', 'fruitsAndBerrie
 
 <template>
   <div class="h-full">
-    <WDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-2 />
-    <STabPanels v-model="panel" :class="{ '[&_.scroll]:overflow-visible': panel === 'nutrition' }">
-      <q-tab-panel name="nutrition">
+    <WDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-4 />
+    <STabPanels v-model="panel" keep-alive>
+      <q-tab-panel name="nutrition" overflow-hidden>
         <WDietNutrition :slides="nutrition" />
       </q-tab-panel>
       <q-tab-panel v-for="page in pages" :name="page" :key="page">

@@ -10,6 +10,7 @@ export default {
       secondBreak: 'Break',
       dinner: 'Dinner',
       lunch: 'Lunch',
+      category: 'Category',
     },
   },
 };

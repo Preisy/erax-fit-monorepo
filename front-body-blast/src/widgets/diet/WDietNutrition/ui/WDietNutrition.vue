@@ -15,14 +15,11 @@ export interface WDietNutriotionProps {
 }
 type propsKeys = keyof WDietNutriotionProps['slides'];
 const props = defineProps<WDietNutriotionProps>();
-const panels = computed(
-  (): propsKeys[] =>
-    ['breakfast', 'firstBreak', 'lunch', 'secondBreak', 'dinner'].filter((slide: propsKeys) =>
-      ['firstCategory', 'secondCategory', 'thirdCategory'].some(
-        (cat: keyof ProductsByCategories) => props.slides[slide][cat].length,
-      ),
-    ) as unknown as propsKeys[],
-);
+const panels = computed((): propsKeys[] => {
+  const sl: (keyof WDietNutriotionProps['slides'])[] = ['breakfast', 'firstBreak', 'lunch', 'secondBreak', 'dinner'];
+  const cats: (keyof ProductsByCategories)[] = ['firstCategory', 'secondCategory', 'thirdCategory'];
+  return sl.filter((slide) => cats.some((cat) => props.slides[slide][cat].length));
+});
 </script>
 
 <template>
