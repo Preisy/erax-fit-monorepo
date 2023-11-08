@@ -14,7 +14,7 @@ import { ClientNutritionService } from './client-nutrition.service';
 export class ClientNutritionController {
   constructor(private readonly clientService: ClientNutritionService) {}
 
-  @Get('workouts')
+  @Get('nutrition')
   @AppResponses({ status: 200, type: AppPagination.Response })
   @BaseAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
