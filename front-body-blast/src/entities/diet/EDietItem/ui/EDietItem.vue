@@ -1,40 +1,29 @@
 <script setup lang="ts">
+import { Diet } from 'shared/api/diet';
 import { SInput } from 'shared/ui/SInput';
-export interface Product {
-  name: string;
-  quantity?: string;
-}
-export interface ProductsByCategories {
-  firstCategory: Product[];
-  secondCategory: Product[];
-  thirdCategory: Product[];
-}
-export interface EDietItemProps extends ProductsByCategories {
-  title: string;
-}
-defineProps<EDietItemProps>();
-
+const props = defineProps<Diet.DietItem>();
+const categories: Diet.Product[][] = [[], [], []]
+  .map((it, ind) => props.mealItems.filter((it) => it.category == ind + 1))
+  .filter((it) => it.length);
 const colorsBg = ['accent', 'primary', 'secondary'];
 const colorsText = ['positive', 'positive', 'primary'];
-
-const cats: (keyof ProductsByCategories)[] = ['firstCategory', 'secondCategory', 'thirdCategory'];
 </script>
 
 <template>
   <div mx-6>
-    <h1 pt-3>{{ $t(`home.diet.${title}`) }}</h1>
-    <div grid grid-cols-2 my-4 gap-2 v-for="(category, ind) in cats" :key="category">
+    <h1 pt-3>{{ $t(`home.diet.${name}`) }}</h1>
+    <div grid grid-cols-2 my-4 gap-2 v-for="(category, ind) in categories" :key="ind">
       <SInput
-        v-for="item in $props[category]"
+        v-for="item in category"
         :model-value="item.quantity || item.name"
         :key="item.name"
-        :name="item.name"
-        :label="item.quantity ? item.name : `${$t(`home.diet.category`)} ${ind + 1}`"
+        :name="item.name || item.type"
+        :label="item.quantity ? item.type : `${$t(`home.diet.category`)} ${item.category}`"
         readonly
         centered
-        :color="colorsText[ind]"
-        :active-color="colorsText[ind]"
-        :active-bg-color="colorsBg[ind]"
+        :color="colorsText[item.category - 1]"
+        :active-color="colorsText[item.category - 1]"
+        :active-bg-color="colorsBg[item.category - 1]"
       />
     </div>
   </div>
