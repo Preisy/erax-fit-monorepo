@@ -8,7 +8,16 @@ import {
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
 } from 'entities/profile';
-import { BodyParams, Diseases, Forbiddens, Motivations, Credentials, useAuthStore } from 'shared/api/auth';
+import {
+  BodyParams,
+  Diseases,
+  Forbiddens,
+  Motivations,
+  Credentials,
+  useAuthStore,
+  TokenService,
+} from 'shared/api/auth';
+import { ENUMS } from 'shared/lib/enums';
 import { GetZodInnerType } from 'shared/lib/utils';
 import { SBtn } from 'shared/ui/SBtn';
 import { SForm, SFormProps } from 'shared/ui/SForm';
@@ -18,6 +27,7 @@ import { SStructure } from 'shared/ui/SStructure';
 
 const authStore = useAuthStore();
 const { t } = useI18n();
+const router = useRouter();
 
 type RegisterSlides = Array<{
   is: Component;
@@ -77,10 +87,14 @@ const slides: RegisterSlides = [
     is: EMotivationsSignUpForm,
     formProps: {
       fieldSchema: toTypedSchema(Motivations.validation()),
-      onSubmit: (data) => {
+      onSubmit: async (data) => {
         authStore.applyMotivations(data);
         submitBtnsExceptLast.value.forEach((btn) => btn.click());
-        authStore.signUp();
+        const tokenResponse = await authStore.signUp();
+        if (authStore.signUpState.state.isSuccess() && tokenResponse.data) {
+          TokenService.setTokens(tokenResponse.data);
+          router.push({ name: ENUMS.ROUTES_NAMES.HOME });
+        }
       },
     },
   },
@@ -102,6 +116,7 @@ const submitBtnsExceptLast = computed(() => submitBtns.value.slice(0, -1));
               ref="submitBtns"
               icon="done"
               type="submit"
+              :loading="index === slides.length - 1 ? authStore.signUpState.state.isLoading() : false"
               @click="(event) => submitForms[index].handleSubmit(slides[index].formProps.onSubmit!)(event)"
               mt-0.5rem
               self-end

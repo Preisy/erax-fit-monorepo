@@ -22,7 +22,8 @@ export namespace SignUp {
   export interface Dto extends Credentials.Dto, BodyParams.Dto, Forbiddens.Dto, Diseases.Dto, Motivations.Dto {}
 
   export interface Response {
-    message: string;
+    accessToken: string;
+    refreshToken: string;
   }
 }
 
@@ -96,11 +97,11 @@ export namespace Diseases {
 
   export const validation = () =>
     z.object({
-      gastroDeseases: z.string().min(3).max(50),
+      gastroDeseases: z.string().min(1),
       insulinResistance: z.coerce.boolean(),
-      kidneyDesease: z.string().min(3).max(50),
-      heartDesease: z.string().min(3).max(50),
-      muscleDesease: z.string().min(3).max(50),
+      kidneyDesease: z.string().min(1),
+      heartDesease: z.string().min(1),
+      muscleDesease: z.string().min(1),
     });
 }
 
@@ -113,9 +114,9 @@ export namespace Forbiddens {
   }
   export const validation = () =>
     z.object({
-      nutritRestrict: z.string().min(3).max(50),
-      allergy: z.string().min(3).max(50),
-      mealIntolerance: z.string().min(3).max(30),
+      nutritRestrict: z.string().min(1),
+      allergy: z.string().min(1),
+      mealIntolerance: z.string().min(1),
     });
 }
 
