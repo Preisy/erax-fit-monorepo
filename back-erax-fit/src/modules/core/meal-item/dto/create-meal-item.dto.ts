@@ -16,8 +16,8 @@ export class CreateMealItemRequest {
   public type: string;
 
   @IsDefined()
-  @IsNumber()
+  @IsString()
   @ApiProperty()
-  @Min(1)
-  public quantity: number;
+  @Length(1, 255)
+  public quantity: string;
 }

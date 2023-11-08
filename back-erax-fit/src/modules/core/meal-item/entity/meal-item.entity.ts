@@ -14,8 +14,8 @@ export class MealItemEntity extends AppBaseEntity {
   public type: string;
 
   @ApiProperty()
-  @Column('integer')
-  public quantity: number;
+  @Column('varchar')
+  public quantity: string;
 
   @ApiProperty({ type: () => MealEntity })
   @ManyToOne(() => MealEntity, (meal) => meal.mealItems, { onDelete: 'CASCADE' })
