@@ -3,11 +3,11 @@ import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { loginService, signUpService } from './service';
 import { TokenService } from './token';
-import { Auth, BodyParams, Diseases, Forbiddens, Motivations, Credentials, SignUp } from './types';
+import { Auth, BodyParams, Diseases, Forbiddens, Motivations, Credentials, SignUp, Refresh } from './types';
 
 export const useAuthStore = defineStore('auth-store', () => {
   const isAuth = () => !!TokenService.getAccessToken();
-  const signUpRequest = ref<Partial<SignUp.Dto>>({}); //TODO: remove partial
+  const signUpRequest = ref<Partial<SignUp.Dto>>({});
 
   const loginState = ref(useSingleState<Auth.Response>());
   const login = (data: Auth.Dto) =>
@@ -23,6 +23,13 @@ export const useAuthStore = defineStore('auth-store', () => {
       serviceAction: signUpService.signUp(data ?? signUpRequest.value),
     });
 
+  const refreshState = ref(useSingleState<Refresh.Response>());
+  const refresh = () =>
+    useSimpleStoreAction({
+      stateWrapper: refreshState.value,
+      serviceAction: loginService.refresh(),
+    });
+
   const applyCredentials = (data: Credentials.Dto) => assign(signUpRequest.value, data);
   const applyBodyParams = (data: BodyParams.Dto) => assign(signUpRequest.value, data);
   const applyForbiddens = (data: Forbiddens.Dto) => assign(signUpRequest.value, data);
@@ -33,6 +40,8 @@ export const useAuthStore = defineStore('auth-store', () => {
     isAuth,
     login,
     loginState,
+    refresh,
+    refreshState,
     signUp,
     signUpState,
     applyCredentials,

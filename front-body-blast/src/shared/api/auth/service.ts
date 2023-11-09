@@ -1,14 +1,15 @@
-import axios from 'axios';
+/* eslint-disable boundaries/element-types */
+import { api } from 'app/boot/axios';
 import { useServiceAction } from 'shared/lib/utils';
-import { Auth, SignUp } from './types';
+import { Auth, SignUp, Refresh } from './types';
 
-const authApi = axios.create({ baseURL: '/api/auth', timeout: 10000 });
+// const authApi = axios.create({ baseURL: '/api/auth', timeout: 10000 });
 
 export const loginService = {
-  login: useServiceAction((data: Auth.Dto) => authApi.post<Auth.Response>('/login', data)),
-  refresh: useServiceAction((data) => authApi.post('/refresh', data)),
+  login: useServiceAction((data: Auth.Dto) => api.post<Auth.Response>('/auth/login', data)),
+  refresh: useServiceAction(() => api.post<Refresh.Response>('/auth/refresh')),
 };
 
 export const signUpService = {
-  signUp: useServiceAction((data: Partial<SignUp.Dto>) => authApi.post<SignUp.Response>('/signup', data)),
+  signUp: useServiceAction((data: Partial<SignUp.Dto>) => api.post<SignUp.Response>('/signup', data)),
 };
