@@ -18,6 +18,11 @@ export namespace Auth {
     });
 }
 
+export namespace Refresh {
+  //accessToken: string, refreshToken: string, same as auth
+  export interface Response extends Auth.Response {}
+}
+
 export namespace SignUp {
   export interface Dto extends Credentials.Dto, BodyParams.Dto, Forbiddens.Dto, Diseases.Dto, Motivations.Dto {}
 
