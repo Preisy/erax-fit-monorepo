@@ -4,7 +4,7 @@ import InfoBlock from './InfoBlock.vue';
 import TrainingAnim from './TrainingAnim.vue';
 
 export interface ETrainingCardProps {
-  training: Training.Response;
+  training: Training.Exercise;
 }
 defineProps<ETrainingCardProps>();
 </script>
@@ -14,10 +14,10 @@ defineProps<ETrainingCardProps>();
     <div flex flex-col gap-1rem>
       <div>
         <h1>{{ training.name }}</h1>
-        <p>{{ training.commentary }}</p>
+        <p>{{ training.trainerComment }}</p>
       </div>
-      <TrainingAnim :url="training.animUrl" />
-      <InfoBlock :info="training.info" />
+      <TrainingAnim :url="training.videoLink" />
+      <InfoBlock v-bind="training" />
     </div>
   </div>
 </template>
