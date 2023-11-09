@@ -8,20 +8,18 @@ const props = defineProps<SCenteredByChildProps>();
 const offset = ref<number>(0);
 const ind = ref<number>(0);
 const Element = ref<HTMLElement>();
-const widths: number[] = [];
 
 const setOffset = (Elements: HTMLElement[]) => {
   ind.value = Elements.findIndex((element) => element.getAttribute('data-key') === props.modelValue);
   offset.value = 0;
-  for (let i = 0; i < ind.value; i++) offset.value += widths[i];
-  offset.value += widths[ind.value] / 2;
+  for (let i = 0; i < ind.value; i++) offset.value += Elements[i].offsetWidth;
+  offset.value += Elements[ind.value].offsetWidth / 2;
   return;
 };
 
 onMounted(() => {
   if (Element.value) {
     const Elements: HTMLElement[] = [].slice.call(Element.value.children);
-    widths.push(...Elements.map((i) => i.offsetWidth));
     setOffset(Elements);
   }
 });

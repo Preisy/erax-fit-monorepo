@@ -66,72 +66,10 @@ export const nutritionApi = {
     },
   ],
 };
-//   = {
-//   breakfast: {
-//     firstCategory: [
-//       { name: 'яблоко', quantity: '100гр' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     secondCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     thirdCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//   },
-//   firstBreak: {
-//     firstCategory: [],
-//     secondCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     thirdCategory: [],
-//   },
-//   lunch: {
-//     firstCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     secondCategory: [],
-//     thirdCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//   },
-//   secondBreak: {
-//     firstCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     secondCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//     thirdCategory: [],
-//   },
-//   dinner: {
-//     firstCategory: [{ name: 'string', quantity: 'string' }],
-//     secondCategory: [],
-//     thirdCategory: [
-//       { name: 'string', quantity: 'string' },
-//       { name: 'string', quantity: 'string' },
-//     ],
-//   },
-// };
 
 const getProductsApi = axios.create({ baseURL: '/api/products' });
 const getNutritionApi = axios.create({ baseURL: '/api/nutrition' });
-
-export const ProductsService = {
-  getProducts: () => requestSimulator<Diet.Product[]>(productsApi),
-  // getNutrition: useServiceAction(() => {
-  //   const response = requestSimulator<Diet.Response.Nutrition>({ message: 'Successfully logged in' });
-  //   return response;
-  // }),
-};
+export namespace ProductsService {
+  export const getProducts = useServiceAction(() => requestSimulator<Diet.Product[]>(productsApi));
+  export const getNutrition = useServiceAction(() => requestSimulator<Diet.Response.Nutrition>(nutritionApi));
+}
