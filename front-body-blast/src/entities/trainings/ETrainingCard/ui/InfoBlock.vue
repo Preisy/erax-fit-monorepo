@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { SReadonlyField } from 'shared/ui/SReadonlyField';
-import { ETrainingCardProps } from './ETrainingCard.vue';
+
 const props = defineProps<{
-  info: ETrainingCardProps['info'];
+  weight: string | number;
+  sets: string | number;
+  repetitions: string | number;
+  restTime: string | number;
+  pace: string | number;
 }>();
 
-const keys: Array<keyof typeof props.info> = ['weight', 'sets', 'repeats', 'rest', 'temp'];
+const keys: Array<keyof typeof props> = ['weight', 'sets', 'repetitions', 'restTime', 'pace'];
 </script>
 
 <template>
@@ -14,7 +18,7 @@ const keys: Array<keyof typeof props.info> = ['weight', 'sets', 'repeats', 'rest
       v-for="prop in keys"
       :key="prop"
       :title="$t(`dashboard.trainings.infoBlock.${prop}`)"
-      :value="`${info[prop]}`"
+      :value="`${$props[prop]}`"
     />
   </div>
 </template>
