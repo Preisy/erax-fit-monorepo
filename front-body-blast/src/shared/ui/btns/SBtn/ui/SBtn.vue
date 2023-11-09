@@ -11,7 +11,7 @@ defineExpose({
 </script>
 
 <template>
-  <q-btn ref="btn" v-bind="$props" ripple rounded-1rem bg-secondary p-1rem text-0 text-primary boxshadow-btn>
+  <q-btn ref="btn" v-bind="$props" ripple flat rounded-1rem bg-secondary p-1rem text-0 text-primary boxshadow-btn>
     <slot />
   </q-btn>
 </template>
