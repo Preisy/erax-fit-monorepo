@@ -104,4 +104,12 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
   public goals: string;
+
+  @ApiProperty()
+  @Column({ type: 'varchar', length: 50 })
+  public taskName: string;
+
+  @ApiProperty()
+  @Column({ type: 'integer' })
+  public taskPeriod: number;
 }

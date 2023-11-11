@@ -4,16 +4,9 @@ import { AntropometricsEntity } from '../../core/antropometrics/entities/antropo
 import { BaseAntropometrcisService } from '../../core/antropometrics/base-antropometrics.service';
 import { AuthModule } from '../../../modules/authentication/auth.module';
 import { UserEntity } from '../user/entities/user.entity';
-import { BaseUserModule } from '../user/base-user.module';
-import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([UserEntity, AntropometricsEntity]),
-    forwardRef(() => AuthModule),
-    BaseUserModule,
-    ScheduleModule,
-  ],
+  imports: [TypeOrmModule.forFeature([UserEntity, AntropometricsEntity]), forwardRef(() => AuthModule)],
   providers: [BaseAntropometrcisService],
   exports: [BaseAntropometrcisService],
 })

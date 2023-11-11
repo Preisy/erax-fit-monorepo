@@ -10,12 +10,14 @@ import { UpdateUserRequest } from './dto/update-user.dto';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { Injectable } from '@nestjs/common';
+import { AdminAntropometricsService } from '../../../modules/admin/antropometrics/admin-antropometrics.service';
 
 @Injectable()
 export class BaseUserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
+    private readonly antrpService: AdminAntropometricsService,
   ) {}
 
   async create(request: CreateUserRequest): Promise<AppSingleResponse<UserEntity>> {
@@ -63,6 +65,8 @@ export class BaseUserService {
 
   async updateUser(id: UserEntity['id'], request: UpdateUserRequest) {
     const { data: user } = await this.getUserById(id);
+
+    if (request.taskName) await this.antrpService.updateCron(user, request.taskName, request.taskPeriod!);
 
     if (request.password) request.password = await bcrypt.hash(request.password, await bcrypt.genSalt(10));
     const savedUser = await this.userRepository.save({

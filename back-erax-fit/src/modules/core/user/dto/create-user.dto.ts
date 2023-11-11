@@ -116,4 +116,15 @@ export class CreateUserRequest {
   @ApiProperty()
   @Length(1, 256)
   public goals: string;
+
+  @IsString()
+  @Length(1, 50)
+  @ApiProperty()
+  public taskName: string;
+
+  @IsNumber()
+  @Min(1)
+  @Max(14)
+  @ApiProperty()
+  public taskPeriod: number;
 }

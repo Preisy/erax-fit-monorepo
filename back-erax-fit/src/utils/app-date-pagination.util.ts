@@ -1,5 +1,5 @@
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsOptional, IsString, IsBoolean } from 'class-validator';
+import { IsDateString, IsOptional, IsBoolean } from 'class-validator';
 import { ObjectLiteral, FindManyOptions, FindOneOptions, Repository } from 'typeorm';
 import { createDerivedClass } from './create-derived-class.util';
 import { ToBoolean } from '../decorators/to-boolean.decorator';

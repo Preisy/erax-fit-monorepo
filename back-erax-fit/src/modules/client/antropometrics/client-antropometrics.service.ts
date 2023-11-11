@@ -4,13 +4,16 @@ import { CreateAntropometricsByClientRequest } from './dto/client-create-antropo
 import { UpdateAntropometricsByClientRequest } from './dto/client-update-antropometrics.dto';
 import { BaseAntropometrcisService } from '../../../modules/core/antropometrics/base-antropometrics.service';
 import { UserEntity } from '../../core/user/entities/user.entity';
-import { AppDatePagination } from 'src/utils/app-pagination-date.util';
+import { AppDatePagination } from '../../../utils/app-date-pagination.util';
+import { UserRole } from '../../../constants/constants';
+import { MainException } from '../../../exceptions/main.exception';
 
 @Injectable()
 export class ClientAntropometricsService {
   constructor(private readonly baseService: BaseAntropometrcisService) {}
 
   async create(user: UserEntity, request: CreateAntropometricsByClientRequest) {
+    if (user.role != UserRole.Client) throw MainException.forbidden('Forbidden');
     return this.baseService.create(user, request);
   }
 
