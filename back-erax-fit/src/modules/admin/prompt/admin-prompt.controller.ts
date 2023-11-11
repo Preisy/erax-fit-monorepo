@@ -25,6 +25,7 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RoleGuard } from '../../authentication/guards/role.guard';
 import { AdminPromptService } from './admin-prompt.service';
 import { GetPromptsByAdminRequest } from './dto/admin-get-prompts.dto';
+import { PromptEntity } from 'src/modules/core/prompt/entity/prompt.entity';
 
 @Controller('admin/prompts')
 @ApiTags('Prompts')
@@ -42,7 +43,7 @@ export class AdminPromptController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response })
+  @AppResponses({ status: 200, type: AppPagination.Response<PromptEntity> })
   async getAll(@Query() body: GetPromptsByAdminRequest, @Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query, body);
   }

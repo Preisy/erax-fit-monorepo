@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
-import { MealEntity } from '../../meal/entity/meal.entity';
+import { NutritionEntity } from './nutrition.entity';
 
 @Entity('meal-items')
 export class MealItemEntity extends AppBaseEntity {
@@ -17,12 +17,12 @@ export class MealItemEntity extends AppBaseEntity {
   @Column('varchar')
   public quantity: string;
 
-  @ApiProperty({ type: () => MealEntity })
-  @ManyToOne(() => MealEntity, (meal) => meal.mealItems, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'mealId' })
-  public meal!: MealEntity;
+  @ApiProperty({ type: () => NutritionEntity })
+  @ManyToOne(() => NutritionEntity, (nutrition) => nutrition.mealItems, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'nutritionId' })
+  public nutrition!: NutritionEntity;
 
   @ApiProperty()
-  @Column('integer', { name: 'mealId' })
-  public mealId!: number;
+  @Column('integer', { name: 'nutritionId' })
+  public nutritionId!: number;
 }

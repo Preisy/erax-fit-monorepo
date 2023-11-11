@@ -24,6 +24,7 @@ import { RoleGuard } from '../../authentication/guards/role.guard';
 import { AdminNutritionService } from './admin-nutrition.service';
 import { CreateNutritionByAdminRequest } from './dto/admin-create-nutrition.dto';
 import { UpdateNutritionByAdminRequest } from './dto/admin-update-nutrition.dto';
+import { NutritionEntity } from 'src/modules/core/nutrition/entity/nutrition.entity';
 
 @Controller('admin/nutrition')
 @ApiTags('Admin Nutrition')
@@ -41,7 +42,7 @@ export class AdminNutritionController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response })
+  @AppResponses({ status: 200, type: AppPagination.Response<NutritionEntity> })
   async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }

@@ -6,6 +6,7 @@ import { AppPagination } from 'src/utils/app-pagination.util';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
 import { ClientNutritionService } from './client-nutrition.service';
+import { NutritionEntity } from 'src/modules/core/nutrition/entity/nutrition.entity';
 
 @Controller()
 @ApiTags('Nutrition')
@@ -15,7 +16,7 @@ export class ClientNutritionController {
   constructor(private readonly clientService: ClientNutritionService) {}
 
   @Get('nutrition')
-  @AppResponses({ status: 200, type: AppPagination.Response })
+  @AppResponses({ status: 200, type: AppPagination.Response<NutritionEntity> })
   @BaseAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
     return await this.clientService.findAll(req.user.id, query);

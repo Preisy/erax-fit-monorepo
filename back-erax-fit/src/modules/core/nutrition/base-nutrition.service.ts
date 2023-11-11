@@ -5,9 +5,8 @@ import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { MainException } from 'src/exceptions/main.exception';
 import { AppPagination } from 'src/utils/app-pagination.util';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
-import { Repository } from 'typeorm';
-import { MealItemEntity } from '../meal-item/entity/meal-item.entity';
-import { MealEntity } from '../meal/entity/meal.entity';
+import { FindOptionsRelations, Repository } from 'typeorm';
+import { MealItemEntity } from './entity/meal-item.entity';
 import { CreateNutritionRequest } from './dto/create-nutrition.dto';
 import { UpdateNutritionRequest } from './dto/update-nutrition.dto';
 import { NutritionEntity } from './entity/nutrition.entity';
@@ -17,12 +16,10 @@ export class BaseNutritionService {
   constructor(
     @InjectRepository(NutritionEntity)
     private readonly nutritionRepository: Repository<NutritionEntity>,
-    @InjectRepository(MealEntity)
-    private readonly mealRepository: Repository<MealEntity>,
     @InjectRepository(MealItemEntity)
     private readonly mealItemRepository: Repository<MealItemEntity>,
   ) {}
-  public readonly relations = { user: true, meals: { mealItems: true } };
+  public readonly relations: FindOptionsRelations<NutritionEntity> = { user: true, mealItems: true };
 
   async create(request: CreateNutritionRequest): Promise<AppSingleResponse<NutritionEntity>> {
     const newNutrition = this.nutritionRepository.create({
@@ -58,17 +55,11 @@ export class BaseNutritionService {
 
   async update(id: NutritionEntity['id'], request: UpdateNutritionRequest) {
     const { data: nutrition } = await this.findOne(id);
-    if (request.meals) {
-      nutrition.meals.forEach(async (it) => {
-        await this.mealItemRepository.delete({
-          mealId: it.id,
-        });
-        it.mealItems = [];
-      });
-      await this.mealRepository.delete({
+    if (request.mealItems) {
+      await this.mealItemRepository.delete({
         nutritionId: id,
       });
-      nutrition.meals = [];
+      nutrition.mealItems = [];
     }
     const savedNutrition = await this.nutritionRepository.save({
       ...nutrition,

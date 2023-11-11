@@ -1,12 +1,11 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/modules/authentication/auth.module';
-import { MealItemEntity } from '../meal-item/entity/meal-item.entity';
-import { MealEntity } from '../meal/entity/meal.entity';
 import { BaseNutritionService } from './base-nutrition.service';
+import { MealItemEntity } from './entity/meal-item.entity';
 import { NutritionEntity } from './entity/nutrition.entity';
 @Module({
-  imports: [TypeOrmModule.forFeature([NutritionEntity, MealEntity, MealItemEntity]), forwardRef(() => AuthModule)],
+  imports: [TypeOrmModule.forFeature([NutritionEntity, MealItemEntity]), forwardRef(() => AuthModule)],
   exports: [BaseNutritionService],
   providers: [BaseNutritionService],
 })

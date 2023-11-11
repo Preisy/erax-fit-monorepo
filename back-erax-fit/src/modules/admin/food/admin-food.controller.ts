@@ -24,6 +24,7 @@ import { UserRole } from '../../../constants/constants';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RoleGuard } from '../../authentication/guards/role.guard';
 import { AdminFoodService } from './admin-food.service';
+import { FoodEntity } from 'src/modules/core/food/entity/food.entity';
 
 @Controller('admin/food')
 @ApiTags('Admin Food')
@@ -41,7 +42,7 @@ export class AdminFoodController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response })
+  @AppResponses({ status: 200, type: AppPagination.Response<FoodEntity> })
   async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }
