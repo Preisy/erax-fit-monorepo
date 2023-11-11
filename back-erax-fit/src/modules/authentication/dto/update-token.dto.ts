@@ -21,3 +21,13 @@ export class UpdateTokenRequest {
     this.token = token;
   }
 }
+
+export class UpdateRefreshAccess {
+  @IsString()
+  @ApiProperty()
+  public refreshToken: string;
+
+  constructor(refreshToken: string) {
+    this.refreshToken = refreshToken;
+  }
+}
