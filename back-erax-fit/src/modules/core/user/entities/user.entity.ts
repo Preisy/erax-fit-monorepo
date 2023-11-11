@@ -101,7 +101,4 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
   public goals: string;
-
-  @OneToMany(() => WorkoutEntity, (workout) => workout.user)
-  public workouts: WorkoutEntity[];
 }
