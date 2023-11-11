@@ -18,8 +18,6 @@ export class BaseWorkoutService {
   constructor(
     @InjectRepository(WorkoutEntity)
     private readonly workoutRepository: Repository<WorkoutEntity>,
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>,
     @InjectRepository(ExerciseEntity)
     private readonly exerciseRepository: Repository<ExerciseEntity>,
   ) {}
@@ -30,21 +28,10 @@ export class BaseWorkoutService {
       ...request,
       date: new Date(request.date),
     });
-    const user = await this.userRepository.findOne({
-      where: {
-        id: newWorkout.userId,
-      },
-    });
-
-    if (!user) throw MainException.entityNotFound(`User with id: ${request.userId} not found`);
-
-    if (!user.workouts) user.workouts = [];
-    user.workouts.push(newWorkout);
-    this.userRepository.save(user);
 
     const savedWorkout = await this.workoutRepository.save(newWorkout);
 
-    return new AppSingleResponse(savedWorkout);
+    return new AppSingleResponse<GetWorkoutDTO>(this.getWorkoutDTO(savedWorkout));
   }
 
   async findAll(
@@ -82,7 +69,7 @@ export class BaseWorkoutService {
     const savedWorkout = await this.workoutRepository.save({
       ...workout,
       ...filterUndefined(request),
-      date: new Date(request.date!),
+      date: new Date(request.date || workout.date),
     });
     return new AppSingleResponse<GetWorkoutDTO>(this.getWorkoutDTO(savedWorkout));
   }

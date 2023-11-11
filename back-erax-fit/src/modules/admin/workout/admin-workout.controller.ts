@@ -27,7 +27,7 @@ import { AdminWorkoutService } from './admin-workout.service';
 import { GetWorkoutByAdminDTO } from './dto/admin-get-workout.dto';
 
 @Controller('admin/workouts')
-@ApiTags('Workouts')
+@ApiTags('Admin workouts')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 @BaseAuthGuard(RoleGuard(UserRole.Admin))
