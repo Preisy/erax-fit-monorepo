@@ -20,6 +20,9 @@ export namespace Auth {
 
 export namespace Refresh {
   //accessToken: string, refreshToken: string, same as auth
+  export interface Dto {
+    refreshToken: string;
+  }
   export interface Response extends Auth.Response {}
 }
 

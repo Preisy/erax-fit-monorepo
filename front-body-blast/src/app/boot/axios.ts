@@ -36,15 +36,20 @@ api.interceptors.response.use(
   },
   async (error: AxiosError) => {
     const { refresh } = useAuthStore();
+    const refreshToken = TokenService.getRefreshToken();
 
-    if (error.response && error.response.status === 401 && RETRIES_COUNTER.value < MAX_RETRIES) {
+    if (!refreshToken) return error;
+    if (
+      error.response &&
+      (error.response.status === 401 || error.response.status === 403) &&
+      RETRIES_COUNTER.value < MAX_RETRIES
+    ) {
       RETRIES_COUNTER.value++;
-      const newAccess = await refresh();
+      const newAccess = await refresh({ refreshToken });
       console.log(`newAccess:`, newAccess);
       if (newAccess.data) {
         RETRIES_COUNTER.value = 0;
         TokenService.setTokens(newAccess.data);
-        // api(error.config);
       }
     }
     return error;

@@ -24,10 +24,10 @@ export const useAuthStore = defineStore('auth-store', () => {
     });
 
   const refreshState = ref(useSingleState<Refresh.Response>());
-  const refresh = () =>
+  const refresh = (data: Refresh.Dto) =>
     useSimpleStoreAction({
       stateWrapper: refreshState.value,
-      serviceAction: loginService.refresh(),
+      serviceAction: loginService.refresh(data),
     });
 
   const applyCredentials = (data: Credentials.Dto) => assign(signUpRequest.value, data);

@@ -7,7 +7,7 @@ import { Auth, SignUp, Refresh } from './types';
 
 export const loginService = {
   login: useServiceAction((data: Auth.Dto) => api.post<Auth.Response>('/auth/login', data)),
-  refresh: useServiceAction(() => api.post<Refresh.Response>('/auth/refresh')),
+  refresh: useServiceAction((data: Refresh.Dto) => api.post<Refresh.Response>('/auth/refresh', data)),
 };
 
 export const signUpService = {
