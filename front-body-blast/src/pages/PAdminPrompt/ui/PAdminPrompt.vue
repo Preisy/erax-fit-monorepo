@@ -4,7 +4,7 @@ import { SStructure } from 'shared/ui/SStructure';
 </script>
 
 <template>
-  <SStructure>
+  <SStructure h-full overflow-y-scroll>
     <WPromptCreation />
   </SStructure>
 </template>

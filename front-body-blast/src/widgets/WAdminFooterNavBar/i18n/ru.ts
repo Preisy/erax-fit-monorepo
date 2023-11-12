@@ -3,7 +3,7 @@ export default {
     footer: {
       links: {
         home: 'Главная',
-        prompt: 'Питание',
+        prompt: 'Промпты',
         learning: 'Обучение',
       },
     },

@@ -32,12 +32,12 @@ const links = computed<SFooterNavLinkProps[]>(() => {
       },
       {
         imgSrc: symRoundedAccountCircle,
-        title: t('dashboard.footer.links.profile'),
+        title: t('admin.footer.links.profile'),
         name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED,
       },
       {
         imgSrc: symRoundedExercise,
-        title: t('dashboard.footer.links.trainings'),
+        title: t('admin.footer.links.trainings'),
         name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {

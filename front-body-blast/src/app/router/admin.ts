@@ -2,8 +2,8 @@ import LAdminDashboardVue from 'processes/layouts/LAdminDashboard.vue';
 import { PAdminDetailed } from 'pages/PAdminDetailed';
 import { PAdminDetailedBio } from 'pages/PAdminDetailedBio';
 import { PAdminProfile } from 'pages/PAdminProfile';
+import { PAdminPrompt } from 'pages/PAdminPrompt';
 import PDiaryVue from 'pages/PDiary.vue';
-import { PProfile } from 'pages/PProfile';
 import { ENUMS } from 'shared/lib/enums';
 
 export const adminRoutes = {
@@ -19,7 +19,7 @@ export const adminRoutes = {
     {
       path: 'prompt',
       name: ENUMS.ROUTES_NAMES.ADMIN_PROMPT,
-      component: PProfile,
+      component: PAdminPrompt,
     },
     {
       path: 'learning',
