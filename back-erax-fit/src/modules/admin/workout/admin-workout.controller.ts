@@ -28,7 +28,7 @@ import { GetWorkoutByAdminDTO } from './dto/admin-get-workout.dto';
 import { WorkoutEntity } from 'src/modules/core/workout/entity/workout.entity';
 
 @Controller('admin/workouts')
-@ApiTags('Workouts')
+@ApiTags('Admin workouts')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
 @BaseAuthGuard(RoleGuard(UserRole.Admin))
