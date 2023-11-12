@@ -39,7 +39,6 @@ export class AuthController {
     return this.authService.logout(req.user.email);
   }
 
-  @AppAuthGuard()
   @Throttle(5, 1)
   @Post('refresh')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
