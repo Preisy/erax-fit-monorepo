@@ -3,8 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BonusVideoEntity } from './entities/bonus-video.entity';
 import { Repository } from 'typeorm';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
-import { ConfigService } from '@nestjs/config';
-import { MainException } from '../../../exceptions/main.exception';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { UserEntity } from '../user/entities/user.entity';
 import { BaseUserService } from '../user/base-user.service';
@@ -19,15 +17,13 @@ export class BaseBonusVideoService {
   ) {}
 
   async create(file: Express.Multer.File): Promise<AppSingleResponse<BonusVideoEntity>> {
-    const configService = new ConfigService();
     const newVideo = this.videoRepository.create({
       fileName: file.filename,
       path: file.filename,
-      fileLInk: configService.get('APP_BASE_URL') + '/' + file.filename,
+      fileLInk: process.env.APP_BASE_URL + '/' + file.filename,
     });
 
     const savedVideo = await this.videoRepository.save(newVideo);
-    if (!savedVideo) throw MainException.internalRequestError('Error upon saving file');
 
     return new AppSingleResponse(savedVideo);
   }

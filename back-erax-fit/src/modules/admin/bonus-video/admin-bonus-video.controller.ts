@@ -12,8 +12,7 @@ import {
   FileTypeValidator,
   UploadedFile,
   Param,
-  ParseIntPipe,
-  ParseBoolPipe,
+  Body,
 } from '@nestjs/common';
 import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
@@ -30,6 +29,7 @@ import { CreateVideoByAdminResponse } from './dto/admin-create-video.dto';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
+import { UpdateAccessToVideoForUserRequest } from './dto/update-user-access.dto';
 
 @Controller('admin/bonus-video')
 @ApiTags('Admin bonus video')
@@ -89,12 +89,9 @@ export class AdminBonusVideoController {
     });
   }
 
-  @Patch(':userId/:canWatch')
+  @Patch(':id')
   @AppResponses({ status: 200, type: AppStatusResponse })
-  async updateAccesstoVideoForUser(
-    @Param('userId', ParseIntPipe) id: number,
-    @Param('canWatch', ParseBoolPipe) canWatch: boolean,
-  ) {
-    return await this.adminService.updateAccessToVideoForUser(id, canWatch);
+  async updateAccesstoVideoForUser(@Body() body: UpdateAccessToVideoForUserRequest) {
+    return await this.adminService.updateAccessToVideoForUser(body.userId, body.canWatch);
   }
 }
