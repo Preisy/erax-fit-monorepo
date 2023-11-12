@@ -1,4 +1,4 @@
-import { Controller, UseFilters, UsePipes, ValidationPipe, ParseIntPipe, Patch } from '@nestjs/common';
+import { Controller, UseFilters, UsePipes, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { UserRole } from '../../../constants/constants';
 import { RoleGuard } from '../../authentication/guards/role.guard';
@@ -9,8 +9,7 @@ import { Get, Query, Param } from '@nestjs/common/decorators';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
-import { AppDatePagination } from '../../../utils/app-pagination-date.util';
-import { AppStatusResponse } from '../../../dto/app-status-response.dto';
+import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
 @Controller('admin/antropometrics')
 @ApiTags('Admin antropometrics')
@@ -30,16 +29,5 @@ export class AdminAntropometricsController {
   @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return await this.adminService.findOne(id);
-  }
-
-  @Patch(':user-id')
-  @AppResponses({ status: 200, type: AppStatusResponse })
-  async updateCron(
-    @Param('previousTask') previousTask: string,
-    @Param('nextTask') nextTask: string,
-    @Param('user-id', ParseIntPipe) userId: number,
-    @Param('timeout') day: number,
-  ) {
-    return await this.adminService.updateCron(previousTask, nextTask, userId, day);
   }
 }

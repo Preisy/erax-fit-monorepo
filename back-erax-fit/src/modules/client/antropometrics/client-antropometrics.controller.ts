@@ -25,7 +25,7 @@ import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAntropometricsByClientRequest } from './dto/client-update-antropometrics.dto';
 import { AntropometricsEntity } from '../../../modules/core/antropometrics/entities/antropometrics.entity';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
-import { AppDatePagination } from 'src/utils/app-pagination-date.util';
+import { AppDatePagination } from 'src/utils/app-date-pagination.util';
 
 @Controller('antropometrics')
 @ApiTags('Client antropometrics')

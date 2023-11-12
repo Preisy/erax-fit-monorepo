@@ -9,16 +9,13 @@ import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { UserEntity } from '../user/entities/user.entity';
 import { Injectable } from '@nestjs/common';
-import { UserRole } from 'src/constants/constants';
-import { Timeout, SchedulerRegistry } from '@nestjs/schedule';
-import { AppDatePagination } from '../../../utils/app-pagination-date.util';
+import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
 @Injectable()
 export class BaseAntropometrcisService {
   constructor(
     @InjectRepository(AntropometricsEntity)
     private readonly antrpRepository: Repository<AntropometricsEntity>,
-    private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
   public readonly relations = ['user'];
@@ -27,8 +24,6 @@ export class BaseAntropometrcisService {
     user: UserEntity,
     request: CreateAntropometricsRequest,
   ): Promise<AppSingleResponse<AntropometricsEntity>> {
-    if (user.role != UserRole.Client) throw MainException.forbidden('Forbidden');
-
     const newAntrp = await this.antrpRepository.create({
       ...request,
       userId: user.id,
@@ -37,17 +32,6 @@ export class BaseAntropometrcisService {
     const savedAntrp = await this.antrpRepository.save(newAntrp);
 
     return new AppSingleResponse(savedAntrp);
-  }
-
-  @Timeout('antropometricsTask', 86_400_000)
-  async saveAntropometricsToDb(userId: UserEntity['id']) {
-    const antrp = this.antrpRepository.findOne({
-      where: {
-        createdAt: new Date(),
-      },
-      relations: this.relations,
-    });
-    if (!antrp) await this.antrpRepository.save(new AntropometricsEntity());
   }
 
   async findAll(
@@ -81,27 +65,6 @@ export class BaseAntropometrcisService {
     });
 
     return new AppSingleResponse(savedAntrp);
-  }
-
-  async updateCron(
-    previousTask: string,
-    nextTask: string,
-    userId: UserEntity['id'],
-    day: number,
-  ): Promise<AppStatusResponse> {
-    const timeout = this.schedulerRegistry.getTimeout(previousTask);
-    clearTimeout(timeout);
-
-    const callback = () => {
-      this.saveAntropometricsToDb(userId);
-    };
-
-    const schedule = day * 24 * 60 * 60 * 1000;
-
-    const newTimeout = setTimeout(callback, schedule);
-    this.schedulerRegistry.addTimeout(nextTask, newTimeout);
-
-    return new AppStatusResponse(true);
   }
 
   async delete(id: AntropometricsEntity['id']): Promise<AppStatusResponse> {

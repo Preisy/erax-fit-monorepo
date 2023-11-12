@@ -67,13 +67,15 @@ export class CreateUserRequest {
   @Max(600)
   public weightInYouth: number;
 
-  @IsBoolean()
+  @IsString()
   @ApiProperty()
-  public nutritRestrict: boolean;
+  @Length(1, 256)
+  public nutritRestrict: string;
 
-  @IsBoolean()
+  @IsString()
   @ApiProperty()
-  public allergy: boolean;
+  @Length(1, 256)
+  public allergy: string;
 
   @IsString()
   @ApiProperty()
@@ -94,18 +96,20 @@ export class CreateUserRequest {
   @Length(1, 256)
   public kidneyDesease: string;
 
-  @IsBoolean()
+  @IsString()
   @ApiProperty()
-  public heartDesease: boolean;
+  @Length(1, 256)
+  public heartDesease: string;
 
   @IsString()
   @ApiProperty()
   @Length(1, 256)
   public muscleDesease: string;
 
-  @IsBoolean()
+  @IsString()
   @ApiProperty()
-  public loadRestrictions: boolean;
+  @Length(1, 256)
+  public loadRestrictions: string;
 
   @IsString()
   @ApiProperty()
@@ -120,4 +124,15 @@ export class CreateUserRequest {
   @IsBoolean()
   @ApiProperty()
   public canWatchVideo: boolean;
+
+  @IsString()
+  @Length(1, 50)
+  @ApiProperty()
+  public taskName: string;
+
+  @IsNumber()
+  @Min(1)
+  @Max(14)
+  @ApiProperty()
+  public taskPeriod: number;
 }
