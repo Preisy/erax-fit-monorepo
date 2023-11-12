@@ -99,7 +99,7 @@ const onFirst = () => {
 </script>
 
 <template>
-  <SStructure>
+  <SStructure h-full>
     <SWithHeaderLayout>
       <template #header>
         <WAdminClientCard

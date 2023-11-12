@@ -5,6 +5,8 @@ export default {
         home: 'Home',
         prompt: 'Prompt',
         learning: 'Learning',
+        profile: 'Profile',
+        trainings: 'Trainings',
       },
     },
   },

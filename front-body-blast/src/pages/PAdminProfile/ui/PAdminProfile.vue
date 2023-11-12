@@ -40,18 +40,6 @@ const cards = computed(() => {
             :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED, params: { id: user.id } }"
           />
         </div>
-
-        <!-- TODO: remove this progres, create some from design -->
-        <div flex justify-center>
-          <q-circular-progress
-            size="50px"
-            color="lime"
-            class="q-ma-md"
-            indeterminate
-            rounded
-            v-if="clientProfiles.state.isLoading()"
-          />
-        </div>
       </template>
     </SWithHeaderLayout>
   </SStructure>

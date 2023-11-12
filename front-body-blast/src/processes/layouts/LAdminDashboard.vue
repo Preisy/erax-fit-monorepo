@@ -7,7 +7,7 @@ const isHidden = computed(() => useRoute().name === ENUMS.ROUTES_NAMES.ADMIN_DET
 </script>
 
 <template>
-  <LDashboard overflow-y-scroll>
+  <LDashboard>
     <template #footer>
       <WAdminFooterNavBar v-if="!isHidden" />
     </template>

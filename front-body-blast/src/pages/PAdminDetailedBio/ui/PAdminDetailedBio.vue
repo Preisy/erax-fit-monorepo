@@ -11,6 +11,7 @@ import { BodyParams, Diseases, Forbiddens, Motivations } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 import { SBtn } from 'shared/ui/btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
+import { SProxyScroll } from 'shared/ui/SProxyScroll';
 import { SStructure } from 'shared/ui/SStructure';
 
 const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; values: Record<string, unknown> }> = [
@@ -56,12 +57,14 @@ const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; value
 </script>
 
 <template>
-  <SStructure py-1rem>
-    <SBtn :icon="symRoundedClose" ml-0.5rem :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED }" />
-    <div v-for="form in forms" :key="form.is.name" mt-1rem>
-      <SForm :readonly="true" :field-schema="form.form.fieldSchema" :init-values="form.values">
-        <component :is="form.is" />
-      </SForm>
-    </div>
+  <SStructure h-full py-1rem>
+    <SProxyScroll>
+      <SBtn :icon="symRoundedClose" ml-0.5rem :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED }" />
+      <div v-for="form in forms" :key="form.is.name" mt-1rem>
+        <SForm :readonly="true" :field-schema="form.form.fieldSchema" :init-values="form.values">
+          <component :is="form.is" />
+        </SForm>
+      </div>
+    </SProxyScroll>
   </SStructure>
 </template>

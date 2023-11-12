@@ -17,12 +17,7 @@ defineProps<EAthropometricsItemProps>();
 </script>
 
 <template>
-  <SForm
-    :readonly="readonly"
-    :action="() => {}"
-    :field-schema="schema"
-    class="[&_.s-form-inputs]:(grid grid-cols-2 mt-8 gap-2)"
-  >
+  <SForm :readonly="readonly" :field-schema="schema" class="[&_.s-form-inputs]:(grid grid-cols-2 mt-8 gap-2)">
     <SInput
       v-for="field of fields"
       :key="field"
