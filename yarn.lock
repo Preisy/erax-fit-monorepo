@@ -902,10 +902,6 @@
   version "10.2.8"
   resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-10.2.8.tgz#9bf0a05770b5afacf85aaf4abd99caa2284c3dd5"
   integrity sha512-9Kj5IQhM67/nj/MT6Wi2OmWr5YQnCMptwKVFrX1TDaikpY12196v7frk0jVjdT7wms7rV07GZle9I2z0aSjqtQ==
-"@nestjs/testing@^10.2.6":
-  version "10.2.8"
-  resolved "https://registry.yarnpkg.com/@nestjs/testing/-/testing-10.2.8.tgz#9bf0a05770b5afacf85aaf4abd99caa2284c3dd5"
-  integrity sha512-9Kj5IQhM67/nj/MT6Wi2OmWr5YQnCMptwKVFrX1TDaikpY12196v7frk0jVjdT7wms7rV07GZle9I2z0aSjqtQ==
   dependencies:
     tslib "2.6.2"
 
@@ -3405,15 +3401,6 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     path-key "^3.1.0"
     shebang-command "^2.0.0"
     which "^2.0.1"
-
-cross-spawn@^5.0.1:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-5.1.0.tgz#e8bd0efee58fcff6f8f94510a0a554bbfa235449"
-  integrity sha512-pTgQJ5KC0d2hcY8eyL1IzlBPYjTkyH72XRZPnLyKus2mBfNjQs3klqbJU2VILqZryAZUt9JOb3h/mWMy23/f5A==
-  dependencies:
-    lru-cache "^4.0.1"
-    shebang-command "^1.2.0"
-    which "^1.2.9"
 
 crypt@0.0.2:
   version "0.0.2"

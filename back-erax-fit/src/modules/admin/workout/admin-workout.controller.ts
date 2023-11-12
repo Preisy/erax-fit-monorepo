@@ -25,6 +25,8 @@ import { CreateWorkoutRequest } from '../../core/workout/dto/create-workout.dto'
 import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminWorkoutService } from './admin-workout.service';
 import { GetWorkoutByAdminDTO } from './dto/admin-get-workout.dto';
+import { UpdateWorkoutByAdminRequest } from './dto/admin-update-workout.dto';
+import { CreateWorkoutByAdminRequest } from './dto/admin-create-wrokout.dto';
 
 @Controller('admin/workouts')
 @ApiTags('Admin workouts')
@@ -37,7 +39,7 @@ export class AdminWorkoutController {
   @Post()
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
   @Throttle(5, 1)
-  async create(@Body() request: CreateWorkoutRequest) {
+  async create(@Body() request: CreateWorkoutByAdminRequest) {
     return await this.adminService.create(request);
   }
 
@@ -55,7 +57,7 @@ export class AdminWorkoutController {
 
   @Patch(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AppSingleResponse) })
-  async update(@Param('id') id: number, @Body() body: UpdateWorkoutRequest) {
+  async update(@Param('id') id: number, @Body() body: UpdateWorkoutByAdminRequest) {
     return await this.adminService.update(id, body);
   }
 

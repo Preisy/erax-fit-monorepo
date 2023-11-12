@@ -14,6 +14,7 @@ import { ClientAntropometricsModule } from './modules/client/antropometrics/clie
 import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { AdminDiaryTemplateModule } from './modules/admin/diary-template/admin-diary-template.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     ClientAntropometricsModule,
     AdminAntropometricsModule,
     AdminPromptModule,
+    AdminDiaryTemplateModule,
   ],
   controllers: [AppController],
   providers: [AppService],
