@@ -5,6 +5,7 @@ import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
 import { useLoading } from 'shared/lib/loading';
 import { SBtn } from 'shared/ui/btns';
+import { SNoResultsScreen } from 'shared/ui/SNoResultsScreen';
 import { SStructure } from 'shared/ui/SStructure';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
@@ -73,6 +74,8 @@ const logout = () => {
             </template>
           </EUnitedProfileCard>
         </div>
+
+        <SNoResultsScreen v-else />
       </template>
     </SWithHeaderLayout>
   </SStructure>
