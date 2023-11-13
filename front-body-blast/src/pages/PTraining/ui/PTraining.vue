@@ -1,7 +1,5 @@
-<!-- eslint-disable @typescript-eslint/no-unused-vars -->
-<!-- eslint-disable import/no-unresolved -->
 <script setup lang="ts">
-import { FAdditionCard } from 'features/trainings/FAdditionCard';
+import { WAdditionCard } from 'widgets/WAdditionCard';
 import { ETrainingCard } from 'entities/trainings/ETrainingCard';
 import { useTrainingStore } from 'shared/api/training';
 import { SSplide } from 'shared/ui/SSplide';
@@ -21,7 +19,7 @@ trainingStore.getTrainingsByDate();
         <ETrainingCard :training="training" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
-        <FAdditionCard py-1.5rem />
+        <WAdditionCard py-1.5rem />
       </SSplideSlide>
     </SSplide>
   </SStructure>
