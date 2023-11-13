@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { Component } from 'vue';
-import { WAdminClientCard } from 'widgets/profile/WAdminClientCard';
 import { WAthropometricsSlide } from 'widgets/profile/WAthropometrics';
 import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
+import { EUnitedProfileCard } from 'entities/profile/EUnitedProfileCard';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
-import { SBtnToggle } from 'shared/ui/btns';
+import { SBtn, SBtnToggle } from 'shared/ui/btns';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
 import { SStructure } from 'shared/ui/SStructure';
@@ -102,15 +102,22 @@ const onFirst = () => {
   <SStructure h-full>
     <SWithHeaderLayout>
       <template #header>
-        <WAdminClientCard
-          :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO }"
-          :name="me?.name"
-          :is-open="true"
+        <EUnitedProfileCard
+          v-bind="$props"
+          :header="me?.name"
+          :describe="$t('home.profile.header.student')"
           dark
           mx--0.5rem
           px-2rem
           pt-4rem
-        />
+        >
+          <template #action>
+            <div flex flex-row justify-between>
+              <SBtn icon="sym_r_help" bg="bg!" :to="{ name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO }" />
+              <SBtn icon="sym_r_delete" />
+            </div>
+          </template>
+        </EUnitedProfileCard>
       </template>
       <template #body>
         <SComponentWrapper py-1.5rem>

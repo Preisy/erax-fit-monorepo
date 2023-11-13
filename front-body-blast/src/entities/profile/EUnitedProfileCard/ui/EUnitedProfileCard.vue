@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { SBtn } from 'shared/ui/btns';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 
 export interface EUnitedProfileCardProps {
@@ -18,10 +17,6 @@ defineProps<EUnitedProfileCardProps>();
     </div>
     <div>
       <slot name="action" />
-      <div v-if="!$slots.action" flex justify-between>
-        <SBtn icon="sym_r_edit" bg="bg!" />
-        <SBtn icon="sym_r_logout" />
-      </div>
     </div>
   </SComponentWrapper>
 </template>
