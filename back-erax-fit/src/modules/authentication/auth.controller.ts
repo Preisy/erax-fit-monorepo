@@ -1,4 +1,4 @@
-﻿import { Body, Controller, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
+﻿import { Body, Controller, Param, ParseIntPipe, Post, Req, UseFilters, UsePipes } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AppResponses } from '../../decorators/app-responses.decorator';
 import { AuthRequest, AuthResponse, LoginRequest } from './dto/auth.dto';
@@ -41,9 +41,9 @@ export class AuthController {
   }
 
   @Throttle(5, 1)
-  @Post('refresh')
+  @Post(':id/refresh')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
-  async refreshTokens(@Req() req: RequestWithUser, @Body() body: UpdateRefreshAccess) {
-    return this.authService.refreshTokens(req.user.id, body.refreshToken);
+  async refreshTokens(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateRefreshAccess) {
+    return this.authService.refreshTokens(id, body.refreshToken);
   }
 }
