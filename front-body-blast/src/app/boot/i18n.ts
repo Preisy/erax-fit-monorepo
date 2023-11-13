@@ -12,7 +12,7 @@ import { TEProfileCardI18n } from 'entities/profile/EUnitedProfileCard';
 import { TClientFormsI18n } from 'entities/profile/form';
 import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
 import { mergeI18n } from 'shared/lib/i18utils';
-import { TSNoResultsScreenI18n } from 'shared/ui/SNoResultsScreen/i18n';
+import { TSNoResultsScreenI18n } from 'shared/ui/SNoResultsScreen';
 
 export default boot(({ app }) => {
   const i18n = createI18n({

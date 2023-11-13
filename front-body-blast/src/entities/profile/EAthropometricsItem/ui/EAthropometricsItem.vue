@@ -9,11 +9,11 @@ export interface EAthropometricsItemProps {
   readonly: boolean;
   profile: Profile.Athropometrics;
 }
-
 const schema = toTypedSchema(Profile.validation());
 const fields: (keyof Profile.Athropometrics)[] = ['weight', 'waist', 'underbelly', 'shoulder', 'hip', 'hipVolume'];
 
-defineProps<EAthropometricsItemProps>();
+const props = defineProps<EAthropometricsItemProps>();
+watch(props.profile, (v) => console.log(v));
 </script>
 
 <template>
