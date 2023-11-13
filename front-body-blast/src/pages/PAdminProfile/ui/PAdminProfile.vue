@@ -3,6 +3,7 @@ import { FSearchPanel } from 'features/FSearchPanel';
 import { EUnitedProfileCard } from 'entities/profile/EUnitedProfileCard';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
+import { useLoading } from 'shared/lib/loading';
 import { SBtn } from 'shared/ui/btns';
 import { SStructure } from 'shared/ui/SStructure';
 import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
@@ -11,8 +12,9 @@ export interface PAdminProfileProps {}
 defineProps<PAdminProfileProps>();
 
 const profileStore = useAdminProfileStore();
-profileStore.getUserProfiles();
 const { clientProfiles } = profileStore;
+useLoading(clientProfiles);
+profileStore.getUserProfiles();
 
 const nameFilter = ref<string>('');
 const cards = computed(() => {

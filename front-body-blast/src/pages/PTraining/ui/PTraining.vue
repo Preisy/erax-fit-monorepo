@@ -2,13 +2,14 @@
 import { WAdditionCard } from 'widgets/WAdditionCard';
 import { ETrainingCard } from 'entities/trainings/ETrainingCard';
 import { useTrainingStore } from 'shared/api/training';
+import { useLoading } from 'shared/lib/loading';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 
 const trainingStore = useTrainingStore();
 const trainings = computed(() => trainingStore.trainings);
-
+useLoading(trainings.value);
 trainingStore.getTrainingsByDate();
 </script>
 

@@ -6,6 +6,7 @@ import { EAthropometricsItem } from 'entities/profile/EAthropometricsItem';
 import { EUnitedProfileCard } from 'entities/profile/EUnitedProfileCard';
 import { useAdminProfileStore } from 'shared/api/admin';
 import { ENUMS } from 'shared/lib/enums';
+import { useLoading } from 'shared/lib/loading';
 import { SBtn, SBtnToggle } from 'shared/ui/btns';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SPaginationSlider } from 'shared/ui/SPaginationSlider';
@@ -14,6 +15,7 @@ import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 
 const id = parseInt(useRoute().params.id as string);
 const profileStore = useAdminProfileStore();
+useLoading(profileStore.clientProfiles);
 if (!profileStore.clientProfiles.state.isSuccess()) profileStore.getUserProfiles();
 const me = computed(() => profileStore.clientProfiles.data?.data.at(id) ?? { name: 'Loading...' });
 
