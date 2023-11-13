@@ -17,12 +17,12 @@ useLoading(clientProfiles);
 profileStore.getUserProfiles();
 
 const nameFilter = ref<string>('');
-const cards = computed(() => {
-  let _cards = clientProfiles.data?.data;
-  if (nameFilter.value && _cards)
-    _cards = _cards.filter((card) => card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()));
-  return _cards;
-});
+const cards = computed(
+  () =>
+    clientProfiles.data?.data.filter((card) =>
+      card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()),
+    ),
+);
 
 const edit = () => {
   console.log('onedit click');
