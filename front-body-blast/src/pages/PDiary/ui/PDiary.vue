@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { date } from 'quasar';
-import { WAthropometrics } from 'widgets/profile/WAthropometrics';
+import { WSelfControl } from 'widgets/diary/WSelfControl';
 import { EDiaryHeader } from 'entities/diary/EDiaryHeader';
 const today = date.formatDate(Date.now(), 'YYYY/MM/DD');
 const props = [
@@ -25,6 +25,6 @@ const props = [
 <template>
   <div h-full>
     <EDiaryHeader week="05-23" :goal="50000" :done="5000" />
-    <WAthropometrics :slides="props" />
+    <WSelfControl :slides="props" />
   </div>
 </template>

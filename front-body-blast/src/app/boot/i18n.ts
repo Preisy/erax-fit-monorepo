@@ -2,7 +2,9 @@ import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TTrainingAdditionBlockI18n } from 'features/trainings/FAdditionCard';
+import { TEDiaryActivityI18n } from 'entities/diary/EDiaryActivity';
 import { TEDiaryHeaderI18n } from 'entities/diary/EDiaryHeader';
+import { TEDiarySelfControlItemI18n } from 'entities/diary/EDiarySelfControlItem';
 import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
 import { TClientFormsI18n } from 'entities/profile/form';
@@ -21,6 +23,8 @@ export default boot(({ app }) => {
       TEProfileHeaderI18n,
       TEAthropometricsItemI18n,
       TEDiaryHeaderI18n,
+      TEDiaryActivityI18n,
+      TEDiarySelfControlItemI18n,
     ),
     fallbackLocale: 'ru-RU',
   });
