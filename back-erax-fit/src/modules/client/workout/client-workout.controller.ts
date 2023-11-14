@@ -16,7 +16,7 @@ export class ClientWorkoutController {
   constructor(private readonly clientService: ClientWorkoutService) {}
 
   @Get('workouts')
-  @AppResponses({ status: 200, type: AppPagination.Response<WorkoutEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(WorkoutEntity) })
   @BaseAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
     return await this.clientService.findAll(req.user.id, query);

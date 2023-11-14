@@ -16,7 +16,7 @@ export class ClientNutritionController {
   constructor(private readonly clientService: ClientNutritionService) {}
 
   @Get('nutrition')
-  @AppResponses({ status: 200, type: AppPagination.Response<NutritionEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(NutritionEntity) })
   @BaseAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
     return await this.clientService.findAll(req.user.id, query);

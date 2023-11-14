@@ -15,7 +15,7 @@ export class ClientFoodController {
   constructor(private readonly clientService: ClientFoodService) {}
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<FoodEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(FoodEntity) })
   @BaseAuthGuard()
   async getAll(@Query() query: AppPagination.Request) {
     return await this.clientService.findAll(query);

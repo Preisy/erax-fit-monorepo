@@ -43,7 +43,7 @@ export class AdminPromptController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<PromptEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(PromptEntity) })
   async getAll(@Query() body: GetPromptsByAdminRequest, @Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query, body);
   }

@@ -42,7 +42,7 @@ export class AdminNutritionController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<NutritionEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(NutritionEntity) })
   async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }

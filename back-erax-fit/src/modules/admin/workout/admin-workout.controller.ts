@@ -43,7 +43,7 @@ export class AdminWorkoutController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<WorkoutEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(WorkoutEntity) })
   async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }

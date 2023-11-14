@@ -74,7 +74,7 @@ export class AdminFileController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<FileEntity> })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(FileEntity) })
   @BaseAuthGuard(RoleGuard(UserRole.Admin))
   async getUsers(@Query() query: AppPagination.Request) {
     return await this.adminfilesService.findAll(query);
