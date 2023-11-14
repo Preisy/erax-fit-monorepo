@@ -38,7 +38,7 @@ export class BaseSelfControlService {
       const { data: workout } = await this.workoutService.findOneByDate(newDate);
       newSelfControl.behavior = `Цикл ${workout.loop}`;
     } catch (e) {
-      newSelfControl.behavior = `Отдых`;
+      newSelfControl.behavior = 'Отдых';
     }
     const savedSelfControl = await this.selfControlRepository.save(newSelfControl);
 
