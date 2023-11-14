@@ -37,7 +37,7 @@ export class BaseDiaryTemplateService {
       const savedTemplate = await this.diaryTemlpateRepository.save(newTemplate);
       return new AppSingleResponse(savedTemplate);
     }
-    throw MainException.conflict(`User already has template`);
+    throw MainException.conflict('User already has template');
   }
 
   async findOne(id: DiaryTemplateEntity['id']) {

@@ -21,12 +21,10 @@ import { AppPagination } from 'src/utils/app-pagination.util';
 import { UserRole } from '../../../constants/constants';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RoleGuard } from '../../authentication/guards/role.guard';
-import { CreateWorkoutRequest } from '../../core/workout/dto/create-workout.dto';
-import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminWorkoutService } from './admin-workout.service';
+import { CreateWorkoutByAdminRequest } from './dto/admin-create-wrokout.dto';
 import { GetWorkoutByAdminDTO } from './dto/admin-get-workout.dto';
 import { UpdateWorkoutByAdminRequest } from './dto/admin-update-workout.dto';
-import { CreateWorkoutByAdminRequest } from './dto/admin-create-wrokout.dto';
 
 @Controller('admin/workouts')
 @ApiTags('Admin workouts')

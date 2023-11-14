@@ -112,4 +112,8 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'integer' })
   public taskPeriod: number;
+
+  @ApiProperty()
+  @Column({ type: 'integer' })
+  public stepsGoal: number;
 }

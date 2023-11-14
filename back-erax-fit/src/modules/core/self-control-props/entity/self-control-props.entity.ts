@@ -7,7 +7,7 @@ import { DiaryTemplateEntity } from '../../diary-template/entity/diary-template.
 export class SelfControlPropsEntity extends AppBaseEntity {
   @ApiProperty()
   @Column()
-  public name: string;
+  public label: string;
 
   @ApiProperty()
   @Column({ nullable: true })

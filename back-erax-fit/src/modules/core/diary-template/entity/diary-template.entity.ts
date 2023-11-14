@@ -6,10 +6,6 @@ import { SelfControlPropsEntity } from '../../self-control-props/entity/self-con
 
 @Entity('diary-templates')
 export class DiaryTemplateEntity extends AppBaseEntity {
-  @ApiProperty()
-  @Column()
-  public stepsGoal: number;
-
   @ApiProperty({ type: () => UserEntity })
   @OneToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'userId' })

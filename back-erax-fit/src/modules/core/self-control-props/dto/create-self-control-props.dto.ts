@@ -6,5 +6,5 @@ export class CreateSelfControlPropsRequest {
   @IsString()
   @ApiProperty()
   @Length(1, 255)
-  public name: string;
+  public label: string;
 }
