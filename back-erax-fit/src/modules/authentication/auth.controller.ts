@@ -10,6 +10,7 @@ import { Throttle } from '@nestjs/throttler';
 import { AppSingleResponse } from '../../dto/app-single-response.dto';
 import { AppStatusResponse } from '../../dto/app-status-response.dto';
 import { AuthService } from './auth.service';
+import { UpdateRefreshAccess } from './dto/update-token.dto';
 
 @Controller('auth')
 @ApiTags('Authentication')
@@ -39,11 +40,10 @@ export class AuthController {
     return this.authService.logout(req.user.email);
   }
 
-  @AppAuthGuard()
   @Throttle(5, 1)
   @Post('refresh')
   @AppResponses({ status: 200, type: AppSingleResponse.type(AuthResponse) })
-  async refreshTokens(@Body() req: RequestWithUser) {
-    return this.authService.refreshTokens(req.user.id, req.user.token!.refreshHash);
+  async refreshTokens(@Req() req: RequestWithUser, @Body() body: UpdateRefreshAccess) {
+    return this.authService.refreshTokens(req.user.id, body.refreshToken);
   }
 }
