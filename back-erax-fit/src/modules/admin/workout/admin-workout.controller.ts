@@ -25,6 +25,7 @@ import { CreateWorkoutRequest } from '../../core/workout/dto/create-workout.dto'
 import { UpdateWorkoutRequest } from '../../core/workout/dto/update-workout.dto';
 import { AdminWorkoutService } from './admin-workout.service';
 import { GetWorkoutByAdminDTO } from './dto/admin-get-workout.dto';
+import { WorkoutEntity } from 'src/modules/core/workout/entity/workout.entity';
 
 @Controller('admin/workouts')
 @ApiTags('Admin workouts')
@@ -42,7 +43,7 @@ export class AdminWorkoutController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response })
+  @AppResponses({ status: 200, type: AppPagination.Response.type(WorkoutEntity) })
   async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }
