@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosInstance, CreateAxiosDefaults } from 'axios';
 import { boot } from 'quasar/wrappers';
 import { TokenService, useAuthStore } from 'shared/api/auth';
+import { localMeService, useMeStore } from 'shared/api/me';
 
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
@@ -31,22 +32,33 @@ api.interceptors.request.use((value) => {
 //refresh request if 'accessToken' is outdated/lost
 api.interceptors.response.use(
   (value) => {
+    // if request was succesful -> return value + flush retry counter
     RETRIES_COUNTER.value = 0;
     return value;
   },
   async (error: AxiosError) => {
+    // if request fails
+    // Take refresh fn
     const { refresh } = useAuthStore();
+    // Take 'me' user data
+    // TODO: security + personal data issue?
+    const me = useMeStore().me.data?.data ?? localMeService.getMe();
     const refreshToken = TokenService.getRefreshToken();
 
-    if (!refreshToken) return error;
+    // If no token or personal data -> return error
+    if (!refreshToken || !me) return error;
+    // if auth(401, 403) error -> try to refresh access token for N times
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403) &&
       RETRIES_COUNTER.value < MAX_RETRIES
     ) {
-      RETRIES_COUNTER.value++;
-      const newAccess = await refresh({ refreshToken });
-      console.log(`newAccess:`, newAccess);
+      RETRIES_COUNTER.value++; // for each retry increse counter
+
+      // request to refresh
+      const newAccess = await refresh({ refreshToken }, me.id);
+
+      // if successfully refreshed -> flush counter + save new tokens
       if (newAccess.data) {
         RETRIES_COUNTER.value = 0;
         TokenService.setTokens(newAccess.data);
