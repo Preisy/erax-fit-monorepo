@@ -5,18 +5,18 @@ import { BaseAuthGuard } from 'src/modules/authentication/guards/baseAuth.guard'
 import { AppPagination } from 'src/utils/app-pagination.util';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
-import { ClientWorkoutService } from './client-workout.service';
-import { WorkoutEntity } from 'src/modules/core/workout/entity/workout.entity';
+import { ClientNutritionService } from './client-nutrition.service';
+import { NutritionEntity } from 'src/modules/core/nutrition/entity/nutrition.entity';
 
 @Controller()
-@ApiTags('Workouts')
+@ApiTags('Nutrition')
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
-export class ClientWorkoutController {
-  constructor(private readonly clientService: ClientWorkoutService) {}
+export class ClientNutritionController {
+  constructor(private readonly clientService: ClientNutritionService) {}
 
-  @Get('workouts')
-  @AppResponses({ status: 200, type: AppPagination.Response.type(WorkoutEntity) })
+  @Get('nutrition')
+  @AppResponses({ status: 200, type: AppPagination.Response.type(NutritionEntity) })
   @BaseAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
     return await this.clientService.findAll(req.user.id, query);
