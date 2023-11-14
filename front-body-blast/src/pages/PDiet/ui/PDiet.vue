@@ -1,13 +1,15 @@
 <script setup lang="ts">
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { QTabPanel } from 'quasar';
-import { WDietHeader } from 'widgets/diet/WDietHeader';
+import { useI18n } from 'vue-i18n';
 import { WDietNutrition } from 'widgets/diet/WDietNutrition';
 import { EDietItem } from 'entities/diet/EDietItem';
 import { useDietStore, Diet } from 'shared/api/diet';
+import { SCenteredNav } from 'shared/ui/SCenteredNav';
 import { STabPanels } from 'shared/ui/STabPanels';
-const panel = ref('nutrition');
 
+const panel = ref('nutrition');
+const { t } = useI18n();
 const dietStore = useDietStore();
 const products = computed(
   () =>
@@ -23,12 +25,12 @@ const nutrition = computed(() => dietStore.nutrition.data);
 dietStore.getProducts();
 dietStore.getNutrition();
 
-const pages = computed(() => products.value?.map((it) => it.name) || []);
+const pages = computed(() => products.value?.map((it) => ({ value: it.name, label: t(`home.diet.${it.name}`) })) || []);
 </script>
 
 <template>
   <div class="h-full">
-    <WDietHeader v-model="panel" :pages="['nutrition', ...pages]" pt-4 />
+    <SCenteredNav v-model="panel" :pages="[{ value: 'nutrition', label: $t(`home.diet.nutrition`) }, ...pages]" pt-4 />
 
     <STabPanels v-model="panel" keep-alive>
       <q-tab-panel name="nutrition" overflow-hidden>

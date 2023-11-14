@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { SCenteredByChild } from 'shared/ui/SCenteredByChild';
 
-export interface WDietHeaderProps {
-  pages: string[];
+export interface SCenteredNavProps {
+  pages: { value: string; label: string }[];
   modelValue: string;
 }
-defineProps<WDietHeaderProps>();
+defineProps<SCenteredNavProps>();
 const emit = defineEmits<{
   (e: 'update:modelValue', newValue: string): void;
 }>();
@@ -18,13 +18,13 @@ const setPage = (p: string) => emit('update:modelValue', p);
       v-for="page in pages"
       nowrap
       font-semibold
-      :key="page"
-      :data-key="page"
+      :key="page.value"
+      :data-key="page.value"
       ref="listElements"
-      @click="setPage(page)"
-      :class="{ 'opacity-50': modelValue !== page }"
+      @click="setPage(page.value)"
+      :class="{ 'opacity-50': modelValue !== page.value }"
     >
-      {{ $t(`home.diet.${page}`) }}
+      {{ page.label }}
     </p>
   </SCenteredByChild>
 </template>
