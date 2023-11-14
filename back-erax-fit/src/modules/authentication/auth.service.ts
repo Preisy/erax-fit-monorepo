@@ -96,7 +96,7 @@ export class AuthService {
   async refreshTokens(userId: number, refresh: string): Promise<AuthResponse> {
     const { data: user } = await this.getUserByIdWithToken(userId);
 
-    const refreshMatches = bcrypt.compare(refresh, user.token!.refreshHash);
+    const refreshMatches = await bcrypt.compare(refresh, user.token!.refreshHash);
     if (!refreshMatches)
       throw MainException.forbidden(`Failed to refresh access: current tokens for user ${userId} don't match`);
 
