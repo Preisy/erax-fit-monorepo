@@ -9,6 +9,11 @@ import { AuthModule } from './modules/authentication/auth.module';
 import { ClientFileModule } from './modules/client/file/client-file.module';
 import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
 import { AdminUserModule } from './modules/admin/user/admin-user.module';
+import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
+import { AdminFoodModule } from './modules/admin/food/admin-food.module';
+import { ClientFoodModule } from './modules/client/food/client-food.module';
+import { AdminNutritionModule } from './modules/admin/nutrition/admin-nutrition.module';
+import { ClientNutritionModule } from './modules/client/nutrition/client-nutrition.module';
 
 @Module({
   imports: [
@@ -21,6 +26,11 @@ import { AdminUserModule } from './modules/admin/user/admin-user.module';
     ClientWorkoutModule,
     ClientFileModule,
     AdminFileModule,
+    AdminPromptModule,
+    AdminFoodModule,
+    ClientFoodModule,
+    AdminNutritionModule,
+    ClientNutritionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
