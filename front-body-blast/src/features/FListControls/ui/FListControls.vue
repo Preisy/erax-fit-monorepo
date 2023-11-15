@@ -20,8 +20,8 @@ defineEmits<{
 
 <template>
   <div flex flex-row gap-x-0.5rem>
-    <SBtn @click="$emit('add')" :icon="symRoundedAdd" bg="bg!" v-if="!disabledAdd" />
-    <SBtn @click="$emit('remove')" :icon="symRoundedDelete" bg="bg!" v-if="!disabledRemove" />
-    <SBtn type="submit" @click="$emit('submit')" :icon="symRoundedDone" ml-auto v-if="!disabledSubmit" />
+    <SBtn v-if="!disabledAdd" @click="$emit('add')" :icon="symRoundedAdd" bg="bg!" />
+    <SBtn v-if="!disabledRemove" @click="$emit('remove')" :icon="symRoundedDelete" bg="bg!" ml-auto />
+    <SBtn v-if="!disabledSubmit" @click="$emit('submit')" :icon="symRoundedDone" type="submit" />
   </div>
 </template>

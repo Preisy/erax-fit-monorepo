@@ -1,6 +1,7 @@
 import LAdminDashboardVue from 'processes/layouts/LAdminDashboard.vue';
 import { PAdminDetailed } from 'pages/PAdminDetailed';
 import { PAdminDetailedBio } from 'pages/PAdminDetailedBio';
+import { PAdminDetailedTrainings } from 'pages/PAdminDetailedTrainings';
 import { PAdminProfile } from 'pages/PAdminProfile';
 import { PAdminPrompt } from 'pages/PAdminPrompt';
 import PDiaryVue from 'pages/PDiary.vue';
@@ -38,6 +39,11 @@ export const adminRoutes = {
           path: 'bio',
           name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_BIO,
           component: PAdminDetailedBio,
+        },
+        {
+          path: 'trainings',
+          name: ENUMS.ROUTES_NAMES.ADMIN_DETAILED_TRAININGS,
+          component: PAdminDetailedTrainings,
         },
       ],
     },
