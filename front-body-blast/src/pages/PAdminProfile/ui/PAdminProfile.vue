@@ -75,7 +75,7 @@ const logout = () => {
           </EUnitedProfileCard>
         </div>
 
-        <SNoResultsScreen v-else />
+        <SNoResultsScreen v-else-if="clientProfiles.state.isError()" />
       </template>
     </SWithHeaderLayout>
   </SStructure>

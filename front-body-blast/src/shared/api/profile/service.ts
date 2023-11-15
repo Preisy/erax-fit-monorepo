@@ -7,12 +7,12 @@ export const profileService = {
     requestSimulator<IPagination.Res<{ profile: Profile.Athropometrics; readonly: boolean }>>({
       content: new Array(params.size).fill(null).map((_, index) => ({
         profile: {
-          hip: params.page ? params.page + index : index * 10,
-          hipVolume: params.page ? params.page + index : index * 10,
-          shoulder: params.page ? params.page + index : index * 10,
-          underbelly: params.page ? params.page + index : index * 10,
-          waist: params.page ? params.page + index : index * 10,
-          weight: params.page ? params.page + index : index * 10,
+          hip: params.page ? params.page * params.size + index : index * 10,
+          hipVolume: params.page ? params.page * params.size + index : index * 10,
+          shoulder: params.page ? params.page * params.size + index : index * 10,
+          underbelly: params.page ? params.page * params.size + index : index * 10,
+          waist: params.page ? params.page * params.size + index : index * 10,
+          weight: params.page ? params.page * params.size + index : index * 10,
         },
         readonly: true,
       })),
