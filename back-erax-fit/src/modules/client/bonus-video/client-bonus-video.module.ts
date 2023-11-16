@@ -6,6 +6,7 @@ import { AuthModule } from '../../../modules/authentication/auth.module';
 import { ClientBonusVideoController } from './client-bonus-video.controller';
 import { BaseBonusVideoModule } from '../../../modules/core/bonus-video/base-bonus-video.module';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
+import { ClientBonusVideoService } from './client-bonus-video.service';
 
 @Module({
   imports: [
@@ -14,6 +15,8 @@ import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bon
     MeModule,
     BaseBonusVideoModule,
   ],
+  providers: [ClientBonusVideoService],
   controllers: [ClientBonusVideoController],
+  exports: [ClientBonusVideoService],
 })
 export class ClientBonusVideoModule {}

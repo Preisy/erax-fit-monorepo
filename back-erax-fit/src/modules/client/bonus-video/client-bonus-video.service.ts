@@ -1,15 +1,9 @@
-import { Injectable } from '@nestjs/common';
 import { BaseBonusVideoService } from '../../../modules/core/bonus-video/base-bonus-video.service';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
 
-@Injectable()
-export class AdminBonusVideoService {
+export class ClientBonusVideoService {
   constructor(private readonly baseService: BaseBonusVideoService) {}
-
-  async create(file: Express.Multer.File) {
-    return this.baseService.create(file);
-  }
 
   async findAll(query: AppPagination.Request): Promise<AppPagination.Response<BonusVideoEntity>> {
     return this.baseService.findAll(query);

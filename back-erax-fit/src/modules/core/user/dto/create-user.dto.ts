@@ -135,4 +135,8 @@ export class CreateUserRequest {
   @Max(14)
   @ApiProperty()
   public taskPeriod: number;
+
+  @IsBoolean()
+  @ApiProperty()
+  public canWatch: boolean;
 }

@@ -28,9 +28,12 @@ export class BaseBonusVideoService {
     return new AppSingleResponse(savedVideo);
   }
 
-  async findAll(query: AppPagination.Request): Promise<AppPagination.Response<BonusVideoEntity>> {
+  async findAll(
+    query: AppPagination.Request,
+    options?: AppPagination.GetExecutorOptions<BonusVideoEntity>,
+  ): Promise<AppPagination.Response<BonusVideoEntity>> {
     const { getPaginatedData } = AppPagination.getExecutor(this.videoRepository);
-    return getPaginatedData(query);
+    return getPaginatedData(query, options);
   }
 
   async updateAccessToVideoForUser(userId: UserEntity['id'], canWatch: boolean): Promise<AppStatusResponse> {

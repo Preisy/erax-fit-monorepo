@@ -1,7 +1,6 @@
 import {
   Controller,
   Post,
-  Patch,
   Get,
   Res,
   UseFilters,
@@ -12,7 +11,7 @@ import {
   FileTypeValidator,
   UploadedFile,
   Param,
-  Body,
+  Query,
 } from '@nestjs/common';
 import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
@@ -26,10 +25,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Express, Response } from 'express';
 import { CreateVideoByAdminResponse } from './dto/admin-create-video.dto';
-import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
-import { UpdateAccessToVideoForUserRequest } from './dto/update-user-access.dto';
 
 @Controller('admin/bonus-video')
 @ApiTags('Admin bonus video')
@@ -76,8 +73,8 @@ export class AdminBonusVideoController {
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppPagination.Response<BonusVideoEntity> })
-  async getAll(query: AppPagination.Request) {
+  @AppResponses({ status: 200, type: AppPagination.Response.type(BonusVideoEntity) })
+  async getAll(@Query() query: AppPagination.Request) {
     return await this.adminService.findAll(query);
   }
 
@@ -87,11 +84,5 @@ export class AdminBonusVideoController {
     return res.sendFile(image, {
       root: './uploads',
     });
-  }
-
-  @Patch(':id')
-  @AppResponses({ status: 200, type: AppStatusResponse })
-  async updateAccesstoVideoForUser(@Body() body: UpdateAccessToVideoForUserRequest) {
-    return await this.adminService.updateAccessToVideoForUser(body.userId, body.canWatch);
   }
 }
