@@ -32,4 +32,10 @@ export namespace AdminTraining {
       pace: z.string().min(1),
       commentary: z.string().min(1),
     });
+
+  export namespace Delete {
+    export interface Response {
+      data: { status: boolean };
+    }
+  }
 }

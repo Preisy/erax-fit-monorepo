@@ -5,6 +5,7 @@ import { TPAdminProfileI18n } from 'pages/PAdminProfile';
 import { TTrainingAdditionBlockI18n } from 'widgets/WAdditionCard';
 import { TWAdminFooterNavBarI18n } from 'widgets/WAdminFooterNavBar';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
+import { TWNewTrainingI18n } from 'widgets/WNewTraining';
 import { TWPromptCreationI18n } from 'widgets/WPromptCreation';
 import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
@@ -32,6 +33,7 @@ export default boot(({ app }) => {
       TWPromptCreationI18n,
       TEProfileCardI18n,
       TSNoResultsScreenI18n,
+      TWNewTrainingI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

@@ -14,7 +14,7 @@ import { SSplideSlide } from 'shared/ui/SSplideSlide';
 const { userTraining, getUserTraining } = useAdminTrainingStore();
 const { params }: { params: object } = useRoute();
 const id = 'id' in params ? (params.id as number) : null;
-useLoading(userTraining); //
+useLoading(userTraining);
 if (id) getUserTraining(id);
 </script>
 
@@ -28,9 +28,9 @@ if (id) getUserTraining(id);
       </SSplideSlide>
       <SSplideSlide v-for="(training, index) in userTraining.data" :key="training.name">
         <div flex gap-x-0.5rem v-if="index === 0">
-          <!-- TODO: I18n + fetch -->
+          <!-- TODO: API integration -->
           <SReadonlyField
-            title="Цикл"
+            :title="$t('admin.prompt.training.cycle')"
             value="2"
             mb-1rem
             bg-accent

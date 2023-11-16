@@ -7,7 +7,7 @@ import { FListControls } from 'features/FListControls';
 import { EAdminPromptThumbnail } from 'entities/EAdminPromptThumbnail';
 import { AdminTraining, useAdminPromptStore, useAdminTrainingStore } from 'shared/api/admin';
 import { useLoading } from 'shared/lib/loading';
-import { SInput, SChooseInput, SReadonlyField } from 'shared/ui/inputs';
+import { SInput, SChooseInput } from 'shared/ui/inputs';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SForm } from 'shared/ui/SForm';
 
@@ -29,9 +29,8 @@ const updateValue = (next: string) => (promptValue.value = next);
 
 <template>
   <SComponentWrapper h-full flex flex-col gap-y-1rem>
-    <h1>Тренировка</h1>
-    <SInput name="cycle" label="Цикл" />
-    <SChooseInput name="cycle" label="Цикл" :model-value="promptValue">
+    <h1>{{ $t('admin.prompt.training.training') }}</h1>
+    <SChooseInput name="cycle" :label="$t('admin.prompt.training.cycle')" :model-value="promptValue">
       <div v-for="prompt in prompts.data" :key="prompt.type" @click="() => updateValue(prompt.type)" mr-0.5rem>
         <EAdminPromptThumbnail :photo="prompt.photo as string" :type="prompt.type" />
       </div>
@@ -44,16 +43,16 @@ const updateValue = (next: string) => (promptValue.value = next);
       v-for="(training, index) in trainings"
       :key="training.key"
     >
-      <SInput name="type" label="Тип" />
+      <SInput name="type" :label="$t('admin.prompt.training.type')" />
       <div grid grid-cols-2 grid-rows-3 gap-0.5rem>
-        <SInput name="date" label="Дата" />
-        <SInput name="weight" label="Вес" />
-        <SInput name="sets" label="Сеты" />
-        <SInput name="repeats" label="Повторения" />
-        <SInput name="restTime" label="Время отдыха" />
-        <SInput name="pace" label="Темп" />
+        <SInput name="date" :label="$t('admin.prompt.training.date')" />
+        <SInput name="weight" :label="$t('admin.prompt.training.weight')" />
+        <SInput name="sets" :label="$t('admin.prompt.training.sets')" />
+        <SInput name="repeats" :label="$t('admin.prompt.training.repeats')" />
+        <SInput name="restTime" :label="$t('admin.prompt.training.restTime')" />
+        <SInput name="pace" :label="$t('admin.prompt.training.pace')" />
       </div>
-      <SInput name="commentary" label="Примечания" />
+      <SInput name="commentary" :label="$t('admin.prompt.training.commentary')" />
 
       <template #submit-btn>
         <FListControls
