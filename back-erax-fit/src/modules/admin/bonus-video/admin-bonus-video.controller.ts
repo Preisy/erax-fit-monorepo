@@ -2,7 +2,6 @@ import {
   Controller,
   Post,
   Get,
-  Res,
   UseFilters,
   UsePipes,
   ValidationPipe,
@@ -12,6 +11,8 @@ import {
   UploadedFile,
   Param,
   Query,
+  ParseIntPipe,
+  Delete,
 } from '@nestjs/common';
 import { ApiTags, ApiBody, ApiConsumes } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
@@ -23,10 +24,12 @@ import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { Throttle } from '@nestjs/throttler';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { Express, Response } from 'express';
+import { Express } from 'express';
 import { CreateVideoByAdminResponse } from './dto/admin-create-video.dto';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 
 @Controller('admin/bonus-video')
 @ApiTags('Admin bonus video')
@@ -78,11 +81,15 @@ export class AdminBonusVideoController {
     return await this.adminService.findAll(query);
   }
 
-  @Get(':filename')
-  @AppResponses({ status: 200, type: 'file' })
-  async getUploadedFile(@Param('filename') image: string, @Res() res: Response) {
-    return res.sendFile(image, {
-      root: './uploads',
-    });
+  @Get(':id')
+  @AppResponses({ status: 200, type: AppSingleResponse.type(BonusVideoEntity) })
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.adminService.findOne(id);
+  }
+
+  @Delete(':id')
+  @AppResponses({ status: 200, type: AppStatusResponse })
+  async delete(@Param('id', ParseIntPipe) id: number) {
+    return await this.adminService.delete(id);
   }
 }

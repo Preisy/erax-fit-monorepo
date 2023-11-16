@@ -1,14 +1,14 @@
-import { Controller, UseFilters, UsePipes, ValidationPipe, Get, Req, Param, Res, Query } from '@nestjs/common';
+import { Controller, UseFilters, UsePipes, ValidationPipe, Get, Req, Param, Query, ParseIntPipe } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
 import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { BonusVideoEntity } from '../../../modules/core/bonus-video/entities/bonus-video.entity';
 import { RequestWithUser } from '../../../modules/authentication/types/requestWithUser.type';
-import { Response } from 'express';
 import { MainException } from '../../../exceptions/main.exception';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { ClientBonusVideoService } from './client-bonus-video.service';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 
 @Controller('bonus-video')
 @ApiTags('Client bonus video')
@@ -25,12 +25,9 @@ export class ClientBonusVideoController {
     return await this.clientService.findAll(query);
   }
 
-  @Get(':filename')
-  @AppResponses({ status: 200, type: 'file' })
-  async getUploadedFile(@Req() req: RequestWithUser, @Param('filename') image: string, @Res() res: Response) {
-    if (!req.user.canWatchVideo) throw MainException.forbidden(`Access denied for user with id ${req.user.id}`);
-    return res.sendFile(image, {
-      root: './uploads',
-    });
+  @Get(':id')
+  @AppResponses({ status: 200, type: AppSingleResponse.type(BonusVideoEntity) })
+  async getOne(@Param('id', ParseIntPipe) id: number) {
+    return await this.clientService.findOne(id);
   }
 }

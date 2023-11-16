@@ -8,4 +8,8 @@ export class ClientBonusVideoService {
   async findAll(query: AppPagination.Request): Promise<AppPagination.Response<BonusVideoEntity>> {
     return this.baseService.findAll(query);
   }
+
+  async findOne(id: BonusVideoEntity['id']) {
+    return this.baseService.findOne(id);
+  }
 }
