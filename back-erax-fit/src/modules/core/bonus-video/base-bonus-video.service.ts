@@ -4,9 +4,7 @@ import { BonusVideoEntity } from './entities/bonus-video.entity';
 import { Repository } from 'typeorm';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { AppPagination } from '../../../utils/app-pagination.util';
-import { UserEntity } from '../user/entities/user.entity';
 import { BaseUserService } from '../user/base-user.service';
-import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 
 @Injectable()
 export class BaseBonusVideoService {
@@ -34,15 +32,5 @@ export class BaseBonusVideoService {
   ): Promise<AppPagination.Response<BonusVideoEntity>> {
     const { getPaginatedData } = AppPagination.getExecutor(this.videoRepository);
     return getPaginatedData(query, options);
-  }
-
-  async updateAccessToVideoForUser(userId: UserEntity['id'], canWatch: boolean): Promise<AppStatusResponse> {
-    const { data: foundUser } = await this.userService.getUserById(userId);
-
-    foundUser.canWatchVideo = canWatch;
-
-    await this.userService.updateUser(userId, foundUser);
-
-    return new AppStatusResponse(true);
   }
 }
