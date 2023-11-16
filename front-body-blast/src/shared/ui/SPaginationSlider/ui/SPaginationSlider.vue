@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { uniqueId } from 'lodash';
-import { QTabPanel, QTabPanels } from 'quasar';
+import { QTabPanel, QTabPanels, TouchSwipeValue } from 'quasar';
+import { useLoading } from 'shared/lib/loading';
 import { IListState, IPagination } from 'shared/lib/utils';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 
@@ -17,6 +18,7 @@ const emits = defineEmits<{
   firstElement: [];
 }>();
 
+useLoading(props.state);
 //Raw slides data
 const slides = computed(() => props.state.data);
 
@@ -31,49 +33,50 @@ const slidesWithId = computed(() =>
   }),
 );
 
-const firstSlide = ref();
-const lastSlide = ref();
-
-const displaySlides = computed(
-  () => [firstSlide.value, ...slidesWithId.value, lastSlide.value] as typeof slidesWithId.value,
-);
-
 //v-model value with current slide key
-const value = ref('slide-1');
-const index = computed(() => slidesWithId.value.filter((v) => !!v).findIndex((slide) => slide.name === value.value)); //current page index
-const lock = ref();
+const index = ref(0); //current page index
+const lock = ref(false);
+const value = computed(() => (!lock.value ? slidesWithId.value.at(index.value)?.name : ''));
 
 //onUpdate action(same as ontransition, but calculates if last/if first)
-const onUpdate = async (next: string, prev: string) => {
-  const nextIndex = displaySlides.value.findIndex((s) => s?.name === next);
-  const prevIndex = displaySlides.value.findIndex((s) => s?.name === prev);
-  const delta = nextIndex - prevIndex;
-  const dir: 'left' | 'right' = delta > 0 ? 'right' : 'left';
+const onUpdate = async (event: Parameters<Exclude<TouchSwipeValue, undefined>>['0']) => {
+  if (lock.value) return;
 
-  if (index.value === props.count - 1 && dir === 'right') {
+  // Directions are inverted. If swipe right -> get 'left'
+  const delta = event.direction === 'right' ? -1 : 1;
+  index.value += delta;
+
+  if (index.value === props.count) {
     emits('lastElement');
     console.log('last');
-    firstSlide.value = slidesWithId.value.at(-1);
-    lock.value = value.value;
+
+    lock.value = true;
     await props.fetch({ page: props.state.pagination.page + 1, size: props.count });
-    value.value = lock.value;
+    lock.value = false;
+
+    index.value = 0;
+    // value.value = slidesWithId.value.at(index.value)?.name ?? `slide-${parseInt(value.value.split('-')[1]) + 1}`;
   }
-  if (index.value === 0 && dir === 'left') {
+
+  if (index.value === -1) {
     emits('firstElement');
     console.log('first');
-    lastSlide.value = slidesWithId.value.at(0);
+
     const newPage = Math.max(1, props.state.pagination.page - 1);
-    lock.value = value.value;
+    lock.value = true;
     await props.fetch({ page: newPage, size: props.count });
-    value.value = lock.value;
+    lock.value = false;
+
+    index.value = props.count - 1;
+    // value.value = slidesWithId.value.at(index.value)?.name ?? `slide-${parseInt(value.value.split('-')[1]) - 1}`;
   }
 };
 </script>
 
 <template>
   <SComponentWrapper>
-    <QTabPanels swipeable animated class="s-pagination-slider" v-model="value" @transition="onUpdate">
-      <template v-for="slide in displaySlides">
+    <QTabPanels swipeable animated class="s-pagination-slider" v-model="value" v-touch-swipe.horizontal="onUpdate">
+      <template v-for="slide in slidesWithId">
         <QTabPanel v-if="slide" :key="slide.name" :name="slide.name" class="s-pagination-slide" p-0>
           <component
             :is="slideComponent"
