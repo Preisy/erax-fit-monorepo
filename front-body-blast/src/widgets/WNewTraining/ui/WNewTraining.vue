@@ -4,24 +4,38 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { assign, uniqueId } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import { FListControls } from 'features/FListControls';
-import { AdminTraining, useAdminTrainingStore } from 'shared/api/admin';
-import { SInput } from 'shared/ui/inputs';
+import { EAdminPromptThumbnail } from 'entities/EAdminPromptThumbnail';
+import { AdminTraining, useAdminPromptStore, useAdminTrainingStore } from 'shared/api/admin';
+import { useLoading } from 'shared/lib/loading';
+import { SInput, SChooseInput, SReadonlyField } from 'shared/ui/inputs';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SForm } from 'shared/ui/SForm';
 
 const adminTrainingStore = useAdminTrainingStore();
+const { prompts, getPrompts } = useAdminPromptStore();
 const { t } = useI18n();
 
 const trainings = ref<Array<Partial<AdminTraining & { key: string }>>>([{ key: uniqueId('prompt-') }]);
 const onsubmit = (values: object, index: number) => assign(trainings.value[index], values);
 const onadd = () => trainings.value.push({ key: uniqueId('prompt-') });
 const onremove = (index: number) => trainings.value.splice(index, 1);
+
+useLoading(prompts);
+getPrompts();
+
+const promptValue = ref<string>();
+const updateValue = (next: string) => (promptValue.value = next);
 </script>
 
 <template>
   <SComponentWrapper h-full flex flex-col gap-y-1rem>
     <h1>Тренировка</h1>
     <SInput name="cycle" label="Цикл" />
+    <SChooseInput name="cycle" label="Цикл" :model-value="promptValue">
+      <div v-for="prompt in prompts.data" :key="prompt.type" @click="() => updateValue(prompt.type)" mr-0.5rem>
+        <EAdminPromptThumbnail :photo="prompt.photo as string" :type="prompt.type" />
+      </div>
+    </SChooseInput>
 
     <SForm
       :field-schema="toTypedSchema(AdminTraining.validation(t))"

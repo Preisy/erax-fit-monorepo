@@ -15,6 +15,10 @@ const wrapper = ref<HTMLElement>();
 
 const { value, errorMessage, setValue } = useField<string | number | undefined>(() => props.name);
 if (props.readonly && props.modelValue) setValue(props.modelValue);
+watch(
+  () => props.modelValue,
+  (next) => setValue(next ?? undefined),
+);
 </script>
 
 <template>

@@ -13,7 +13,9 @@ export const adminPromptsService = {
     // return api.post<Auth.Response>('/admin/prompt', data);
     requestSimulator<Array<Prompt>>([
       { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт1' },
-      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт11' },
+      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт2' },
+      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт3' },
+      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт4' },
     ]),
   ),
 };
