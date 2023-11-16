@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { QIcon, QDate, date, QDateProps } from 'quasar';
+import moment from 'moment';
+import { QIcon, QDate, QDateProps } from 'quasar';
 
-const today = date.formatDate(Date.now(), 'YYYY/MM/DD');
+const today = moment();
 const showDateModal = ref(false);
 
 export interface SCalendarProps extends QDateProps {}
@@ -25,7 +26,7 @@ const dateValue = computed({
 //TODO: get from locale from browser
 const getDate = (td: string) => {
   if (props.defaultView == 'Months') return new Date(td).toLocaleString('ru-RU', { month: 'long' });
-  return td != today ? td.split('/').reverse().slice(0, 2).join('.') : 'Сегодня';
+  return today.diff(td.split('/').join('-'), 'days') > 0 ? td.split('/').reverse().slice(0, 2).join('.') : 'Сегодня';
 };
 </script>
 

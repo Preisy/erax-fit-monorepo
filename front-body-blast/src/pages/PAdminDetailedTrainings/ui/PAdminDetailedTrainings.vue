@@ -13,7 +13,7 @@ const isToday = computed(() => moment().diff(date.value.split('/').join('-'), 'd
 <template>
   <SStructure h-full>
     <SProxyScroll h-full>
-      <SCalendar v-model="date" mt-2rem />
+      <SCalendar v-model="date" pb-1rem pt-2rem />
       <WNewTraining v-if="isToday" />
       <WOldTraining v-else />
     </SProxyScroll>
