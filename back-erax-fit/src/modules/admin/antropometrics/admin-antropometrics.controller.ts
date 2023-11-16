@@ -20,7 +20,7 @@ export class AdminAntropometricsController {
   constructor(private readonly adminService: AdminAntropometricsService) {}
 
   @Get()
-  @AppResponses({ status: 200, type: AppDatePagination.Response<AntropometricsEntity> })
+  @AppResponses({ status: 200, type: AppDatePagination.Response.type(AntropometricsEntity) })
   async getAll(@Query() query: AppDatePagination.Request) {
     return await this.adminService.findAll(query);
   }

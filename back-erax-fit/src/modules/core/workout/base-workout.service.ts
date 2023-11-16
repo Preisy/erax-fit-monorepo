@@ -2,16 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { WorkoutEntity } from './entity/workout.entity';
 import { Repository } from 'typeorm';
-import { MainException } from 'src/exceptions/main.exception';
+import { MainException } from '../../../exceptions/main.exception';
 import { GetWorkoutDTO } from './dto/get-workout.dto';
 import { CreateWorkoutRequest } from './dto/create-workout.dto';
 import { UpdateWorkoutRequest } from './dto/update-workout.dto';
-import { filterUndefined } from 'src/utils/filter-undefined.util';
-import { AppSingleResponse } from 'src/dto/app-single-response.dto';
-import { AppPagination } from 'src/utils/app-pagination.util';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { filterUndefined } from '../../../utils/filter-undefined.util';
+import { AppSingleResponse } from '../../../dto/app-single-response.dto';
+import { AppPagination } from '../../../utils/app-pagination.util';
+import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { ExerciseEntity } from '../exerсise/entities/exercise.entity';
-import { UserEntity } from '../user/entities/user.entity';
 
 @Injectable()
 export class BaseWorkoutService {
