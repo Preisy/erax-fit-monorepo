@@ -24,6 +24,7 @@ export class BaseUserService {
     const savedUser = await this.userRepository.save(
       this.userRepository.create({
         ...request,
+        canWatchVideo: false,
         password: await bcrypt.hash(request.password, await bcrypt.genSalt(10)),
       }),
     );

@@ -27,7 +27,8 @@ export class ClientBonusVideoController {
 
   @Get(':id')
   @AppResponses({ status: 200, type: AppSingleResponse.type(BonusVideoEntity) })
-  async getOne(@Param('id', ParseIntPipe) id: number) {
+  async getOne(@Req() req: RequestWithUser, @Param('id', ParseIntPipe) id: number) {
+    if (!req.user.canWatchVideo) throw MainException.forbidden(`Access denied for user with id ${req.user.id}`);
     return await this.clientService.findOne(id);
   }
 }

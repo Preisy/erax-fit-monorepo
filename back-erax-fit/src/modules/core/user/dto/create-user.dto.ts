@@ -121,10 +121,6 @@ export class CreateUserRequest {
   @Length(1, 256)
   public goals: string;
 
-  @IsBoolean()
-  @ApiProperty()
-  public canWatchVideo: boolean;
-
   @IsString()
   @Length(1, 50)
   @ApiProperty()
@@ -135,8 +131,4 @@ export class CreateUserRequest {
   @Max(14)
   @ApiProperty()
   public taskPeriod: number;
-
-  @IsBoolean()
-  @ApiProperty()
-  public canWatch: boolean;
 }

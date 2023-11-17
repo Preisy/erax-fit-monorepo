@@ -13,7 +13,7 @@ export class BonusVideo1699374984097 implements MigrationInterface {
     await queryRunner.query('ALTER TABLE "users" ALTER COLUMN "canWatchVideo" DROP DEFAULT');
     await queryRunner.query('ALTER TABLE "users" ALTER COLUMN "canWatchVideo" SET NOT NULL');
     await queryRunner.query(
-      'ALTER TABLE "users" ADD CONSTRAINT "FK_d98a275f8bc6cd986fcbe2eab01" FOREIGN KEY ("tokenId") REFERENCES "tokens"("id") ON DELETE NO ACTION ON UPDATE NO ACTION',
+      'ALTER TABLE "users" ADD CONSTRAINT "FK_d98a275f8bc6cd986fcbe2eab01" FOREIGN KEY ("tokenId") REFERENCES "tokens"("id") ON DELETE SET NULL ON UPDATE CASCADE',
     );
     await queryRunner.query(
       'ALTER TABLE "antropometrics" ADD CONSTRAINT "FK_05acb8ac364df5b594cd9fd5069" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE NO ACTION ON UPDATE NO ACTION',
