@@ -1,10 +1,6 @@
 <script setup lang="ts">
-export interface EDiaryHeaderProps {
-  week: string;
-  goal: number;
-  done: number;
-}
-defineProps<EDiaryHeaderProps>();
+import { Diary } from 'shared/api/diary';
+defineProps<Diary.Response.Summary>();
 </script>
 
 <template>

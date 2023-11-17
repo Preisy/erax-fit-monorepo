@@ -2,24 +2,21 @@
 import { date, QTabPanel } from 'quasar';
 import { EDiaryActivity } from 'entities/diary/EDiaryActivity';
 import { EDiarySelfControlItem } from 'entities/diary/EDiarySelfControlItem';
+import { Diary } from 'shared/api/diary';
 import { SCalendar } from 'shared/ui/SCalendar';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 import { STabPanels } from 'shared/ui/STabPanels';
+
+export interface WDiaryProps {
+  slides: Diary.Response.DiarySlide[];
+}
+
+const props = defineProps<WDiaryProps>();
+const dates = props.slides.map((it) => it.dateValue);
 const today = date.formatDate(Date.now(), 'YYYY/MM/DD');
 const panel = ref(today);
-export interface EDiaryItemProps {}
-
-export interface WDiarySlide extends EDiaryItemProps {
-  dateValue: string;
-}
-export interface WDiary {
-  slides: WDiarySlide[];
-}
-
-const props = defineProps<WDiary>();
-const dates = props.slides.map((it) => it.dateValue);
 </script>
 
 <template>
@@ -35,16 +32,16 @@ const dates = props.slides.map((it) => it.dateValue);
               fixedHeight: 'auto',
               arrows: false,
               omitEnd: true,
-              gap: '2rem',
+              gap: '2.5rem',
             }"
             class="[&>ul>li:nth-last-child(2)]:hidden!"
           >
             <SSplideSlide>
-              <EDiarySelfControlItem />
+              <EDiarySelfControlItem v-bind="slide" />
             </SSplideSlide>
 
             <SSplideSlide>
-              <EDiaryActivity />
+              <EDiaryActivity v-bind="slide" />
             </SSplideSlide>
             <SSplideSlide>
               <div />

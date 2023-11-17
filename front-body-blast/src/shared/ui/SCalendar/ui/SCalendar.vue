@@ -25,7 +25,8 @@ const dateValue = computed({
 //TODO: get from locale from browser
 const getDate = (td: string) => {
   if (props.defaultView == 'Months') return new Date(td).toLocaleString('ru-RU', { month: 'long' });
-  return td != today ? td.split('/').reverse().slice(0, 2).join('.') : 'Сегодня';
+  if (td) return td != today ? td.split('/').reverse().slice(0, 2).join('.') : 'Сегодня';
+  else return 'Сегодня';
 };
 </script>
 
