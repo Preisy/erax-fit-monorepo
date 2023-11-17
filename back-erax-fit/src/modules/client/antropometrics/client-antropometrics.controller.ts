@@ -28,7 +28,7 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
 @Controller('antropometrics')
-@ApiTags('Client antropometrics')
+@ApiTags('Antropometrics')
 @AppAuthGuard()
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
