@@ -11,7 +11,7 @@ import { ClientBonusVideoService } from './client-bonus-video.service';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 
 @Controller('bonus-video')
-@ApiTags('Client bonus video')
+@ApiTags('Bonus video')
 @AppAuthGuard()
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
