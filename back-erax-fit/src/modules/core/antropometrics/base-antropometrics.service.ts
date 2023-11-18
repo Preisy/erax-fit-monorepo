@@ -18,7 +18,7 @@ export class BaseAntropometrcisService {
     private readonly antrpRepository: Repository<AntropometricsEntity>,
   ) {}
 
-  public readonly relations = ['user'];
+  public readonly relations: (keyof AntropometricsEntity)[] = ['user'];
 
   async create(
     user: UserEntity,
