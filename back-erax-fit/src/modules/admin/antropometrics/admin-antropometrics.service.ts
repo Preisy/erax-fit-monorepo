@@ -17,7 +17,7 @@ export class AdminAntropometricsService {
     private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
-  private readonly relations: ['users'];
+  public readonly relations: (keyof AntropometricsEntity)[] = ['user'];
 
   async findAll(query: AppDatePagination.Request): Promise<AppDatePagination.Response<AntropometricsEntity>> {
     return this.baseService.findAll(query);
@@ -31,7 +31,7 @@ export class AdminAntropometricsService {
     const antrp = this.antrpRepository.findOne({
       where: {
         createdAt: new Date(),
-        userId: userId,
+        userId,
       },
       relations: this.relations,
     });
