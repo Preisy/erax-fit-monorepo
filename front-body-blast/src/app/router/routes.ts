@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import LAuthVue from 'processes/layouts/LAuth.vue';
-import PDiaryVue from 'pages/PDiary.vue';
+import { PDiary } from 'pages/PDiary';
 import PDietVue from 'pages/PDiet.vue';
 import PLearningVue from 'pages/PLearning.vue';
 import { PLogin } from 'pages/PLogin';
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'diary',
-        component: PDiaryVue,
+        component: PDiary,
         name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
