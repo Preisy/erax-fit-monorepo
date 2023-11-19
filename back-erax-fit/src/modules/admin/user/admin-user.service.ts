@@ -34,7 +34,9 @@ export class AdminUserService {
 
   async updateUser(id: UserEntity['id'], request: UpdateUserByAdminRequest) {
     const { data: user } = await this.getUserById(id);
+
     if (request.taskName) await this.antrpService.updateCron(user, request.taskName, request.taskPeriod!);
+
     return this.baseService.updateUser(id, request);
   }
 

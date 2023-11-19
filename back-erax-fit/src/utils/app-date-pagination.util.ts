@@ -1,6 +1,14 @@
 import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsOptional, IsBoolean } from 'class-validator';
-import { ObjectLiteral, FindManyOptions, FindOneOptions, Repository } from 'typeorm';
+import {
+  ObjectLiteral,
+  FindManyOptions,
+  Repository,
+  FindOneOptions,
+  And,
+  MoreThanOrEqual,
+  LessThanOrEqual,
+} from 'typeorm';
 import { createDerivedClass } from './create-derived-class.util';
 import { ToBoolean } from '../decorators/to-boolean.decorator';
 
@@ -65,13 +73,8 @@ export namespace AppDatePagination {
         const from = request.from || new Date();
         const to = request.to || new Date();
 
-        const newFrom = new Date(from);
-        const newTo = new Date(to);
-
-        const limit = Math.abs(newFrom.getDay() - newTo.getDay());
-
         const [sellers, count] = await repository.findAndCount({
-          take: limit,
+          where: { createdAt: And(MoreThanOrEqual(to), LessThanOrEqual(from)) },
           relations: request.expanded ? relations : undefined,
           ...options,
         });
