@@ -5,12 +5,6 @@ import { CreateSelfControlPropsRequest } from '../../self-control-props/dto/crea
 
 export class CreateDiaryTemplateRequest {
   @IsDefined()
-  @IsNumber()
-  @ApiProperty()
-  @Min(1)
-  public stepsGoal: number;
-
-  @IsDefined()
   @ApiProperty()
   @IsNumber()
   @Min(1)

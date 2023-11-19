@@ -11,6 +11,7 @@ import { CreateSelfControlRequest } from './dto/create-self-control.dto';
 import { GetSelfControlDTO } from './dto/get-self-control.dto';
 import { UpdateSelfControlRequest } from './dto/update-self-control.dto';
 import { SelfControlEntity } from './entity/self-control.entity';
+import { AppDatePagination } from 'src/utils/app-date-pagination.util';
 
 @Injectable()
 export class BaseSelfControlService {
@@ -43,6 +44,14 @@ export class BaseSelfControlService {
     const savedSelfControl = await this.selfControlRepository.save(newSelfControl);
 
     return new AppSingleResponse<GetSelfControlDTO>(this.getSelfControlDTO(savedSelfControl));
+  }
+
+  async findAll(
+    query: AppDatePagination.Request,
+    options?: AppDatePagination.GetExecutorOptions<SelfControlEntity>,
+  ): Promise<AppDatePagination.Response<SelfControlEntity>> {
+    const { getPaginatedData } = AppDatePagination.getExecutor(this.selfControlRepository, this.relations);
+    return getPaginatedData(query, options);
   }
 
   async findOne(id: SelfControlEntity['id']) {

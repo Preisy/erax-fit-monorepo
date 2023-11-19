@@ -131,4 +131,9 @@ export class CreateUserRequest {
   @Max(14)
   @ApiProperty()
   public taskPeriod: number;
+
+  @IsNumber()
+  @Min(1)
+  @ApiProperty()
+  public stepsGoal: number;
 }
