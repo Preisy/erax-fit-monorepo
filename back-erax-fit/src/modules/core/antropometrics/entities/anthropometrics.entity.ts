@@ -4,7 +4,7 @@ import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity('antropometrics')
-export class AntropometricsEntity extends AppBaseEntity {
+export class AnthropometricsEntity extends AppBaseEntity {
   @ApiProperty({ type: () => UserEntity })
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'userId' })

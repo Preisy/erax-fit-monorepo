@@ -6,35 +6,35 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { Get, Query, Param, Post, Body } from '@nestjs/common/decorators';
-import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
-import { AdminAntropometricsService } from './admin-antropometrics.service';
-import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
+import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
+import { AdminAnthropometricsService } from './admin-anthropometrics.service';
+import { AppAuthGuard } from '../../authentication/guards/appAuth.guard';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 import { Throttle } from '@nestjs/throttler';
 import { CreateAnthropometricsByAdminRequest } from './dto/create-anthropometrics-by-admin.dto';
 
-@Controller('admin/antropometrics')
-@ApiTags('Admin antropometrics')
+@Controller('admin/anthropometrics')
+@ApiTags('Admin anthropometrics')
 @AppAuthGuard(RoleGuard(UserRole.Admin))
 @UseFilters(MainExceptionFilter)
 @UsePipes(ValidationPipe)
-export class AdminAntropometricsController {
-  constructor(private readonly adminService: AdminAntropometricsService) {}
+export class AdminAnthropometricsController {
+  constructor(private readonly adminService: AdminAnthropometricsService) {}
   @Post()
-  @AppResponses({ status: 201, type: AppSingleResponse.type(AntropometricsEntity) })
+  @AppResponses({ status: 201, type: AppSingleResponse.type(AnthropometricsEntity) })
   @Throttle(5, 1)
   async create(@Body() body: CreateAnthropometricsByAdminRequest) {
     return await this.adminService.create(body);
   }
 
   @Get()
-  @AppResponses({ status: 200, type: AppDatePagination.Response.type(AntropometricsEntity) })
+  @AppResponses({ status: 200, type: AppDatePagination.Response.type(AnthropometricsEntity) })
   async getAll(@Query() query: AppDatePagination.Request) {
     return await this.adminService.findAll(query);
   }
 
   @Get(':id')
-  @AppResponses({ status: 200, type: AppSingleResponse.type(AntropometricsEntity) })
+  @AppResponses({ status: 200, type: AppSingleResponse.type(AnthropometricsEntity) })
   async getOne(@Param('id', ParseIntPipe) id: number) {
     return await this.adminService.findOne(id);
   }

@@ -1,7 +1,7 @@
 import { IsDefined, IsNumber, Min, Max } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class CreateAntropometricsRequest {
+export class CreateAnthropometricsRequest {
   @IsDefined()
   @IsNumber()
   @ApiProperty()

@@ -1,10 +1,10 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { AntropometricsEntity } from './entities/antropometrics.entity';
+import { AnthropometricsEntity } from './entities/anthropometrics.entity';
 import { Repository } from 'typeorm';
-import { CreateAntropometricsRequest } from './dto/create-antropometrics.dto';
+import { CreateAnthropometricsRequest } from './dto/create-anthropometrics.dto';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
-import { UpdateAntropometricsRequest } from './dto/update-antropometrics';
+import { UpdateAnthropometricsRequest } from './dto/update-anthropometrics';
 import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
 import { Injectable } from '@nestjs/common';
@@ -13,13 +13,13 @@ import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 @Injectable()
 export class BaseAntropometrcisService {
   constructor(
-    @InjectRepository(AntropometricsEntity)
-    private readonly antrpRepository: Repository<AntropometricsEntity>,
+    @InjectRepository(AnthropometricsEntity)
+    private readonly antrpRepository: Repository<AnthropometricsEntity>,
   ) {}
 
-  public readonly relations: (keyof AntropometricsEntity)[] = ['user'];
+  public readonly relations: (keyof AnthropometricsEntity)[] = ['user'];
 
-  async create(request: CreateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
+  async create(request: CreateAnthropometricsRequest): Promise<AppSingleResponse<AnthropometricsEntity>> {
     const newAntrp = await this.antrpRepository.create({
       ...request,
     });
@@ -31,13 +31,13 @@ export class BaseAntropometrcisService {
 
   async findAll(
     query: AppDatePagination.Request,
-    options?: AppDatePagination.GetExecutorOptions<AntropometricsEntity>,
-  ): Promise<AppDatePagination.Response<AntropometricsEntity>> {
+    options?: AppDatePagination.GetExecutorOptions<AnthropometricsEntity>,
+  ): Promise<AppDatePagination.Response<AnthropometricsEntity>> {
     const { getPaginatedData } = AppDatePagination.getExecutor(this.antrpRepository, this.relations);
     return getPaginatedData(query, options);
   }
 
-  async findOne(id: AntropometricsEntity['id']) {
+  async findOne(id: AnthropometricsEntity['id']) {
     const antrp = await this.antrpRepository.findOne({
       where: { id },
       relations: this.relations,
@@ -49,9 +49,9 @@ export class BaseAntropometrcisService {
   }
 
   async update(
-    id: AntropometricsEntity['id'],
-    request: UpdateAntropometricsRequest,
-  ): Promise<AppSingleResponse<AntropometricsEntity>> {
+    id: AnthropometricsEntity['id'],
+    request: UpdateAnthropometricsRequest,
+  ): Promise<AppSingleResponse<AnthropometricsEntity>> {
     const { data: antrp } = await this.findOne(id);
 
     const savedAntrp = await this.antrpRepository.save({
@@ -62,7 +62,7 @@ export class BaseAntropometrcisService {
     return new AppSingleResponse(savedAntrp);
   }
 
-  async delete(id: AntropometricsEntity['id']): Promise<AppStatusResponse> {
+  async delete(id: AnthropometricsEntity['id']): Promise<AppStatusResponse> {
     const { affected } = await this.antrpRepository.delete(id);
 
     return new AppStatusResponse(!!affected);

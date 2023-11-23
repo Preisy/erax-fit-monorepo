@@ -10,8 +10,8 @@ import { ClientFileModule } from './modules/client/file/client-file.module';
 import { ClientWorkoutModule } from './modules/client/workout/client-workout.module';
 import { AdminUserModule } from './modules/admin/user/admin-user.module';
 import { MeModule } from './modules/client/me/me.module';
-import { ClientAntropometricsModule } from './modules/client/antropometrics/client-antropometrics.module';
-import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-antropomerics.module';
+import { ClientAnthropometricsModule } from './modules/client/antropometrics/client-anthropometrics.module';
+import { AdminAntropometricsModule } from './modules/admin/antropometrics/admin-anthropomerics.module';
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AdminFoodModule } from './modules/admin/food/admin-food.module';
@@ -32,7 +32,7 @@ import { ClientNutritionModule } from './modules/client/nutrition/client-nutriti
     ClientFileModule,
     AdminFileModule,
     MeModule,
-    ClientAntropometricsModule,
+    ClientAnthropometricsModule,
     AdminAntropometricsModule,
     AdminPromptModule,
     AdminFoodModule,

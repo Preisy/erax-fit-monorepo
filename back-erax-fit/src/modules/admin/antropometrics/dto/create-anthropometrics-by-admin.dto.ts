@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateAntropometricsRequest } from '../../../../modules/core/antropometrics/dto/create-antropometrics.dto';
+import { CreateAnthropometricsRequest } from '../../../core/antropometrics/dto/create-anthropometrics.dto';
 import { IsDefined, IsNumber, Min } from 'class-validator';
 
-export class CreateAnthropometricsByAdminRequest extends CreateAntropometricsRequest {
+export class CreateAnthropometricsByAdminRequest extends CreateAnthropometricsRequest {
   @ApiProperty()
   @IsDefined()
   @Min(0)
