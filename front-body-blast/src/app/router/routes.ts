@@ -8,49 +8,46 @@ import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
 import { PTraining } from 'pages/PTraining';
-import { useAuthStore } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/home/',
     name: ENUMS.ROUTES_NAMES.HOME,
+    meta: { auth: true },
     component: LDashboardVue,
     children: [
       {
-        path: 'training',
+        path: '',
+        meta: { auth: true },
         component: PTraining,
         name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {
         path: 'profile',
+        meta: { auth: true },
         component: PProfile,
         name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
         path: 'diary',
+        meta: { auth: true },
         component: PDiaryVue,
         name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
         path: 'diet',
+        meta: { auth: true },
         component: PDietVue,
         name: ENUMS.ROUTES_NAMES.DIET,
       },
       {
         path: 'learning',
+        meta: { auth: true },
         component: PLearningVue,
         name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
-    redirect: {
-      name: ENUMS.ROUTES_NAMES.TRAINING,
-    },
-    beforeEnter: () => {
-      const { isAuth } = useAuthStore();
-      if (!isAuth()) return { name: ENUMS.ROUTES_NAMES.AUTH, replace: true };
-      return;
-    },
   },
 
   {
@@ -65,26 +62,20 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-left' },
       },
       {
-        path: 'login',
+        path: '',
         component: PLogin,
         name: ENUMS.ROUTES_NAMES.LOGIN,
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
-    beforeEnter: () => {
-      const { isAuth } = useAuthStore();
-      if (isAuth()) return { name: ENUMS.ROUTES_NAMES.HOME, replace: true };
-      return;
-    },
   },
 
   // Always leave this as last one,
   // but you can also remove it
-  // {
-  //   path: '/:catchAll(.*)*',
-  //   redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
-  // },
+  {
+    path: '/:catchAll(.*)*',
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
+  },
 ];
 
 export default routes;

@@ -8,8 +8,8 @@ import { SSelect } from 'shared/ui/SSelect';
   <SSelect
     name="insulinResistance"
     :options="[
-      { label: 'Да', value: true },
-      { label: 'Нет', value: false },
+      { label: $t('global.yes'), value: true },
+      { label: $t('global.no'), value: false },
     ]"
     :label="$t('auth.signUp.diseases.fields.insulinResistance')"
   />

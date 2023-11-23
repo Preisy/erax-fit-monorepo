@@ -2,21 +2,18 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
 import {
+  BodyParams,
+  Credentials,
+  Diseases,
   EBodyParamsSignUpForm,
   ECredentialsSignUpForm,
   EDiseasesSignUpForm,
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
-} from 'entities/profile';
-import {
-  BodyParams,
-  Diseases,
   Forbiddens,
   Motivations,
-  Credentials,
-  useAuthStore,
-  TokenService,
-} from 'shared/api/auth';
+} from 'entities/form';
+import { useAuthStore, TokenService } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 import { GetZodInnerType } from 'shared/lib/utils';
 import { SBtn } from 'shared/ui/SBtn';
@@ -49,7 +46,6 @@ const slides: RegisterSlides = [
           firstName,
           lastName,
           password: values.password,
-          passwordRepeat: values.passwordRepeat,
         });
       },
     },

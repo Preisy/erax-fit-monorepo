@@ -8,7 +8,7 @@ export const useTrainingStore = defineStore('training-store', () => {
   const getTrainings = (page: number, limit: number) =>
     useSimpleStoreAction({
       stateWrapper: trainings.value,
-      serviceAction: TrainingsService.getExpandedTrainings({ page, limit }),
+      serviceAction: TrainingsService.getBaseTrainings({ page, limit }),
     });
 
   const additionRequestState = ref(useSingleState<Addition.Response>());

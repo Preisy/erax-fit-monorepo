@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { z } from 'zod';
+import { AppBaseEntity } from '../base';
 
 export namespace Training {
   export interface Dto {
@@ -8,30 +9,26 @@ export namespace Training {
     expanded: boolean;
   }
 
+  export interface Base extends AppBaseEntity {
+    name: string;
+    comment: string;
+    date: Moment;
+    loop: number;
+    userId: number;
+    localeDate: string;
+  }
+  export interface Expanded extends Base {
+    exercises: Array<Exercise>;
+  }
+
   export namespace Response {
     export interface Base {
-      data: Array<Response.BaseTraining>;
+      data: Array<Training.Base>;
       count: number;
     }
     export interface Expanded {
-      data: Array<Response.ExpandedTraining>;
+      data: Array<Training.Expanded>;
       count: number;
-    }
-
-    export interface BaseTraining {
-      id: number;
-      createdAt: Moment;
-      updatedAt: Moment;
-      deletedAt: Nullable<Moment>;
-      name: string;
-      comment: string;
-      date: Moment;
-      loop: number;
-      userId: number;
-      localeDate: string;
-    }
-    export interface ExpandedTraining extends BaseTraining {
-      exercises: Array<Exercise>;
     }
   }
 
