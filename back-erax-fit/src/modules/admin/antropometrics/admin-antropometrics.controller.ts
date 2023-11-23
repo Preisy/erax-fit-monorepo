@@ -5,11 +5,13 @@ import { RoleGuard } from '../../authentication/guards/role.guard';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
-import { Get, Query, Param } from '@nestjs/common/decorators';
+import { Get, Query, Param, Post, Body } from '@nestjs/common/decorators';
 import { AntropometricsEntity } from '../../core/antropometrics/entities/antropometrics.entity';
 import { AdminAntropometricsService } from './admin-antropometrics.service';
 import { AppAuthGuard } from '../../../modules/authentication/guards/appAuth.guard';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
+import { Throttle } from '@nestjs/throttler';
+import { CreateAnthropometricsByAdminRequest } from './dto/create-anthropometrics-by-admin.dto';
 
 @Controller('admin/antropometrics')
 @ApiTags('Admin antropometrics')
@@ -18,6 +20,12 @@ import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 @UsePipes(ValidationPipe)
 export class AdminAntropometricsController {
   constructor(private readonly adminService: AdminAntropometricsService) {}
+  @Post()
+  @AppResponses({ status: 201, type: AppSingleResponse.type(AntropometricsEntity) })
+  @Throttle(5, 1)
+  async create(@Body() body: CreateAnthropometricsByAdminRequest) {
+    return await this.adminService.create(body);
+  }
 
   @Get()
   @AppResponses({ status: 200, type: AppDatePagination.Response.type(AntropometricsEntity) })

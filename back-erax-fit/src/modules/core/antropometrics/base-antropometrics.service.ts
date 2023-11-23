@@ -7,7 +7,6 @@ import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAntropometricsRequest } from './dto/update-antropometrics';
 import { MainException } from '../../../exceptions/main.exception';
 import { filterUndefined } from '../../../utils/filter-undefined.util';
-import { UserEntity } from '../user/entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
@@ -20,13 +19,9 @@ export class BaseAntropometrcisService {
 
   public readonly relations: (keyof AntropometricsEntity)[] = ['user'];
 
-  async create(
-    user: UserEntity,
-    request: CreateAntropometricsRequest,
-  ): Promise<AppSingleResponse<AntropometricsEntity>> {
+  async create(request: CreateAntropometricsRequest): Promise<AppSingleResponse<AntropometricsEntity>> {
     const newAntrp = await this.antrpRepository.create({
       ...request,
-      userId: user.id,
     });
 
     const savedAntrp = await this.antrpRepository.save(newAntrp);

@@ -7,6 +7,7 @@ import { BaseAntropometricsModule } from '../../../modules/core/antropometrics/b
 import { UserEntity } from '../../../modules/core/user/entities/user.entity';
 import { AuthModule } from '../../../modules/authentication/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { BaseUserModule } from '../../../modules/core/user/base-user.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     forwardRef(() => AuthModule),
     BaseAntropometricsModule,
     ScheduleModule,
+    BaseUserModule,
   ],
   controllers: [AdminAntropometricsController],
   providers: [AdminAntropometricsService],

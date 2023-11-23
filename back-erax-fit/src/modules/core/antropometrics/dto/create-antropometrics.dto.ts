@@ -43,4 +43,6 @@ export class CreateAntropometricsRequest {
   @Min(30)
   @Max(150)
   public hipVolume: number;
+
+  public userId: number;
 }
