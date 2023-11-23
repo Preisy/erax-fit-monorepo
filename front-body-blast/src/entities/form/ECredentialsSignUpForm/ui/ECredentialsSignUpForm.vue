@@ -3,18 +3,26 @@ import { SInput } from 'shared/ui/SInput';
 </script>
 
 <template>
-  <SInput name="username" :label="$t('auth.signUp.credentials.fields.username')" />
-  <SInput name="email" autocomplete="email" :label="$t('auth.signUp.credentials.fields.email')" />
+  <SInput
+    name="username"
+    autocomplete="section-signup shipping username"
+    :label="$t('auth.signUp.credentials.fields.username')"
+  />
+  <SInput
+    name="email"
+    autocomplete="section-signup shipping email"
+    :label="$t('auth.signUp.credentials.fields.email')"
+  />
   <SInput
     name="password"
     type="password"
-    autocomplete="password"
+    autocomplete="section-signup shipping password"
     :label="$t('auth.signUp.credentials.fields.password')"
   />
   <SInput
     name="passwordRepeat"
     type="password"
-    autocomplete="password-repeat"
+    autocomplete="section-signup shipping password"
     :label="$t('auth.signUp.credentials.fields.passwordRepeat')"
   />
 </template>

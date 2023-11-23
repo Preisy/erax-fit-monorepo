@@ -1,5 +1,4 @@
-/* eslint-disable boundaries/element-types */
-import { api } from 'app/boot/axios';
+import { api } from 'shared/config';
 import { requestSimulator, useServiceAction } from 'shared/lib/utils';
 import { Addition, Training } from './types';
 

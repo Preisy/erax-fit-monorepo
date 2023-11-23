@@ -2,18 +2,13 @@
 import { toTypedSchema } from '@vee-validate/zod';
 import { useI18n } from 'vue-i18n';
 import {
-  BodyParams,
-  Credentials,
-  Diseases,
   EBodyParamsSignUpForm,
   ECredentialsSignUpForm,
   EDiseasesSignUpForm,
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
-  Forbiddens,
-  Motivations,
 } from 'entities/form';
-import { useAuthStore, TokenService } from 'shared/api/auth';
+import { useAuthStore, TokenService, SignUp } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 import { GetZodInnerType } from 'shared/lib/utils';
 import { SBtn } from 'shared/ui/SBtn';
@@ -38,8 +33,8 @@ const slides: RegisterSlides = [
   {
     is: ECredentialsSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(Credentials.validation(t)),
-      onSubmit: (values: GetZodInnerType<typeof Credentials.validation>) => {
+      fieldSchema: toTypedSchema(SignUp.Credentials.validation(t)),
+      onSubmit: (values: GetZodInnerType<typeof SignUp.Credentials.validation>) => {
         const [firstName, lastName] = values.username.split(' ');
         authStore.applyCredentials({
           email: values.email,
@@ -53,8 +48,8 @@ const slides: RegisterSlides = [
   {
     is: EBodyParamsSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(BodyParams.validation(t)),
-      onSubmit: (values: GetZodInnerType<typeof BodyParams.validation>) => {
+      fieldSchema: toTypedSchema(SignUp.BodyParams.validation(t)),
+      onSubmit: (values: GetZodInnerType<typeof SignUp.BodyParams.validation>) => {
         const [weight, height] = values.weightAndHeight.split('/');
         authStore.applyBodyParams({
           age: values.age,
@@ -68,21 +63,21 @@ const slides: RegisterSlides = [
   {
     is: EForbiddensSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(Forbiddens.validation()),
+      fieldSchema: toTypedSchema(SignUp.Forbiddens.validation()),
       onSubmit: authStore.applyForbiddens,
     },
   },
   {
     is: EDiseasesSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(Diseases.validation()),
+      fieldSchema: toTypedSchema(SignUp.Diseases.validation()),
       onSubmit: authStore.applyDiseases,
     },
   },
   {
     is: EMotivationsSignUpForm,
     formProps: {
-      fieldSchema: toTypedSchema(Motivations.validation()),
+      fieldSchema: toTypedSchema(SignUp.Motivations.validation()),
       onSubmit: async (data) => {
         authStore.applyMotivations(data);
         submitBtnsExceptLast.value.forEach((btn) => btn.click());
