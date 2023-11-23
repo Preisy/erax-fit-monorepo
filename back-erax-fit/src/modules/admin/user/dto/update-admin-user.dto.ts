@@ -7,5 +7,5 @@ export class UpdateUserByAdminRequest extends UpdateUserRequest {
   @Min(1)
   @Max(14)
   @ApiProperty()
-  public taskPeriod: number;
+  public anthrpJobPeriod: number;
 }

@@ -103,5 +103,5 @@ export class UserEntity extends AppBaseEntity {
 
   @ApiProperty()
   @Column({ type: 'integer', nullable: true })
-  public taskPeriod?: number;
+  public anthrpJobPeriod?: number;
 }

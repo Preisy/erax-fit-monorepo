@@ -49,9 +49,12 @@ export class AdminAnthropometricsService {
 
     users.forEach((user) => {
       const userAnthrp = anthrpMap[user.id];
-      user.taskPeriod;
+      user.anthrpJobPeriod;
       userAnthrp.createdAt;
-      if (Math.abs(userAnthrp.createdAt.getTime() - new Date().getTime()) >= user.taskPeriod! * 1000 * 60 * 60 * 24) {
+      if (
+        Math.abs(userAnthrp.createdAt.getTime() - new Date().getTime()) >=
+        user.anthrpJobPeriod! * 1000 * 60 * 60 * 24
+      ) {
         this.antrpRepository.save(new AnthropometricsEntity());
       }
     });
