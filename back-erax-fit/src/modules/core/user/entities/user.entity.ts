@@ -7,9 +7,6 @@ import { TokenEntity } from '../../../authentication/entities/token.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
-  @OneToMany(() => WorkoutEntity, (workout) => workout.user)
-  public workouts: WorkoutEntity[];
-
   @ApiProperty({ type: () => TokenEntity })
   @OneToOne(() => TokenEntity)
   @JoinColumn({ name: 'tokenId' })
@@ -103,10 +100,6 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'varchar', length: 256 })
   public goals: string;
-
-  @ApiProperty()
-  @Column({ type: 'varchar', length: 50, nullable: true })
-  public taskName?: string;
 
   @ApiProperty()
   @Column({ type: 'integer', nullable: true })
