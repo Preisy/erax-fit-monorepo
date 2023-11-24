@@ -6,7 +6,7 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppResponses } from '../../../decorators/app-responses.decorator';
 import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { Get, Query, Param, Post, Body } from '@nestjs/common/decorators';
-import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../core/anthropometrics/entities/anthropometrics.entity';
 import { AdminAnthropometricsService } from './admin-anthropometrics.service';
 import { AppAuthGuard } from '../../authentication/guards/appAuth.guard';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';

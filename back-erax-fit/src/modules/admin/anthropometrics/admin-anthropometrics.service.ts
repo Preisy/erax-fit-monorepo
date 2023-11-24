@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common/decorators';
-import { BaseAnthropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
-import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
+import { BaseAnthropometrcisService } from '../../core/anthropometrics/base-anthropometrics.service';
+import { AnthropometricsEntity } from '../../core/anthropometrics/entities/anthropometrics.entity';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';

@@ -23,7 +23,7 @@ import { RequestWithUser } from '../../authentication/types/requestWithUser.type
 import { CreateAnthropometricsByClientRequest } from './dto/client-create-anthropometrics.dto';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { UpdateAnthropometricsByClientRequest } from './dto/client-update-anthropometrics.dto';
-import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../core/anthropometrics/entities/anthropometrics.entity';
 import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 

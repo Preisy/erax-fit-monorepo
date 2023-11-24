@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common/decorators';
-import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../core/anthropometrics/entities/anthropometrics.entity';
 import { CreateAnthropometricsByClientRequest } from './dto/client-create-anthropometrics.dto';
 import { UpdateAnthropometricsByClientRequest } from './dto/client-update-anthropometrics.dto';
-import { BaseAnthropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../core/anthropometrics/base-anthropometrics.service';
 import { UserEntity } from '../../core/user/entities/user.entity';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 

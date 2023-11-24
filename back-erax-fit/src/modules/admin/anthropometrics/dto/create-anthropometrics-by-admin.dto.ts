@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { CreateAnthropometricsRequest } from '../../../core/antropometrics/dto/create-anthropometrics.dto';
+import { CreateAnthropometricsRequest } from '../../../core/anthropometrics/dto/create-anthropometrics.dto';
 import { IsDefined, IsNumber, Min } from 'class-validator';
 
 export class CreateAnthropometricsByAdminRequest extends CreateAnthropometricsRequest {
