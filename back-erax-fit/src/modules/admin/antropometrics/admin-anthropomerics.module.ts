@@ -3,7 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
 import { AdminAnthropometricsService } from './admin-anthropometrics.service';
 import { AdminAnthropometricsController } from './admin-anthropometrics.controller';
-import { BaseAntropometricsModule } from '../../core/antropometrics/base-anthropometrics.module';
+import { BaseAnthropometricsModule } from '../../core/antropometrics/base-anthropometrics.module';
 import { UserEntity } from '../../core/user/entities/user.entity';
 import { AuthModule } from '../../authentication/auth.module';
 import { ScheduleModule } from '@nestjs/schedule';
@@ -13,7 +13,7 @@ import { BaseUserModule } from '../../core/user/base-user.module';
   imports: [
     TypeOrmModule.forFeature([UserEntity, AnthropometricsEntity]),
     forwardRef(() => AuthModule),
-    BaseAntropometricsModule,
+    BaseAnthropometricsModule,
     ScheduleModule,
     BaseUserModule,
   ],

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common/decorators';
-import { BaseAntropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
 import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -15,7 +15,7 @@ export class AdminAnthropometricsService {
   constructor(
     @InjectRepository(AnthropometricsEntity)
     private readonly anthrpRepository: Repository<AnthropometricsEntity>,
-    private readonly baseService: BaseAntropometrcisService,
+    private readonly baseService: BaseAnthropometrcisService,
     private readonly userService: BaseUserService,
   ) {}
 

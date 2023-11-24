@@ -11,7 +11,7 @@ import { Injectable } from '@nestjs/common';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
 @Injectable()
-export class BaseAntropometrcisService {
+export class BaseAnthropometrcisService {
   constructor(
     @InjectRepository(AnthropometricsEntity)
     private readonly anthrpRepository: Repository<AnthropometricsEntity>,

@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common/decorators';
 import { AnthropometricsEntity } from '../../core/antropometrics/entities/anthropometrics.entity';
 import { CreateAnthropometricsByClientRequest } from './dto/client-create-anthropometrics.dto';
 import { UpdateAnthropometricsByClientRequest } from './dto/client-update-anthropometrics.dto';
-import { BaseAntropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../core/antropometrics/base-anthropometrics.service';
 import { UserEntity } from '../../core/user/entities/user.entity';
 import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 
 @Injectable()
 export class ClientAnthropometricsService {
-  constructor(private readonly baseService: BaseAntropometrcisService) {}
+  constructor(private readonly baseService: BaseAnthropometrcisService) {}
 
   async create(user: UserEntity, request: CreateAnthropometricsByClientRequest) {
     request.userId = user.id;
