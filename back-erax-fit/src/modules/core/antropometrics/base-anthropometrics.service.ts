@@ -14,17 +14,17 @@ import { AppDatePagination } from '../../../utils/app-date-pagination.util';
 export class BaseAntropometrcisService {
   constructor(
     @InjectRepository(AnthropometricsEntity)
-    private readonly antrpRepository: Repository<AnthropometricsEntity>,
+    private readonly anthrpRepository: Repository<AnthropometricsEntity>,
   ) {}
 
   public readonly relations: (keyof AnthropometricsEntity)[] = ['user'];
 
   async create(request: CreateAnthropometricsRequest): Promise<AppSingleResponse<AnthropometricsEntity>> {
-    const newAntrp = await this.antrpRepository.create({
+    const newAntrp = await this.anthrpRepository.create({
       ...request,
     });
 
-    const savedAntrp = await this.antrpRepository.save(newAntrp);
+    const savedAntrp = await this.anthrpRepository.save(newAntrp);
 
     return new AppSingleResponse(savedAntrp);
   }
@@ -33,12 +33,12 @@ export class BaseAntropometrcisService {
     query: AppDatePagination.Request,
     options?: AppDatePagination.GetExecutorOptions<AnthropometricsEntity>,
   ): Promise<AppDatePagination.Response<AnthropometricsEntity>> {
-    const { getPaginatedData } = AppDatePagination.getExecutor(this.antrpRepository, this.relations);
+    const { getPaginatedData } = AppDatePagination.getExecutor(this.anthrpRepository, this.relations);
     return getPaginatedData(query, options);
   }
 
   async findOne(id: AnthropometricsEntity['id']) {
-    const antrp = await this.antrpRepository.findOne({
+    const antrp = await this.anthrpRepository.findOne({
       where: { id },
       relations: this.relations,
     });
@@ -54,7 +54,7 @@ export class BaseAntropometrcisService {
   ): Promise<AppSingleResponse<AnthropometricsEntity>> {
     const { data: antrp } = await this.findOne(id);
 
-    const savedAntrp = await this.antrpRepository.save({
+    const savedAntrp = await this.anthrpRepository.save({
       ...antrp,
       ...filterUndefined(request),
     });
@@ -63,7 +63,7 @@ export class BaseAntropometrcisService {
   }
 
   async delete(id: AnthropometricsEntity['id']): Promise<AppStatusResponse> {
-    const { affected } = await this.antrpRepository.delete(id);
+    const { affected } = await this.anthrpRepository.delete(id);
 
     return new AppStatusResponse(!!affected);
   }
