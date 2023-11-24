@@ -9,13 +9,13 @@ export class Antropometrics1699725159134 implements MigrationInterface {
     );
     await queryRunner.query('ALTER TABLE "users" ADD "anthrpJobPeriod" integer');
     await queryRunner.query(
-      'ALTER TABLE "antropometrics" ADD CONSTRAINT "FK_05acb8ac364df5b594cd9fd5069" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE',
+      'ALTER TABLE "anthropometrics" ADD CONSTRAINT "FK_05acb8ac364df5b594cd9fd5069" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE',
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query('ALTER TABLE "anthropometrics" DROP CONSTRAINT "FK_05acb8ac364df5b594cd9fd5069"');
     await queryRunner.query('ALTER TABLE "users" DROP COLUMN "anthrpJobPeriod"');
-    await queryRunner.query('DROP TABLE "antropometrics"');
+    await queryRunner.query('DROP TABLE "anthropometrics"');
   }
 }

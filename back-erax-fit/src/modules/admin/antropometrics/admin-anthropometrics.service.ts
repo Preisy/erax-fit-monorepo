@@ -14,7 +14,7 @@ import { CreateAnthropometricsByAdminRequest } from './dto/create-anthropometric
 export class AdminAnthropometricsService {
   constructor(
     @InjectRepository(AnthropometricsEntity)
-    private readonly antrpRepository: Repository<AnthropometricsEntity>,
+    private readonly anthrpRepository: Repository<AnthropometricsEntity>,
     private readonly baseService: BaseAntropometrcisService,
     private readonly userService: BaseUserService,
   ) {}
@@ -33,7 +33,7 @@ export class AdminAnthropometricsService {
     return await this.baseService.findOne(id);
   }
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async createAnthropometricsCron() {
     const { data: users } = await this.userService.getUsers(new AppPagination.Request(), {
       where: {
@@ -41,37 +41,34 @@ export class AdminAnthropometricsService {
       },
     });
 
-    const data = await this.findLatestEntitiesForEachUser();
+    const data = await this.findLatestAnthropometricsForEachUser();
     const anthrpMap = data.reduce(
-      (acc, value) => ({ ...acc, [value.id]: value }),
+      (acc, value) => ({ ...acc, [value.userId]: value }),
       {} as Record<number, AnthropometricsEntity>,
     );
 
     users.forEach((user) => {
       const userAnthrp = anthrpMap[user.id];
       user.anthrpJobPeriod;
-      userAnthrp.createdAt;
-      if (
-        Math.abs(userAnthrp.createdAt.getTime() - new Date().getTime()) >=
-        user.anthrpJobPeriod! * 1000 * 60 * 60 * 24
-      ) {
-        this.antrpRepository.save(new AnthropometricsEntity());
+      const anthrpCreatedAt = userAnthrp.createdAt.getTime() || 0;
+      if (Math.abs(anthrpCreatedAt - new Date().getTime()) >= user.anthrpJobPeriod! * 1000 * 60 * 60 * 24) {
+        this.anthrpRepository.save(this.anthrpRepository.create({ userId: user.id }));
       }
     });
   }
 
-  async findLatestEntitiesForEachUser() {
-    const subQuery = await this.antrpRepository
+  async findLatestAnthropometricsForEachUser() {
+    const subQuery = await this.anthrpRepository
       .createQueryBuilder('sub')
       .select('MAX(sub.createdAt)', 'maxCreatedAt')
       .where('sub.userId = main.userId')
       .groupBy('sub.userId');
 
-    const latestEntities = await this.antrpRepository
+    const latestAnthrp = await this.anthrpRepository
       .createQueryBuilder('main')
       .where(`main.createdAt = (${subQuery.getQuery()})`)
       .getMany();
 
-    return latestEntities;
+    return latestAnthrp;
   }
 }
