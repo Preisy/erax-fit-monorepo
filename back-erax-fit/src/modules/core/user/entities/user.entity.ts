@@ -1,10 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { Constants, UserRole } from '../../../../constants/constants';
 import { Exclude } from 'class-transformer';
 import { TokenEntity } from '../../../authentication/entities/token.entity';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 import { WorkoutEntity } from '../../workout/entity/workout.entity';
+import { DiaryTemplateEntity } from '../../diary-template/entity/diary-template.entity';
 
 @Entity('users')
 export class UserEntity extends AppBaseEntity {
@@ -116,4 +117,13 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'integer' })
   public stepsGoal: number;
+
+  @ApiProperty({ type: () => DiaryTemplateEntity })
+  @ManyToOne(() => DiaryTemplateEntity)
+  @JoinColumn({ name: 'templateId' })
+  public template!: DiaryTemplateEntity;
+
+  @ApiProperty()
+  @Column('integer', { name: 'templateId' })
+  public templateId!: number;
 }

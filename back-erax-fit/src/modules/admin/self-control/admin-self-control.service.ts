@@ -3,17 +3,24 @@ import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { BaseSelfControlService } from 'src/modules/core/self-control/base-self-control.service';
 import { SelfControlEntity } from 'src/modules/core/self-control/entity/self-control.entity';
+import { UserEntity } from 'src/modules/core/user/entities/user.entity';
 import { AppDatePagination } from 'src/utils/app-date-pagination.util';
-import { CreateWorkoutByAdminRequest } from './dto/admin-create-wrokout.dto';
 import { UpdateSelfControlByAdminRequest } from './dto/admin-update-self-control.dto';
-import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class AdminSelfControlService {
   constructor(private readonly baseService: BaseSelfControlService) {}
-  @Cron()
-  async create(request: CreateWorkoutByAdminRequest): Promise<AppSingleResponse<SelfControlEntity>> {
-    return this.baseService.create(request);
+  async create(user: UserEntity): Promise<AppSingleResponse<SelfControlEntity>> {
+    return this.baseService.create(user);
+  }
+
+  private async setCronJob(user: UserEntity): Promise<AppStatusResponse> {
+    const callback = () => this.create(user);
+
+    const defaultTimeout = setTimeout(callback, 24 * 60 * 60 * 1000);
+
+    this.schedulerRegistry.addTimeout(`${user.selfControlTaskName}`, defaultTimeout);
+    return new AppStatusResponse(true);
   }
 
   async findAll(query: AppDatePagination.Request): Promise<AppDatePagination.Response<SelfControlEntity>> {

@@ -3,15 +3,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AppSingleResponse } from 'src/dto/app-single-response.dto';
 import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { MainException } from 'src/exceptions/main.exception';
+import { AppDatePagination } from 'src/utils/app-date-pagination.util';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { Repository } from 'typeorm';
 import { BaseDiaryTemplateService } from '../diary-template/base-diary-template.service';
+import { UserEntity } from '../user/entities/user.entity';
 import { BaseWorkoutService } from '../workout/base-workout.service';
-import { CreateSelfControlRequest } from './dto/create-self-control.dto';
 import { GetSelfControlDTO } from './dto/get-self-control.dto';
 import { UpdateSelfControlRequest } from './dto/update-self-control.dto';
 import { SelfControlEntity } from './entity/self-control.entity';
-import { AppDatePagination } from 'src/utils/app-date-pagination.util';
 
 @Injectable()
 export class BaseSelfControlService {
@@ -23,12 +23,13 @@ export class BaseSelfControlService {
   ) {}
   public readonly relations: (keyof SelfControlEntity)[] = ['user', 'props'];
 
-  async create(request: CreateSelfControlRequest): Promise<AppSingleResponse<SelfControlEntity>> {
+  async create(user: UserEntity): Promise<AppSingleResponse<SelfControlEntity>> {
     const newSelfControl = this.selfControlRepository.create({
-      ...request,
+      userId: user.id,
+      templateId: user.templateId,
     });
 
-    const { data: template } = await this.diaryTemplateService.findOne(request.templateId);
+    const { data: template } = await this.diaryTemplateService.findOne(user.templateId);
     newSelfControl.props = template.props;
 
     const newDate = new Date(Date.now());
