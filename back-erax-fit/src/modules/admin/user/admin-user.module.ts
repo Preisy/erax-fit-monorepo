@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { AdminUserService } from './admin-user.service';
 import { BaseUserModule } from '../../core/user/base-user.module';
 import { AdminUserController } from './admin-user.controller';
-import { AdminAntropometricsModule } from '../antropometrics/admin-antropomerics.module';
+import { AdminAntropometricsModule } from '../anthropometrics/admin-anthropomerics.module';
 
 @Module({
   imports: [
