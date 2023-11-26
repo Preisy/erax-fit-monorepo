@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WorkoutEntity } from './entity/workout.entity';
+import { AppSingleResponse } from 'src/dto/app-single-response.dto';
+import { AppStatusResponse } from 'src/dto/app-status-response.dto';
+import { MainException } from 'src/exceptions/main.exception';
+import { AppPagination } from 'src/utils/app-pagination.util';
+import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { Repository } from 'typeorm';
-import { MainException } from '../../../exceptions/main.exception';
-import { GetWorkoutDTO } from './dto/get-workout.dto';
-import { CreateWorkoutRequest } from './dto/create-workout.dto';
-import { UpdateWorkoutRequest } from './dto/update-workout.dto';
-import { filterUndefined } from '../../../utils/filter-undefined.util';
-import { AppSingleResponse } from '../../../dto/app-single-response.dto';
-import { AppPagination } from '../../../utils/app-pagination.util';
-import { AppStatusResponse } from '../../../dto/app-status-response.dto';
 import { ExerciseEntity } from '../exerсise/entities/exercise.entity';
+import { CreateWorkoutRequest } from './dto/create-workout.dto';
+import { GetWorkoutDTO } from './dto/get-workout.dto';
+import { UpdateWorkoutRequest } from './dto/update-workout.dto';
+import { WorkoutEntity } from './entity/workout.entity';
 
 @Injectable()
 export class BaseWorkoutService {

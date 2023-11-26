@@ -33,9 +33,12 @@ export class BaseUserService {
     return new AppSingleResponse(savedUser);
   }
 
-  async getUsers(query: AppPagination.Request): Promise<AppPagination.Response<UserEntity>> {
+  async getUsers(
+    query: AppPagination.Request,
+    options?: AppPagination.GetExecutorOptions<UserEntity>,
+  ): Promise<AppPagination.Response<UserEntity>> {
     const { getPaginatedData } = AppPagination.getExecutor(this.userRepository);
-    return getPaginatedData(query);
+    return getPaginatedData(query, options);
   }
 
   async getUserById(id: UserEntity['id']): Promise<AppSingleResponse<UserEntity>> {
