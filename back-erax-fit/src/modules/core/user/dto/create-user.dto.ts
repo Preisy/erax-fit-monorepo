@@ -124,5 +124,5 @@ export class CreateUserRequest {
   @IsNumber()
   @Min(1)
   @ApiProperty()
-  public stepsGoal: number;
+  public templateId: number;
 }

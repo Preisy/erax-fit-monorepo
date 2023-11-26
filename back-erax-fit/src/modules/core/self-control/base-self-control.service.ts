@@ -6,42 +6,28 @@ import { MainException } from 'src/exceptions/main.exception';
 import { AppDatePagination } from 'src/utils/app-date-pagination.util';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { Repository } from 'typeorm';
-import { BaseDiaryTemplateService } from '../diary-template/base-diary-template.service';
-import { UserEntity } from '../user/entities/user.entity';
-import { BaseWorkoutService } from '../workout/base-workout.service';
+import { CreateSelfControlRequest } from './dto/create-self-control.dto';
 import { GetSelfControlDTO } from './dto/get-self-control.dto';
 import { UpdateSelfControlRequest } from './dto/update-self-control.dto';
 import { SelfControlEntity } from './entity/self-control.entity';
+import { BaseUserService } from '../user/base-user.service';
+import { GetStepsByUserIdDTO } from './dto/get-steps.dto';
 
 @Injectable()
 export class BaseSelfControlService {
   constructor(
     @InjectRepository(SelfControlEntity)
     private readonly selfControlRepository: Repository<SelfControlEntity>,
-    private readonly workoutService: BaseWorkoutService,
-    private readonly diaryTemplateService: BaseDiaryTemplateService,
+    private readonly userService: BaseUserService,
   ) {}
   public readonly relations: (keyof SelfControlEntity)[] = ['user', 'props'];
 
-  async create(user: UserEntity): Promise<AppSingleResponse<SelfControlEntity>> {
+  async create(request: CreateSelfControlRequest): Promise<AppSingleResponse<SelfControlEntity>> {
     const newSelfControl = this.selfControlRepository.create({
-      userId: user.id,
-      templateId: user.templateId,
+      ...request,
+      date: new Date(request.date),
     });
 
-    const { data: template } = await this.diaryTemplateService.findOne(user.templateId);
-    newSelfControl.props = template.props;
-
-    const newDate = new Date(Date.now());
-    newDate.setHours(0, 0, 0, 0);
-    newSelfControl.date = newDate;
-
-    try {
-      const { data: workout } = await this.workoutService.findOneByDate(newDate);
-      newSelfControl.behavior = `Цикл ${workout.loop}`;
-    } catch (e) {
-      newSelfControl.behavior = 'Отдых';
-    }
     const savedSelfControl = await this.selfControlRepository.save(newSelfControl);
 
     return new AppSingleResponse<GetSelfControlDTO>(this.getSelfControlDTO(savedSelfControl));
@@ -69,10 +55,40 @@ export class BaseSelfControlService {
     return new AppSingleResponse<GetSelfControlDTO>(this.getSelfControlDTO(selfControl));
   }
 
+  async findAllByUserId(
+    userId: SelfControlEntity['userId'],
+    query: AppDatePagination.Request,
+  ): Promise<AppDatePagination.Response<SelfControlEntity>> {
+    return this.findAll(query, {
+      where: {
+        userId,
+      },
+    });
+  }
+
+  async getStepsByUserId(
+    userId: SelfControlEntity['userId'],
+    query: AppDatePagination.Request,
+  ): Promise<GetStepsByUserIdDTO> {
+    const { data: selfControls } = await this.findAllByUserId(userId, query);
+    let steps = 0;
+    selfControls.forEach((selfControl) => {
+      if (selfControl.steps) steps += selfControl.steps;
+    });
+    const { data: user } = await this.userService.getUserById(userId);
+    const stepsGoal = user.stepsGoal;
+    return new GetStepsByUserIdDTO(steps, stepsGoal);
+  }
+
   async update(id: SelfControlEntity['id'], request: UpdateSelfControlRequest) {
     const { data: selfControl } = await this.findOne(id);
     if (request.props) {
       selfControl.props = [];
+
+      selfControl.sum = 0;
+      request.props.forEach((prop) => {
+        selfControl.sum! += prop.value;
+      });
     }
     const savedSelfControl = await this.selfControlRepository.save({
       ...selfControl,

@@ -72,9 +72,8 @@ export namespace AppDatePagination {
         const request = new AppDatePagination.Request(query.expanded, query.from, query.to);
         const from = request.from || new Date();
         const to = request.to || new Date();
-
         const [sellers, count] = await repository.findAndCount({
-          where: { createdAt: And(MoreThanOrEqual(to), LessThanOrEqual(from)) },
+          where: { createdAt: And(MoreThanOrEqual(from), LessThanOrEqual(to)) },
           relations: request.expanded ? relations : undefined,
           ...options,
         });

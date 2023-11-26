@@ -19,25 +19,16 @@ export class BaseDiaryTemplateService {
     private readonly diaryTemlpateRepository: Repository<DiaryTemplateEntity>,
     @InjectRepository(SelfControlPropsEntity)
     private readonly selfControlPropsEntityRepository: Repository<SelfControlPropsEntity>,
-    private readonly userService: BaseUserService,
   ) {}
-  public readonly relations: (keyof DiaryTemplateEntity)[] = ['user', 'props'];
+  public readonly relations: (keyof DiaryTemplateEntity)[] = ['props'];
 
   async create(request: CreateDiaryTemplateRequest): Promise<AppSingleResponse<DiaryTemplateEntity>> {
     const newTemplate = this.diaryTemlpateRepository.create({
       ...request,
     });
 
-    const user = await this.userService.getUserById(request.userId);
-    if (!user) throw MainException.entityNotFound(`User with id ${request.userId} not found`);
-
-    try {
-      await this.findOneByUserId(request.userId);
-    } catch (e) {
-      const savedTemplate = await this.diaryTemlpateRepository.save(newTemplate);
-      return new AppSingleResponse(savedTemplate);
-    }
-    throw MainException.conflict('User already has template');
+    const savedTemplate = await this.diaryTemlpateRepository.save(newTemplate);
+    return new AppSingleResponse(savedTemplate);
   }
 
   async findOne(id: DiaryTemplateEntity['id']) {
@@ -50,20 +41,6 @@ export class BaseDiaryTemplateService {
 
     if (!template) {
       throw MainException.entityNotFound(`Template with id: ${id} not found`);
-    }
-    return new AppSingleResponse(template);
-  }
-
-  async findOneByUserId(userId: UserEntity['id']) {
-    const template = await this.diaryTemlpateRepository.findOne({
-      where: {
-        userId,
-      },
-      relations: this.relations,
-    });
-
-    if (!template) {
-      throw MainException.entityNotFound(`Template with userId: ${userId} not found`);
     }
     return new AppSingleResponse(template);
   }

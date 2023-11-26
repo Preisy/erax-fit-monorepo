@@ -7,6 +7,7 @@ import { MainExceptionFilter } from '../../../exceptions/main-exception.filter';
 import { RequestWithUser } from '../../authentication/types/requestWithUser.type';
 import { ClientWorkoutService } from './client-workout.service';
 import { WorkoutEntity } from 'src/modules/core/workout/entity/workout.entity';
+import { AppAuthGuard } from 'src/modules/authentication/guards/appAuth.guard';
 
 @Controller()
 @ApiTags('Workouts')
@@ -17,7 +18,7 @@ export class ClientWorkoutController {
 
   @Get('workouts')
   @AppResponses({ status: 200, type: AppPagination.Response.type(WorkoutEntity) })
-  @BaseAuthGuard()
+  @AppAuthGuard()
   async getAll(@Req() req: RequestWithUser, @Query() query: AppPagination.Request) {
     return await this.clientService.findAll(req.user.id, query);
   }
