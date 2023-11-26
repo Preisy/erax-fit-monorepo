@@ -1,4 +1,5 @@
-﻿import Static from '../static/Static';
+﻿import { Static } from '../static/Static';
+
 export enum UserRole {
   Client = 'client',
   Influencer = 'influencer',

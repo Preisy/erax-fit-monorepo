@@ -1,5 +1,4 @@
 import {
-  ValidationArguments,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
@@ -7,7 +6,7 @@ import {
 } from 'class-validator';
 
 export function IsPhoto(validationOptions?: ValidationOptions) {
-  return function (object: any, propertyName: string) {
+  return function (object: object, propertyName: string) {
     registerDecorator({
       name: 'IsPhoto',
       target: object.constructor,
@@ -30,7 +29,7 @@ export class PhotoTypeValidation implements ValidatorConstraintInterface {
     return fileType! in types;
   }
 
-  defaultMessage(args: ValidationArguments) {
+  defaultMessage() {
     return 'Provided file is not a photo.';
   }
 }
