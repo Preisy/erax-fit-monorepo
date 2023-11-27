@@ -1,23 +1,26 @@
 <script setup lang="ts">
 import { symRoundedClose } from '@quasar/extras/material-symbols-rounded';
 import { toTypedSchema } from '@vee-validate/zod';
+import { useI18n } from 'vue-i18n';
 import {
   EBodyParamsSignUpForm,
   EDiseasesSignUpForm,
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
-} from 'entities/profile/form';
-import { BodyParams, Diseases, Forbiddens, Motivations } from 'shared/api/auth';
+} from 'entities/form';
+import { SignUp } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 import { SBtn } from 'shared/ui/btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 import { SProxyScroll } from 'shared/ui/SProxyScroll';
 import { SStructure } from 'shared/ui/SStructure';
 
+const { t } = useI18n();
+
 const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; values: Record<string, unknown> }> = [
   {
     is: EBodyParamsSignUpForm,
-    form: { fieldSchema: toTypedSchema(BodyParams.validation()) },
+    form: { fieldSchema: toTypedSchema(SignUp.BodyParams.validation(t)) },
     values: {
       age: 20,
       teenAgeWeight: 500,
@@ -26,7 +29,7 @@ const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; value
   },
   {
     is: EForbiddensSignUpForm,
-    form: { fieldSchema: toTypedSchema(Forbiddens.validation()) },
+    form: { fieldSchema: toTypedSchema(SignUp.Forbiddens.validation()) },
     values: {
       allergic: 'Some meaningful text',
       diet: 'Another very important text',
@@ -35,7 +38,7 @@ const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; value
   },
   {
     is: EDiseasesSignUpForm,
-    form: { fieldSchema: toTypedSchema(Diseases.validation()) },
+    form: { fieldSchema: toTypedSchema(SignUp.Diseases.validation()) },
     values: {
       diseasesCVD: 'No',
       diseasesODA: 'No',
@@ -46,7 +49,7 @@ const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; value
   },
   {
     is: EMotivationsSignUpForm,
-    form: { fieldSchema: toTypedSchema(Motivations.validation()) },
+    form: { fieldSchema: toTypedSchema(SignUp.Motivations.validation()) },
     values: {
       loadRestrictions: 'Restricted to any intelligence work',
       sportExperience: 'Active 20h per day sleeping',

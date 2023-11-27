@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { adminProfileService } from './service';
-import { UserProfiles } from './types';
+import { AdminGetUsers } from './types';
 
 export const useAdminProfileStore = defineStore('admin-profile-store', () => {
-  const clientProfiles = ref(useSingleState<UserProfiles.Response>());
-  const getUserProfiles = () =>
+  const clientProfiles = ref(useSingleState<AdminGetUsers.Response>());
+  const getUserProfiles = (data: AdminGetUsers.Dto) =>
     useSimpleStoreAction({
       stateWrapper: clientProfiles.value,
-      serviceAction: adminProfileService.getUsers(),
+      serviceAction: adminProfileService.getUsers(data),
     });
 
   return {

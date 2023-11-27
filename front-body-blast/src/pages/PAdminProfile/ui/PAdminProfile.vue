@@ -15,14 +15,15 @@ defineProps<PAdminProfileProps>();
 const profileStore = useAdminProfileStore();
 const { clientProfiles } = profileStore;
 useLoading(clientProfiles);
-profileStore.getUserProfiles();
+profileStore.getUserProfiles({ page: 1, limit: 1000, expanded: false });
 
 const nameFilter = ref<string>('');
 const cards = computed(
   () =>
-    clientProfiles.data?.data.filter((card) =>
-      card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()),
-    ),
+    clientProfiles.data?.data.filter((card) => {
+      const fullName = `${card.firstName} ${card.lastName}`;
+      return fullName.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase());
+    }),
 );
 
 const edit = () => {

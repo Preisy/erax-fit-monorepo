@@ -9,19 +9,20 @@ import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 
 const trainingStore = useTrainingStore();
-const trainings = computed(() => trainingStore.trainings);
-useLoading(trainings.value);
-trainingStore.getTrainingsByDate();
+useLoading(trainingStore.trainings);
+trainingStore.getTrainings(1, 100); //Debug only
+
+const exercises = computed(() => trainingStore.trainings.data?.data.at(0)?.exercises);
 </script>
 
 <template>
   <SStructure>
     <SSplide :options="{ direction: 'ttb', height: '35rem' }">
-      <SSplideSlide v-if="!trainings.state.isSuccess()">
+      <SSplideSlide v-if="!trainingStore.trainings.state.isSuccess()">
         <SNoResultsScreen />
       </SSplideSlide>
-      <SSplideSlide v-for="training in trainings.data" :key="training.name">
-        <ETrainingCard :training="training" py-1.5rem />
+      <SSplideSlide v-for="exercise in exercises" :key="exercise.name">
+        <ETrainingCard :training="exercise" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
         <WAdditionCard py-1.5rem />
