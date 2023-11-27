@@ -13,7 +13,8 @@ const authStore = useAuthStore();
 const { loginState } = authStore;
 const login = async (values: Auth.Dto) => {
   await authStore.login(values);
-  if (loginState.state.isSuccess()) router.push({ name: ENUMS.ROUTES_NAMES.TRAINING });
+  if (loginState.state.isError()) return;
+  router.push({ name: ENUMS.ROUTES_NAMES.TRAINING });
 };
 </script>
 

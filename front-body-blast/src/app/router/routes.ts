@@ -19,12 +19,13 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-left' },
       },
       {
-        path: '',
+        path: 'login',
         component: PLogin,
         name: ENUMS.ROUTES_NAMES.LOGIN,
         meta: { transition: 'slide-right' },
       },
     ],
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
   },
 
   adminRoutes,

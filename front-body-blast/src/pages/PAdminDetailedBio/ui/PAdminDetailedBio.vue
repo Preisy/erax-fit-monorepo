@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { symRoundedClose } from '@quasar/extras/material-symbols-rounded';
 import { toTypedSchema } from '@vee-validate/zod';
+import { pick } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import {
   EBodyParamsSignUpForm,
@@ -8,53 +9,50 @@ import {
   EForbiddensSignUpForm,
   EMotivationsSignUpForm,
 } from 'entities/form';
+import { useAdminProfileStore } from 'shared/api/admin';
 import { SignUp } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
+import { useLoading } from 'shared/lib/loading';
 import { SBtn } from 'shared/ui/btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 import { SProxyScroll } from 'shared/ui/SProxyScroll';
 import { SStructure } from 'shared/ui/SStructure';
 
 const { t } = useI18n();
+const id = parseInt(useRoute().params.id as string);
+
+const { clientProfiles, getUserProfiles } = useAdminProfileStore();
+useLoading(clientProfiles);
+if (!clientProfiles.data) getUserProfiles({ page: 1, limit: 1000, expanded: false });
+
+const values = computed(() => clientProfiles.data?.data.find((profile) => profile.id === id));
 
 const forms: Array<{ is: Component; form: Pick<SFormProps, 'fieldSchema'>; values: Record<string, unknown> }> = [
   {
     is: EBodyParamsSignUpForm,
     form: { fieldSchema: toTypedSchema(SignUp.BodyParams.validation(t)) },
-    values: {
-      age: 20,
-      teenAgeWeight: 500,
-      weight: 999,
-    },
+    values: pick(values.value, ['age', 'weightInYouth', 'weight']),
   },
   {
     is: EForbiddensSignUpForm,
     form: { fieldSchema: toTypedSchema(SignUp.Forbiddens.validation()) },
-    values: {
-      allergic: 'Some meaningful text',
-      diet: 'Another very important text',
-      intolerance: 'Intolerance to tolerance',
-    },
+    values: pick(values.value, ['allergy', 'nutritRestrict', 'mealIntolerance']),
   },
   {
     is: EDiseasesSignUpForm,
     form: { fieldSchema: toTypedSchema(SignUp.Diseases.validation()) },
-    values: {
-      diseasesCVD: 'No',
-      diseasesODA: 'No',
-      gastrointestinalDiseases: 'No',
-      insulinResistance: 'No',
-      kidneyDisease: 'No',
-    },
+    values: pick(values.value, [
+      'gastroDeseases',
+      'insulinResistance',
+      'kidneyDesease',
+      'heartDesease',
+      'muscleDesease',
+    ]),
   },
   {
     is: EMotivationsSignUpForm,
     form: { fieldSchema: toTypedSchema(SignUp.Motivations.validation()) },
-    values: {
-      loadRestrictions: 'Restricted to any intelligence work',
-      sportExperience: 'Active 20h per day sleeping',
-      targets: 'Become 2m 120kg muscle monster asap',
-    },
+    values: pick(values.value, ['loadRestrictions', 'sportsExp', 'goals']),
   },
 ];
 </script>
