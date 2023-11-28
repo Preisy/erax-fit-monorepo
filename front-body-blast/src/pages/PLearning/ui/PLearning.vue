@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { WVideo } from 'widgets/learning/WVideo';
-const props = {
-  title: 'Мышцы груди',
-  links: ['https://v3.cdnpk.net/videvo_files/video/free/2013-08/large_watermarked/hd0983_preview.mp4'],
-  poster: '',
-};
+import { useLearningStore } from 'shared/api/learning';
+const learningStore = useLearningStore();
+const videos = computed(() => learningStore.videos.data || []);
+learningStore.getVideos();
 </script>
 
 <template>
   <div>
-    <WVideo v-bind="props" />
+    <WVideo v-for="video in videos" v-bind="video" :key="video.title" />
   </div>
 </template>

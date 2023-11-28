@@ -1,11 +1,6 @@
 <script setup lang="ts">
+import { Learning } from 'shared/api/learning';
 import { SBtn } from 'shared/ui/SBtn';
-
-export interface WVideo {
-  title: string;
-  links: string[];
-  poster?: string;
-}
 
 const video = ref<HTMLVideoElement | null>(null);
 const isPlaying = ref(false);
@@ -44,7 +39,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('fullscreenchange', handleFullscreenChange);
 });
 
-defineProps<WVideo>();
+defineProps<Learning.Video>();
 
 onMounted(() => {
   document.addEventListener('fullscreenchange', handleFullscreenChange);
@@ -55,8 +50,8 @@ onMounted(() => {
   <div w-full p-6>
     <h2 mb-4>{{ title }}</h2>
     <div>
-      <video width="480" :poster="poster" w-full border-rounded-4 @click="toggleFullscreenAndControls" ref="video">
-        <source v-for="link in links" :src="link" :key="link" type="video/mp4" />
+      <video width="480" w-full border-rounded-4 @click="toggleFullscreenAndControls" ref="video">
+        <source :src="link" type="video/mp4" />
         Your browser doesn't support HTML5 video tag.
       </video>
       <SBtn :icon="isPlaying ? 'pause' : 'play_arrow'" ml-2 mt--8 @click="togglePlay" />
