@@ -6,6 +6,7 @@ import { AppSingleResponse } from '../../../dto/app-single-response.dto';
 import { AppPagination } from '../../../utils/app-pagination.util';
 import { MainException } from '../../../exceptions/main.exception';
 import { AppStatusResponse } from '../../../dto/app-status-response.dto';
+import { CreateVideoRequest } from './dto/create-video.dto';
 
 @Injectable()
 export class BaseBonusVideoService {
@@ -14,14 +15,12 @@ export class BaseBonusVideoService {
     private readonly videoRepository: Repository<BonusVideoEntity>,
   ) {}
 
-  async create(file: Express.Multer.File): Promise<AppSingleResponse<BonusVideoEntity>> {
-    const newVideo = this.videoRepository.create({
-      fileName: file.filename,
-      path: file.filename,
-      fileLInk: process.env.APP_BASE_URL + '/' + file.filename,
-    });
-
-    const savedVideo = await this.videoRepository.save(newVideo);
+  async create(request: CreateVideoRequest): Promise<AppSingleResponse<BonusVideoEntity>> {
+    const savedVideo = await this.videoRepository.save(
+      this.videoRepository.create({
+        ...request,
+      }),
+    );
 
     return new AppSingleResponse(savedVideo);
   }

@@ -1,3 +1,3 @@
-import { CreateVideoResponse } from 'src/modules/core/bonus-video/dto/create-video.dto';
+import { CreateVideoRequest } from '../../../../modules/core/bonus-video/dto/create-video.dto';
 
-export class CreateVideoByAdminResponse extends CreateVideoResponse {}
+export class CreateVideoByAdminRequest extends CreateVideoRequest {}
