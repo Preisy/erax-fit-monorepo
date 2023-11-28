@@ -8,9 +8,11 @@ import {
   And,
   MoreThanOrEqual,
   LessThanOrEqual,
+  FindOptionsWhere,
 } from 'typeorm';
 import { createDerivedClass } from './create-derived-class.util';
 import { ToBoolean } from '../decorators/to-boolean.decorator';
+import { AppBaseEntity } from '../models/app-base-entity.entity';
 
 export namespace AppDatePagination {
   export class Request {
@@ -60,7 +62,7 @@ export namespace AppDatePagination {
 
   export type GetExecutorOptions<Entity> = Omit<FindManyOptions<Entity>, 'skip' | 'take'>;
 
-  export function getExecutor<Entity extends ObjectLiteral>(
+  export function getExecutor<Entity extends AppBaseEntity>(
     repository: Repository<Entity>,
     relations?: FindOneOptions<Entity>['relations'],
   ) {
@@ -74,7 +76,7 @@ export namespace AppDatePagination {
         const to = request.to || new Date();
 
         const [sellers, count] = await repository.findAndCount({
-          where: { createdAt: And(MoreThanOrEqual(to), LessThanOrEqual(from)) },
+          where: { createdAt: And(MoreThanOrEqual(from), LessThanOrEqual(to)) } as FindOptionsWhere<Entity>,
           relations: request.expanded ? relations : undefined,
           ...options,
         });
