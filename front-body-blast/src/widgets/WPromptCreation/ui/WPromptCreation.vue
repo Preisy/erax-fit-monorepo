@@ -4,24 +4,35 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { assign, pick, uniqueId } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import { FListControls } from 'features/FListControls';
-import { PromptPage, useAdminPromptStore } from 'shared/api/admin';
+import { PromptPage, Prompt, useAdminPromptStore } from 'shared/api/admin';
 import { SInput, SFilePicker } from 'shared/ui/inputs';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SForm } from 'shared/ui/SForm';
 
 const { t } = useI18n();
 
-const prompts = ref<Array<Partial<Prompt & { key: string }>>>([{ key: uniqueId('prompt-') }]);
+const prompts = ref<Array<Partial<Prompt.WithFiles & { key: string }>>>([{ key: uniqueId('prompt-') }]);
 const schema = toTypedSchema(PromptPage.validation(t));
 const forms = ref<Array<InstanceType<typeof SForm>>>([]);
-const { postPrompts } = useAdminPromptStore();
+const { postPrompts, postPromptsState } = useAdminPromptStore();
 
-const onsubmit = () => {
+const onsubmit = async () => {
   forms.value.forEach((form, index) => form.handleSubmit((values: unknown) => assign(prompts.value[index], values))());
-  const promptsDto: Array<Prompt> = prompts.value
-    .filter((prompt) => prompt.photoLink && prompt.videoLink && prompt.type)
-    .map<Prompt>((prompt) => ({ photoLink: prompt.photoLink!, type: prompt.type!, videoLink: prompt.videoLink! }));
-  if (promptsDto.length) postPrompts(promptsDto);
+  const promptsDto: Array<Prompt.WithFiles> = prompts.value
+    .filter((prompt) => prompt.photo && prompt.video && prompt.type)
+    .map<Prompt.WithFiles>((prompt) => ({
+      photo: prompt.photo!,
+      type: prompt.type!,
+      video: prompt.video!,
+    }));
+  if (promptsDto.length) {
+    await postPrompts(promptsDto);
+
+    if (postPromptsState.state.isSuccess()) {
+      forms.value.forEach((form) => form.resetForm());
+      prompts.value = [{ key: uniqueId('prompt-') }];
+    }
+  }
 };
 const onadd = () => prompts.value.push({ key: uniqueId('prompt-') });
 const onremove = (index: number) => prompts.value.splice(index, 1);
@@ -46,9 +57,10 @@ const onremove = (index: number) => prompts.value.splice(index, 1);
             :disabled-submit="index !== prompts.length - 1"
             :disabled-remove="prompts.length === 1"
             @add="onadd"
-            mt-0.5rem
             @remove="() => onremove(index)"
             @submit="onsubmit"
+            :loading-submit="postPromptsState.state.isLoading()"
+            mt-0.5rem
           />
         </template>
       </SForm>

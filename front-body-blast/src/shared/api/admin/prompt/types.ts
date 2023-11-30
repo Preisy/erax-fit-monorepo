@@ -18,8 +18,8 @@ export namespace Prompt {
 export namespace PromptPage {
   export namespace Post {
     export interface Dto extends Pick<Prompt.WithFiles, 'type'> {
-      photo: string;
-      video: string;
+      photoLink: string;
+      videoLink: string;
     }
 
     export interface Response {

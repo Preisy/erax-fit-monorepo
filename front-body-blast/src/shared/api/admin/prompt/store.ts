@@ -16,20 +16,23 @@ export const useAdminPromptStore = defineStore('admin-prompt-store', () => {
 
   const postPromptsState = ref(useSingleState<PromptPage.Post.Response>());
   const postPrompts = async (data: Array<Prompt.WithFiles>) => {
+    postPromptsState.value.state.loading();
     for (const prompt of data) {
       const photoLink = await fileStore.postFile({ file: prompt.photo });
       if (!photoLink.data) {
         console.error(photoLink.error);
+        postPromptsState.value.state.error();
         return;
       }
       const videoLink = await fileStore.postFile({ file: prompt.video });
       if (!videoLink.data) {
         console.error(videoLink.error);
+        postPromptsState.value.state.error();
         return;
       }
 
-      const promptDto = { type: prompt.type, photo: photoLink.data.link, video: videoLink.data.link };
-      useSimpleStoreAction({
+      const promptDto = { type: prompt.type, photoLink: photoLink.data.link, videoLink: videoLink.data.link };
+      await useSimpleStoreAction({
         stateWrapper: postPromptsState.value,
         serviceAction: adminPromptsService.postPrompt(promptDto),
       });
