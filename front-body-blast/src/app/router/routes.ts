@@ -25,7 +25,7 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
   },
 
   adminRoutes,
@@ -35,7 +35,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    redirect: '/',
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
   },
 ];
 

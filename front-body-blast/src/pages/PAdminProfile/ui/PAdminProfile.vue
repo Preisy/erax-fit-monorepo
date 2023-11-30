@@ -2,6 +2,7 @@
 import { FSearchPanel } from 'features/FSearchPanel';
 import { EUnitedProfileCard } from 'entities/profile/EUnitedProfileCard';
 import { useAdminProfileStore } from 'shared/api/admin';
+import { useMeStore } from 'shared/api/me';
 import { ENUMS } from 'shared/lib/enums';
 import { useLoading } from 'shared/lib/loading';
 import { SBtn } from 'shared/ui/btns';
@@ -15,14 +16,24 @@ defineProps<PAdminProfileProps>();
 const profileStore = useAdminProfileStore();
 const { clientProfiles } = profileStore;
 useLoading(clientProfiles);
-profileStore.getUserProfiles();
+profileStore.getUserProfiles({ page: 1, limit: 1000, expanded: false });
 
 const nameFilter = ref<string>('');
 const cards = computed(
   () =>
-    clientProfiles.data?.data.filter((card) =>
-      card.name.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase()),
-    ),
+    clientProfiles.data?.data.filter((card) => {
+      const fullName = `${card.firstName} ${card.lastName}`;
+      const searchFilter = fullName.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase());
+      const roleUserFilter = card.role === 'client';
+      return searchFilter && roleUserFilter;
+    }),
+);
+
+const { me, getMe } = useMeStore();
+useLoading(me);
+if (!me.data) getMe();
+const myName = computed(() =>
+  me.state.isLoading() ? 'Loading...' : me.data?.data.firstName + ' ' + me.data?.data.lastName,
 );
 
 const edit = () => {
@@ -38,7 +49,7 @@ const logout = () => {
     <SWithHeaderLayout>
       <template #header>
         <EUnitedProfileCard
-          header="Андрей Ерхатин"
+          :header="myName"
           :describe="$t('home.profile.header.admin')"
           dark
           mx--0.5rem
@@ -57,9 +68,8 @@ const logout = () => {
         <div v-if="clientProfiles.state.isSuccess() || cards?.length">
           <EUnitedProfileCard
             v-for="user in cards"
-            v-bind="$props"
-            :key="user.name"
-            :header="user.name"
+            :key="user.id"
+            :header="user.firstName + ' ' + user.lastName"
             :describe="$t('home.profile.header.student')"
           >
             <template #action>

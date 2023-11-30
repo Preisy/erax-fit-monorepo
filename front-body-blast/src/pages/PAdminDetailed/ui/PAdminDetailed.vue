@@ -17,8 +17,11 @@ import { SWithHeaderLayout } from 'shared/ui/SWithHeaderLayout';
 const id = parseInt(useRoute().params.id as string);
 const adminProfileStore = useAdminProfileStore();
 useLoading(adminProfileStore.clientProfiles);
-if (!adminProfileStore.clientProfiles.state.isSuccess()) adminProfileStore.getUserProfiles();
-const me = computed(() => adminProfileStore.clientProfiles.data?.data.at(id) ?? { name: 'Loading...' });
+if (!adminProfileStore.clientProfiles.state.isSuccess())
+  adminProfileStore.getUserProfiles({ page: 1, limit: 1000, expanded: false });
+
+const me = computed(() => adminProfileStore.clientProfiles.data?.data.find((client) => client.id === id));
+const myName = computed(() => (me.value ? `${me.value.firstName} ${me.value.lastName}` : 'Loading...'));
 
 const accessToLearning = ref<boolean>(false);
 const diaryInterval = ref<number>(3);
@@ -33,7 +36,7 @@ const { anthropometry } = profileStore;
       <template #header>
         <EUnitedProfileCard
           v-bind="$props"
-          :header="me?.name"
+          :header="myName"
           :describe="$t('home.profile.header.student')"
           dark
           mx--0.5rem

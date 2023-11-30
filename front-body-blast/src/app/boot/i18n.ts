@@ -8,11 +8,12 @@ import { TWAdminFooterNavBarI18n } from 'widgets/WAdminFooterNavBar';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
 import { TWNewTrainingI18n } from 'widgets/WNewTraining';
 import { TWPromptCreationI18n } from 'widgets/WPromptCreation';
+import { TAuthFormsI18n } from 'entities/form/i18n';
 import { TEAthropometricsItemI18n } from 'entities/profile/EAthropometricsItem';
 import { TEProfileHeaderI18n } from 'entities/profile/EProfileHeader';
 import { TEProfileCardI18n } from 'entities/profile/EUnitedProfileCard';
-import { TClientFormsI18n } from 'entities/profile/form';
 import { TTrainingI18n } from 'entities/trainings/ETrainingCard';
+import { TGlobalI18n } from 'shared/config/i18n';
 import { mergeI18n } from 'shared/lib/i18utils';
 import { TSNoResultsScreenI18n } from 'shared/ui/SNoResultsScreen';
 
@@ -25,10 +26,11 @@ export default boot(({ app }) => {
       TFooterNavigationBarI18n,
       TPAdminDetailsI18n,
       TWAdminFooterNavBarI18n,
+      TGlobalI18n,
       TFooterNavigationBarI18n,
       TTrainingI18n,
       TTrainingAdditionBlockI18n,
-      TClientFormsI18n,
+      TAuthFormsI18n,
       TEProfileHeaderI18n,
       TEAthropometricsItemI18n,
       TWPromptCreationI18n,
