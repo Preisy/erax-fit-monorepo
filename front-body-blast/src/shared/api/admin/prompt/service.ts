@@ -5,17 +5,20 @@ import { requestSimulator, useServiceAction } from 'shared/lib/utils';
 import { Prompt } from './types';
 
 export const adminPromptsService = {
-  postPrompts: useServiceAction((data: Array<Prompt>) =>
-    // return api.post<Auth.Response>('/admin/prompt', data);
-    requestSimulator<Prompt.Response>({ msg: 'Some response to ' }),
+  postPrompt: useServiceAction(
+    (data: Prompt.Post.Dto) => api.post<Prompt.Post.Response>('/admin/prompt', data),
+    // requestSimulator<Prompt.Response>({ msg: 'Some response to ' }),
   ),
-  getPrompts: useServiceAction(() =>
-    // return api.post<Auth.Response>('/admin/prompt', data);
-    requestSimulator<Array<Prompt>>([
-      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт1' },
-      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт2' },
-      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт3' },
-      { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт4' },
-    ]),
+  getPrompts: useServiceAction(
+    (data: Prompt.Get.Dto) =>
+      api.get<Prompt.Get.Response>(
+        `/admin/prompt?type=${data.type}&page=${data.page}&limit=${data.limit}&expanded=${data.expanded}`,
+      ),
+    // requestSimulator<Array<Prompt>>([
+    //   { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт1' },
+    //   { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт2' },
+    //   { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт3' },
+    //   { photo: 'https://random.imagecdn.app/500/350', video: '/', type: 'Промт4' },
+    // ]),
   ),
 };

@@ -2,6 +2,7 @@ import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { TPAdminDetailsI18n } from 'pages/PAdminDetailed';
 import { TPAdminProfileI18n } from 'pages/PAdminProfile';
+import { TPAdminPromptsI18n } from 'pages/PAdminPrompt';
 import { TTrainingAdditionBlockI18n } from 'widgets/WAdditionCard';
 import { TWAdminFooterNavBarI18n } from 'widgets/WAdminFooterNavBar';
 import { TFooterNavigationBarI18n } from 'widgets/WFooterNavBar';
@@ -34,6 +35,7 @@ export default boot(({ app }) => {
       TEProfileCardI18n,
       TSNoResultsScreenI18n,
       TWNewTrainingI18n,
+      TPAdminPromptsI18n,
     ),
     fallbackLocale: 'ru-RU',
   });

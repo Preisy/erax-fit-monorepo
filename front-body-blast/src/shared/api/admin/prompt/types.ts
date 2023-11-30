@@ -3,17 +3,31 @@ import { z } from 'zod';
 
 export interface Prompt {
   type: string;
-  photo: File | string;
-  video: File | string;
+  photo: XOR<File, string>;
+  video: XOR<File, string>;
 }
 
 export namespace Prompt {
-  export interface Dto {
-    prompts: Array<Prompt>;
-  }
+  export namespace Post {
+    export interface Dto extends Prompt {}
 
-  export interface Response {
-    msg: string;
+    export interface Response {
+      data: Prompt; //TODO: & AppBaseEntity
+    }
+  }
+  export namespace Get {
+    //TODO: extends Pagination
+    export interface Dto {
+      type: string;
+      page: number;
+      limit: number;
+      expanded: boolean;
+    }
+
+    export interface Response {
+      data: Array<Prompt>;
+      count: number;
+    }
   }
 
   export const validation = (t: ComposerTranslation) =>
