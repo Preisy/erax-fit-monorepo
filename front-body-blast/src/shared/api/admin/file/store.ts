@@ -3,7 +3,7 @@ import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { adminFileService } from './service';
 import { AdminFile } from './types';
 
-export const useAdminFileStore = defineStore('admin-prompt-store', () => {
+export const useAdminFileStore = defineStore('admin-file-store', () => {
   const getFileState = ref(useSingleState<AdminFile.GetByName.Response>());
   const getFileByName = (data: AdminFile.GetByName.Dto) =>
     useSimpleStoreAction({

@@ -2,27 +2,27 @@ import { defineStore } from 'pinia';
 import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { useAdminFileStore } from '../file';
 import { adminPromptsService } from './service';
-import { Prompt } from './types';
+import { PromptPage, Prompt } from './types';
 
 export const useAdminPromptStore = defineStore('admin-prompt-store', () => {
   const fileStore = useAdminFileStore();
 
-  const prompts = ref(useSingleState<Prompt.Get.Response>());
-  const getPrompts = async (data: Prompt.Get.Dto) =>
+  const prompts = ref(useSingleState<PromptPage.Get.Response>());
+  const getPrompts = async (data: PromptPage.Get.Dto) =>
     useSimpleStoreAction({
       stateWrapper: prompts.value,
       serviceAction: adminPromptsService.getPrompts(data),
     });
 
-  const postPromptsState = ref(useSingleState<Prompt.Post.Response>());
-  const postPrompts = async (data: Array<Prompt>) => {
+  const postPromptsState = ref(useSingleState<PromptPage.Post.Response>());
+  const postPrompts = async (data: Array<Prompt.WithFiles>) => {
     for (const prompt of data) {
-      const photoLink = await fileStore.postFile({ file: prompt.photo as File });
+      const photoLink = await fileStore.postFile({ file: prompt.photo });
       if (!photoLink.data) {
         console.error(photoLink.error);
         return;
       }
-      const videoLink = await fileStore.postFile({ file: prompt.video as File });
+      const videoLink = await fileStore.postFile({ file: prompt.video });
       if (!videoLink.data) {
         console.error(videoLink.error);
         return;

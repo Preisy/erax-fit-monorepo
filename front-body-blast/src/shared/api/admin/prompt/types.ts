@@ -1,31 +1,38 @@
 import { ComposerTranslation } from 'vue-i18n';
 import { z } from 'zod';
-
-export interface Prompt {
-  type: string;
-  photo: XOR<File, string>;
-  video: XOR<File, string>;
-}
+import { AppBaseEntity, PaginationDto } from 'shared/api/base';
 
 export namespace Prompt {
+  export interface Base extends AppBaseEntity {
+    type: string;
+    photoLink: string;
+    videoLink: string;
+  }
+  export interface WithFiles {
+    type: string;
+    photo: File;
+    video: File;
+  }
+}
+
+export namespace PromptPage {
   export namespace Post {
-    export interface Dto extends Prompt {}
+    export interface Dto extends Pick<Prompt.WithFiles, 'type'> {
+      photo: string;
+      video: string;
+    }
 
     export interface Response {
-      data: Prompt; //TODO: & AppBaseEntity
+      data: Prompt.Base;
     }
   }
   export namespace Get {
-    //TODO: extends Pagination
-    export interface Dto {
+    export interface Dto extends PaginationDto {
       type: string;
-      page: number;
-      limit: number;
-      expanded: boolean;
     }
 
     export interface Response {
-      data: Array<Prompt>;
+      data: Array<Prompt.Base>;
       count: number;
     }
   }

@@ -4,7 +4,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { assign, pick, uniqueId } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import { FListControls } from 'features/FListControls';
-import { Prompt, useAdminPromptStore } from 'shared/api/admin';
+import { PromptPage, useAdminPromptStore } from 'shared/api/admin';
 import { SInput, SFilePicker } from 'shared/ui/inputs';
 import { SComponentWrapper } from 'shared/ui/SComponentWrapper';
 import { SForm } from 'shared/ui/SForm';
@@ -12,15 +12,15 @@ import { SForm } from 'shared/ui/SForm';
 const { t } = useI18n();
 
 const prompts = ref<Array<Partial<Prompt & { key: string }>>>([{ key: uniqueId('prompt-') }]);
-const schema = toTypedSchema(Prompt.validation(t));
+const schema = toTypedSchema(PromptPage.validation(t));
 const forms = ref<Array<InstanceType<typeof SForm>>>([]);
 const { postPrompts } = useAdminPromptStore();
 
 const onsubmit = () => {
   forms.value.forEach((form, index) => form.handleSubmit((values: unknown) => assign(prompts.value[index], values))());
   const promptsDto: Array<Prompt> = prompts.value
-    .filter((prompt) => prompt.photo && prompt.video && prompt.type)
-    .map<Prompt>((prompt) => ({ photo: prompt.photo!, type: prompt.type!, video: prompt.video! }));
+    .filter((prompt) => prompt.photoLink && prompt.videoLink && prompt.type)
+    .map<Prompt>((prompt) => ({ photoLink: prompt.photoLink!, type: prompt.type!, videoLink: prompt.videoLink! }));
   if (promptsDto.length) postPrompts(promptsDto);
 };
 const onadd = () => prompts.value.push({ key: uniqueId('prompt-') });
