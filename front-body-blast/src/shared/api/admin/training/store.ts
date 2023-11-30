@@ -13,7 +13,7 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
       serviceAction: AdminTrainingsService.sendTrainings(data),
     });
 
-  const userTraining = ref(useSingleState<Array<Training.Response>>());
+  const userTraining = ref(useSingleState<Array<Training.Response.Expanded>>());
   // GET /api/admin/workouts/{id}
   const getUserTraining = (id: number) =>
     useSimpleStoreAction({
@@ -21,7 +21,7 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
       serviceAction: AdminTrainingsService.getUserTrainings(id),
     });
 
-  const trainings = ref(useListState<Training.Response>());
+  const trainings = ref(useListState<Training.Response.Expanded>());
   // GET /api/admin/workouts
   const getAllUserTrainings = (data: IPagination.Base & { expanded: boolean }) =>
     useSimpleStoreAction({
@@ -29,7 +29,7 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
       serviceAction: AdminTrainingsService.getAllUserTrainings(data),
     });
 
-  const userTrainingPatchState = ref(useSingleState<Array<Training.Response>>());
+  const userTrainingPatchState = ref(useSingleState<Array<Training.Response.Expanded>>());
   // PATCH /api/admin/workouts/{id}
   const patchUserTraining = (id: number, data: AdminTraining.Dto) =>
     useSimpleStoreAction({

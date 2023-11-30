@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { SAsyncImg } from 'shared/ui/SAsyncImg';
+
 export interface EAdminPromptThumbnailProps {
   photo: string;
   type: string;
@@ -8,7 +10,7 @@ defineProps<EAdminPromptThumbnailProps>();
 
 <template>
   <div flex flex-col gap-0.5rem p-1rem text-center text-bg>
-    <q-img :src="photo" h-4rem w-6.75rem />
+    <SAsyncImg :src="photo" h-4rem w-6.75rem rounded-0.25rem />
     <p fw-800>{{ type }}</p>
   </div>
 </template>

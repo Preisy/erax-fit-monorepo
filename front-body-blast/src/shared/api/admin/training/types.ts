@@ -1,26 +1,28 @@
 import { ComposerTranslation } from 'vue-i18n';
 import { z } from 'zod';
 
-export interface AdminTraining {
-  type: string | number; //probably id of prompt
-  date: string;
-  weight: string;
-  sets: string;
+export interface Exercise {
+  name: string;
+  weight: number;
+  sets: number;
   repeats: string;
-  restTime: string;
+  restTime: number;
   pace: string;
-  commentary: string;
+  photoLink: string;
+  videoLink: string;
+  trainerComment: string;
 }
 
-export namespace AdminTraining {
-  export interface Dto {
-    data: Array<AdminTraining>;
-  }
+export interface Training {
+  name: string;
+  date: string; //ISO string date type: 2023-12-31
+  comment: string;
+  loop: number;
+  userId: number;
+  exercises: Array<Exercise>;
+}
 
-  export interface Response {
-    message: string;
-  }
-
+export namespace Exercise {
   export const validation = (t: ComposerTranslation) =>
     z.object({
       type: z.string().min(1, t('todo.error')),
@@ -30,7 +32,20 @@ export namespace AdminTraining {
       repeats: z.string().min(1),
       restTime: z.string().min(1),
       pace: z.string().min(1),
-      commentary: z.string().min(1),
+      trainerComment: z.string().min(1),
+    });
+}
+
+export namespace AdminTraining {
+  export interface Dto extends Training {}
+
+  export interface Response {
+    message: string;
+  }
+
+  export const validation = (t: ComposerTranslation) =>
+    z.object({
+      cycle: z.string().min(1, t('todo.error')),
     });
 
   export namespace Delete {

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Training } from 'shared/api/training';
 import { IPagination, requestSimulator, useServiceAction } from 'shared/lib/utils';
-import { AdminTraining } from './types';
+import { Exercise } from './types';
 
 export const AdminTrainingsService = {
   sendTrainings: useServiceAction((data: AdminTraining.Dto) =>

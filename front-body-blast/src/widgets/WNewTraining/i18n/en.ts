@@ -1,7 +1,7 @@
 export default {
   admin: {
     prompt: {
-      newTraining: {
+      training: {
         training: 'Training',
         cycle: 'Cycle',
         type: 'Type',

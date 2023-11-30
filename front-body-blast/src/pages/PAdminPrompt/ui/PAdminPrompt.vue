@@ -22,7 +22,6 @@ const { prompts, getPrompts } = useAdminPromptStore();
 
 if (!prompts.state.isSuccess()) getPrompts({ page: 1, limit: 1000, expanded: false, type: 'string' });
 useLoading(prompts);
-const getFilename = (rawlink: string) => rawlink.split('/').pop()!;
 </script>
 
 <template>
@@ -64,7 +63,7 @@ const getFilename = (rawlink: string) => rawlink.split('/').pop()!;
       <QTabPanel :name="routes[1].name" p="0!">
         <SProxyScroll h-full v-if="prompts.data" overflow-hidden>
           <SComponentWrapper v-for="(prompt, index) in prompts.data.data" :key="index">
-            <SAsyncImg :src="getFilename(prompt.photoLink)" />
+            <SAsyncImg :src="prompt.photoLink" rounded-1rem />
             <div mx-5px mt--1rem flex flex-row gap-x-0.5rem>
               <SBtn :icon="symRoundedPlayArrow" bg="bg!" />
               <SBtn :icon="symRoundedEdit" bg="bg!" />
