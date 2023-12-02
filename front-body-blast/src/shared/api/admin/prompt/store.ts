@@ -39,10 +39,28 @@ export const useAdminPromptStore = defineStore('admin-prompt-store', () => {
     }
   };
 
+  const deletePromptState = ref(useSingleState<PromptPage.Delete.Response>());
+  const deletePrompt = async (data: PromptPage.Delete.Dto) =>
+    useSimpleStoreAction({
+      stateWrapper: deletePromptState.value,
+      serviceAction: adminPromptsService.deletePrompt(data),
+    });
+
+  const patchPromptState = ref(useSingleState<PromptPage.Patch.Response>());
+  const patchPrompt = async (data: PromptPage.Patch.Dto) =>
+    useSimpleStoreAction({
+      stateWrapper: patchPromptState.value,
+      serviceAction: adminPromptsService.patchPrompt(data),
+    });
+
   return {
     prompts,
     getPrompts,
     postPrompts,
     postPromptsState,
+    deletePromptState,
+    deletePrompt,
+    patchPromptState,
+    patchPrompt,
   };
 });

@@ -1,7 +1,7 @@
 <!-- eslint-disable @typescript-eslint/no-unused-vars -->
 <script setup lang="ts">
 import { toTypedSchema } from '@vee-validate/zod';
-import { assign, pick, uniqueId } from 'lodash';
+import { assign, keys, pick, uniqueId } from 'lodash';
 import { useI18n } from 'vue-i18n';
 import { FListControls } from 'features/FListControls';
 import { PromptPage, Prompt, useAdminPromptStore } from 'shared/api/admin';
@@ -17,7 +17,13 @@ const forms = ref<Array<InstanceType<typeof SForm>>>([]);
 const { postPrompts, postPromptsState } = useAdminPromptStore();
 
 const onsubmit = async () => {
-  forms.value.forEach((form, index) => form.handleSubmit((values: unknown) => assign(prompts.value[index], values))());
+  // apply values of each form to array
+  for (let index = 0; index < forms.value.length; index++) {
+    const form = forms.value[index];
+    await form.handleSubmit((values: Prompt.WithFiles) => assign(prompts.value[index], values))();
+  }
+
+  //filter empty and partial values if some exists
   const promptsDto: Array<Prompt.WithFiles> = prompts.value
     .filter((prompt) => prompt.photo && prompt.video && prompt.type)
     .map<Prompt.WithFiles>((prompt) => ({
@@ -25,11 +31,17 @@ const onsubmit = async () => {
       type: prompt.type!,
       video: prompt.video!,
     }));
+
+  //if exists prompts to push
   if (promptsDto.length) {
+    //push
     await postPrompts(promptsDto);
 
+    //check response
     if (postPromptsState.state.isSuccess()) {
+      //clear forms
       forms.value.forEach((form) => form.resetForm());
+      //refresh prompts forms. Remain only one
       prompts.value = [{ key: uniqueId('prompt-') }];
     }
   }

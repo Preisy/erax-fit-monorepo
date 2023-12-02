@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ComposerTranslation } from 'vue-i18n';
 import { z } from 'zod';
 
@@ -5,7 +6,7 @@ export interface Exercise {
   name: string;
   weight: number;
   sets: number;
-  repeats: string;
+  repetitions: number;
   restTime: number;
   pace: string;
   photoLink: string;
@@ -25,13 +26,13 @@ export interface Training {
 export namespace Exercise {
   export const validation = (t: ComposerTranslation) =>
     z.object({
-      type: z.string().min(1, t('todo.error')),
-      date: z.string().min(1),
+      name: z.string().min(1),
       weight: z.string().min(1),
       sets: z.string().min(1),
-      repeats: z.string().min(1),
+      repetitions: z.string().min(1),
       restTime: z.string().min(1),
       pace: z.string().min(1),
+      _promptId: z.number(), //prompt Id will be converted to photoLink and videoLink
       trainerComment: z.string().min(1),
     });
 }
@@ -45,7 +46,9 @@ export namespace AdminTraining {
 
   export const validation = (t: ComposerTranslation) =>
     z.object({
-      cycle: z.string().min(1, t('todo.error')),
+      name: z.string().min(1),
+      loop: z.string().min(1),
+      comment: z.string().min(1),
     });
 
   export namespace Delete {

@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
+import { PaginationDto } from 'shared/api/base';
 import { Training } from 'shared/api/training';
-import { IPagination, useListState, useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
+import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { AdminTrainingsService } from './service';
 import { AdminTraining } from './types';
 
@@ -10,10 +11,10 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
   const sendTraining = (data: AdminTraining.Dto) =>
     useSimpleStoreAction({
       stateWrapper: setTrainingState.value,
-      serviceAction: AdminTrainingsService.sendTrainings(data),
+      serviceAction: AdminTrainingsService.postTrainings(data),
     });
 
-  const userTraining = ref(useSingleState<Array<Training.Response.Expanded>>());
+  const userTraining = ref(useSingleState<Training.Response.Expanded>());
   // GET /api/admin/workouts/{id}
   const getUserTraining = (id: number) =>
     useSimpleStoreAction({
@@ -21,15 +22,15 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
       serviceAction: AdminTrainingsService.getUserTrainings(id),
     });
 
-  const trainings = ref(useListState<Training.Response.Expanded>());
+  const trainings = ref(useSingleState<Training.Response.Expanded>());
   // GET /api/admin/workouts
-  const getAllUserTrainings = (data: IPagination.Base & { expanded: boolean }) =>
+  const getTrainings = (data: PaginationDto) =>
     useSimpleStoreAction({
       stateWrapper: trainings.value,
-      serviceAction: AdminTrainingsService.getAllUserTrainings(data),
+      serviceAction: AdminTrainingsService.getTrainings(data),
     });
 
-  const userTrainingPatchState = ref(useSingleState<Array<Training.Response.Expanded>>());
+  const userTrainingPatchState = ref(useSingleState<AdminTraining.Response>());
   // PATCH /api/admin/workouts/{id}
   const patchUserTraining = (id: number, data: AdminTraining.Dto) =>
     useSimpleStoreAction({
@@ -51,7 +52,7 @@ export const useAdminTrainingStore = defineStore('admin-training-store', () => {
     userTraining,
     getUserTraining,
     trainings,
-    getAllUserTrainings,
+    getTrainings,
     userTrainingPatchState,
     patchUserTraining,
     userTrainingDeleteState,

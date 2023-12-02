@@ -6,6 +6,7 @@ export default {
         cycle: 'Cycle',
         type: 'Type',
         date: 'Date',
+        name: 'Name',
         weight: 'Weight',
         sets: 'Sets',
         repeats: 'Repeats',

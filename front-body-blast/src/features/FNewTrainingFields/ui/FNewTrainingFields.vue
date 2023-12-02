@@ -8,25 +8,28 @@ export interface ENewTrainingFieldsProps {
 }
 defineProps<ENewTrainingFieldsProps>();
 
-const promptValue = ref<string>();
-const updateValue = (next: string) => {
-  promptValue.value = next;
-  console.log(next);
-};
+const promptValue = ref<Prompt.Base>();
+const updateValue = (next: Prompt.Base) => (promptValue.value = next);
 </script>
 
 <template>
-  <SChooseInput v-if="prompts" name="type" :label="$t('admin.prompt.training.type')" :model-value="promptValue">
-    <div v-for="prompt in prompts" :key="prompt.id" @click="() => updateValue(prompt.type)" mr-0.5rem>
+  <SChooseInput
+    v-if="prompts"
+    name="_promptId"
+    :label="$t('admin.prompt.training.type')"
+    :model-value="promptValue?.id"
+    :display="promptValue?.type"
+  >
+    <div v-for="prompt in prompts" :key="prompt.id" @click="() => updateValue(prompt)" mr-0.5rem>
       <EAdminPromptThumbnail :photo="prompt.photoLink" :type="prompt.type" />
     </div>
   </SChooseInput>
 
   <div grid grid-cols-2 grid-rows-3 gap-0.5rem>
-    <SInput name="date" :label="$t('admin.prompt.training.date')" />
+    <SInput name="name" :label="$t('admin.prompt.training.name')" />
     <SInput name="weight" :label="$t('admin.prompt.training.weight')" />
     <SInput name="sets" :label="$t('admin.prompt.training.sets')" />
-    <SInput name="repeats" :label="$t('admin.prompt.training.repeats')" />
+    <SInput name="repetitions" :label="$t('admin.prompt.training.repeats')" />
     <SInput name="restTime" :label="$t('admin.prompt.training.restTime')" />
     <SInput name="pace" :label="$t('admin.prompt.training.pace')" />
   </div>

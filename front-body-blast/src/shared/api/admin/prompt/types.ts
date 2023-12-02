@@ -36,6 +36,22 @@ export namespace PromptPage {
       count: number;
     }
   }
+  export namespace Patch {
+    export interface Dto extends Pick<AppBaseEntity, 'id'> {
+      data: Post.Dto;
+    }
+
+    export interface Response {
+      data: Prompt.Base;
+    }
+  }
+  export namespace Delete {
+    export interface Dto extends Pick<AppBaseEntity, 'id'> {}
+
+    export interface Response {
+      status: boolean;
+    }
+  }
 
   export const validation = (t: ComposerTranslation) =>
     z.object({

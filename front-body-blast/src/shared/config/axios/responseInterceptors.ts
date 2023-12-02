@@ -1,6 +1,5 @@
 import { AxiosError } from 'axios';
 import { useAuthStore, TokenService } from 'shared/api/auth';
-import { api } from '..';
 
 export const refreshInterceptor = async (error: AxiosError) => {
   if (error.config?.url === '/auth/refresh') return;
@@ -21,8 +20,8 @@ export const refreshInterceptor = async (error: AxiosError) => {
       TokenService.setTokens(newAccess.data);
     }
 
-    console.log(error.request);
-    api(error.request);
+    //TODO: restore token and resend error request.
+    // api(error.request);
   }
   return error;
 };

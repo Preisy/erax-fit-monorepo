@@ -18,10 +18,21 @@ const routes: QTabProps[] = [
   { name: 'all', label: t('admin.prompt.nav.all') },
 ];
 const currentRoute = ref(routes[0].name);
-const { prompts, getPrompts } = useAdminPromptStore();
+const { prompts, getPrompts, deletePrompt, deletePromptState } = useAdminPromptStore();
 
-if (!prompts.state.isSuccess()) getPrompts({ page: 1, limit: 1000, expanded: false, type: 'string' });
+if (!prompts.state.isSuccess()) getPrompts({ page: 1, limit: 1000, expanded: false, type: '' });
 useLoading(prompts);
+
+const onTransition = (newVal: string) => {
+  if (newVal != routes[1].name) return;
+  getPrompts({ page: 1, limit: 1000, expanded: false, type: '' });
+};
+
+const onDeleteClick = async (id: number, index: number) => {
+  await deletePrompt({ id });
+
+  if (deletePromptState.state.isSuccess()) prompts.data?.data.splice(index, 1);
+};
 </script>
 
 <template>
@@ -51,7 +62,7 @@ useLoading(prompts);
       />
     </q-tabs>
 
-    <QTabPanels v-model="currentRoute" animated swipeable h-full pt-3rem>
+    <QTabPanels @transition="onTransition" v-model="currentRoute" animated swipeable h-full pt-3rem>
       <!-- Add prompt -->
       <QTabPanel :name="routes[0].name" h-full overflow-hidden p="0!">
         <SProxyScroll h-full>
@@ -62,12 +73,14 @@ useLoading(prompts);
       <!-- All prompts -->
       <QTabPanel :name="routes[1].name" p="0!">
         <SProxyScroll h-full v-if="prompts.data" overflow-hidden>
-          <SComponentWrapper v-for="(prompt, index) in prompts.data.data" :key="index">
+          <SComponentWrapper v-for="(prompt, index) in prompts.data.data" :key="prompt.id">
             <SAsyncImg :src="prompt.photoLink" rounded-1rem />
             <div mx-5px mt--1rem flex flex-row gap-x-0.5rem>
+              <!-- TODO: implement onplay event: take videoplayer from other branch? -->
               <SBtn :icon="symRoundedPlayArrow" bg="bg!" />
+              <!-- TODO: implement onedit event: popup with same form as WPromptCreation? -->
               <SBtn :icon="symRoundedEdit" bg="bg!" />
-              <SBtn :icon="symRoundedDelete" ml-auto />
+              <SBtn :icon="symRoundedDelete" ml-auto @click="() => onDeleteClick(prompt.id, index)" />
             </div>
           </SComponentWrapper>
         </SProxyScroll>

@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { z } from 'zod';
 import { AppBaseEntity } from '../base';
+import { User } from '../user';
 
 export namespace Training {
   export interface Dto {
@@ -19,6 +20,7 @@ export namespace Training {
   }
   export interface Expanded extends Base {
     exercises: Array<Exercise>;
+    user: User;
   }
 
   export namespace Response {
@@ -32,11 +34,7 @@ export namespace Training {
     }
   }
 
-  export interface Exercise {
-    id: number;
-    createdAt: Moment;
-    updatedAt: Moment;
-    deletedAt: Moment;
+  export interface Exercise extends AppBaseEntity {
     name: string;
     trainerComment: string;
     weight: number;

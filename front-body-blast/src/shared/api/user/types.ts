@@ -6,6 +6,11 @@ export interface User extends AppBaseEntity {
   role: 'client' | 'admin';
   email: string;
   password: string;
+  token: {
+    id: number;
+    hash: string;
+    refreshHash: string;
+  };
   tokenId: number;
   age: number;
   height: number;

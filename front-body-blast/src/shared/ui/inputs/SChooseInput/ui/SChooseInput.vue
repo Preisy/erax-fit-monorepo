@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import { useFloating } from '@floating-ui/vue';
+import { useField } from 'vee-validate';
 import { SProxyScroll } from 'shared/ui/SProxyScroll';
 import { SInput, SInputProps } from '../..';
 
-export interface SChooseInputProps extends SInputProps {}
-defineProps<SChooseInputProps>();
+export interface SChooseInputProps extends SInputProps {
+  display: SInputProps['modelValue'];
+}
+const props = defineProps<SChooseInputProps>();
+const emit = defineEmits<{
+  input: [SInputProps['modelValue']];
+}>();
+defineExpose({
+  input: (val?: SInputProps['modelValue']) => emit('input', val ?? props.modelValue),
+});
 
 const anchor = ref();
 const float = ref();
@@ -16,6 +25,15 @@ const { floatingStyles } = useFloating(anchor, float, {
 });
 const isOpen = ref(false);
 const togglePopup = () => (isOpen.value = !isOpen.value);
+
+const { value, setValue } = useField<SInputProps['modelValue']>(props.name);
+watch(
+  () => props.modelValue,
+  () => {
+    setValue(props.modelValue);
+    emit('input', value.value);
+  },
+);
 </script>
 
 <template>
@@ -27,6 +45,7 @@ const togglePopup = () => (isOpen.value = !isOpen.value);
       ref="float"
       :style="{ ...floatingStyles, height: contentHeight }"
       right-0
+      z-1
       overflow-hidden
       rounded-0.75rem
       bg-primary
@@ -36,7 +55,8 @@ const togglePopup = () => (isOpen.value = !isOpen.value);
       </div>
     </SProxyScroll>
     <div @click="togglePopup">
-      <SInput v-bind="$props" ref="anchor" readonly :model-value="modelValue" />
+      <!-- TODO: fixme. ___ means private field -->
+      <SInput name="_______________" :label="label" ref="anchor" readonly :model-value="display" />
     </div>
   </div>
 </template>
