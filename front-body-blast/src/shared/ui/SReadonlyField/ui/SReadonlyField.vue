@@ -1,9 +1,9 @@
 <script setup lang="ts">
-export interface SCardProps {
+export interface SReadonlyFieldProps {
   title: string;
-  value: string;
+  value: string | number;
 }
-defineProps<SCardProps>();
+defineProps<SReadonlyFieldProps>();
 </script>
 
 <template>

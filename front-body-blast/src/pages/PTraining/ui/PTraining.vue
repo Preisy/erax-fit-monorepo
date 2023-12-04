@@ -7,16 +7,16 @@ import { SSplideSlide } from 'shared/ui/SSplideSlide';
 import { SStructure } from 'shared/ui/SStructure';
 
 const trainingStore = useTrainingStore();
-const trainings = computed(() => trainingStore.trainings);
+trainingStore.getTrainings(1, 100); //Debug only
 
-trainingStore.getTrainingsByDate();
+const exercises = computed(() => trainingStore.trainings.data?.data.at(0)?.exercises);
 </script>
 
 <template>
   <SStructure>
     <SSplide :options="{ direction: 'ttb', height: '35rem' }">
-      <SSplideSlide v-for="training in trainings.data" :key="training.name">
-        <ETrainingCard :training="training" py-1.5rem />
+      <SSplideSlide v-for="exercise in exercises" :key="exercise.name">
+        <ETrainingCard :training="exercise" py-1.5rem />
       </SSplideSlide>
       <SSplideSlide>
         <FAdditionCard py-1.5rem />

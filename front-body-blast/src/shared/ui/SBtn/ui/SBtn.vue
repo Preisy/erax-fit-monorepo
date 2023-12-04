@@ -6,10 +6,7 @@ defineProps<SBtnProps>();
 
 const btn = ref<InstanceType<typeof QBtn>>();
 defineExpose({
-  click: () => {
-    btn.value?.click();
-    console.log(btn.value?.click);
-  },
+  click: () => btn.value?.click(),
 });
 </script>
 

@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import LAuthVue from 'processes/layouts/LAuth.vue';
+import LDashboardVue from 'processes/layouts/LDashboard.vue';
 import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
 import PLearningVue from 'pages/PLearning.vue';
@@ -13,30 +14,36 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/home/',
     name: ENUMS.ROUTES_NAMES.HOME,
-    component: () => import('processes/layouts/LDashboard.vue'),
+    meta: { auth: true },
+    component: LDashboardVue,
     children: [
       {
-        path: 'training',
+        path: '',
+        meta: { auth: true },
         component: PTraining,
         name: ENUMS.ROUTES_NAMES.TRAINING,
       },
       {
         path: 'profile',
+        meta: { auth: true },
         component: PProfile,
         name: ENUMS.ROUTES_NAMES.PROFILE,
       },
       {
         path: 'diary',
+        meta: { auth: true },
         component: PDiaryVue,
         name: ENUMS.ROUTES_NAMES.DIARY,
       },
       {
         path: 'diet',
+        meta: { auth: true },
         component: PDietVue,
         name: ENUMS.ROUTES_NAMES.DIET,
       },
       {
         path: 'learning',
+        meta: { auth: true },
         component: PLearningVue,
         name: ENUMS.ROUTES_NAMES.LEARNING,
       },
@@ -55,20 +62,19 @@ const routes: RouteRecordRaw[] = [
         meta: { transition: 'slide-left' },
       },
       {
-        path: 'login',
+        path: '',
         component: PLogin,
         name: ENUMS.ROUTES_NAMES.LOGIN,
         meta: { transition: 'slide-right' },
       },
     ],
-    redirect: '/login',
   },
 
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    redirect: '/',
+    redirect: { name: ENUMS.ROUTES_NAMES.LOGIN },
   },
 ];
 
