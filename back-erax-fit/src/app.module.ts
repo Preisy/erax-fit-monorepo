@@ -15,6 +15,8 @@ import { AdminAntropometricsModule } from './modules/admin/anthropometrics/admin
 import { AdminPromptModule } from './modules/admin/prompt/admin-prompt.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AdminDiaryTemplateModule } from './modules/admin/diary-template/admin-diary-template.module';
+import { AdminBonusVideoModule } from './modules/admin/bonus-video/admin-bonus-video.module';
+import { ClientBonusVideoModule } from './modules/client/bonus-video/client-bonus-video.module';
 import { AdminFoodModule } from './modules/admin/food/admin-food.module';
 import { ClientFoodModule } from './modules/client/food/client-food.module';
 import { AdminNutritionModule } from './modules/admin/nutrition/admin-nutrition.module';
@@ -33,12 +35,14 @@ import { ClientSelfControlModule } from './modules/client/self-control/client-se
     ClientFileModule,
     ClientWorkoutModule,
     ClientFileModule,
+    ClientBonusVideoModule,
     AdminFileModule,
     MeModule,
     ClientAnthropometricsModule,
     AdminAntropometricsModule,
     AdminPromptModule,
     AdminDiaryTemplateModule,
+    AdminBonusVideoModule,
     AdminFoodModule,
     ClientFoodModule,
     AdminNutritionModule,

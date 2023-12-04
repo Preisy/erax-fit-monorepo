@@ -118,4 +118,8 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column('integer', { name: 'templateId' })
   public templateId!: number;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public canWatchVideo: boolean;
 }
