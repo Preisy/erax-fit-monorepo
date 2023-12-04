@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import LAuthVue from 'processes/layouts/LAuth.vue';
 import PDiaryVue from 'pages/PDiary.vue';
 import PDietVue from 'pages/PDiet.vue';
-import PLearningVue from 'pages/PLearning.vue';
+import { PLearning } from 'pages/PLearning';
 import { PLogin } from 'pages/PLogin';
 import { PProfile } from 'pages/PProfile';
 import { PRegister } from 'pages/PRegister';
@@ -37,7 +37,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'learning',
-        component: PLearningVue,
+        component: PLearning,
         name: ENUMS.ROUTES_NAMES.LEARNING,
       },
     ],
