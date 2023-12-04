@@ -7,6 +7,7 @@ import { BaseUserModule } from 'src/modules/core/user/base-user.module';
 import { BaseWorkoutModule } from 'src/modules/core/workout/base-workout.module';
 import { AdminSelfControlService } from './admin-self-control.service';
 import { AdminSelfControlController } from './admin-self-control.controller';
+import { BaseSelfControlModule } from 'src/modules/core/self-control/base-self-control.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { AdminSelfControlController } from './admin-self-control.controller';
     BaseUserModule,
     BaseDiaryTemplateModule,
     BaseWorkoutModule,
+    BaseSelfControlModule,
   ],
   providers: [AdminSelfControlService],
   controllers: [AdminSelfControlController],

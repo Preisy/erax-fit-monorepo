@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { BaseSelfControlService } from 'src/modules/core/self-control/base-self-control.service';
 import { SelfControlEntity } from 'src/modules/core/self-control/entity/self-control.entity';
 import { AppDatePagination } from 'src/utils/app-date-pagination.util';

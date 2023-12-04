@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
-import { DiaryTemplateEntity } from '../../diary-template/entity/diary-template.entity';
+import { SelfControlEntity } from '../../self-control/entity/self-control.entity';
 
 @Entity('self-control-props')
 export class SelfControlPropsEntity extends AppBaseEntity {
@@ -13,12 +13,12 @@ export class SelfControlPropsEntity extends AppBaseEntity {
   @Column({ nullable: true })
   public value?: number;
 
-  @ApiProperty({ type: () => DiaryTemplateEntity })
-  @ManyToOne(() => DiaryTemplateEntity, (template) => template.props, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'templateId' })
-  public template!: DiaryTemplateEntity;
+  @ApiProperty({ type: () => SelfControlEntity })
+  @ManyToOne(() => SelfControlEntity, (selfControl) => selfControl.props, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'selfControlId' })
+  public selfControl!: SelfControlEntity;
 
   @ApiProperty()
-  @Column('integer', { name: 'templateId' })
-  public templateId!: number;
+  @Column('integer', { name: 'selfControlId' })
+  public selfControlId!: number;
 }

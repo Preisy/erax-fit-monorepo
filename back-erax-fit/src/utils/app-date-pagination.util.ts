@@ -1,16 +1,18 @@
-import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsOptional, IsBoolean } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsBoolean, IsDateString, IsOptional } from 'class-validator';
+import { AppBaseEntity } from 'src/models/app-base-entity.entity';
 import {
-  ObjectLiteral,
-  FindManyOptions,
-  Repository,
-  FindOneOptions,
   And,
-  MoreThanOrEqual,
+  FindManyOptions,
+  FindOneOptions,
+  FindOptionsWhere,
   LessThanOrEqual,
+  MoreThanOrEqual,
+  ObjectLiteral,
+  Repository,
 } from 'typeorm';
-import { createDerivedClass } from './create-derived-class.util';
 import { ToBoolean } from '../decorators/to-boolean.decorator';
+import { createDerivedClass } from './create-derived-class.util';
 
 export namespace AppDatePagination {
   export class Request {
@@ -60,7 +62,7 @@ export namespace AppDatePagination {
 
   export type GetExecutorOptions<Entity> = Omit<FindManyOptions<Entity>, 'skip' | 'take'>;
 
-  export function getExecutor<Entity extends ObjectLiteral>(
+  export function getExecutor<Entity extends AppBaseEntity>(
     repository: Repository<Entity>,
     relations?: FindOneOptions<Entity>['relations'],
   ) {
@@ -70,10 +72,10 @@ export namespace AppDatePagination {
         options: Omit<FindManyOptions<Entity>, 'skip' | 'take' | 'relations'> = {},
       ) => {
         const request = new AppDatePagination.Request(query.expanded, query.from, query.to);
-        const from = request.from || new Date();
+        const from = request.from || new Date('2020-01-01');
         const to = request.to || new Date();
         const [sellers, count] = await repository.findAndCount({
-          where: { createdAt: And(MoreThanOrEqual(from), LessThanOrEqual(to)) },
+          where: { createdAt: And(MoreThanOrEqual(from), LessThanOrEqual(to)) } as FindOptionsWhere<Entity>,
           relations: request.expanded ? relations : undefined,
           ...options,
         });

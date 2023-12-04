@@ -1,15 +1,13 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/modules/authentication/auth.module';
-import { BaseDiaryTemplateModule } from 'src/modules/core/diary-template/base-diary-template.module';
+import { BaseSelfControlModule } from 'src/modules/core/self-control/base-self-control.module';
 import { SelfControlEntity } from 'src/modules/core/self-control/entity/self-control.entity';
-import { BaseUserModule } from 'src/modules/core/user/base-user.module';
-import { BaseWorkoutModule } from 'src/modules/core/workout/base-workout.module';
-import { ClientSelfControlService } from './client-self-control.service';
 import { ClientSelfControlController } from './client-self-control.cotroller';
+import { ClientSelfControlService } from './client-self-control.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SelfControlEntity]), forwardRef(() => AuthModule)],
+  imports: [TypeOrmModule.forFeature([SelfControlEntity]), forwardRef(() => AuthModule), BaseSelfControlModule],
   providers: [ClientSelfControlService],
   controllers: [ClientSelfControlController],
   exports: [ClientSelfControlService],

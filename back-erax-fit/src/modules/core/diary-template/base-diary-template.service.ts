@@ -5,20 +5,20 @@ import { AppStatusResponse } from 'src/dto/app-status-response.dto';
 import { MainException } from 'src/exceptions/main.exception';
 import { filterUndefined } from 'src/utils/filter-undefined.util';
 import { Repository } from 'typeorm';
-import { BaseUserService } from '../user/base-user.service';
-import { UserEntity } from '../user/entities/user.entity';
+import { TemplatePropsEntity } from '../template-props/entity/template-props.entity';
 import { CreateDiaryTemplateRequest } from './dto/create-diary-template.dto';
 import { UpdateDiaryTemplateRequest } from './dto/update-diary-template.dto';
 import { DiaryTemplateEntity } from './entity/diary-template.entity';
-import { SelfControlPropsEntity } from '../self-control-props/entity/self-control-props.entity';
+import { BaseUserService } from '../user/base-user.service';
 
 @Injectable()
 export class BaseDiaryTemplateService {
   constructor(
     @InjectRepository(DiaryTemplateEntity)
     private readonly diaryTemlpateRepository: Repository<DiaryTemplateEntity>,
-    @InjectRepository(SelfControlPropsEntity)
-    private readonly selfControlPropsEntityRepository: Repository<SelfControlPropsEntity>,
+    @InjectRepository(TemplatePropsEntity)
+    private readonly templatePropsEntityRepository: Repository<TemplatePropsEntity>,
+    private readonly userService: BaseUserService,
   ) {}
   public readonly relations: (keyof DiaryTemplateEntity)[] = ['props'];
 
@@ -26,7 +26,8 @@ export class BaseDiaryTemplateService {
     const newTemplate = this.diaryTemlpateRepository.create({
       ...request,
     });
-
+    const { data: user } = await this.userService.getUserById(request.userId);
+    user.templateId = newTemplate.id;
     const savedTemplate = await this.diaryTemlpateRepository.save(newTemplate);
     return new AppSingleResponse(savedTemplate);
   }
@@ -48,7 +49,7 @@ export class BaseDiaryTemplateService {
   async update(id: DiaryTemplateEntity['id'], request: UpdateDiaryTemplateRequest) {
     const { data: template } = await this.findOne(id);
     if (request.props) {
-      await this.selfControlPropsEntityRepository.delete({
+      await this.templatePropsEntityRepository.delete({
         templateId: id,
       });
       template.props = [];

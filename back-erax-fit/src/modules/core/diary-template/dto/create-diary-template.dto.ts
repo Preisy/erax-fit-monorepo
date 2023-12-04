@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ArrayNotEmpty, IsDefined, IsNumber, Min, ValidateNested } from 'class-validator';
-import { CreateSelfControlPropsRequest } from '../../self-control-props/dto/create-self-control-props.dto';
+import { CreateTemplatePropsRequest } from '../../template-props/dto/create-template-props.dto';
 
 export class CreateDiaryTemplateRequest {
   @IsDefined()
@@ -13,7 +13,7 @@ export class CreateDiaryTemplateRequest {
   @IsDefined()
   @ArrayNotEmpty()
   @ValidateNested({ each: true })
-  @Type(() => CreateSelfControlPropsRequest)
-  @ApiProperty({ type: [CreateSelfControlPropsRequest] })
-  public props: CreateSelfControlPropsRequest[];
+  @Type(() => CreateTemplatePropsRequest)
+  @ApiProperty({ type: [CreateTemplatePropsRequest] })
+  public props: CreateTemplatePropsRequest[];
 }

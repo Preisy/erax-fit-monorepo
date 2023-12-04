@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { AppBaseEntity } from '../../../../models/app-base-entity.entity';
 import { SelfControlPropsEntity } from '../../self-control-props/entity/self-control-props.entity';
 import { UserEntity } from '../../user/entities/user.entity';
@@ -8,7 +8,7 @@ import { UserEntity } from '../../user/entities/user.entity';
 export class SelfControlEntity extends AppBaseEntity {
   @ApiProperty()
   @Column()
-  public behavior: string;
+  public behaviour: string;
 
   @ApiProperty()
   @Column()
@@ -36,5 +36,6 @@ export class SelfControlEntity extends AppBaseEntity {
   public userId!: number;
 
   @ApiProperty({ type: () => SelfControlPropsEntity })
+  @OneToMany(() => SelfControlPropsEntity, (props) => props.selfControl, { cascade: true })
   public props: SelfControlPropsEntity[];
 }

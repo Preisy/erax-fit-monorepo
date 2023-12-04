@@ -12,12 +12,15 @@ import { UpdateSelfControlRequest } from './dto/update-self-control.dto';
 import { SelfControlEntity } from './entity/self-control.entity';
 import { BaseUserService } from '../user/base-user.service';
 import { GetStepsByUserIdDTO } from './dto/get-steps.dto';
+import { SelfControlPropsEntity } from '../self-control-props/entity/self-control-props.entity';
 
 @Injectable()
 export class BaseSelfControlService {
   constructor(
     @InjectRepository(SelfControlEntity)
     private readonly selfControlRepository: Repository<SelfControlEntity>,
+    @InjectRepository(SelfControlPropsEntity)
+    private readonly selfControlPropsRepository: Repository<SelfControlPropsEntity>,
     private readonly userService: BaseUserService,
   ) {}
   public readonly relations: (keyof SelfControlEntity)[] = ['user', 'props'];
@@ -27,9 +30,7 @@ export class BaseSelfControlService {
       ...request,
       date: new Date(request.date),
     });
-
     const savedSelfControl = await this.selfControlRepository.save(newSelfControl);
-
     return new AppSingleResponse<GetSelfControlDTO>(this.getSelfControlDTO(savedSelfControl));
   }
 
@@ -83,12 +84,15 @@ export class BaseSelfControlService {
   async update(id: SelfControlEntity['id'], request: UpdateSelfControlRequest) {
     const { data: selfControl } = await this.findOne(id);
     if (request.props) {
-      selfControl.props = [];
-
       selfControl.sum = 0;
       request.props.forEach((prop) => {
         selfControl.sum! += prop.value;
       });
+
+      await this.selfControlPropsRepository.delete({
+        selfControlId: id,
+      });
+      selfControl.props = [];
     }
     const savedSelfControl = await this.selfControlRepository.save({
       ...selfControl,

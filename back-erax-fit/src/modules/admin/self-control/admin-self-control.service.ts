@@ -14,6 +14,7 @@ import { Repository } from 'typeorm';
 import { CreateSelfControlByAdminRequest } from './dto/admin-create-self-control.dto';
 import { GetStepsByUserIdByAdminDTO } from './dto/admin-get-steps-by-userId.dto';
 import { UpdateSelfControlByAdminRequest } from './dto/admin-update-self-control.dto';
+import { SelfControlPropsEntity } from 'src/modules/core/self-control-props/entity/self-control-props.entity';
 
 @Injectable()
 export class AdminSelfControlService {
@@ -40,15 +41,21 @@ export class AdminSelfControlService {
         userId: user.id,
       });
       const { data: template } = await this.diaryTemplateService.findOne(user.templateId);
-      newSelfControl.props = template.props;
+      //newSelfControl.props = template.props;
+      newSelfControl.props = new Array<SelfControlPropsEntity>();
+      template.props.forEach((prop) => {
+        const newProp = new SelfControlPropsEntity();
+        newProp.label = prop.label;
+        newSelfControl.props.push(newProp);
+      });
       const newDate = new Date(Date.now());
       newDate.setHours(0, 0, 0, 0);
       newSelfControl.date = newDate;
       try {
         const { data: workout } = await this.workoutService.findOneByDate(newDate);
-        newSelfControl.behavior = `Цикл ${workout.loop}`;
+        newSelfControl.behaviour = `Цикл ${workout.loop}`;
       } catch (e) {
-        newSelfControl.behavior = 'Отдых';
+        newSelfControl.behaviour = 'Отдых';
       }
       await this.selfControlRepository.save(newSelfControl);
     });
