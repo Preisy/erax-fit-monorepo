@@ -104,4 +104,8 @@ export class UserEntity extends AppBaseEntity {
   @ApiProperty()
   @Column({ type: 'integer', nullable: true })
   public anthrpJobPeriod?: number;
+
+  @ApiProperty()
+  @Column({ type: 'boolean' })
+  public canWatchVideo: boolean;
 }
