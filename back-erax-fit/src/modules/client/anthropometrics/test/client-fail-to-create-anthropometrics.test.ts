@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { CreateAnthropometricsByClientRequest } from '../dto/client-create-anthropometrics.dto';
 import { MeService } from '../../me/me.service';
 
-describe('BaseBonusVideoService', () => {
+describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
   let userService: MeService;
 

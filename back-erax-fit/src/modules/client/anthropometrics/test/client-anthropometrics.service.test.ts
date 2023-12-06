@@ -6,7 +6,7 @@ import { MeService } from '../../me/me.service';
 import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
 import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
 
-describe('BaseAnthropometricsService', () => {
+describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
   let userService: MeService;
 

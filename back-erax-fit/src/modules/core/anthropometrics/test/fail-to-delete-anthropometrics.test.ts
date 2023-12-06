@@ -4,7 +4,7 @@ import { AnthropometricsEntity } from '../entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-describe('BaseBonusVideoService', () => {
+describe('BaseAnthropometricsService', () => {
   let service: BaseAnthropometrcisService;
 
   beforeEach(async () => {
@@ -26,7 +26,7 @@ describe('BaseBonusVideoService', () => {
   });
 
   describe('delete method', () => {
-    it("shouldn't delete nthropometrics record because of incorrect id", async () => {
+    it("shouldn't delete anthropometrics record because of incorrect id", async () => {
       const id = 999999;
       await expect(service.delete(id)).rejects.toThrow();
     });

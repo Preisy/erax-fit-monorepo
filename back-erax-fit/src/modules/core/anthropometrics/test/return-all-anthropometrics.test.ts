@@ -5,7 +5,7 @@ import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-describe('BaseBonusVideoService', () => {
+describe('BaseAnthropometricsService', () => {
   let service: BaseAnthropometrcisService;
 
   beforeEach(async () => {

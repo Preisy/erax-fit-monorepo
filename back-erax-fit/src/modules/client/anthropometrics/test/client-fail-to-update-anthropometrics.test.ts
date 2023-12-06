@@ -5,7 +5,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateAnthropometricsByClientRequest } from '../dto/client-update-anthropometrics.dto';
 
-describe('BaseBonusVideoService', () => {
+describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
 
   beforeEach(async () => {

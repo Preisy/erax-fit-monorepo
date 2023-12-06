@@ -4,7 +4,7 @@ import { AnthropometricsEntity } from '../entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-describe('BaseBonusVideoService', () => {
+describe('BaseAnthropometricsService', () => {
   let service: BaseAnthropometrcisService;
 
   beforeEach(async () => {

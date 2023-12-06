@@ -6,7 +6,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MeService } from '../../me/me.service';
 
-describe('BaseBonusVideoService', () => {
+describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
   let userService: MeService;
 
