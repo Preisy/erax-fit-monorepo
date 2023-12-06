@@ -40,4 +40,19 @@ describe('BaseAnthropometricsService', () => {
       await expect(service.create(invalidAnthrpRequest)).rejects.toThrow();
     });
   });
+
+  describe('create', () => {
+    it('should not create new anthrp record because user with given id not found', async () => {
+      const invalidAnthrpRequest: CreateAnthropometricsRequest = {
+        userId: 2222,
+        waist: 90,
+        weight: 90,
+        shoulder: 99,
+        hip: 60,
+        hipVolume: 41,
+        abdomen: 50,
+      };
+      await expect(service.create(invalidAnthrpRequest)).rejects.toThrow();
+    });
+  });
 });

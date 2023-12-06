@@ -40,4 +40,19 @@ describe('BaseAnthropometricsService', () => {
       await expect(service.update(id, invalidAnthrpRequest)).rejects.toThrow();
     });
   });
+
+  describe('update', () => {
+    it('should not update existing anthrp record because given id not found', async () => {
+      const id = 999;
+      const invalidAnthrpRequest: UpdateAnthropometricsRequest = {
+        waist: 90,
+        weight: 90,
+        shoulder: 90,
+        hip: 90,
+        hipVolume: 90,
+        abdomen: 90,
+      };
+      await expect(service.update(id, invalidAnthrpRequest)).rejects.toThrow();
+    });
+  });
 });

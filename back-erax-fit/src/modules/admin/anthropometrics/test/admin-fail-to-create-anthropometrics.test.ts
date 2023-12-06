@@ -40,4 +40,19 @@ describe('BaseBonusVideoService', () => {
       await expect(service.create(invalidAnthrpRequest)).rejects.toThrow();
     });
   });
+
+  describe('create', () => {
+    it('should not create new anthrp record because of wrong userId', async () => {
+      const invalidAnthrpRequest: CreateAnthropometricsByAdminRequest = {
+        userId: 666,
+        waist: 80,
+        weight: 70,
+        shoulder: 99,
+        hip: 60,
+        hipVolume: 50,
+        abdomen: 40,
+      };
+      await expect(service.create(invalidAnthrpRequest)).rejects.toThrow();
+    });
+  });
 });
