@@ -88,21 +88,18 @@ describe('AdminAnthropometricsService', () => {
 
   describe('createAnthropometricsCron method', () => {
     it('should create anthropometrics records based on the cron schedule', async () => {
-      // Mock the dependencies
       const users = [{ id: 5, anthrpJobPeriod: 1, createdAt: new Date() }] as UserEntity[];
       userService.getUsers({ data: users } as AppPagination.Request);
 
-      const latestAnthropometrics = [{ userId: 1, createdAt: new Date() }] as AnthropometricsEntity[];
+      const latestAnthropometrics = [{ userId: 5, createdAt: new Date() }] as AnthropometricsEntity[];
       service.findLatestAnthropometricsForEachUser = jest.fn().mockResolvedValue(latestAnthropometrics);
 
-      // Call the method
       await service.createAnthropometricsCron();
 
-      // Assert the expected actions
       expect(userService.getUsers).toHaveBeenCalledWith(new AppPagination.Request(), {
         where: { role: UserRole.Client },
       });
-      expect(userRepository.save).toHaveBeenCalledWith({ userId: 1 });
+      expect(userRepository.save).toHaveBeenCalledWith({ userId: 5 });
     });
   });
 });
