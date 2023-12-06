@@ -26,7 +26,7 @@ describe('BaseBonusVideoService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getUsers method', () => {
+  describe('findAll method', () => {
     it('it should return all antropometrics records without any input data', async () => {
       const query = {} as AppDatePagination.Request;
 
