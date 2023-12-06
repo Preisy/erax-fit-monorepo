@@ -1,32 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BaseAnthropometrcisService } from '../base-anthropometrics.service';
-import { CreateAnthropometricsRequest } from '../dto/create-anthropometrics.dto';
-import { UpdateAnthropometricsRequest } from '../dto/update-anthropometrics';
+import { ClientAnthropometricsService } from '../client-anthropometrics.service';
+import { CreateAnthropometricsByClientRequest } from '../dto/client-create-anthropometrics.dto';
+import { UpdateAnthropometricsByClientRequest } from '../dto/client-update-anthropometrics.dto';
+import { MeService } from '../../me/me.service';
 import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
-import { AnthropometricsEntity } from '../entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
 
 describe('BaseAnthropometricsService', () => {
-  let service: BaseAnthropometrcisService;
+  let service: ClientAnthropometricsService;
+  let userService: MeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BaseAnthropometrcisService],
+      providers: [ClientAnthropometricsService],
     }).compile();
-    service = module.get<BaseAnthropometrcisService>(BaseAnthropometrcisService);
+    service = module.get<ClientAnthropometricsService>(ClientAnthropometricsService);
   });
 
   describe('create method', () => {
     it('should create a new anthropometrics record and save it', async () => {
-      const request: CreateAnthropometricsRequest = {
-        weight: 67,
-        waist: 33,
-        abdomen: 71,
-        shoulder: 92,
-        hip: 30,
-        hipVolume: 30,
-        userId: 2,
+      const { data: user } = await userService.getMe(3);
+      const request: CreateAnthropometricsByClientRequest = {
+        weight: 90,
+        waist: 40,
+        abdomen: 88,
+        shoulder: 101,
+        hip: 56,
+        hipVolume: 56,
+        userId: user.id,
       };
-      const savedAnthropometrics = await service.create(request);
+      const savedAnthropometrics = await service.create(user, request);
       expect(savedAnthropometrics).toBeDefined();
       expect({ data: savedAnthropometrics.data }).toBeDefined();
     });
@@ -34,12 +37,13 @@ describe('BaseAnthropometricsService', () => {
 
   describe('findAll method', () => {
     it('it should return all antropometrics records between given period', async () => {
+      const { data: user } = await userService.getMe(3);
       const query: AppDatePagination.Request = {
         from: new Date('2023-18-10'),
         to: new Date('2023-20-11'),
       };
 
-      const result = await service.findAll(query);
+      const result = await service.findAll(user, query);
 
       expect(result).toBeInstanceOf(AppDatePagination.Response);
       expect(result.data).toBeInstanceOf(AppDatePagination.Response<AnthropometricsEntity>);
@@ -59,13 +63,13 @@ describe('BaseAnthropometricsService', () => {
   describe('update method', () => {
     it('should update an existing anthropometrics record', async () => {
       const id = 1;
-      const updateRequest: UpdateAnthropometricsRequest = {
-        weight: 57,
-        waist: 30,
-        abdomen: 78,
-        shoulder: 99,
-        hip: 39,
-        hipVolume: 33,
+      const updateRequest: UpdateAnthropometricsByClientRequest = {
+        weight: 100,
+        waist: 100,
+        abdomen: 100,
+        shoulder: 100,
+        hip: 100,
+        hipVolume: 100,
       };
       const savedAnthropometrics = await service.update(id, updateRequest);
       expect(savedAnthropometrics).toBeDefined();
