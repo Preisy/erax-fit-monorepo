@@ -21,7 +21,7 @@ profileStore.getUserProfiles({ page: 1, limit: 1000, expanded: false });
 const nameFilter = ref<string>('');
 const cards = computed(
   () =>
-    clientProfiles.data?.data.filter((card) => {
+    clientProfiles.data?.filter((card) => {
       const fullName = `${card.firstName} ${card.lastName}`;
       const searchFilter = fullName.toLocaleLowerCase().includes(nameFilter.value.toLocaleLowerCase());
       const roleUserFilter = card.role === 'client';

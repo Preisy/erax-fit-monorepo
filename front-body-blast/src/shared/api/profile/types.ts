@@ -4,7 +4,7 @@ import { AppBaseEntity, AppPagination } from '../base';
 export interface Anthropometry {
   weight: number;
   waist: number;
-  underbelly: number;
+  abdomen: number;
   shoulder: number;
   hip: number;
   hipVolume: number;

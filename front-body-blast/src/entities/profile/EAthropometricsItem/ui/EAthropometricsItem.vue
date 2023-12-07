@@ -10,13 +10,13 @@ export interface EAthropometricsItemProps {
   profile: Anthropometry;
 }
 const schema = toTypedSchema(Anthropometry.validation());
-const fields: (keyof Anthropometry)[] = ['weight', 'waist', 'underbelly', 'shoulder', 'hip', 'hipVolume'];
+const fields: (keyof Anthropometry)[] = ['weight', 'waist', 'abdomen', 'shoulder', 'hip', 'hipVolume'];
 
 defineProps<EAthropometricsItemProps>();
 </script>
 
 <template>
-  <SForm :readonly="readonly" :field-schema="schema" class="[&_.s-form-inputs]:(grid grid-cols-2 mt-8 gap-2)">
+  <SForm :readonly="readonly" :field-schema="schema" class="[&_.s-form-inputs]:(grid grid-cols-2 gap-2)">
     <SInput
       v-for="field of fields"
       :key="field"

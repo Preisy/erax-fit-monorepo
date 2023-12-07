@@ -23,3 +23,7 @@ export namespace AppPagination {
     count: number;
   }
 }
+
+export interface BaseResponse<T> {
+  data: T;
+}
