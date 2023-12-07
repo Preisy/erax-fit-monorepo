@@ -1,13 +1,22 @@
 import { z } from 'zod';
+import { AppBaseEntity, AppPagination } from '../base';
 
-export namespace Profile {
-  export interface Athropometrics {
-    weight: number;
-    waist: number;
-    underbelly: number;
-    shoulder: number;
-    hip: number;
-    hipVolume: number;
+export interface Anthropometry {
+  weight: number;
+  waist: number;
+  underbelly: number;
+  shoulder: number;
+  hip: number;
+  hipVolume: number;
+}
+
+export namespace Anthropometry {
+  export interface Response extends AppPagination.Response<Response.Item> {}
+
+  export namespace Response {
+    export interface Item extends Anthropometry, AppBaseEntity {
+      userId: number;
+    }
   }
 
   export const validation = () =>

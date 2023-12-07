@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia';
-import { IPagination, useListState, usePaginationStoreAction } from 'shared/lib/utils';
+import { useSimpleStoreAction, useSingleState } from 'shared/lib/utils';
 import { profileService } from './service';
-import { Profile } from './types';
+import { Anthropometry } from './types';
 
 export const useProfileStore = defineStore('profile-store', () => {
-  const anthropometry = ref(useListState<{ profile: Profile.Athropometrics; readonly: boolean }>());
-  const getAnthropometry = (pagination: IPagination.Params) =>
-    usePaginationStoreAction({
+  const anthropometry = ref(useSingleState<Anthropometry.Response>());
+  const getAnthropometry = (pagination: Parameters<typeof profileService.getAnthropometry>['0']) =>
+    useSimpleStoreAction({
       stateWrapper: anthropometry.value,
-      serviceAction: () => profileService.getAnthropometry(pagination),
+      serviceAction: profileService.getAnthropometry(pagination),
     });
 
   return { anthropometry, getAnthropometry };
