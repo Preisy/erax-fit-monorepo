@@ -1,6 +1,6 @@
 import { ComposerTranslation } from 'vue-i18n';
-import { AppBaseEntity } from '../base';
 import { z } from 'zod';
+import { AppBaseEntity } from '../base';
 
 export interface User extends AppBaseEntity {
   firstName: string;
