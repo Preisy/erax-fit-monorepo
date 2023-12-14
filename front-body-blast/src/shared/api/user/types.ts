@@ -1,12 +1,12 @@
 import { AppBaseEntity } from '../base';
 
 export interface User extends AppBaseEntity {
+  tokenId: number;
   firstName: string;
   lastName: string;
   role: 'client' | 'admin';
   email: string;
   password: string;
-  tokenId: number;
   age: number;
   height: number;
   weight: number;
@@ -22,4 +22,6 @@ export interface User extends AppBaseEntity {
   loadRestrictions: string;
   sportsExp: string;
   goals: string;
+  anthrpJobPeriod: Nullable<number>;
+  canWatchVideo: boolean;
 }
