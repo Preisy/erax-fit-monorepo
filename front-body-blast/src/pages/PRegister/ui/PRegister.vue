@@ -11,7 +11,7 @@ import {
 import { useAuthStore, TokenService, SignUp } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
 import { GetZodInnerType } from 'shared/lib/utils';
-import { SBtn } from 'shared/ui/SBtn';
+import { SBtn } from 'shared/ui/btns';
 import { SForm, SFormProps } from 'shared/ui/SForm';
 import { SSplide } from 'shared/ui/SSplide';
 import { SSplideSlide } from 'shared/ui/SSplideSlide';

@@ -19,6 +19,9 @@ export const refreshInterceptor = async (error: AxiosError) => {
     if (newAccess.data) {
       TokenService.setTokens(newAccess.data);
     }
+
+    //TODO: restore token and resend error request.
+    // api(error.request);
   }
   return error;
 };

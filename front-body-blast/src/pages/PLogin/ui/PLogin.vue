@@ -3,7 +3,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { ELoginForm } from 'entities/form';
 import { Auth, useAuthStore } from 'shared/api/auth';
 import { ENUMS } from 'shared/lib/enums';
-import { SBtn } from 'shared/ui/SBtn';
+import { SBtn } from 'shared/ui/btns';
 import { SForm } from 'shared/ui/SForm';
 import { SStructure } from 'shared/ui/SStructure';
 
@@ -13,7 +13,8 @@ const authStore = useAuthStore();
 const { loginState } = authStore;
 const login = async (values: Auth.Dto) => {
   await authStore.login(values);
-  if (loginState.state.isSuccess()) router.push({ name: ENUMS.ROUTES_NAMES.TRAINING });
+  if (loginState.state.isError()) return;
+  router.push({ name: ENUMS.ROUTES_NAMES.TRAINING });
 };
 </script>
 
