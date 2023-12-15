@@ -26,15 +26,6 @@ export class AdminAnthropometricsService {
     return this.baseService.create(request);
   }
 
-  // async findAll(
-  //   query: AppPagination.Request,
-  //   options?: AppDatePagination.GetExecutorOptions<AnthropometricsEntity>,
-  // ): Promise<AppDatePagination.Response<AnthropometricsEntity>> {
-  //   const { getPaginatedData } = AppDatePagination.getExecutor(this.anthrpRepository, this.relations);
-
-  //   return getPaginatedData(query, options);
-  // }
-
   async findAll(
     request: GetAnthropometricsForUserByAdminRequest,
   ): Promise<AppDatePagination.Response<AnthropometricsEntity>> {
