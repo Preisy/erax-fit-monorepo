@@ -4,7 +4,10 @@ import { CreateAnthropometricsByClientRequest } from '../dto/client-create-anthr
 import { UpdateAnthropometricsByClientRequest } from '../dto/client-update-anthropometrics.dto';
 import { MeService } from '../../me/me.service';
 import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
@@ -12,7 +15,14 @@ describe('ClientAnthropometricsService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ClientAnthropometricsService],
+      providers: [
+        ClientAnthropometricsService,
+        {
+          provide: getRepositoryToken(AnthropometricsEntity),
+          useClass: Repository,
+        },
+        BaseAnthropometrcisService,
+      ],
     }).compile();
     service = module.get<ClientAnthropometricsService>(ClientAnthropometricsService);
   });

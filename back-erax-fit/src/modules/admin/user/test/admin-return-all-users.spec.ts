@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminUserService } from '../admin-user.service';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 import { AppPagination } from '../../../../utils/app-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseUserService } from '../../../../modules/core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;
@@ -16,6 +17,7 @@ describe('AdminUserService', () => {
           provide: getRepositoryToken(UserEntity),
           useClass: Repository,
         },
+        BaseUserService,
       ],
     }).compile();
 

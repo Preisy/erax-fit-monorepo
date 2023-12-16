@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientAnthropometricsService } from '../client-anthropometrics.service';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAnthropometricsByClientRequest } from '../dto/client-create-anthropometrics.dto';
 import { MeService } from '../../me/me.service';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
@@ -18,6 +19,7 @@ describe('ClientAnthropometricsService', () => {
           provide: getRepositoryToken(AnthropometricsEntity),
           useClass: Repository,
         },
+        BaseAnthropometrcisService,
       ],
     }).compile();
 

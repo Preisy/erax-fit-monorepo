@@ -4,6 +4,7 @@ import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UpdateAnthropometricsByClientRequest } from '../dto/client-update-anthropometrics.dto';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
@@ -16,6 +17,7 @@ describe('ClientAnthropometricsService', () => {
           provide: getRepositoryToken(AnthropometricsEntity),
           useClass: Repository,
         },
+        BaseAnthropometrcisService,
       ],
     }).compile();
 

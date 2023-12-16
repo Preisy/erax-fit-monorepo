@@ -1,17 +1,27 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminUserService } from '../admin-user.service';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 import { CreateUserByAdminRequest } from '../dto/create-admin.dto';
 import { AppPagination } from '../../../../utils/app-pagination.util';
 import { UpdateUserByAdminRequest } from '../dto/update-admin-user.dto';
 import { UserRole } from '../../../../constants/constants';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { BaseUserService } from '../../../../modules/core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [AdminUserService],
+      providers: [
+        AdminUserService,
+        {
+          provide: getRepositoryToken(UserEntity),
+          useClass: Repository,
+        },
+        BaseUserService,
+      ],
     }).compile();
     service = module.get<AdminUserService>(AdminUserService);
   });

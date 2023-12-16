@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminBonusVideoService } from '../admin-bonus-video.service';
-import { BonusVideoEntity } from '../../../../modules/core/bonus-video/entities/bonus-video.entity';
+import { BonusVideoEntity } from '../../../core/bonus-video/entities/bonus-video.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseBonusVideoService } from '../../../../modules/core/bonus-video/base-bonus-video.service';
 
 describe('AdminBonusVideoService', () => {
   let service: AdminBonusVideoService;
@@ -15,6 +16,7 @@ describe('AdminBonusVideoService', () => {
           provide: getRepositoryToken(BonusVideoEntity),
           useClass: Repository,
         },
+        BaseBonusVideoService,
       ],
     }).compile();
 

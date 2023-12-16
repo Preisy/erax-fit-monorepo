@@ -1,14 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
 import { ClientAnthropometricsService } from '../client-anthropometrics.service';
-import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
+import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { MeService } from '../../me/me.service';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
-  let userService: MeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -18,6 +16,7 @@ describe('ClientAnthropometricsService', () => {
           provide: getRepositoryToken(AnthropometricsEntity),
           useClass: Repository,
         },
+        BaseAnthropometrcisService,
       ],
     }).compile();
 
@@ -28,15 +27,10 @@ describe('ClientAnthropometricsService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findAll method', () => {
-    it('it should return all antropometrics records without any input data', async () => {
-      const query = {} as AppDatePagination.Request;
-      const { data: user } = await userService.getMe(2);
-
-      const result = await service.findAll(user, query);
-
-      expect(result).toBeInstanceOf(AppDatePagination.Response);
-      expect(result.data).toBeInstanceOf(AppDatePagination.Response<AnthropometricsEntity>);
+  describe('delete method', () => {
+    it("shouldn't delete nthropometrics record because of incorrect id", async () => {
+      const id = 999999;
+      await expect(service.delete(id)).rejects.toThrow();
     });
   });
 });

@@ -1,8 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
 import { AdminAnthropometricsService } from '../admin-anthropometrics.service';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
+import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('AdminAnthropometricsService', () => {
   let service: AdminAnthropometricsService;
@@ -15,6 +17,7 @@ describe('AdminAnthropometricsService', () => {
           provide: getRepositoryToken(AnthropometricsEntity),
           useClass: Repository,
         },
+        BaseAnthropometrcisService,
       ],
     }).compile();
 
@@ -25,10 +28,14 @@ describe('AdminAnthropometricsService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findOne method', () => {
-    it("shouldn't find anthropometrics record because of incorrect id and should throw 404", async () => {
-      const id = 999999;
-      await expect(service.findOne(id)).rejects.toThrow();
+  describe('findAll method', () => {
+    it('it should return all antropometrics records without any input data', async () => {
+      const query = {} as AppDatePagination.Request;
+
+      const result = await service.findAll(query);
+
+      expect(result).toBeInstanceOf(AppDatePagination.Response);
+      expect(result.data).toBeInstanceOf(AppDatePagination.Response<AnthropometricsEntity>);
     });
   });
 });

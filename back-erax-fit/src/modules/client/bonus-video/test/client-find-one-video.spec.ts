@@ -3,6 +3,7 @@ import { ClientBonusVideoService } from '../client-bonus-video.service';
 import { BonusVideoEntity } from '../../../core/bonus-video/entities/bonus-video.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BaseBonusVideoService } from '../../../../modules/core/bonus-video/base-bonus-video.service';
 
 describe('ClientVideoService', () => {
   let service: ClientBonusVideoService;
@@ -15,6 +16,7 @@ describe('ClientVideoService', () => {
           provide: getRepositoryToken(BonusVideoEntity),
           useClass: Repository,
         },
+        BaseBonusVideoService,
       ],
     }).compile();
 

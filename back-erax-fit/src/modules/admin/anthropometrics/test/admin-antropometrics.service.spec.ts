@@ -9,7 +9,8 @@ import { AppPagination } from '../../../../utils/app-pagination.util';
 import { UserRole } from '../../../../constants/constants';
 import { CreateAnthropometricsByAdminRequest } from '../dto/create-anthropometrics-by-admin.dto';
 import { AdminUserService } from '../../user/admin-user.service';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
 
 describe('AdminAnthropometricsService', () => {
   let service: AdminAnthropometricsService;
@@ -29,6 +30,12 @@ describe('AdminAnthropometricsService', () => {
           useValue: {
             getUsers: jest.fn(),
           },
+        },
+        BaseAnthropometrcisService,
+        BaseUserService,
+        {
+          provide: getRepositoryToken(UserEntity),
+          useClass: Repository,
         },
       ],
     }).compile();

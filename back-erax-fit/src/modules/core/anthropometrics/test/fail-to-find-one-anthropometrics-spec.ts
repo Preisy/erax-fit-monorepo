@@ -1,16 +1,16 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClientAnthropometricsService } from '../client-anthropometrics.service';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
+import { BaseAnthropometrcisService } from '../base-anthropometrics.service';
+import { AnthropometricsEntity } from '../entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-describe('ClientAnthropometricsService', () => {
-  let service: ClientAnthropometricsService;
+describe('BaseAnthropometricsService', () => {
+  let service: BaseAnthropometrcisService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ClientAnthropometricsService,
+        BaseAnthropometrcisService,
         {
           provide: getRepositoryToken(AnthropometricsEntity),
           useClass: Repository,
@@ -18,7 +18,7 @@ describe('ClientAnthropometricsService', () => {
       ],
     }).compile();
 
-    service = module.get<ClientAnthropometricsService>(ClientAnthropometricsService);
+    service = module.get<BaseAnthropometrcisService>(BaseAnthropometrcisService);
   });
 
   it('should be defined', () => {
