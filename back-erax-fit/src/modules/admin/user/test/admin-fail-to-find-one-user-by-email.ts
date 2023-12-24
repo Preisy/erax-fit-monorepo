@@ -1,27 +1,25 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { BaseUserService } from '../base-user.service';
-import { UserEntity } from '../entities/user.entity';
+import { AdminUserService } from '../admin-user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
-describe('BaseUserService', () => {
-  let service: BaseUserService;
+describe('AdminUserService', () => {
+  let service: AdminUserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        BaseUserService,
+        AdminUserService,
         {
           provide: getRepositoryToken(UserEntity),
-          useValue: {
-            create: jest.fn(() => UserEntity),
-            save: jest.fn(() => UserEntity),
-            findOne: jest.fn(() => UserEntity),
-          },
+          useClass: Repository,
         },
+        BaseUserService,
       ],
     }).compile();
-
-    service = module.get<BaseUserService>(BaseUserService);
+    service = module.get<AdminUserService>(AdminUserService);
   });
 
   it('should be defined', () => {
@@ -31,14 +29,14 @@ describe('BaseUserService', () => {
   describe('getUserByEmail method', () => {
     it('should not find user record because of wrong email', async () => {
       const email = 'sdfghjkl';
-      expect(service.getUserByEmail(email)).resolves.toBeNull;
+      expect(service.getUserByEmail(email)).rejects.toThrow();
     });
   });
 
   describe('getUserByEmail method', () => {
     it('should not find user record because given email does not exist', async () => {
       const email = 'a5@mail.ru';
-      expect(service.getUserByEmail(email)).resolves.toBeNull;
+      expect(service.getUserByEmail(email)).rejects.toThrow();
     });
   });
 });

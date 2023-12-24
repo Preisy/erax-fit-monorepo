@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { AdminUserService } from '../admin-user.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { MeService } from '../me.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 
-describe('AdminUserService', () => {
-  let service: AdminUserService;
+describe('MeService', () => {
+  let service: MeService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        AdminUserService,
+        MeService,
         {
           provide: getRepositoryToken(UserEntity),
           useClass: Repository,
@@ -19,17 +19,17 @@ describe('AdminUserService', () => {
         BaseUserService,
       ],
     }).compile();
-    service = module.get<AdminUserService>(AdminUserService);
+    service = module.get<MeService>(MeService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getUserById method', () => {
+  describe('getMe method', () => {
     it('should not find user record because of wrong id', async () => {
       const id = 10000;
-      expect(service.getUserById(id)).rejects.toThrow();
+      expect(service.getMe(id)).rejects.toThrow();
     });
   });
 });

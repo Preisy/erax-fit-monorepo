@@ -3,8 +3,8 @@ import { AdminUserService } from '../admin-user.service';
 import { UpdateUserByAdminRequest } from '../dto/update-admin-user.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;

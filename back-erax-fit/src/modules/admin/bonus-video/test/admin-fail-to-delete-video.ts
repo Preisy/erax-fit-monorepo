@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ClientBonusVideoService } from '../client-bonus-video.service';
+import { AdminBonusVideoService } from '../admin-bonus-video.service';
 import { BonusVideoEntity } from '../../../core/bonus-video/entities/bonus-video.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BaseBonusVideoService } from '../../../../modules/core/bonus-video/base-bonus-video.service';
+import { BaseBonusVideoService } from '../../../core/bonus-video/base-bonus-video.service';
 
-describe('ClientVideoService', () => {
-  let service: ClientBonusVideoService;
+describe('AdminBonusVideoService', () => {
+  let service: AdminBonusVideoService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ClientBonusVideoService,
+        AdminBonusVideoService,
         {
           provide: getRepositoryToken(BonusVideoEntity),
           useClass: Repository,
@@ -20,17 +20,17 @@ describe('ClientVideoService', () => {
       ],
     }).compile();
 
-    service = module.get<ClientBonusVideoService>(ClientBonusVideoService);
+    service = module.get<AdminBonusVideoService>(AdminBonusVideoService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findOne method', () => {
-    it('should not return any video because of wrong id', async () => {
+  describe('delete', () => {
+    it('should not delete bonus video because of incorrect id', async () => {
       const id = 666;
-      await expect(service.findOne(id)).rejects.toThrow();
+      await expect(service.delete(id)).rejects.toThrow();
     });
   });
 });

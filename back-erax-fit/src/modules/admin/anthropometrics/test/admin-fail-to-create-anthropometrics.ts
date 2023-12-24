@@ -4,7 +4,7 @@ import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/an
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAnthropometricsByAdminRequest } from '../dto/create-anthropometrics-by-admin.dto';
-import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../../core/anthropometrics/base-anthropometrics.service';
 
 describe('AdminAnthropometricsService', () => {
   let service: AdminAnthropometricsService;

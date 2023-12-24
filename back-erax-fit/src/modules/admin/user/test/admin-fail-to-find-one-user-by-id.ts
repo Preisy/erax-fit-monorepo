@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminUserService } from '../admin-user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;
@@ -26,10 +26,10 @@ describe('AdminUserService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('deleteUserById method', () => {
-    it('should delete an user record by its ID', async () => {
-      const id = 30;
-      expect(service.deleteUserById(id)).rejects.toThrow();
+  describe('getUserById method', () => {
+    it('should not find user record because of wrong id', async () => {
+      const id = 10000;
+      expect(service.getUserById(id)).rejects.toThrow();
     });
   });
 });

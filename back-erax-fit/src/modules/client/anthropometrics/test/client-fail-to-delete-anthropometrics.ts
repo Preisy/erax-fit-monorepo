@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ClientAnthropometricsService } from '../client-anthropometrics.service';
-import { AnthropometricsEntity } from '../../../../modules/core/anthropometrics/entities/anthropometrics.entity';
+import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UpdateAnthropometricsByClientRequest } from '../dto/client-update-anthropometrics.dto';
-import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../../core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;
@@ -28,18 +27,10 @@ describe('ClientAnthropometricsService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('update', () => {
-    it('should not update existing anthrp record because of wrong data', async () => {
-      const id = 1;
-      const invalidAnthrpRequest: UpdateAnthropometricsByClientRequest = {
-        waist: 100,
-        weight: -100,
-        shoulder: 100,
-        hip: 20,
-        hipVolume: 100,
-        abdomen: 100,
-      };
-      await expect(service.update(id, invalidAnthrpRequest)).rejects.toThrow();
+  describe('delete method', () => {
+    it("shouldn't delete nthropometrics record because of incorrect id", async () => {
+      const id = 999999;
+      await expect(service.delete(id)).rejects.toThrow();
     });
   });
 });

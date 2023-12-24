@@ -5,7 +5,7 @@ import { CreateVideoByAdminRequest } from '../dto/admin-create-video.dto';
 import { AppSingleResponse } from '../../../../dto/app-single-response.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BaseBonusVideoService } from '../../../../modules/core/bonus-video/base-bonus-video.service';
+import { BaseBonusVideoService } from '../../../core/bonus-video/base-bonus-video.service';
 
 describe('AdminBonusVideoService', () => {
   let service: AdminBonusVideoService;

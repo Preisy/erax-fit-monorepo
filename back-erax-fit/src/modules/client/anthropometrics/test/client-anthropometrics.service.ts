@@ -7,7 +7,7 @@ import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
 import { AnthropometricsEntity } from '../../../core/anthropometrics/entities/anthropometrics.entity';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../../core/anthropometrics/base-anthropometrics.service';
 
 describe('ClientAnthropometricsService', () => {
   let service: ClientAnthropometricsService;

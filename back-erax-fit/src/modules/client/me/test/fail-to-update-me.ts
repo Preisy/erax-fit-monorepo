@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MeService } from '../me.service';
 import { UpdateUserByClientRequest } from '../dto/update-client-user.dto';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('MeService', () => {
   let service: MeService;

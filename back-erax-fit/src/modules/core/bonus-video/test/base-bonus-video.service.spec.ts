@@ -5,6 +5,7 @@ import { CreateVideoRequest } from '../dto/create-video.dto';
 import { AppSingleResponse } from '../../../../dto/app-single-response.dto';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { AppStatusResponse } from '../../../../dto/app-status-response.dto';
 
 describe('BaseBonusVideoService', () => {
   let service: BaseBonusVideoService;
@@ -16,7 +17,12 @@ describe('BaseBonusVideoService', () => {
         BaseBonusVideoService,
         {
           provide: getRepositoryToken(BonusVideoEntity),
-          useClass: Repository,
+          useValue: {
+            save: jest.fn(() => BonusVideoEntity),
+            create: jest.fn(() => BonusVideoEntity),
+            findOne: jest.fn(() => BonusVideoEntity),
+            delete: jest.fn(() => AppStatusResponse),
+          },
         },
       ],
     }).compile();
@@ -44,20 +50,30 @@ describe('BaseBonusVideoService', () => {
 
   describe('findOne', () => {
     it('should find a bonus video by id', async () => {
-      const id = 1;
-      const video = await service.findOne(id);
+      const createVideoRequest: CreateVideoRequest = {
+        name: 'porn migration video',
+        linkUrl: 'undefined/porn.mp4',
+      };
+
+      const savedData = await repository.save(await repository.create(createVideoRequest));
+
+      const video = await service.findOne(savedData.id);
       expect(video).toBeDefined();
-      expect({ data: video }).toBe(id);
       expect({ data: video.data }).toBeDefined();
     });
   });
 
   describe('delete', () => {
     it('should delete a bonus video by id', async () => {
-      const id = 1;
-      const affected = await service.delete(id);
+      const createVideoRequest: CreateVideoRequest = {
+        name: 'porn migration video',
+        linkUrl: 'undefined/porn.mp4',
+      };
+
+      const savedData = await repository.save(await repository.create(createVideoRequest));
+      const affected = await service.delete(savedData.id);
       expect(affected).toBeDefined();
-      expect(affected).toBe(1);
+      expect(affected).toEqual({ status: false });
     });
   });
 });

@@ -10,7 +10,7 @@ import { UserRole } from '../../../../constants/constants';
 import { CreateAnthropometricsByAdminRequest } from '../dto/create-anthropometrics-by-admin.dto';
 import { AdminUserService } from '../../user/admin-user.service';
 import { UserEntity } from '../../../core/user/entities/user.entity';
-import { BaseAnthropometrcisService } from '../../../../modules/core/anthropometrics/base-anthropometrics.service';
+import { BaseAnthropometrcisService } from '../../../core/anthropometrics/base-anthropometrics.service';
 
 describe('AdminAnthropometricsService', () => {
   let service: AdminAnthropometricsService;

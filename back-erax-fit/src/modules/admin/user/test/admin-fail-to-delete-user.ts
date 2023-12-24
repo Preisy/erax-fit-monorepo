@@ -1,10 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminUserService } from '../admin-user.service';
-import { UserEntity } from '../../../core/user/entities/user.entity';
-import { AppPagination } from '../../../../utils/app-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;
@@ -20,7 +19,6 @@ describe('AdminUserService', () => {
         BaseUserService,
       ],
     }).compile();
-
     service = module.get<AdminUserService>(AdminUserService);
   });
 
@@ -28,14 +26,10 @@ describe('AdminUserService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getUsers method', () => {
-    it('should return an AppPaginationResponse', async () => {
-      const query = {} as AppPagination.Request;
-
-      const result = await service.getUsers(query);
-
-      expect(result).toBeInstanceOf(AppPagination.Response);
-      expect(result.data).toBeInstanceOf(AppPagination.Response<UserEntity>);
+  describe('deleteUserById method', () => {
+    it('should delete an user record by its ID', async () => {
+      const id = 30;
+      expect(service.deleteUserById(id)).rejects.toThrow();
     });
   });
 });

@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AdminUserService } from '../admin-user.service';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { AppPagination } from '../../../../utils/app-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;
@@ -19,6 +20,7 @@ describe('AdminUserService', () => {
         BaseUserService,
       ],
     }).compile();
+
     service = module.get<AdminUserService>(AdminUserService);
   });
 
@@ -26,17 +28,14 @@ describe('AdminUserService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('getUserByEmail method', () => {
-    it('should not find user record because of wrong email', async () => {
-      const email = 'sdfghjkl';
-      expect(service.getUserByEmail(email)).rejects.toThrow();
-    });
-  });
+  describe('getUsers method', () => {
+    it('should return an AppPaginationResponse', async () => {
+      const query = {} as AppPagination.Request;
 
-  describe('getUserByEmail method', () => {
-    it('should not find user record because given email does not exist', async () => {
-      const email = 'a5@mail.ru';
-      expect(service.getUserByEmail(email)).rejects.toThrow();
+      const result = await service.getUsers(query);
+
+      expect(result).toBeInstanceOf(AppPagination.Response);
+      expect(result.data).toBeInstanceOf(AppPagination.Response<UserEntity>);
     });
   });
 });

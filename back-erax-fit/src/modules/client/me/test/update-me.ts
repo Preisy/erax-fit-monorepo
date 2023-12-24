@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MeService } from '../me.service';
 import { UpdateUserByClientRequest } from '../dto/update-client-user.dto';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
 import { Repository } from 'typeorm';
 
 describe('MeService', () => {

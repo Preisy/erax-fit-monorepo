@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MeService } from '../me.service';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { UserEntity } from '../../../../modules/core/user/entities/user.entity';
+import { UserEntity } from '../../../core/user/entities/user.entity';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('MeService', () => {
   let service: MeService;
@@ -27,9 +27,12 @@ describe('MeService', () => {
   });
 
   describe('getMe method', () => {
-    it('should not find user record because of wrong id', async () => {
-      const id = 10000;
-      expect(service.getMe(id)).rejects.toThrow();
+    it('should find user record by its ID', async () => {
+      const id = 1;
+      const user = await service.getMe(id);
+      expect(user).toBeDefined();
+      expect({ data: user }).toBe(id);
+      expect({ data: user.data }).toBeDefined();
     });
   });
 });

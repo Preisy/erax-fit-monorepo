@@ -1,14 +1,24 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BaseUserService } from '../base-user.service';
 import { CreateUserRequest } from '../dto/create-user.dto';
+import { Repository } from 'typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { UserEntity } from '../entities/user.entity';
 
 describe('BaseUserService', () => {
   let service: BaseUserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [BaseUserService],
+      providers: [
+        BaseUserService,
+        {
+          provide: getRepositoryToken(UserEntity),
+          useClass: Repository,
+        },
+      ],
     }).compile();
+
     service = module.get<BaseUserService>(BaseUserService);
   });
 
@@ -19,7 +29,7 @@ describe('BaseUserService', () => {
   describe('create method', () => {
     it('should not create a new user because of wrong password', async () => {
       const request: CreateUserRequest = {
-        email: 'e1@mail.ru',
+        email: 'test@mail.ru',
         password: 'qwertyuiop',
         firstName: 'Test',
         lastName: 'User',
@@ -44,27 +54,27 @@ describe('BaseUserService', () => {
   });
 
   describe('create method', () => {
-    it('should not create a new user because of empty FIO', async () => {
+    it('should not create a new user because of empty string fields', async () => {
       const request: CreateUserRequest = {
-        email: 'e1@mail.ru',
+        email: 'test1@mail.ru',
         password: 'Qwertyuiop1',
-        firstName: '',
-        lastName: '',
+        firstName: 'Aaa',
+        lastName: 'Aaa',
         age: 33,
         weight: 80,
         weightInYouth: 70,
         height: 190,
-        heartDesease: 'none',
-        nutritRestrict: 'none',
-        gastroDeseases: 'none',
-        allergy: 'none',
-        kidneyDesease: 'none',
-        goals: 'Achieve volume of Arnold Schwarzenegger',
-        sportsExp: 'push-ups',
-        mealIntolerance: 'none',
+        heartDesease: '',
+        nutritRestrict: '',
+        gastroDeseases: '',
+        allergy: '',
+        kidneyDesease: '',
+        goals: '',
+        sportsExp: '',
+        mealIntolerance: '',
         insulinResistance: false,
-        muscleDesease: 'none',
-        loadRestrictions: 'none',
+        muscleDesease: '',
+        loadRestrictions: '',
       };
       expect(service.create(request)).rejects.toThrow();
     });

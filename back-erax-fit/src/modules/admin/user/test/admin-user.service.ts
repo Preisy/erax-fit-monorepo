@@ -7,7 +7,7 @@ import { UpdateUserByAdminRequest } from '../dto/update-admin-user.dto';
 import { UserRole } from '../../../../constants/constants';
 import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { BaseUserService } from '../../../../modules/core/user/base-user.service';
+import { BaseUserService } from '../../../core/user/base-user.service';
 
 describe('AdminUserService', () => {
   let service: AdminUserService;

@@ -3,7 +3,7 @@ import { AdminBonusVideoService } from '../admin-bonus-video.service';
 import { BonusVideoEntity } from '../../../core/bonus-video/entities/bonus-video.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BaseBonusVideoService } from '../../../../modules/core/bonus-video/base-bonus-video.service';
+import { BaseBonusVideoService } from '../../../core/bonus-video/base-bonus-video.service';
 
 describe('AdminBonusVideoService', () => {
   let service: AdminBonusVideoService;
@@ -27,10 +27,10 @@ describe('AdminBonusVideoService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('delete', () => {
-    it('should not delete bonus video because of incorrect id', async () => {
+  describe('findOne method', () => {
+    it("shouldn't find video because of incorrect id and should throw 404", async () => {
       const id = 666;
-      await expect(service.delete(id)).rejects.toThrow();
+      await expect(service.findOne(id)).rejects.toThrow();
     });
   });
 });

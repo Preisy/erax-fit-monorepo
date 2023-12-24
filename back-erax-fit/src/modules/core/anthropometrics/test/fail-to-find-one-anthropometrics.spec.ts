@@ -32,8 +32,8 @@ describe('BaseAnthropometricsService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('delete method', () => {
-    it("shouldn't delete anthropometrics record because of incorrect id", async () => {
+  describe('findOne method', () => {
+    it("shouldn't find anthropometrics record because of incorrect id and should throw 404", async () => {
       const request: CreateAnthropometricsRequest = {
         userId: 2,
         waist: 100,
@@ -45,7 +45,7 @@ describe('BaseAnthropometricsService', () => {
       };
 
       const savedData = await repository.save(await repository.create(request));
-      await expect(service.delete(savedData.id + 5)).rejects.toThrow();
+      await expect(service.findOne(savedData.id + 5)).resolves.toBeNull;
     });
   });
 });

@@ -3,7 +3,6 @@ import { AnthropometricsEntity } from '../entities/anthropometrics.entity';
 import { BaseAnthropometrcisService } from '../base-anthropometrics.service';
 import { AppDatePagination } from '../../../../utils/app-date-pagination.util';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 
 describe('BaseAnthropometricsService', () => {
   let service: BaseAnthropometrcisService;
@@ -14,7 +13,9 @@ describe('BaseAnthropometricsService', () => {
         BaseAnthropometrcisService,
         {
           provide: getRepositoryToken(AnthropometricsEntity),
-          useClass: Repository,
+          useValue: {
+            findAndCount: jest.fn(() => AppDatePagination.Response<AnthropometricsEntity>),
+          },
         },
       ],
     }).compile();
@@ -30,10 +31,19 @@ describe('BaseAnthropometricsService', () => {
     it('it should return all antropometrics records without any input data', async () => {
       const query = {} as AppDatePagination.Request;
 
-      const result = await service.findAll(query);
+      const { data: result } = await service.findAll(query);
 
-      expect(result).toBeInstanceOf(AppDatePagination.Response);
-      expect(result.data).toBeInstanceOf(AppDatePagination.Response<AnthropometricsEntity>);
+      const anthrpMap = result.reduce(
+        (acc, value) => ({ ...acc, [value.id]: value }),
+        {} as Record<number, AnthropometricsEntity>,
+      );
+
+      result.forEach((anthrp) => {
+        const foundAnthrp = anthrpMap[anthrp.id];
+        const anthrpCreatedAt = foundAnthrp.createdAt.getTime() || 0;
+        expect(anthrpCreatedAt).toBeGreaterThanOrEqual(query.from?.getTime() || 0);
+        expect(anthrpCreatedAt).toBeLessThanOrEqual(query.to?.getTime() || 0);
+      });
     });
   });
 });
